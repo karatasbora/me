@@ -5,13 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23A54522%22 rx=%2220%22/><text x=%2250%25%22 y=%2255%25%22 font-family=%22Georgia, serif%22 font-weight=%22bold%22 font-size=%2250%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>BK</text></svg>">
-
 <meta name="description" content="Content Editor & Educator specializing in AI-Supported Learning Experiences. View my full resume.">
-<meta property="og:title" content="Bora Karataş -  Resume">
+<meta property="og:title" content="Bora Karataş - Resume">
 <meta property="og:description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://karatasbora.github.io/resume/">
 <meta property="og:image" content="https://karatasbora.github.io/resume/profil_lowres.png">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Person",
+  "name": "Bora Karataş",
+  "jobTitle": "Content Editor & Educator",
+  "url": "https://karatasbora.github.io/resume/",
+  "image": "https://karatasbora.github.io/resume/profil_lowres.png",
+  "sameAs": [
+    "https://www.linkedin.com/in/borakaratas",
+    "mailto:borakaratas@anadolu.edu.tr"
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Anadolu University"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Anadolu University"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Eskisehir",
+    "addressCountry": "Turkey"
+  }
+}
+</script>
 
 <title>Bora Karataş - Özgeçmiş/Resume</title>
 
@@ -31,6 +58,7 @@
         --tag-text: #333;
         --border-color: #f0f0f0;
         --shadow: 0 0 20px rgba(0,0,0,0.05);
+        --focus-ring: 2px solid var(--accent-color); /* Added for A11y */
     }
 
     /* --- DARK MODE VARIABLES --- */
@@ -59,7 +87,14 @@
         transition: background-color 0.3s, color 0.3s;
     }
 
-    /* --- GÜNCELLENMİŞ ANİMASYONLAR --- */
+    /* --- ACCESSIBILITY IMPROVEMENTS --- */
+    /* Visible focus styles for keyboard navigation */
+    button:focus-visible, a:focus-visible {
+        outline: var(--focus-ring);
+        outline-offset: 2px;
+    }
+
+    /* --- ANIMATIONS --- */
     @keyframes simpleFade { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -68,7 +103,6 @@
     section:nth-of-type(2) { animation: slideUp 0.6s ease-out 0.2s forwards; opacity: 0; }
     section:nth-of-type(3) { animation: slideUp 0.6s ease-out 0.3s forwards; opacity: 0; }
     section:nth-of-type(4) { animation: slideUp 0.6s ease-out 0.4s forwards; opacity: 0; }
-
 
     /* --- HEADER --- */
     header {
@@ -120,6 +154,7 @@
     }
     .btn-icon:hover { color: var(--accent-color); background-color: var(--tag-bg); }
     
+    /* Active State Styling for Lang Buttons */
     body.lang-tr #btn-tr, 
     body.lang-en #btn-en { color: var(--card-bg); background-color: var(--accent-color); }
 
@@ -271,7 +306,6 @@
 
         .controls { display: none !important; }
         
-        /* Force Background Colors */
         .skill-tag, .lang-item {
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
@@ -287,7 +321,7 @@
 <body class="lang-tr">
 
     <header>
-        <img src="profil.png" alt="Bora Karataş" class="profile-photo"> 
+        <img src="profil.png" alt="Bora Karataş" class="profile-photo" width="140" height="140"> 
         
         <div class="header-text">
             <h1>Bora Karataş</h1>
@@ -307,14 +341,14 @@
         </div>
 
         <div class="controls">
-            <button class="btn-icon" onclick="toggleTheme()" aria-label="Toggle Dark Mode">
+            <button class="btn-icon" id="btn-theme" aria-label="Toggle Dark Mode">
                 <svg id="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                 <svg id="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
             </button>
             <span class="separator">|</span>
-            <button class="btn-icon" id="btn-tr" onclick="setLang('tr')">TR</button>
-            <button class="btn-icon" id="btn-en" onclick="setLang('en')">EN</button>
-            <button class="download-btn" onclick="window.print()">
+            <button class="btn-icon" id="btn-tr" aria-label="Switch to Turkish" aria-pressed="true">TR</button>
+            <button class="btn-icon" id="btn-en" aria-label="Switch to English" aria-pressed="false">EN</button>
+            <button class="download-btn" id="btn-print" aria-label="Print or Save as PDF">
                 <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                 PDF
             </button>
@@ -579,26 +613,51 @@
     </section>
 
     <script>
-        // Check system preference on load
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.setAttribute('data-theme', 'dark');
-        }
-
-        function setLang(lang) {
-            document.body.className = document.body.className.replace(/lang-(tr|en)/, '') + ' lang-' + lang;
-            document.documentElement.lang = lang;
-        }
-
-        function toggleTheme() {
-            const body = document.body;
-            const isDark = body.getAttribute('data-theme') === 'dark';
-            
-            if (isDark) {
-                body.removeAttribute('data-theme');
-            } else {
-                body.setAttribute('data-theme', 'dark');
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check system preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.setAttribute('data-theme', 'dark');
             }
-        }
+
+            // Elements
+            const btnTheme = document.getElementById('btn-theme');
+            const btnTr = document.getElementById('btn-tr');
+            const btnEn = document.getElementById('btn-en');
+            const btnPrint = document.getElementById('btn-print');
+
+            // Theme Toggle
+            btnTheme.addEventListener('click', () => {
+                const body = document.body;
+                const isDark = body.getAttribute('data-theme') === 'dark';
+                
+                if (isDark) {
+                    body.removeAttribute('data-theme');
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                }
+            });
+
+            // Language Toggles
+            function setLang(lang) {
+                document.body.className = document.body.className.replace(/lang-(tr|en)/, '') + ' lang-' + lang;
+                document.documentElement.lang = lang;
+
+                // Update A11y States
+                if (lang === 'tr') {
+                    btnTr.setAttribute('aria-pressed', 'true');
+                    btnEn.setAttribute('aria-pressed', 'false');
+                } else {
+                    btnTr.setAttribute('aria-pressed', 'false');
+                    btnEn.setAttribute('aria-pressed', 'true');
+                }
+            }
+
+            btnTr.addEventListener('click', () => setLang('tr'));
+            btnEn.addEventListener('click', () => setLang('en'));
+
+            // Print
+            btnPrint.addEventListener('click', () => window.print());
+        });
     </script>
 
 </body>
