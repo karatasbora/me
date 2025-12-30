@@ -596,6 +596,11 @@
     </section>
 
     <script>
+        // Check system preference on load
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.setAttribute('data-theme', 'dark');
+        }
+        
         function setLang(lang) {
             document.body.className = document.body.className.replace(/lang-(tr|en)/, '') + ' lang-' + lang;
             document.documentElement.lang = lang;
@@ -615,4 +620,5 @@
 
 </body>
 </html>
+
 
