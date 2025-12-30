@@ -42,6 +42,7 @@
         margin-bottom: 2rem;
         padding-bottom: 25px;
         border-bottom: 2px solid #f0f0f0;
+        position: relative; /* DÜZELTME: Butonları sabitlemek için gerekli */
     }
 
     .profile-photo {
@@ -56,16 +57,19 @@
 
     .header-text {
         flex-grow: 1;
+        /* DÜZELTME: Metnin sağa kadar uzamasına izin ver */
+        width: 100%; 
     }
 
-    /* --- BUTONLAR (DİL & İNDİR) --- */
+    /* --- BUTONLAR (DÜZELTİLDİ: ABSOLUTE POSITION) --- */
     .lang-switch {
+        position: absolute; /* Akıştan çıkar */
+        top: 0;             /* En üste yapıştır */
+        right: 0;           /* En sağa yapıştır */
         display: flex;
         align-items: center;
         gap: 8px;
-        align-self: flex-start;
-        margin-left: auto;
-        padding-top: 10px;
+        padding-top: 0;     /* Hizalama ayarı */
     }
 
     .lang-btn {
@@ -83,14 +87,12 @@
 
     .lang-btn:hover { color: var(--accent-color); background-color: var(--tag-bg); }
     
-    /* Aktif Buton Stili */
     body.lang-tr #btn-tr, 
     body.lang-en #btn-en {
         color: white;
         background-color: var(--accent-color);
     }
 
-    /* İndirme Butonu Stili */
     .download-btn {
         background-color: var(--primary-text);
         color: white;
@@ -107,15 +109,8 @@
         transition: background 0.3s;
     }
 
-    .download-btn:hover {
-        background-color: var(--accent-color);
-    }
-
-    .download-btn svg {
-        width: 14px;
-        height: 14px;
-        fill: currentColor;
-    }
+    .download-btn:hover { background-color: var(--accent-color); }
+    .download-btn svg { width: 14px; height: 14px; fill: currentColor; }
 
     .separator { color: #ccc; font-size: 0.85rem; }
 
@@ -128,6 +123,8 @@
         margin: 0 0 8px 0;
         font-weight: 700;
         line-height: 1;
+        /* İsim uzunsa butonların altına girmesin diye sağdan boşluk (Opsiyonel) */
+        padding-right: 150px; 
     }
 
     .headline {
@@ -138,6 +135,7 @@
         color: var(--accent-color);
         font-weight: 700;
         margin-bottom: 12px;
+        /* Headline artık serbestçe butonların altına uzayabilir */
     }
 
     /* --- İLETİŞİM BİLGİSİ --- */
@@ -146,7 +144,6 @@
         font-size: 0.9rem;
         color: var(--primary-text);
     }
-    
     .contact-link {
         color: var(--meta-color);
         text-decoration: none;
@@ -154,11 +151,7 @@
         transition: color 0.2s;
     }
     .contact-link:hover { color: var(--accent-color); }
-
-    .contact-info .sep {
-        margin: 0 8px;
-        color: #ccc;
-    }
+    .contact-info .sep { margin: 0 8px; color: #ccc; }
 
     /* --- BÖLÜMLER --- */
     section { margin-bottom: 3rem; }
@@ -229,12 +222,7 @@
         border-left: 2px solid #eee;
         padding-left: 15px;
     }
-    
-    .job-content p {
-        margin: 0 0 10px 0;
-        font-size: 0.95rem;
-        color: #444;
-    }
+    .job-content p { margin: 0 0 10px 0; font-size: 0.95rem; color: #444; }
 
     /* --- YETENEK ETİKETLERİ --- */
     .tags-wrapper {
@@ -268,34 +256,37 @@
     .lang-title { font-weight: bold; font-family: 'Libre Baskerville', serif; font-size: 0.9rem; display: block; }
     .lang-level { font-size: 0.8rem; color: #666; display: block; margin-top: 4px; }
 
-    /* --- YAZDIRMA AYARLARI (GÜNCELLENDİ) --- */
-    @media print {
-        /* Butonları Gizle */
-        .lang-switch { display: none !important; }
+    /* --- RESPONSIVE --- */
+    @media (max-width: 600px) {
+        header { flex-wrap: wrap; text-align: center; justify-content: center; }
         
+        /* Mobilde Absolute position'ı iptal et ve başa al */
+        .lang-switch { 
+            position: relative; 
+            width: 100%; 
+            justify-content: center; 
+            order: -1; 
+            margin-bottom: 15px; 
+            top: auto;
+            right: auto;
+        }
+        
+        h1 { padding-right: 0; }
+        .header-text { width: 100%; }
+        .job-header, .job-subheader { flex-direction: column; align-items: flex-start; }
+        .job-date, .location { margin-top: 5px; }
+    }
+
+    /* --- YAZDIRMA (Zoom %75) --- */
+    @media print {
+        .lang-switch { display: none !important; }
         body { 
-            margin: 0; 
-            padding: 0; 
-            box-shadow: none; 
-            max-width: 100%;
-            
-            /* %25 Küçültme (Zoom 75%) */
+            margin: 0; padding: 0; box-shadow: none; max-width: 100%;
             zoom: 75%; 
-            
-            /* Firefox İçin Yedek */
             -moz-transform: scale(0.75);
             -moz-transform-origin: top left;
             width: 133%;
         }
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 600px) {
-        header { flex-wrap: wrap; text-align: center; justify-content: center; }
-        .lang-switch { width: 100%; justify-content: center; order: -1; margin-bottom: 15px; }
-        .header-text { width: 100%; }
-        .job-header, .job-subheader { flex-direction: column; align-items: flex-start; }
-        .job-date, .location { margin-top: 5px; }
     }
 </style>
 </head>
@@ -314,13 +305,9 @@
             <div class="contact-info">
                 <span class="tr">Eskişehir, Türkiye</span>
                 <span class="en">Eskisehir, Turkey</span>
-                
                 <span class="sep">|</span> 
-                
                 <a href="mailto:borakaratas@anadolu.edu.tr" class="contact-link">borakaratas@anadolu.edu.tr</a> 
-                
                 <span class="sep">|</span> 
-                
                 <a href="https://www.linkedin.com/in/borakaratas" class="contact-link">linkedin.com/in/borakaratas</a>
             </div>
         </div>
