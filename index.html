@@ -21,20 +21,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
 <script>
-    // Sayfa yüklenirken sadece LocalStorage varsa uygula. 
-    // Yoksa CSS (media query) halledecek. Bu daha hızlıdır.
     (function() {
         try {
+            // 1. Check Local Storage (User Preference)
             var localTheme = localStorage.getItem('theme');
-            if (localTheme) {
-                document.documentElement.setAttribute('data-theme', localTheme);
+            // 2. Check System Preference (Mobile/PC Settings)
+            var sysTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // If user has chosen Dark OR (No choice made AND System is Dark)
+            if (localTheme === 'dark' || (!localTheme && sysTheme)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
             }
-        } catch (e) {}
+        } catch (e) {
+            console.error("Theme detection failed", e);
+        }
     })();
 </script>
 
 <style>
-    /* 1. VARSAYILAN (LIGHT MODE) */
+    /* 🟢 1. DEFAULT VARIABLES (LIGHT MODE) */
+    /* This applies when data-theme="light" OR if JS fails */
     :root {
         --primary-text: #2b2b2b;       
         --accent-color: #A54522;       
@@ -45,42 +53,14 @@
         --tag-text: #333;
         --border-color: #f0f0f0;
         --shadow: 0 0 20px rgba(0,0,0,0.05);
+        
+        /* Icon Visibility */
         --moon-display: block;
         --sun-display: none;
     }
 
-    /* 2. SİSTEM DARK MODE İSE (NATIVE CSS - JS GEREKTİRMEZ) */
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --primary-text: #e0e0e0;
-            --accent-color: #FF7043;
-            --bg-color: #121212;
-            --card-bg: #1E1E1E;
-            --meta-color: #a0a0a0;
-            --tag-bg: #2d2d2d;
-            --tag-text: #ddd;
-            --border-color: #333;
-            --shadow: 0 0 20px rgba(0,0,0,0.5);
-            --moon-display: none;
-            --sun-display: block;
-        }
-    }
-
-    /* 3. MANUEL OVERRIDE (JS İLE ZORLAMA) */
-    [data-theme="light"] {
-        --primary-text: #2b2b2b;       
-        --accent-color: #A54522;       
-        --bg-color: #fdfdfd;           
-        --card-bg: #ffffff;
-        --meta-color: #666666;         
-        --tag-bg: #f0f0f0;             
-        --tag-text: #333;
-        --border-color: #f0f0f0;
-        --shadow: 0 0 20px rgba(0,0,0,0.05);
-        --moon-display: block;
-        --sun-display: none;
-    }
-
+    /* 🟢 2. DARK MODE OVERRIDE */
+    /* Only applies when JS sets the attribute. No media query confusion. */
     [data-theme="dark"] {
         --primary-text: #e0e0e0;
         --accent-color: #FF7043;
@@ -91,11 +71,12 @@
         --tag-text: #ddd;
         --border-color: #333;
         --shadow: 0 0 20px rgba(0,0,0,0.5);
+        
+        /* Icon Visibility */
         --moon-display: none;
         --sun-display: block;
     }
 
-    /* --- GLOBAL STYLES --- */
     body {
         font-family: 'Lato', sans-serif;
         background-color: var(--bg-color);
@@ -106,10 +87,14 @@
         padding: 50px;
         box-shadow: var(--shadow);
         background: var(--card-bg);
-        transition: background-color 0.3s, color 0.3s;
+        /* Transition removed for body bg to prevent "flash" on load, kept for other elements if needed */
     }
 
-    /* ANIMATIONS */
+    /* --- SAFE ANIMATIONS (Mobile Friendly) --- */
+    /* Default State: Visible */
+    header, section { opacity: 1; transform: translateY(0); }
+
+    /* Only animate if user allows motion */
     @media (prefers-reduced-motion: no-preference) {
         @keyframes simpleFade { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -120,11 +105,8 @@
         section:nth-of-type(3) { opacity: 0; animation: slideUp 0.6s ease-out 0.3s forwards; }
         section:nth-of-type(4) { opacity: 0; animation: slideUp 0.6s ease-out 0.4s forwards; }
     }
-    
-    /* Fallback for when animations are reduced or blocked */
-    header, section { opacity: 1; transform: translateY(0); }
 
-    /* HEADER LAYOUT */
+    /* --- LAYOUT & COMPONENTS --- */
     header {
         display: flex;
         align-items: center;
@@ -147,7 +129,6 @@
 
     .header-text { flex-grow: 1; width: 100%; }
 
-    /* CONTROLS */
     .controls {
         position: absolute;
         top: 0;
@@ -167,7 +148,7 @@
         color: var(--meta-color);
         padding: 8px 10px;
         border-radius: 4px;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -180,10 +161,14 @@
     }
     .btn-icon:active { transform: scale(0.95); }
     
+    /* Language Button Active State */
     body.lang-tr #btn-tr, 
-    body.lang-en #btn-en { color: var(--card-bg); background-color: var(--accent-color); }
+    body.lang-en #btn-en { 
+        color: var(--card-bg); /* Uses background color for text (inverted) */
+        background-color: var(--accent-color); 
+    }
 
-    /* ICON TOGGLE (CSS Variable Based) */
+    /* Icon Toggle Logic */
     #moon-icon { display: var(--moon-display); }
     #sun-icon { display: var(--sun-display); }
 
@@ -207,7 +192,6 @@
 
     .separator { color: var(--border-color); font-size: 0.85rem; }
 
-    /* TYPOGRAPHY */
     h1 {
         font-family: 'Libre Baskerville', serif;
         font-size: 2.6rem;
@@ -248,7 +232,6 @@
     }
     p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 0.9; }
 
-    /* JOB CARDS */
     .job-block { margin-bottom: 2.2rem; page-break-inside: avoid; }
     .job-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem; }
     .job-title { font-family: 'Libre Baskerville', serif; font-size: 1.2rem; font-weight: 700; color: var(--primary-text); }
@@ -260,7 +243,6 @@
     .job-content { border-left: 2px solid var(--border-color); padding-left: 15px; }
     .job-content p { margin: 0 0 10px 0; font-size: 0.95rem; color: var(--primary-text); opacity: 0.85; }
 
-    /* TAGS */
     .tags-wrapper { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
     .skill-tag {
         font-family: 'Lato', sans-serif;
@@ -274,7 +256,6 @@
         letter-spacing: 0.02em;
     }
 
-    /* LANGUAGES */
     .lang-grid { display: flex; gap: 20px; margin-top: 10px; }
     .lang-item {
         flex: 1;
@@ -289,7 +270,6 @@
     body.lang-tr .en { display: none !important; }
     body.lang-en .tr { display: none !important; }
 
-    /* RESPONSIVE */
     @media (max-width: 600px) {
         body { padding: 20px; margin: 0 auto; }
         header { flex-wrap: wrap; text-align: center; justify-content: center; }
@@ -300,36 +280,17 @@
         .job-date, .location { margin-top: 5px; }
     }
 
-    /* PRINT SETTINGS */
+    /* --- PRINT SETTINGS (FORCE LIGHT MODE) --- */
     @media print {
-        :root {
-            --primary-text: #000;
-            --bg-color: #fff;
-            --card-bg: #fff;
-            --border-color: #eee;
-            --accent-color: #A54522 !important;
-            --tag-bg: #f0f0f0 !important;
-            --tag-text: #000 !important;
-        }
-
-        /* Override any manual/system dark mode */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --primary-text: #000;
-                --bg-color: #fff;
-                --card-bg: #fff;
-                --meta-color: #444;
-                --tag-bg: #f0f0f0 !important;
-                --tag-text: #000 !important;
-                --border-color: #eee;
-                --accent-color: #A54522 !important;
-            }
-        }
-        [data-theme="dark"] {
+        :root, [data-theme="dark"] {
             --primary-text: #000 !important;
             --bg-color: #fff !important;
             --card-bg: #fff !important;
-            --accent-color: #A54522 !important;
+            --meta-color: #444 !important;
+            --tag-bg: #f0f0f0 !important;
+            --tag-text: #000 !important;
+            --border-color: #eee !important;
+            --accent-color: #A54522 !important; /* Force Original Red */
         }
 
         body { 
@@ -646,30 +607,17 @@
     </section>
 
     <script>
-        // Language Toggle
         function setLang(lang) {
             document.body.className = document.body.className.replace(/lang-(tr|en)/, '') + ' lang-' + lang;
             document.documentElement.lang = lang;
         }
 
-        // Smart Theme Toggle (System vs Manual)
         function toggleTheme() {
-            const html = document.documentElement;
-            const currentAttr = html.getAttribute('data-theme');
-            let nextTheme;
-
-            if (currentAttr) {
-                // If currently forced to something, switch to the other
-                nextTheme = currentAttr === 'dark' ? 'light' : 'dark';
-            } else {
-                // If currently using System (no attribute), we need to check system preference
-                // If system is dark, user wants light. If system is light, user wants dark.
-                const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                nextTheme = isSystemDark ? 'light' : 'dark';
-            }
-
-            html.setAttribute('data-theme', nextTheme);
-            localStorage.setItem('theme', nextTheme);
+            var html = document.documentElement;
+            var current = html.getAttribute('data-theme');
+            var next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
         }
     </script>
 
