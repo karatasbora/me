@@ -57,300 +57,21 @@
 }
 </script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-
-<style>
-    /* --- LIGHT MODE VARIABLES --- */
-    :root {
-        --primary-text: #2b2b2b;       
-        --accent-color: #A54522;       
-        --bg-color: #fdfdfd;           
-        --card-bg: #ffffff;
-        --meta-color: #666666;         
-        --tag-bg: #f0f0f0;             
-        --tag-text: #333;
-        --border-color: #f0f0f0;
-        --shadow: 0 0 20px rgba(0,0,0,0.05);
-        --focus-ring: 2px solid var(--accent-color);
-    }
-
-    /* --- DARK MODE VARIABLES --- */
-    [data-theme="dark"] {
-        --primary-text: #e0e0e0;
-        --accent-color: #FF7043;
-        --bg-color: #121212;
-        --card-bg: #1E1E1E;
-        --meta-color: #a0a0a0;
-        --tag-bg: #2d2d2d;
-        --tag-text: #ddd;
-        --border-color: #333;
-        --shadow: 0 0 20px rgba(0,0,0,0.5);
-    }
-
-    body {
-        font-family: 'Lato', sans-serif;
-        background-color: var(--bg-color);
-        color: var(--primary-text);
-        line-height: 1.6;
-        max-width: 900px;
-        margin: 40px auto;
-        padding: 50px;
-        box-shadow: var(--shadow);
-        background: var(--card-bg);
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    /* --- ACCESSIBILITY IMPROVEMENTS --- */
-    button:focus-visible, a:focus-visible {
-        outline: var(--focus-ring);
-        outline-offset: 2px;
-    }
-
-    /* --- ANIMATIONS --- */
-    @keyframes simpleFade { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-    header { animation: simpleFade 0.8s ease-out forwards; opacity: 0; }
-    section:nth-of-type(1) { animation: slideUp 0.6s ease-out 0.1s forwards; opacity: 0; }
-    section:nth-of-type(2) { animation: slideUp 0.6s ease-out 0.2s forwards; opacity: 0; }
-    section:nth-of-type(3) { animation: slideUp 0.6s ease-out 0.3s forwards; opacity: 0; }
-    section:nth-of-type(4) { animation: slideUp 0.6s ease-out 0.4s forwards; opacity: 0; }
-
-    /* --- HEADER --- */
-    header {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-        margin-bottom: 2rem;
-        padding-bottom: 25px;
-        border-bottom: 2px solid var(--border-color);
-        position: relative; 
-    }
-
-    .profile-photo {
-        width: 140px;
-        height: 140px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid var(--accent-color);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        flex-shrink: 0;
-    }
-
-    .header-text { flex-grow: 1; width: 100%; }
-
-    /* --- CONTROLS --- */
-    .controls {
-        position: absolute;
-        top: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .btn-icon {
-        background: none;
-        border: 1px solid transparent;
-        cursor: pointer;
-        font-family: 'Lato', sans-serif;
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: var(--meta-color);
-        padding: 6px 8px;
-        border-radius: 4px;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .btn-icon:hover { color: var(--accent-color); background-color: var(--tag-bg); }
-    
-    /* Active State Styling for Lang Buttons */
-    body.lang-tr #btn-tr, 
-    body.lang-en #btn-en { color: var(--card-bg); background-color: var(--accent-color); }
-
-    /* Theme Icons Toggle */
-    #sun-icon { display: none; }
-    [data-theme="dark"] #moon-icon { display: none; }
-    [data-theme="dark"] #sun-icon { display: block; }
-
-    .download-btn {
-        background-color: var(--primary-text);
-        color: var(--card-bg);
-        border: none;
-        border-radius: 4px;
-        padding: 6px 12px;
-        margin-left: 5px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        transition: opacity 0.3s;
-    }
-    .download-btn:hover { opacity: 0.9; }
-    .download-btn svg { width: 14px; height: 14px; fill: currentColor; }
-
-    .separator { color: var(--border-color); font-size: 0.85rem; }
-
-    /* --- TYPOGRAPHY --- */
-    h1 {
-        font-family: 'Libre Baskerville', serif;
-        font-size: 2.6rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--primary-text);
-        margin: 0 0 8px 0;
-        font-weight: 700;
-        line-height: 1;
-        padding-right: 180px; 
-    }
-
-    .headline {
-        font-family: 'Lato', sans-serif;
-        font-size: 1rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--accent-color);
-        font-weight: 700;
-        margin-bottom: 12px;
-    }
-
-    .contact-info { font-family: 'Lato', sans-serif; font-size: 0.9rem; color: var(--primary-text); }
-    .contact-link { color: var(--meta-color); text-decoration: none; border-bottom: 1px dotted var(--accent-color); transition: color 0.2s; }
-    .contact-link:hover { color: var(--accent-color); }
-    .contact-info .sep { margin: 0 8px; color: var(--border-color); }
-
-    section { margin-bottom: 3rem; }
-    h2 {
-        font-family: 'Libre Baskerville', serif;
-        font-size: 1.5rem;
-        color: var(--primary-text);
-        border-left: 5px solid var(--accent-color);
-        padding-left: 15px;
-        margin-bottom: 1.5rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
-    p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 0.9; }
-
-    /* --- JOB CARDS --- */
-    .job-block { margin-bottom: 2.2rem; page-break-inside: avoid; }
-    .job-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem; }
-    .job-title { font-family: 'Libre Baskerville', serif; font-size: 1.2rem; font-weight: 700; color: var(--primary-text); }
-    .job-date { font-family: 'Lato', sans-serif; font-size: 0.85rem; color: var(--meta-color); font-weight: 700; text-transform: uppercase; }
-    .job-subheader { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
-    .company { font-family: 'Lato', sans-serif; font-weight: 600; color: var(--meta-color); font-size: 1rem; }
-    .location { font-family: 'Lato', sans-serif; font-size: 0.75rem; color: var(--accent-color); font-weight: 700; text-transform: uppercase; }
-
-    .job-content { border-left: 2px solid var(--border-color); padding-left: 15px; }
-    .job-content p { margin: 0 0 10px 0; font-size: 0.95rem; color: var(--primary-text); opacity: 0.85; }
-
-    /* --- SKILL TAGS --- */
-    .tags-wrapper { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
-    .skill-tag {
-        font-family: 'Lato', sans-serif;
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        color: var(--tag-text);
-        background-color: var(--tag-bg);
-        padding: 4px 10px;
-        border-radius: 4px;
-        letter-spacing: 0.02em;
-    }
-
-    /* --- LANGUAGES --- */
-    .lang-grid { display: flex; gap: 20px; margin-top: 10px; }
-    .lang-item {
-        flex: 1;
-        background: var(--tag-bg);
-        padding: 10px 15px;
-        border-radius: 4px;
-        border-left: 3px solid var(--accent-color);
-    }
-    .lang-title { font-weight: bold; font-family: 'Libre Baskerville', serif; font-size: 0.9rem; display: block; color: var(--primary-text); }
-    .lang-level { font-size: 0.8rem; color: var(--meta-color); display: block; margin-top: 4px; }
-
-    /* --- HIDE LANGUAGE --- */
-    body.lang-tr .en { display: none !important; }
-    body.lang-en .tr { display: none !important; }
-
-    /* --- RESPONSIVE --- */
-    @media (max-width: 600px) {
-        header { flex-wrap: wrap; text-align: center; justify-content: center; }
-        .controls { position: relative; width: 100%; justify-content: center; order: -1; margin-bottom: 15px; top: auto; right: auto; }
-        h1 { padding-right: 0; }
-        .header-text { width: 100%; }
-        .job-header, .job-subheader { flex-direction: column; align-items: flex-start; }
-        .job-date, .location { margin-top: 5px; }
-    }
-
-    /* --- PRINT SETTINGS --- */
-    @media print {
-        :root {
-            --primary-text: #000;
-            --bg-color: #fff;
-            --card-bg: #fff;
-            --border-color: #eee;
-            --accent-color: #A54522 !important;
-            --tag-bg: #f0f0f0 !important;
-            --tag-text: #000 !important;
-        }
-
-        [data-theme="dark"] {
-            --primary-text: #000;
-            --bg-color: #fff;
-            --card-bg: #fff;
-            --meta-color: #444;
-            --tag-bg: #f0f0f0 !important;
-            --tag-text: #000 !important;
-            --border-color: #eee;
-            --accent-color: #A54522 !important;
-        }
-
-        body { 
-            background: white; color: black; box-shadow: none; width: 100%; max-width: 100%; margin: 0; padding: 0;
-            zoom: 75%; -moz-transform: scale(0.75); -moz-transform-origin: top left; width: 133%;
-        }
-
-        .controls { display: none !important; }
-        
-        .skill-tag, .lang-item {
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-            background-color: #f0f0f0 !important;
-            border: 1px solid #ccc;
-        }
-
-        a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8rem; color: #666; font-weight: normal; }
-        a { text-decoration: none; color: #000; border: none; }
-    }
-</style>
-</head>
-<body class="lang-tr">
+<body>
 
     <header>
         <img src="profil.png" alt="Bora Karataş" class="profile-photo" width="140" height="140"> 
         
         <div class="header-text">
-            <h1>Bora Karataş</h1>
-            <div class="headline">
-                <span class="tr">İçerik Editörü & Eğitimci | Yapay Zeka Destekli, Erişilebilir Öğrenme Deneyimleri Tasarlıyor | ELT & EdTech</span>
-                <span class="en">Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech</span>
-            </div>
+            <h1 id="p-name"></h1>
+            <div class="headline" id="p-title"></div>
             
             <div class="contact-info">
-                <span class="tr">Eskişehir, Türkiye</span>
-                <span class="en">Eskisehir, Turkey</span>
+                <span id="p-location"></span>
                 <span class="sep">|</span> 
-                <a href="mailto:borakaratas@anadolu.edu.tr" class="contact-link">borakaratas@anadolu.edu.tr</a> 
+                <a href="" id="link-email" class="contact-link"></a> 
                 <span class="sep">|</span> 
-                <a href="https://www.linkedin.com/in/borakaratas" class="contact-link" target="_blank" rel="noopener noreferrer">linkedin.com/in/borakaratas</a>
+                <a href="" id="link-linkedin" class="contact-link" target="_blank" rel="noopener noreferrer"></a>
             </div>
         </div>
 
@@ -360,352 +81,49 @@
                 <svg id="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
             </button>
             <span class="separator">|</span>
-            <button class="btn-icon" id="btn-tr" aria-label="Switch to Turkish" aria-pressed="true">TR</button>
-            <button class="btn-icon" id="btn-en" aria-label="Switch to English" aria-pressed="false">EN</button>
+            <button class="btn-icon" id="btn-tr" aria-label="Switch to Turkish">TR</button>
+            <button class="btn-icon" id="btn-en" aria-label="Switch to English">EN</button>
             <button class="download-btn" id="btn-print" aria-label="Print or Save as PDF">
-                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                PDF
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                <span>PDF</span>
             </button>
         </div>
     </header>
 
     <section>
-        <h2>
-            <span class="tr">Hakkında</span>
-            <span class="en">About</span>
-        </h2>
-        <p class="tr">
-            Öğrenmenin bilgi depolamaktan, beceri üretmeye evrildiği dijital çağda, yapay zeka destekli içerik stratejileri geliştiriyorum. Eğitimi daha insani ve erişilebilir kılmak adına; teknolojiyi bir amaç değil, keşfetme sürecini özgürleştiren bir araç olarak kullanıyorum. Performans kaygısından uzak, modern ve analitik bir öğrenme vizyonu sunuyorum.
-        </p>
-        <p class="en">
-            In the digital age where learning evolves from storing information to generating skills, I develop AI-supported content strategies. To make education more human and accessible; I use technology not as a goal, but as a tool that liberates the discovery process. I offer a modern and analytical learning vision free from performance anxiety.
-        </p>
+        <h2 id="head-about"></h2>
+        <p id="p-about"></p>
     </section>
 
     <section>
-        <h2>
-            <span class="tr">Deneyim</span>
-            <span class="en">Experience</span>
-        </h2>
+        <h2 id="head-experience"></h2>
+        <div id="experience-list"></div>
+    </section>
+
+    <section>
+        <h2 id="head-education"></h2>
+        <div id="education-list"></div>
+    </section>
+
+    <section>
+        <h2 id="head-skills"></h2>
         
         <div class="job-block">
             <div class="job-header">
-                <span class="job-title">
-                    <span class="tr">İçerik Editörü</span>
-                    <span class="en">Content Editor</span>
-                </span>
-                <span class="job-date">
-                    <span class="tr">ARALIK 2022 - HALEN</span>
-                    <span class="en">DEC 2022 - PRESENT</span>
-                </span>
-            </div>
-            <div class="job-subheader">
-                <span class="company">
-                    <span class="tr">Anadolu Üniversitesi | Öğrenme Teknolojileri Ar-Ge Birimi</span>
-                    <span class="en">Anadolu University | Learning Technologies R&D Unit</span>
-                </span>
-                <span class="location">
-                    <span class="tr">ESKİŞEHİR, TÜRKİYE</span>
-                    <span class="en">ESKISEHIR, TURKEY</span>
-                </span>
-            </div>
-            
-            <div class="job-content">
-                <p class="tr">
-                    Öğrenme Teknolojileri Ar-Ge Birimi bünyesinde, statik ders materyallerini dijital deneyimlere dönüştüren kapsamlı bir dijital dönüşüm sürecinin parçasıyım. İçerik stratejisine Generative AI (LLM) araçlarını entegre ederek editöryal verimliliği artırırken evrensel tasarım ilkeleriyle erişilebilirliği ve öğrenci etkileşimini optimize ediyorum. Teknolojiyi sadece bir araç olarak değil, öğrenme sürecini özgürleştiren bir unsur olarak konumluyorum.
-                </p>
-                <p class="en">
-                    Within the Learning Technologies R&D Unit, I am part of a comprehensive digital transformation process that turns static course materials into digital experiences. I integrate Generative AI (LLM) tools into content strategy to increase editorial efficiency while optimizing accessibility and student engagement with universal design principles. I position technology not just as a tool, but as an element that liberates the learning process.
-                </p>
-                <div class="tags-wrapper">
-                    <span class="skill-tag"><span class="tr">İçerik Stratejisi</span><span class="en">Content Strategy</span></span>
-                    <span class="skill-tag"><span class="tr">Yapay Zeka İstemleri</span><span class="en">AI Prompts</span></span>
-                    <span class="skill-tag"><span class="tr">Eğitim Yönetimi Sistemleri</span><span class="en">LMS</span></span>
-                </div>
-            </div>
+                <span class="job-title" id="head-skills-sub"></span> </div>
+            <div class="tags-wrapper" id="skills-list" style="padding-left:0; margin-top: 5px;"></div>
         </div>
 
-        <div class="job-block">
+        <div class="job-block" style="margin-top: 30px; border:none;">
             <div class="job-header">
-                <span class="job-title">
-                    <span class="tr">İngilizce Öğretmeni (Stajyer)</span>
-                    <span class="en">English Teacher (Intern)</span>
-                </span>
-                <span class="job-date">
-                    <span class="tr">EYLÜL 2025 - ARALIK 2025</span>
-                    <span class="en">SEP 2025 - DEC 2025</span>
-                </span>
+                <span class="job-title" id="head-languages"></span>
             </div>
-            <div class="job-subheader">
-                <span class="company">
-                    <span class="tr">T.C. Millî Eğitim Bakanlığı | Gülay Kanatlı Ortaokulu</span>
-                    <span class="en">Ministry of National Education | Gülay Kanatlı Secondary School</span>
-                </span>
-                <span class="location">
-                    <span class="tr">ESKİŞEHİR, TÜRKİYE</span>
-                    <span class="en">ESKISEHIR, TURKEY</span>
-                </span>
-            </div>
-
-            <div class="job-content">
-                <p class="tr">
-                    Gülay Kanatlı Ortaokulunda ezbere dayalı klasik gramer öğretimi yerine, dili aktif bir iletişim aracı olarak konumlandıran öğrenci merkezli bir müfredat uyguladım. Ders tasarımlarımı sadece dil bilgisi odaklı değil, 21. yüzyıl becerileri (4C) ve eleştirel düşünme yetisini geliştirecek şekilde kurguladım. Sınıf yönetiminde oyunlaştırma (gamification) tekniklerini stratejik olarak kullanarak pasif öğrencilerin motivasyonunu yükselttim ve derse katılım oranlarını maksimize ettim.
-                </p>
-                <p class="en">
-                    Implemented a student-centered curriculum positioning language as an active communication tool rather than rote-based grammar teaching. Designed lessons focused on 21st-century skills (4C) and critical thinking. Strategically used gamification techniques in classroom management to boost motivation of passive students and maximize participation rates.
-                </p>
-                <div class="tags-wrapper">
-                    <span class="skill-tag"><span class="tr">Öğretim Tasarımı</span><span class="en">Instructional Design</span></span>
-                    <span class="skill-tag"><span class="tr">Sınıf Yönetimi</span><span class="en">Classroom Management</span></span>
-                    <span class="skill-tag"><span class="tr">Yabancı Dil olarak İngilizce Öğretimi</span><span class="en">TEFL</span></span>
-                </div>
-            </div>
+            <div class="lang-grid" id="languages-list"></div>
         </div>
     </section>
 
-    <section>
-        <h2>
-            <span class="tr">Eğitim</span>
-            <span class="en">Education</span>
-        </h2>
-        
-        <div class="job-block">
-            <div class="job-header">
-                <span class="job-title">
-                    <span class="tr">İngilizce Öğretmenliği</span>
-                    <span class="en">English Language Teaching (ELT)</span>
-                </span>
-                <span class="job-date">
-                    <span class="tr">Lisans Derecesi</span>
-                    <span class="en">Bachelor's Degree</span>
-                </span>
-            </div>
-            <div class="job-subheader">
-                <span class="company">
-                    <span class="tr">Anadolu Üniversitesi</span>
-                    <span class="en">Anadolu University</span>
-                </span>
-                <span class="location">
-                    <span class="tr">ESKİŞEHİR, TÜRKİYE</span>
-                    <span class="en">ESKISEHIR, TURKEY</span>
-                </span>
-            </div>
-            <div class="job-content">
-                <p class="tr">
-                    Pedagoji ve öğretim teknolojileri üzerine odaklandım. Geleneksel yaklaşımları modern EdTech araçlarıyla harmanlayan projeler geliştirdim.
-                </p>
-                <p class="en">
-                    Focused on pedagogy and instructional technologies. Developed projects blending traditional approaches with modern EdTech tools.
-                </p>
-            </div>
-        </div>
-
-        <div class="job-block">
-            <div class="job-header">
-                <span class="job-title">
-                    <span class="tr">Anglo-Amerikan Çalışmaları</span>
-                    <span class="en">Anglo-American Studies</span>
-                </span>
-                <span class="job-date">ERASMUS+</span> 
-            </div>
-            <div class="job-subheader">
-                <span class="company">Universidade de Coimbra</span>
-                <span class="location">
-                    <span class="tr">COIMBRA, PORTEKİZ</span>
-                    <span class="en">COIMBRA, PORTUGAL</span>
-                </span>
-            </div>
-            <div class="job-content">
-                <p class="tr">
-                    Kültürlerarası iletişim ve adaptasyon yetkinlikleri kazandım. Global eğitim sistemlerini yerinde analiz etme fırsatı buldum.
-                </p>
-                <p class="en">
-                    Gained intercultural communication and adaptation competencies. Had the opportunity to analyze global education systems on-site.
-                </p>
-            </div>
-        </div>
-
-        <div class="job-block">
-            <div class="job-header">
-                <span class="job-title">
-                    <span class="tr">İktisat (İngilizce)</span>
-                    <span class="en">Economics (English)</span>
-                </span>
-                <span class="job-date">
-                    <span class="tr">Lisans Derecesi</span>
-                    <span class="en">Bachelor's Degree</span>
-                </span>
-            </div>
-            <div class="job-subheader">
-                <span class="company">
-                    <span class="tr">Anadolu Üniversitesi</span>
-                    <span class="en">Anadolu University</span>
-                </span>
-                <span class="location">
-                    <span class="tr">UZAKTAN EĞİTİM</span>
-                    <span class="en">REMOTE LEARNING</span>
-                </span>
-            </div>
-            <div class="job-content">
-                <p class="tr">
-                    Sistem düşüncesi, veri okuryazarlığı ve analitik karar alma süreçleri üzerine eğitim alıyorum.
-                </p>
-                <p class="en">
-                    Studying systems thinking, data literacy, and analytical decision-making processes.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2>
-            <span class="tr">Teknik Yetkinlikler & Diller</span>
-            <span class="en">Skills & Languages</span>
-        </h2>
-
-        <div class="job-block">
-            <div class="job-header">
-                <span class="job-title">
-                    <span class="tr">Dijital Araç Seti & Uzmanlıklar</span>
-                    <span class="en">Digital Toolset & Specializations</span>
-                </span>
-            </div>
-            <div style="margin-top: 10px;">
-                <div class="tags-wrapper" style="padding-left:0;">
-                    <span class="skill-tag"><span class="tr">Prompt Mühendisliği</span><span class="en">Prompt Engineering</span></span>
-                    <span class="skill-tag"><span class="tr">Öğretim Tasarımı</span><span class="en">Instructional Design</span></span>
-                    <span class="skill-tag"><span class="tr">Yapay Zeka</span><span class="en">Artificial Intelligence</span></span>
-                    <span class="skill-tag"><span class="tr">Öğrenme Yönetim Sistemleri</span><span class="en">LMS</span></span>
-                    <span class="skill-tag"><span class="tr">İçerik Yönetim Sistemleri</span><span class="en">CMS</span></span>
-                    <span class="skill-tag"><span class="tr">Dijital Arşivleme</span><span class="en">Digital Archiving</span></span>
-                    <span class="skill-tag"><span class="tr">Akademik Araştırma</span><span class="en">Academic Research</span></span>
-                    <span class="skill-tag"><span class="tr">Sistem Düşüncesi</span><span class="en">Systems Thinking</span></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="job-block" style="margin-top: 20px; border:none;">
-            <div class="job-header">
-                <span class="job-title">
-                    <span class="tr">Diller</span>
-                    <span class="en">Languages</span>
-                </span>
-            </div>
-            <div class="lang-grid">
-                <div class="lang-item">
-                    <span class="lang-title">
-                        <span class="tr">TÜRKÇE</span>
-                        <span class="en">TURKISH</span>
-                    </span>
-                    <span class="lang-level">
-                        <span class="tr">Ana Dil / Editoryal Hakimiyet</span>
-                        <span class="en">Native / Editorial Mastery</span>
-                    </span>
-                </div>
-                <div class="lang-item">
-                    <span class="lang-title">
-                        <span class="tr">İNGİLİZCE</span>
-                        <span class="en">ENGLISH</span>
-                    </span>
-                    <span class="lang-level">
-                        <span class="tr">Tam Profesyonel / C2 (Akademik)</span>
-                        <span class="en">Full Professional / C2 (Academic)</span>
-                    </span>
-                </div>
-                <div class="lang-item" style="border-color: var(--border-color);">
-                    <span class="lang-title" style="color:var(--meta-color);">
-                        <span class="tr">PORTEKİZCE</span>
-                        <span class="en">PORTUGUESE</span>
-                    </span>
-                    <span class="lang-level">
-                        <span class="tr">Temel Kültürel Aşinalık</span>
-                        <span class="en">Basic Cultural Familiarity</span>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- 1. DEFINE TRANSLATIONS FOR META TAGS ---
-            const metaTranslations = {
-                tr: {
-                    title: "Bora Karataş - Özgeçmiş",
-                    desc: "İçerik Editörü ve Eğitimci. Yapay Zeka destekli, erişilebilir öğrenme deneyimleri tasarlıyor. Anadolu Üniversitesi Ar-Ge Birimi.",
-                    jobTitle: "İçerik Editörü & Eğitimci"
-                },
-                en: {
-                    title: "Bora Karataş - Resume",
-                    desc: "Content Editor & Educator specializing in AI-Supported Learning Experiences. Instructional Design & EdTech Portfolio.",
-                    jobTitle: "Content Editor & Educator"
-                }
-            };
-
-            // --- 2. THEME HANDLING ---
-            const btnTheme = document.getElementById('btn-theme');
-            // Check system preference
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.body.setAttribute('data-theme', 'dark');
-            }
-            // Theme Toggle
-            btnTheme.addEventListener('click', () => {
-                const body = document.body;
-                const isDark = body.getAttribute('data-theme') === 'dark';
-                isDark ? body.removeAttribute('data-theme') : body.setAttribute('data-theme', 'dark');
-            });
-
-            // --- 3. LANGUAGE HANDLING ---
-            const btnTr = document.getElementById('btn-tr');
-            const btnEn = document.getElementById('btn-en');
-            
-            function setLang(lang) {
-                // 1. Update Body Class (Visual Toggle)
-                document.body.className = document.body.className.replace(/lang-(tr|en)/, '') + ' lang-' + lang;
-                document.documentElement.lang = lang;
-
-                // 2. Update Metadata (SEO & Browser Tab)
-                document.title = metaTranslations[lang].title;
-                
-                // Update Meta Description
-                const metaDesc = document.querySelector('meta[name="description"]');
-                if (metaDesc) metaDesc.setAttribute('content', metaTranslations[lang].desc);
-
-                // Update Open Graph Tags (for dynamic sharing contexts)
-                const ogTitle = document.querySelector('meta[property="og:title"]');
-                if (ogTitle) ogTitle.setAttribute('content', metaTranslations[lang].title);
-
-                const ogDesc = document.querySelector('meta[property="og:description"]');
-                if (ogDesc) ogDesc.setAttribute('content', metaTranslations[lang].desc);
-
-                // 3. Update Button Accessibility States
-                if (lang === 'tr') {
-                    btnTr.setAttribute('aria-pressed', 'true');
-                    btnEn.setAttribute('aria-pressed', 'false');
-                } else {
-                    btnTr.setAttribute('aria-pressed', 'false');
-                    btnEn.setAttribute('aria-pressed', 'true');
-                }
-            }
-
-            // Event Listeners
-            btnTr.addEventListener('click', () => setLang('tr'));
-            btnEn.addEventListener('click', () => setLang('en'));
-
-            // --- 4. AUTO-DETECT BROWSER LANGUAGE ---
-            // Checks if user's browser language starts with 'tr'
-            const userLang = navigator.language || navigator.userLanguage; 
-            if (userLang.startsWith('tr')) {
-                setLang('tr');
-            } else {
-                setLang('en');
-            }
-
-            // Print
-            const btnPrint = document.getElementById('btn-print');
-            if(btnPrint) btnPrint.addEventListener('click', () => window.print());
-        });
-    </script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
