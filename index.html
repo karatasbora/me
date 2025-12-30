@@ -22,26 +22,30 @@
 
 <script>
     (function() {
-        // 1. Önce kayıtlı tercih var mı bak
-        var localTheme = localStorage.getItem('theme');
-        // 2. Yoksa sistem tercihine bak (Mobil/PC Dark Mode ayarı)
-        var sysTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-        // Eğer kullanıcı "Dark" demişse VEYA (Kayıt yoksa VE Sistem Dark ise)
-        if (localTheme === 'dark' || (!localTheme && sysTheme)) {
-            // HTML'e işareti koy. CSS sadece buna bakacak.
-            document.documentElement.setAttribute('data-theme', 'dark');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-        }
+        try {
+            var localTheme = localStorage.getItem('theme');
+            var sysTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Eğer kaydedilmiş bir tercih varsa onu kullan, yoksa sistemi dinle
+            if (localTheme) {
+                document.documentElement.setAttribute('data-theme', localTheme);
+            } else if (sysTheme) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        } catch (e) {}
     })();
 </script>
 
 <style>
-    /* 🟢 1. VARSAYILAN (LIGHT MODE) */
+    /* 🟢 CRITICAL CSS FIX: 
+       Varsayılan (:root) yetmez. Tarayıcıyı zorlamak için
+       "light" ve "dark" özelliklerini AYRI AYRI tanımlamalıyız.
+    */
+
+    /* 1. VARSAYILAN DEĞERLER (Fallback) */
     :root {
-        color-scheme: light; /* Tarayıcı UI'ını light yapar */
-        
         --primary-text: #2b2b2b;       
         --accent-color: #A54522;       
         --bg-color: #fdfdfd;           
@@ -51,16 +55,27 @@
         --tag-text: #333;
         --border-color: #f0f0f0;
         --shadow: 0 0 20px rgba(0,0,0,0.05);
-        
-        /* Ikon Görünürlüğü */
         --moon-display: block;
         --sun-display: none;
     }
 
-    /* 🟢 2. DARK MODE (Sadece JS 'data-theme="dark"' eklediğinde çalışır) */
+    /* 2. FORCE LIGHT MODE (Burası mobilde light modu zorlar) */
+    [data-theme="light"] {
+        --primary-text: #2b2b2b;       
+        --accent-color: #A54522;       
+        --bg-color: #fdfdfd;           
+        --card-bg: #ffffff;
+        --meta-color: #666666;         
+        --tag-bg: #f0f0f0;             
+        --tag-text: #333;
+        --border-color: #f0f0f0;
+        --shadow: 0 0 20px rgba(0,0,0,0.05);
+        --moon-display: block;
+        --sun-display: none;
+    }
+
+    /* 3. FORCE DARK MODE */
     [data-theme="dark"] {
-        color-scheme: dark; /* Tarayıcı UI'ını dark yapar (Scrollbar vs.) */
-        
         --primary-text: #e0e0e0;
         --accent-color: #FF7043;
         --bg-color: #121212;
@@ -70,8 +85,6 @@
         --tag-text: #ddd;
         --border-color: #333;
         --shadow: 0 0 20px rgba(0,0,0,0.5);
-        
-        /* Ikon Görünürlüğü */
         --moon-display: none;
         --sun-display: block;
     }
@@ -90,8 +103,8 @@
         transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* --- SAFE ANIMATIONS (Mobile Fix) --- */
-    header, section { opacity: 1; transform: translateY(0); } /* Varsayılan görünür */
+    /* --- SAFE ANIMATIONS --- */
+    header, section { opacity: 1; transform: translateY(0); }
 
     @media (prefers-reduced-motion: no-preference) {
         @keyframes simpleFade { from { opacity: 0; } to { opacity: 1; } }
@@ -104,7 +117,7 @@
         section:nth-of-type(4) { opacity: 0; animation: slideUp 0.6s ease-out 0.4s forwards; }
     }
 
-    /* --- HEADER --- */
+    /* --- COMPONENTS --- */
     header {
         display: flex;
         align-items: center;
@@ -165,7 +178,6 @@
         background-color: var(--accent-color); 
     }
 
-    /* ICON TOGGLE */
     #moon-icon { display: var(--moon-display); }
     #sun-icon { display: var(--sun-display); }
 
@@ -189,6 +201,7 @@
 
     .separator { color: var(--border-color); font-size: 0.85rem; }
 
+    /* TYPOGRAPHY */
     h1 {
         font-family: 'Libre Baskerville', serif;
         font-size: 2.6rem;
@@ -279,7 +292,7 @@
 
     /* --- PRINT SETTINGS --- */
     @media print {
-        :root, [data-theme="dark"] {
+        :root, [data-theme="light"], [data-theme="dark"] {
             --primary-text: #000 !important;
             --bg-color: #fff !important;
             --card-bg: #fff !important;
@@ -609,7 +622,6 @@
             document.documentElement.lang = lang;
         }
 
-        // 🟢 BASİT VE GÜÇLÜ THEME TOGGLE
         function toggleTheme() {
             var html = document.documentElement;
             var current = html.getAttribute('data-theme');
