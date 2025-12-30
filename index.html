@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://karatasbora.github.io/resume/">
 <meta property="og:image" content="https://karatasbora.github.io/resume/profil_lowres.png">
 
-<title>v2 Bora Karataş - Özgeçmiş/Resume</title>
+<title>v3 Bora Karataş - Özgeçmiş/Resume</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,10 +26,14 @@
             var localTheme = localStorage.getItem('theme');
             var sysTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
             
-            // If user previously chose Dark, OR (User hasn't chosen AND System is Dark)
-            if (localTheme === 'dark' || (!localTheme && sysTheme)) {
+            if (localTheme) {
+                // If user has a saved preference, force it
+                document.documentElement.setAttribute('data-theme', localTheme);
+            } else if (sysTheme) {
+                // If no save, but system is dark, go dark
                 document.documentElement.setAttribute('data-theme', 'dark');
             } else {
+                // Otherwise default to light
                 document.documentElement.setAttribute('data-theme', 'light');
             }
         } catch (e) {}
@@ -37,29 +41,28 @@
 </script>
 
 <style>
-    /* 🟢 1. FORCE LIGHT MODE (CRITICAL FIX) */
-    /* By setting 'color-scheme: light', we tell the browser NOT to auto-invert these colors */
+    /* 🟢 1. FORCE LIGHT MODE (The "Fix") */
+    /* We use !important here to override any browser-injected dark styles */
     :root, [data-theme="light"] {
-        color-scheme: light; /* 🛑 STOPS MOBILE AUTO-DARK MODE */
+        color-scheme: light !important; 
         
-        --primary-text: #2b2b2b;       
-        --accent-color: #A54522;       
-        --bg-color: #fdfdfd;           
-        --card-bg: #ffffff;
-        --meta-color: #666666;         
-        --tag-bg: #f0f0f0;             
-        --tag-text: #333;
-        --border-color: #f0f0f0;
+        --primary-text: #2b2b2b !important;       
+        --accent-color: #A54522 !important;       
+        --bg-color: #fdfdfd !important;           
+        --card-bg: #ffffff !important;
+        --meta-color: #666666 !important;         
+        --tag-bg: #f0f0f0 !important;             
+        --tag-text: #333 !important;
+        --border-color: #f0f0f0 !important;
         --shadow: 0 0 20px rgba(0,0,0,0.05);
         
-        /* Icons */
         --moon-display: block;
         --sun-display: none;
     }
 
-    /* 🟢 2. FORCE DARK MODE */
+    /* 🟢 2. DARK MODE */
     [data-theme="dark"] {
-        color-scheme: dark; /* Allows browser to render dark scrollbars etc */
+        color-scheme: dark;
         
         --primary-text: #e0e0e0;
         --accent-color: #FF7043;
@@ -71,12 +74,17 @@
         --border-color: #333;
         --shadow: 0 0 20px rgba(0,0,0,0.5);
         
-        /* Icons */
         --moon-display: none;
         --sun-display: block;
     }
 
     /* --- GLOBAL STYLES --- */
+    html {
+        /* Ensuring HTML has the background prevents "overscroll" showing black on mobile */
+        background-color: var(--bg-color);
+        min-height: 100%;
+    }
+
     body {
         font-family: 'Lato', sans-serif;
         background-color: var(--bg-color);
@@ -91,7 +99,7 @@
     }
 
     /* --- ANIMATIONS (Opt-in) --- */
-    header, section { opacity: 1; transform: translateY(0); } /* Default Visible */
+    header, section { opacity: 1; transform: translateY(0); }
 
     @media (prefers-reduced-motion: no-preference) {
         @keyframes simpleFade { from { opacity: 0; } to { opacity: 1; } }
@@ -188,7 +196,7 @@
 
     .separator { color: var(--border-color); font-size: 0.85rem; }
 
-    /* --- CONTENT TYPOGRAPHY --- */
+    /* --- TYPOGRAPHY --- */
     h1 {
         font-family: 'Libre Baskerville', serif;
         font-size: 2.6rem;
@@ -280,7 +288,7 @@
     /* --- PRINT SETTINGS --- */
     @media print {
         :root, [data-theme="light"], [data-theme="dark"] {
-            color-scheme: light !important; /* Force browser to print light */
+            color-scheme: light !important;
             --primary-text: #000 !important;
             --bg-color: #fff !important;
             --card-bg: #fff !important;
@@ -621,4 +629,3 @@
 
 </body>
 </html>
-
