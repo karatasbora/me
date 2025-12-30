@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23A54522%22 rx=%2220%22/><text x=%2250%25%22 y=%2255%25%22 font-family=%22Georgia, serif%22 font-weight=%22bold%22 font-size=%2250%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>BK</text></svg>">
 
-<title>Bora Karataş - Özgeçmiş/Resume</title>
 <meta name="description" content="Content Editor & Educator specializing in AI-Supported Learning Experiences. View my full resume.">
-
-<meta property="og:title" content="Bora Karataş - Özgeçmiş/Resume">
+<meta property="og:title" content="Bora Karataş -  Resume">
 <meta property="og:description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://karatasbora.github.io/resume/">
-
 <meta property="og:image" content="https://karatasbora.github.io/resume/profil_lowres.png">
+
+<title>Bora Karataş - Özgeçmiş/Resume</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,10 +26,8 @@
             var localTheme = localStorage.getItem('theme');
             var sysTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
             
-            // Eğer kaydedilmiş bir tercih varsa onu kullan, yoksa sistemi dinle
-            if (localTheme) {
-                document.documentElement.setAttribute('data-theme', localTheme);
-            } else if (sysTheme) {
+            // If user previously chose Dark, OR (User hasn't chosen AND System is Dark)
+            if (localTheme === 'dark' || (!localTheme && sysTheme)) {
                 document.documentElement.setAttribute('data-theme', 'dark');
             } else {
                 document.documentElement.setAttribute('data-theme', 'light');
@@ -39,13 +37,11 @@
 </script>
 
 <style>
-    /* 🟢 CRITICAL CSS FIX: 
-       Varsayılan (:root) yetmez. Tarayıcıyı zorlamak için
-       "light" ve "dark" özelliklerini AYRI AYRI tanımlamalıyız.
-    */
-
-    /* 1. VARSAYILAN DEĞERLER (Fallback) */
-    :root {
+    /* 🟢 1. FORCE LIGHT MODE (CRITICAL FIX) */
+    /* By setting 'color-scheme: light', we tell the browser NOT to auto-invert these colors */
+    :root, [data-theme="light"] {
+        color-scheme: light; /* 🛑 STOPS MOBILE AUTO-DARK MODE */
+        
         --primary-text: #2b2b2b;       
         --accent-color: #A54522;       
         --bg-color: #fdfdfd;           
@@ -55,27 +51,16 @@
         --tag-text: #333;
         --border-color: #f0f0f0;
         --shadow: 0 0 20px rgba(0,0,0,0.05);
+        
+        /* Icons */
         --moon-display: block;
         --sun-display: none;
     }
 
-    /* 2. FORCE LIGHT MODE (Burası mobilde light modu zorlar) */
-    [data-theme="light"] {
-        --primary-text: #2b2b2b;       
-        --accent-color: #A54522;       
-        --bg-color: #fdfdfd;           
-        --card-bg: #ffffff;
-        --meta-color: #666666;         
-        --tag-bg: #f0f0f0;             
-        --tag-text: #333;
-        --border-color: #f0f0f0;
-        --shadow: 0 0 20px rgba(0,0,0,0.05);
-        --moon-display: block;
-        --sun-display: none;
-    }
-
-    /* 3. FORCE DARK MODE */
+    /* 🟢 2. FORCE DARK MODE */
     [data-theme="dark"] {
+        color-scheme: dark; /* Allows browser to render dark scrollbars etc */
+        
         --primary-text: #e0e0e0;
         --accent-color: #FF7043;
         --bg-color: #121212;
@@ -85,11 +70,13 @@
         --tag-text: #ddd;
         --border-color: #333;
         --shadow: 0 0 20px rgba(0,0,0,0.5);
+        
+        /* Icons */
         --moon-display: none;
         --sun-display: block;
     }
 
-    /* --- GLOBAL --- */
+    /* --- GLOBAL STYLES --- */
     body {
         font-family: 'Lato', sans-serif;
         background-color: var(--bg-color);
@@ -103,8 +90,8 @@
         transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* --- SAFE ANIMATIONS --- */
-    header, section { opacity: 1; transform: translateY(0); }
+    /* --- ANIMATIONS (Opt-in) --- */
+    header, section { opacity: 1; transform: translateY(0); } /* Default Visible */
 
     @media (prefers-reduced-motion: no-preference) {
         @keyframes simpleFade { from { opacity: 0; } to { opacity: 1; } }
@@ -117,7 +104,7 @@
         section:nth-of-type(4) { opacity: 0; animation: slideUp 0.6s ease-out 0.4s forwards; }
     }
 
-    /* --- COMPONENTS --- */
+    /* --- HEADER --- */
     header {
         display: flex;
         align-items: center;
@@ -201,7 +188,7 @@
 
     .separator { color: var(--border-color); font-size: 0.85rem; }
 
-    /* TYPOGRAPHY */
+    /* --- CONTENT TYPOGRAPHY --- */
     h1 {
         font-family: 'Libre Baskerville', serif;
         font-size: 2.6rem;
@@ -293,6 +280,7 @@
     /* --- PRINT SETTINGS --- */
     @media print {
         :root, [data-theme="light"], [data-theme="dark"] {
+            color-scheme: light !important; /* Force browser to print light */
             --primary-text: #000 !important;
             --bg-color: #fff !important;
             --card-bg: #fff !important;
@@ -625,10 +613,7 @@
         function toggleTheme() {
             var html = document.documentElement;
             var current = html.getAttribute('data-theme');
-            
-            // Eğer "dark" ise "light" yap, değilse "dark" yap
             var next = current === 'dark' ? 'light' : 'dark';
-            
             html.setAttribute('data-theme', next);
             localStorage.setItem('theme', next);
         }
