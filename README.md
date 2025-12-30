@@ -79,9 +79,11 @@ The application dynamically updates Open Graph (Facebook/LinkedIn) and Twitter C
 * **Google Verification:** Integrated via meta tag.
 * **JSON-LD:** Structured `Person` schema included for rich search results.
 
-## 📄 License
+## © Copyright
 
-This project is open source. Feel free to use it as a template for your own resume.
+**Copyright © 2025 Bora Karataş. All Rights Reserved.**
+
+This repository is for personal portfolio demonstration purposes only. You are welcome to review the code, but you may not reproduce, distribute, or use this code as a template without permission.
 
 ---
 
