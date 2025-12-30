@@ -3,11 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bora Karataş - Özgeçmiş/Resume</title>
-<style>
-    /* FONT İTHALATI */
-    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
 
+<meta name="description" content="Bora Karataş - Content Editor & Educator | ELT & EdTech">
+<meta property="og:title" content="Bora Karataş - Özgeçmiş/Resume">
+<meta property="og:description" content="Content Editor & Educator specializing in AI-Supported Learning Experiences.">
+<meta property="og:image" content="profil.png"> <meta property="og:type" content="website">
+
+<title>Bora Karataş - Özgeçmiş/Resume</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+<style>
     :root {
         /* RENK PALETİ */
         --primary-text: #2b2b2b;       
@@ -20,7 +28,7 @@
 
     body {
         font-family: 'Lato', sans-serif;
-        background-color: var(--bg-color);
+        background-color: #fdfdfd; /* Göz yormayan çok hafif kırık beyaz */
         color: var(--primary-text);
         line-height: 1.6;
         max-width: 900px;
@@ -42,7 +50,7 @@
         margin-bottom: 2rem;
         padding-bottom: 25px;
         border-bottom: 2px solid #f0f0f0;
-        position: relative; /* DÜZELTME: Butonları sabitlemek için gerekli */
+        position: relative; 
     }
 
     .profile-photo {
@@ -57,19 +65,18 @@
 
     .header-text {
         flex-grow: 1;
-        /* DÜZELTME: Metnin sağa kadar uzamasına izin ver */
         width: 100%; 
     }
 
-    /* --- BUTONLAR (DÜZELTİLDİ: ABSOLUTE POSITION) --- */
+    /* --- BUTONLAR (ABSOLUTE POSITION) --- */
     .lang-switch {
-        position: absolute; /* Akıştan çıkar */
-        top: 0;             /* En üste yapıştır */
-        right: 0;           /* En sağa yapıştır */
+        position: absolute;
+        top: 0;
+        right: 0;
         display: flex;
         align-items: center;
         gap: 8px;
-        padding-top: 0;     /* Hizalama ayarı */
+        padding-top: 0;
     }
 
     .lang-btn {
@@ -123,7 +130,6 @@
         margin: 0 0 8px 0;
         font-weight: 700;
         line-height: 1;
-        /* İsim uzunsa butonların altına girmesin diye sağdan boşluk (Opsiyonel) */
         padding-right: 150px; 
     }
 
@@ -135,7 +141,6 @@
         color: var(--accent-color);
         font-weight: 700;
         margin-bottom: 12px;
-        /* Headline artık serbestçe butonların altına uzayabilir */
     }
 
     /* --- İLETİŞİM BİLGİSİ --- */
@@ -260,7 +265,6 @@
     @media (max-width: 600px) {
         header { flex-wrap: wrap; text-align: center; justify-content: center; }
         
-        /* Mobilde Absolute position'ı iptal et ve başa al */
         .lang-switch { 
             position: relative; 
             width: 100%; 
@@ -277,7 +281,7 @@
         .job-date, .location { margin-top: 5px; }
     }
 
-    /* --- YAZDIRMA (Zoom %75) --- */
+    /* --- YAZDIRMA (Zoom %75 + URL Gösterimi) --- */
     @media print {
         .lang-switch { display: none !important; }
         body { 
@@ -287,6 +291,16 @@
             -moz-transform-origin: top left;
             width: 133%;
         }
+
+        /* Dış Linklerin Yanında URL Göster (Örn: LinkedIn) */
+        a[href^="http"]::after {
+            content: " (" attr(href) ")";
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: normal;
+        }
+
+        a { text-decoration: none; color: #000; border: none; }
     }
 </style>
 </head>
@@ -308,16 +322,16 @@
                 <span class="sep">|</span> 
                 <a href="mailto:borakaratas@anadolu.edu.tr" class="contact-link">borakaratas@anadolu.edu.tr</a> 
                 <span class="sep">|</span> 
-                <a href="https://www.linkedin.com/in/borakaratas" class="contact-link">linkedin.com/in/borakaratas</a>
+                <a href="https://www.linkedin.com/in/borakaratas" class="contact-link" target="_blank" rel="noopener noreferrer">linkedin.com/in/borakaratas</a>
             </div>
         </div>
 
         <div class="lang-switch">
-            <button class="lang-btn" id="btn-tr" onclick="setLang('tr')">TR</button>
+            <button class="lang-btn" id="btn-tr" onclick="setLang('tr')" aria-label="Türkçe'ye Geç">TR</button>
             <span class="separator">|</span>
-            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')" aria-label="Switch to English">EN</button>
             
-            <button class="download-btn" onclick="window.print()" title="PDF Olarak Kaydet / Save as PDF">
+            <button class="download-btn" onclick="window.print()" aria-label="PDF Olarak Kaydet / Save as PDF">
                 <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                 PDF
             </button>
