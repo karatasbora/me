@@ -10,6 +10,7 @@
     --border-color: #f0f0f0;
     --shadow: 0 0 20px rgba(0,0,0,0.05);
     --focus-ring: 2px solid var(--accent-color);
+    --btn-text: #ffffff; /* New variable for button text stability */
 }
 
 /* --- DARK MODE VARIABLES --- */
@@ -23,6 +24,7 @@
     --tag-text: #ddd;
     --border-color: #333;
     --shadow: 0 0 20px rgba(0,0,0,0.5);
+    --btn-text: #121212; /* Dark text on bright orange button looks better */
 }
 
 body {
@@ -105,9 +107,13 @@ header {
 .btn-icon:hover { color: var(--accent-color); background-color: var(--tag-bg); }
 
 /* Active State Styling */
-.btn-icon[aria-pressed="true"] {
-    color: var(--card-bg);
-    background-color: var(--accent-color);
+.btn-icon[aria-pressed="true"] { 
+    color: #fff; /* Always white text on active buttons */
+    background-color: var(--accent-color); 
+}
+/* Fix for Dark Mode text on active buttons */
+[data-theme="dark"] .btn-icon[aria-pressed="true"] {
+    color: #121212; 
 }
 
 /* Theme Icons Toggle */
@@ -115,9 +121,10 @@ header {
 [data-theme="dark"] #moon-icon { display: none; }
 [data-theme="dark"] #sun-icon { display: block; }
 
+/* --- DOWNLOAD BUTTON (FIXED) --- */
 .download-btn {
-    background-color: var(--primary-text);
-    color: var(--card-bg);
+    background-color: var(--accent-color); /* Always orange */
+    color: #ffffff; /* Always white text in light mode */
     border: none;
     border-radius: 4px;
     padding: 6px 12px;
@@ -130,7 +137,13 @@ header {
     font-weight: 700;
     transition: opacity 0.3s;
 }
+/* Specific text color for dark mode button to ensure contrast */
+[data-theme="dark"] .download-btn {
+    color: #121212;
+}
+
 .download-btn:hover { opacity: 0.9; }
+.download-btn svg { width: 14px; height: 14px; fill: currentColor; }
 
 .separator { color: var(--border-color); font-size: 0.85rem; }
 
@@ -221,35 +234,48 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
     .header-text { width: 100%; }
     .job-header, .job-subheader { flex-direction: column; align-items: flex-start; }
     .job-date, .location { margin-top: 5px; }
-    .lang-grid { flex-direction: column; gap: 10px; }
 }
 
-/* --- PRINT SETTINGS --- */
+/* --- PRINT SETTINGS (FIXED) --- */
 @media print {
-    :root {
-        --primary-text: #000;
-        --bg-color: #fff;
-        --card-bg: #fff;
-        --border-color: #eee;
-        --accent-color: #A54522 !important;
+    /* Force Light Mode variables regardless of current theme */
+    :root, [data-theme="dark"] {
+        --primary-text: #000 !important;
+        --bg-color: #fff !important;
+        --card-bg: #fff !important;
+        --meta-color: #444 !important;
         --tag-bg: #f0f0f0 !important;
         --tag-text: #000 !important;
-    }
-    
-    body { 
-        background: white; color: black; box-shadow: none; width: 100%; max-width: 100%; margin: 0; padding: 0;
-        zoom: 75%;
+        --border-color: #eee !important;
+        --accent-color: #A54522 !important;
     }
 
+    body { 
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        box-shadow: none; 
+        width: 100%; 
+        max-width: 100%; 
+        margin: 0; 
+        padding: 0;
+        zoom: 75%; 
+        -moz-transform: scale(0.75); 
+        width: 133%;
+    }
+
+    /* Hide the controls (Buttons) */
     .controls { display: none !important; }
     
+    /* Ensure tags look like print items */
     .skill-tag, .lang-item {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
         background-color: #f0f0f0 !important;
         border: 1px solid #ccc;
+        color: #000 !important;
     }
 
+    /* Print URL after links so paper readers can see them */
     a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8rem; color: #666; font-weight: normal; }
     a { text-decoration: none; color: #000; border: none; }
 }
