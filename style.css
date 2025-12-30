@@ -1,4 +1,4 @@
-/* --- LIGHT MODE VARIABLES --- */
+/* --- LIGHT MODE VARIABLES (Default) --- */
 :root {
     --primary-text: #2b2b2b;       
     --accent-color: #A54522;       
@@ -10,7 +10,6 @@
     --border-color: #f0f0f0;
     --shadow: 0 0 20px rgba(0,0,0,0.05);
     --focus-ring: 2px solid var(--accent-color);
-    --btn-text: #ffffff; /* New variable for button text stability */
 }
 
 /* --- DARK MODE VARIABLES --- */
@@ -24,7 +23,6 @@
     --tag-text: #ddd;
     --border-color: #333;
     --shadow: 0 0 20px rgba(0,0,0,0.5);
-    --btn-text: #121212; /* Dark text on bright orange button looks better */
 }
 
 body {
@@ -108,12 +106,8 @@ header {
 
 /* Active State Styling */
 .btn-icon[aria-pressed="true"] { 
-    color: #fff; /* Always white text on active buttons */
+    color: var(--card-bg); 
     background-color: var(--accent-color); 
-}
-/* Fix for Dark Mode text on active buttons */
-[data-theme="dark"] .btn-icon[aria-pressed="true"] {
-    color: #121212; 
 }
 
 /* Theme Icons Toggle */
@@ -121,10 +115,9 @@ header {
 [data-theme="dark"] #moon-icon { display: none; }
 [data-theme="dark"] #sun-icon { display: block; }
 
-/* --- DOWNLOAD BUTTON (FIXED) --- */
 .download-btn {
-    background-color: var(--accent-color); /* Always orange */
-    color: #ffffff; /* Always white text in light mode */
+    background-color: var(--primary-text);
+    color: var(--card-bg);
     border: none;
     border-radius: 4px;
     padding: 6px 12px;
@@ -137,11 +130,6 @@ header {
     font-weight: 700;
     transition: opacity 0.3s;
 }
-/* Specific text color for dark mode button to ensure contrast */
-[data-theme="dark"] .download-btn {
-    color: #121212;
-}
-
 .download-btn:hover { opacity: 0.9; }
 .download-btn svg { width: 14px; height: 14px; fill: currentColor; }
 
@@ -234,48 +222,55 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
     .header-text { width: 100%; }
     .job-header, .job-subheader { flex-direction: column; align-items: flex-start; }
     .job-date, .location { margin-top: 5px; }
+    .lang-grid { flex-direction: column; gap: 10px; }
 }
 
 /* --- PRINT SETTINGS (FIXED) --- */
 @media print {
-    /* Force Light Mode variables regardless of current theme */
-    :root, [data-theme="dark"] {
-        --primary-text: #000 !important;
-        --bg-color: #fff !important;
-        --card-bg: #fff !important;
-        --meta-color: #444 !important;
+    /* 1. Force OVERRIDE all variables to Light Mode values using !important */
+    :root, [data-theme="dark"], body {
+        --primary-text: #000000 !important;
+        --bg-color: #ffffff !important;
+        --card-bg: #ffffff !important;
+        --meta-color: #444444 !important;
         --tag-bg: #f0f0f0 !important;
-        --tag-text: #000 !important;
-        --border-color: #eee !important;
-        --accent-color: #A54522 !important;
+        --tag-text: #000000 !important;
+        --border-color: #eeeeee !important;
+        --accent-color: #A54522 !important; /* Original Orange Accent */
+        --shadow: none !important;
     }
 
+    /* 2. Reset Layout Containers */
     body { 
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        box-shadow: none; 
+        background-color: #ffffff !important; 
+        color: #000000 !important; 
+        box-shadow: none !important; 
         width: 100%; 
         max-width: 100%; 
         margin: 0; 
         padding: 0;
-        zoom: 75%; 
-        -moz-transform: scale(0.75); 
-        width: 133%;
+        zoom: 75%; /* Scales down to fit A4 better */
     }
 
-    /* Hide the controls (Buttons) */
+    /* 3. Hide UI Buttons */
     .controls { display: none !important; }
     
-    /* Ensure tags look like print items */
+    /* 4. Ensure readability of elements */
     .skill-tag, .lang-item {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
         background-color: #f0f0f0 !important;
-        border: 1px solid #ccc;
         color: #000 !important;
+        border: 1px solid #ccc !important;
     }
 
-    /* Print URL after links so paper readers can see them */
-    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8rem; color: #666; font-weight: normal; }
-    a { text-decoration: none; color: #000; border: none; }
-}
+    /* 5. Show URLs for printed links */
+    a[href^="http"]::after { 
+        content: " (" attr(href) ")"; 
+        font-size: 0.8rem; 
+        color: #666; 
+        font-weight: normal; 
+    }
+    
+    a { 
+        text-decoration: none
