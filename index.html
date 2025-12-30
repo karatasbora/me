@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bora Karataş - Özgeçmiş</title>
+<title>Bora Karataş - Özgeçmiş/Resume</title>
 <style>
     /* FONT İTHALATI */
     @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
@@ -19,7 +19,7 @@
     }
 
     body {
-        font-family: 'Lato', sans-serif; /* Gövde için daha modern font */
+        font-family: 'Lato', sans-serif;
         background-color: var(--bg-color);
         color: var(--primary-text);
         line-height: 1.6;
@@ -29,6 +29,10 @@
         box-shadow: 0 0 20px rgba(0,0,0,0.05);
         background: white;
     }
+
+    /* --- DİL GİZLEME/GÖSTERME MANTIĞI --- */
+    body.lang-tr .en { display: none !important; }
+    body.lang-en .tr { display: none !important; }
 
     /* --- HEADER --- */
     header {
@@ -53,6 +57,39 @@
     .header-text {
         flex-grow: 1;
     }
+
+    /* DİL BUTONLARI */
+    .lang-switch {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        align-self: flex-start;
+        margin-left: auto;
+        padding-top: 10px;
+    }
+
+    .lang-btn {
+        background: none;
+        border: 1px solid transparent;
+        cursor: pointer;
+        font-family: 'Lato', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #999;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .lang-btn:hover { color: var(--accent-color); background-color: var(--tag-bg); }
+    
+    body.lang-tr #btn-tr, 
+    body.lang-en #btn-en {
+        color: white;
+        background-color: var(--accent-color);
+    }
+
+    .separator { color: #ccc; font-size: 0.85rem; }
 
     h1 {
         font-family: 'Libre Baskerville', serif;
@@ -81,10 +118,7 @@
         color: var(--meta-color);
     }
     
-    .contact-info span {
-        margin: 0 8px;
-        color: #ddd;
-    }
+    .contact-info span { margin: 0 8px; color: #ddd; }
     
     .contact-link {
         color: var(--meta-color);
@@ -111,10 +145,7 @@
     p { margin-bottom: 1rem; text-align: left; color: #444; }
 
     /* --- İŞ VE EĞİTİM KARTLARI --- */
-    .job-block {
-        margin-bottom: 2.2rem;
-        page-break-inside: avoid; /* PDF çıktısında bölünmeyi önler */
-    }
+    .job-block { margin-bottom: 2.2rem; page-break-inside: avoid; }
 
     .job-header {
         display: flex;
@@ -160,27 +191,17 @@
         text-transform: uppercase;
     }
 
-    /* --- LİSTE VE İÇERİK (STAR METHOD) --- */
+    /* --- İÇERİK KUTUSU --- */
     .job-content {
         background-color: #fff;
         border-left: 2px solid #eee;
         padding-left: 15px;
     }
-
-    ul.job-bullets {
-        margin: 0;
-        padding-left: 15px;
-    }
-
-    ul.job-bullets li {
-        margin-bottom: 8px;
-        color: #444;
-        font-size: 0.95rem;
-        list-style-type: square; /* Kare madde imleri daha teknik durur */
-    }
     
-    ul.job-bullets li::marker {
-        color: var(--accent-color);
+    .job-content p {
+        margin: 0 0 10px 0;
+        font-size: 0.95rem;
+        color: #444;
     }
 
     /* --- YETENEK ETİKETLERİ --- */
@@ -188,8 +209,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        margin-top: 10px;
-        padding-left: 15px;
+        margin-top: 15px;
     }
 
     .skill-tag {
@@ -205,11 +225,7 @@
     }
 
     /* --- DİLLER BÖLÜMÜ --- */
-    .lang-grid {
-        display: flex;
-        gap: 20px;
-        margin-top: 10px;
-    }
+    .lang-grid { display: flex; gap: 20px; margin-top: 10px; }
     .lang-item {
         flex: 1;
         background: #f9f9f9;
@@ -220,171 +236,311 @@
     .lang-title { font-weight: bold; font-family: 'Libre Baskerville', serif; font-size: 0.9rem; display: block; }
     .lang-level { font-size: 0.8rem; color: #666; display: block; margin-top: 4px; }
 
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+        header { flex-wrap: wrap; text-align: center; justify-content: center; }
+        .lang-switch { width: 100%; justify-content: flex-end; order: -1; margin-bottom: 15px; }
+        .header-text { width: 100%; }
+        .job-header, .job-subheader { flex-direction: column; align-items: flex-start; }
+        .job-date, .location { margin-top: 5px; }
+    }
 </style>
 </head>
-<body>
+<body class="lang-tr">
 
     <header>
         <img src="profil.png" alt="Bora Karataş" class="profile-photo"> 
         
         <div class="header-text">
             <h1>Bora Karataş</h1>
-            <div class="headline">İçerik Editörü & Eğitimci | Yapay Zeka Destekli, Erişilebilir Öğrenme Deneyimleri Tasarlıyor | ELT & EdTech</div>
-            <div class="contact-info">
-                Eskişehir, Türkiye <span>|</span> <a href="mailto:borakaratas@anadolu.edu.tr" class="contact-link">borakaratas@anadolu.edu.tr</a> <span>|</span> <a href="https://www.linkedin.com/in/borakaratas" class="contact-link">linkedin.com/in/borakaratas</a>
+            <div class="headline">
+                <span class="tr">İçerik Editörü & Eğitimci | Yapay Zeka Destekli, Erişilebilir Öğrenme Deneyimleri Tasarlıyor | ELT & EdTech</span>
+                <span class="en">Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech</span>
             </div>
+            <div class="contact-info">
+                <span class="tr">Eskişehir, Türkiye</span>
+                <span class="en">Eskisehir, Turkey</span>
+                <span>|</span> 
+                <a href="mailto:borakaratas@anadolu.edu.tr" class="contact-link">borakaratas@anadolu.edu.tr</a> 
+                <span>|</span> 
+                <a href="https://www.linkedin.com/in/borakaratas" class="contact-link">linkedin.com/in/borakaratas</a>
+            </div>
+        </div>
+
+        <div class="lang-switch">
+            <button class="lang-btn" id="btn-tr" onclick="setLang('tr')">TR</button>
+            <span class="separator">|</span>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
         </div>
     </header>
 
     <section>
-        <h2>Hakkında</h2>
-        <p>
+        <h2>
+            <span class="tr">Hakkında</span>
+            <span class="en">About</span>
+        </h2>
+        <p class="tr">
             Öğrenmenin bilgi depolamaktan, beceri üretmeye evrildiği dijital çağda, yapay zeka destekli içerik stratejileri geliştiriyorum. Eğitimi daha insani ve erişilebilir kılmak adına; teknolojiyi bir amaç değil, keşfetme sürecini özgürleştiren bir araç olarak kullanıyorum. Performans kaygısından uzak, modern ve analitik bir öğrenme vizyonu sunuyorum.
+        </p>
+        <p class="en">
+            In the digital age where learning evolves from storing information to generating skills, I develop AI-supported content strategies. To make education more human and accessible; I use technology not as a goal, but as a tool that liberates the discovery process. I offer a modern and analytical learning vision free from performance anxiety.
         </p>
     </section>
 
     <section>
-        <h2>Deneyim</h2>
+        <h2>
+            <span class="tr">Deneyim</span>
+            <span class="en">Experience</span>
+        </h2>
         
         <div class="job-block">
             <div class="job-header">
-                <span class="job-title">İçerik Editörü</span>
-                <span class="job-date">ARALIK 2022 - HALEN</span>
+                <span class="job-title">
+                    <span class="tr">İçerik Editörü</span>
+                    <span class="en">Content Editor</span>
+                </span>
+                <span class="job-date">
+                    <span class="tr">ARALIK 2022 - HALEN</span>
+                    <span class="en">DEC 2022 - PRESENT</span>
+                </span>
             </div>
             <div class="job-subheader">
-                <span class="company">Anadolu Üniversitesi | Öğrenme Teknolojileri Ar-Ge Birimi</span>
-                <span class="location">ESKİŞEHİR, TÜRKİYE</span>
+                <span class="company">
+                    <span class="tr">Anadolu Üniversitesi | Öğrenme Teknolojileri Ar-Ge Birimi</span>
+                    <span class="en">Anadolu University | Learning Technologies R&D Unit</span>
+                </span>
+                <span class="location">
+                    <span class="tr">ESKİŞEHİR, TÜRKİYE</span>
+                    <span class="en">ESKISEHIR, TURKEY</span>
+                </span>
             </div>
             
             <div class="job-content">
-                <ul class="job-bullets">
+                <p class="tr">
                     Öğrenme Teknolojileri Ar-Ge Birimi bünyesinde, statik ders materyallerini dijital deneyimlere dönüştüren kapsamlı bir dijital dönüşüm sürecinin parçasıyım. İçerik stratejisine Generative AI (LLM) araçlarını entegre ederek editöryal verimliliği artırırken evrensel tasarım ilkeleriyle erişilebilirliği ve öğrenci etkileşimini optimize ediyorum. Teknolojiyi sadece bir araç olarak değil, öğrenme sürecini özgürleştiren bir unsur olarak konumluyorum.
-                </ul>
+                </p>
+                <p class="en">
+                    Within the Learning Technologies R&D Unit, I am part of a comprehensive digital transformation process that turns static course materials into digital experiences. I integrate Generative AI (LLM) tools into content strategy to increase editorial efficiency while optimizing accessibility and student engagement with universal design principles. I position technology not just as a tool, but as an element that liberates the learning process.
+                </p>
                 <div class="tags-wrapper">
-                    <span class="skill-tag">İçerik Stratejisi</span>
-                    <span class="skill-tag">Yapay Zeka İstemleri</span>
-                    <span class="skill-tag">Eğitim Yönetimi Sistemleri</span>
+                    <span class="skill-tag"><span class="tr">İçerik Stratejisi</span><span class="en">Content Strategy</span></span>
+                    <span class="skill-tag"><span class="tr">Yapay Zeka İstemleri</span><span class="en">AI Prompts</span></span>
+                    <span class="skill-tag"><span class="tr">Eğitim Yönetimi Sistemleri</span><span class="en">LMS</span></span>
                 </div>
             </div>
         </div>
 
         <div class="job-block">
             <div class="job-header">
-                <span class="job-title">İngilizce Öğretmeni (Stajyer)</span>
-                <span class="job-date">EYLÜL 2025 - ARALIK 2025</span>
+                <span class="job-title">
+                    <span class="tr">İngilizce Öğretmeni (Stajyer)</span>
+                    <span class="en">English Teacher (Intern)</span>
+                </span>
+                <span class="job-date">
+                    <span class="tr">EYLÜL 2025 - ARALIK 2025</span>
+                    <span class="en">SEP 2025 - DEC 2025</span>
+                </span>
             </div>
             <div class="job-subheader">
-                <span class="company">T.C. Millî Eğitim Bakanlığı | Gülay Kanatlı Ortaokulu</span>
-                <span class="location">ESKİŞEHİR, TÜRKİYE</span>
+                <span class="company">
+                    <span class="tr">T.C. Millî Eğitim Bakanlığı | Gülay Kanatlı Ortaokulu</span>
+                    <span class="en">Ministry of National Education | Gülay Kanatlı Secondary School</span>
+                </span>
+                <span class="location">
+                    <span class="tr">ESKİŞEHİR, TÜRKİYE</span>
+                    <span class="en">ESKISEHIR, TURKEY</span>
+                </span>
             </div>
 
             <div class="job-content">
-                <ul class="job-bullets">
+                <p class="tr">
                     Gülay Kanatlı Ortaokulunda ezbere dayalı klasik gramer öğretimi yerine, dili aktif bir iletişim aracı olarak konumlandıran öğrenci merkezli bir müfredat uyguladım. Ders tasarımlarımı sadece dil bilgisi odaklı değil, 21. yüzyıl becerileri (4C) ve eleştirel düşünme yetisini geliştirecek şekilde kurguladım. Sınıf yönetiminde oyunlaştırma (gamification) tekniklerini stratejik olarak kullanarak pasif öğrencilerin motivasyonunu yükselttim ve derse katılım oranlarını maksimize ettim.
-                </ul>
+                </p>
+                <p class="en">
+                    Implemented a student-centered curriculum positioning language as an active communication tool rather than rote-based grammar teaching. Designed lessons focused on 21st-century skills (4C) and critical thinking. Strategically used gamification techniques in classroom management to boost motivation of passive students and maximize participation rates.
+                </p>
                 <div class="tags-wrapper">
-                    <span class="skill-tag">Öğretim Tasarımı</span>
-                    <span class="skill-tag">Sınıf Yönetimi</span>
-                    <span class="skill-tag">Yabancı Dil olarak İngilizce Öğretimi</span>
+                    <span class="skill-tag"><span class="tr">Öğretim Tasarımı</span><span class="en">Instructional Design</span></span>
+                    <span class="skill-tag"><span class="tr">Sınıf Yönetimi</span><span class="en">Classroom Management</span></span>
+                    <span class="skill-tag"><span class="tr">Yabancı Dil olarak İngilizce Öğretimi</span><span class="en">TEFL</span></span>
                 </div>
             </div>
         </div>
     </section>
 
     <section>
-        <h2>Eğitim</h2>
+        <h2>
+            <span class="tr">Eğitim</span>
+            <span class="en">Education</span>
+        </h2>
         
         <div class="job-block">
             <div class="job-header">
-                <span class="job-title">İngilizce Öğretmenliği</span>
-                <span class="job-date">Lisans Derecesi</span>
+                <span class="job-title">
+                    <span class="tr">İngilizce Öğretmenliği</span>
+                    <span class="en">English Language Teaching (ELT)</span>
+                </span>
+                <span class="job-date">
+                    <span class="tr">Lisans Derecesi</span>
+                    <span class="en">Bachelor's Degree</span>
+                </span>
             </div>
             <div class="job-subheader">
-                <span class="company">Anadolu Üniversitesi</span>
-                <span class="location">ESKİŞEHİR, TÜRKİYE</span>
+                <span class="company">
+                    <span class="tr">Anadolu Üniversitesi</span>
+                    <span class="en">Anadolu University</span>
+                </span>
+                <span class="location">
+                    <span class="tr">ESKİŞEHİR, TÜRKİYE</span>
+                    <span class="en">ESKISEHIR, TURKEY</span>
+                </span>
             </div>
             <div class="job-content">
-                <ul class="job-bullets">
+                <p class="tr">
                     Pedagoji ve öğretim teknolojileri üzerine odaklandım. Geleneksel yaklaşımları modern EdTech araçlarıyla harmanlayan projeler geliştirdim.
-                </ul>
+                </p>
+                <p class="en">
+                    Focused on pedagogy and instructional technologies. Developed projects blending traditional approaches with modern EdTech tools.
+                </p>
             </div>
         </div>
 
         <div class="job-block">
             <div class="job-header">
-                <span class="job-title">Anglo-Amerikan Çalışmaları</span>
+                <span class="job-title">
+                    <span class="tr">Anglo-Amerikan Çalışmaları</span>
+                    <span class="en">Anglo-American Studies</span>
+                </span>
                 <span class="job-date">ERASMUS+</span> 
             </div>
             <div class="job-subheader">
                 <span class="company">Universidade de Coimbra</span>
-                <span class="location">COIMBRA, PORTEKİZ</span>
+                <span class="location">
+                    <span class="tr">COIMBRA, PORTEKİZ</span>
+                    <span class="en">COIMBRA, PORTUGAL</span>
+                </span>
             </div>
             <div class="job-content">
-                <ul class="job-bullets">
+                <p class="tr">
                     Kültürlerarası iletişim ve adaptasyon yetkinlikleri kazandım. Global eğitim sistemlerini yerinde analiz etme fırsatı buldum.
-                </ul>
+                </p>
+                <p class="en">
+                    Gained intercultural communication and adaptation competencies. Had the opportunity to analyze global education systems on-site.
+                </p>
             </div>
         </div>
 
         <div class="job-block">
             <div class="job-header">
-                <span class="job-title">İktisat (İngilizce)</span>
-                <span class="job-date">Lisans Derecesi</span>
+                <span class="job-title">
+                    <span class="tr">İktisat (İngilizce)</span>
+                    <span class="en">Economics (English)</span>
+                </span>
+                <span class="job-date">
+                    <span class="tr">Lisans Derecesi</span>
+                    <span class="en">Bachelor's Degree</span>
+                </span>
             </div>
             <div class="job-subheader">
-                <span class="company">Anadolu Üniversitesi</span>
-                <span class="location">UZAKTAN EĞİTİM</span>
+                <span class="company">
+                    <span class="tr">Anadolu Üniversitesi</span>
+                    <span class="en">Anadolu University</span>
+                </span>
+                <span class="location">
+                    <span class="tr">UZAKTAN EĞİTİM</span>
+                    <span class="en">REMOTE LEARNING</span>
+                </span>
             </div>
             <div class="job-content">
-                <ul class="job-bullets">
+                <p class="tr">
                     Sistem düşüncesi, veri okuryazarlığı ve analitik karar alma süreçleri üzerine eğitim alıyorum.
-                </ul>
+                </p>
+                <p class="en">
+                    Studying systems thinking, data literacy, and analytical decision-making processes.
+                </p>
             </div>
         </div>
     </section>
 
     <section>
-        <h2>Teknik Yetkinlikler & Diller</h2>
+        <h2>
+            <span class="tr">Teknik Yetkinlikler & Diller</span>
+            <span class="en">Skills & Languages</span>
+        </h2>
 
         <div class="job-block">
             <div class="job-header">
-                <span class="job-title">Dijital Araç Seti & Uzmanlıklar</span>
+                <span class="job-title">
+                    <span class="tr">Dijital Araç Seti & Uzmanlıklar</span>
+                    <span class="en">Digital Toolset & Specializations</span>
+                </span>
             </div>
             <div style="margin-top: 10px;">
                 <div class="tags-wrapper" style="padding-left:0;">
-                    <span class="skill-tag">Prompt Mühendisliği</span>
-                    <span class="skill-tag">Öğretim Tasarımı</span>
-                    <span class="skill-tag">Yapay Zeka</span>
-                    <span class="skill-tag">Öğrenme Yönetim Sistemleri</span>
-                    <span class="skill-tag">İçerik Yönetim Sistemleri</span>
-                    <span class="skill-tag">Dijital Arşivleme</span>
-                    <span class="skill-tag">Akademik Araştırma</span>
-                    <span class="skill-tag">Sistem Düşüncesi</span>
+                    <span class="skill-tag"><span class="tr">Prompt Mühendisliği</span><span class="en">Prompt Engineering</span></span>
+                    <span class="skill-tag"><span class="tr">Öğretim Tasarımı</span><span class="en">Instructional Design</span></span>
+                    <span class="skill-tag"><span class="tr">Yapay Zeka</span><span class="en">Artificial Intelligence</span></span>
+                    <span class="skill-tag"><span class="tr">Öğrenme Yönetim Sistemleri</span><span class="en">LMS</span></span>
+                    <span class="skill-tag"><span class="tr">İçerik Yönetim Sistemleri</span><span class="en">CMS</span></span>
+                    <span class="skill-tag"><span class="tr">Dijital Arşivleme</span><span class="en">Digital Archiving</span></span>
+                    <span class="skill-tag"><span class="tr">Akademik Araştırma</span><span class="en">Academic Research</span></span>
+                    <span class="skill-tag"><span class="tr">Sistem Düşüncesi</span><span class="en">Systems Thinking</span></span>
                 </div>
             </div>
         </div>
 
         <div class="job-block" style="margin-top: 20px; border:none;">
             <div class="job-header">
-                <span class="job-title">Diller</span>
+                <span class="job-title">
+                    <span class="tr">Diller</span>
+                    <span class="en">Languages</span>
+                </span>
             </div>
             <div class="lang-grid">
                 <div class="lang-item">
-                    <span class="lang-title">TÜRKÇE</span>
-                    <span class="lang-level">Ana Dil / Editoryal Hakimiyet</span>
+                    <span class="lang-title">
+                        <span class="tr">TÜRKÇE</span>
+                        <span class="en">TURKISH</span>
+                    </span>
+                    <span class="lang-level">
+                        <span class="tr">Ana Dil / Editoryal Hakimiyet</span>
+                        <span class="en">Native / Editorial Mastery</span>
+                    </span>
                 </div>
                 <div class="lang-item">
-                    <span class="lang-title">İNGİLİZCE</span>
-                    <span class="lang-level">Tam Profesyonel / C2 (Akademik)</span>
+                    <span class="lang-title">
+                        <span class="tr">İNGİLİZCE</span>
+                        <span class="en">ENGLISH</span>
+                    </span>
+                    <span class="lang-level">
+                        <span class="tr">Tam Profesyonel / C2 (Akademik)</span>
+                        <span class="en">Full Professional / C2 (Academic)</span>
+                    </span>
                 </div>
                 <div class="lang-item" style="border-color: #ccc;">
-                    <span class="lang-title" style="color:#666;">PORTEKİZCE</span>
-                    <span class="lang-level">Temel Kültürel Aşinalık</span>
+                    <span class="lang-title" style="color:#666;">
+                        <span class="tr">PORTEKİZCE</span>
+                        <span class="en">PORTUGUESE</span>
+                    </span>
+                    <span class="lang-level">
+                        <span class="tr">Temel Kültürel Aşinalık</span>
+                        <span class="en">Basic Cultural Familiarity</span>
+                    </span>
                 </div>
             </div>
         </div>
     </section>
 
+    <script>
+        function setLang(lang) {
+            // Görsel class'ı güncelle
+            document.body.className = 'lang-' + lang;
+            
+            // DÜZELTME: Tarayıcıya dokümanın dilinin değiştiğini bildir.
+            // Bu, 'uppercase' yaparken 'i' harfinin 'I' olmasını sağlar.
+            document.documentElement.lang = lang;
+        }
+    </script>
+
 </body>
 </html>
-
