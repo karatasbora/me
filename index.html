@@ -22,28 +22,26 @@
 
 <script>
     (function() {
-        try {
-            // 1. Check Local Storage (User Preference)
-            var localTheme = localStorage.getItem('theme');
-            // 2. Check System Preference (Mobile/PC Settings)
-            var sysTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            // If user has chosen Dark OR (No choice made AND System is Dark)
-            if (localTheme === 'dark' || (!localTheme && sysTheme)) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'light');
-            }
-        } catch (e) {
-            console.error("Theme detection failed", e);
+        // 1. Önce kayıtlı tercih var mı bak
+        var localTheme = localStorage.getItem('theme');
+        // 2. Yoksa sistem tercihine bak (Mobil/PC Dark Mode ayarı)
+        var sysTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        // Eğer kullanıcı "Dark" demişse VEYA (Kayıt yoksa VE Sistem Dark ise)
+        if (localTheme === 'dark' || (!localTheme && sysTheme)) {
+            // HTML'e işareti koy. CSS sadece buna bakacak.
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
         }
     })();
 </script>
 
 <style>
-    /* 🟢 1. DEFAULT VARIABLES (LIGHT MODE) */
-    /* This applies when data-theme="light" OR if JS fails */
+    /* 🟢 1. VARSAYILAN (LIGHT MODE) */
     :root {
+        color-scheme: light; /* Tarayıcı UI'ını light yapar */
+        
         --primary-text: #2b2b2b;       
         --accent-color: #A54522;       
         --bg-color: #fdfdfd;           
@@ -54,14 +52,15 @@
         --border-color: #f0f0f0;
         --shadow: 0 0 20px rgba(0,0,0,0.05);
         
-        /* Icon Visibility */
+        /* Ikon Görünürlüğü */
         --moon-display: block;
         --sun-display: none;
     }
 
-    /* 🟢 2. DARK MODE OVERRIDE */
-    /* Only applies when JS sets the attribute. No media query confusion. */
+    /* 🟢 2. DARK MODE (Sadece JS 'data-theme="dark"' eklediğinde çalışır) */
     [data-theme="dark"] {
+        color-scheme: dark; /* Tarayıcı UI'ını dark yapar (Scrollbar vs.) */
+        
         --primary-text: #e0e0e0;
         --accent-color: #FF7043;
         --bg-color: #121212;
@@ -72,11 +71,12 @@
         --border-color: #333;
         --shadow: 0 0 20px rgba(0,0,0,0.5);
         
-        /* Icon Visibility */
+        /* Ikon Görünürlüğü */
         --moon-display: none;
         --sun-display: block;
     }
 
+    /* --- GLOBAL --- */
     body {
         font-family: 'Lato', sans-serif;
         background-color: var(--bg-color);
@@ -87,14 +87,12 @@
         padding: 50px;
         box-shadow: var(--shadow);
         background: var(--card-bg);
-        /* Transition removed for body bg to prevent "flash" on load, kept for other elements if needed */
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* --- SAFE ANIMATIONS (Mobile Friendly) --- */
-    /* Default State: Visible */
-    header, section { opacity: 1; transform: translateY(0); }
+    /* --- SAFE ANIMATIONS (Mobile Fix) --- */
+    header, section { opacity: 1; transform: translateY(0); } /* Varsayılan görünür */
 
-    /* Only animate if user allows motion */
     @media (prefers-reduced-motion: no-preference) {
         @keyframes simpleFade { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -106,7 +104,7 @@
         section:nth-of-type(4) { opacity: 0; animation: slideUp 0.6s ease-out 0.4s forwards; }
     }
 
-    /* --- LAYOUT & COMPONENTS --- */
+    /* --- HEADER --- */
     header {
         display: flex;
         align-items: center;
@@ -161,14 +159,13 @@
     }
     .btn-icon:active { transform: scale(0.95); }
     
-    /* Language Button Active State */
     body.lang-tr #btn-tr, 
     body.lang-en #btn-en { 
-        color: var(--card-bg); /* Uses background color for text (inverted) */
+        color: var(--card-bg); 
         background-color: var(--accent-color); 
     }
 
-    /* Icon Toggle Logic */
+    /* ICON TOGGLE */
     #moon-icon { display: var(--moon-display); }
     #sun-icon { display: var(--sun-display); }
 
@@ -280,7 +277,7 @@
         .job-date, .location { margin-top: 5px; }
     }
 
-    /* --- PRINT SETTINGS (FORCE LIGHT MODE) --- */
+    /* --- PRINT SETTINGS --- */
     @media print {
         :root, [data-theme="dark"] {
             --primary-text: #000 !important;
@@ -290,7 +287,7 @@
             --tag-bg: #f0f0f0 !important;
             --tag-text: #000 !important;
             --border-color: #eee !important;
-            --accent-color: #A54522 !important; /* Force Original Red */
+            --accent-color: #A54522 !important;
         }
 
         body { 
@@ -612,10 +609,14 @@
             document.documentElement.lang = lang;
         }
 
+        // 🟢 BASİT VE GÜÇLÜ THEME TOGGLE
         function toggleTheme() {
             var html = document.documentElement;
             var current = html.getAttribute('data-theme');
+            
+            // Eğer "dark" ise "light" yap, değilse "dark" yap
             var next = current === 'dark' ? 'light' : 'dark';
+            
             html.setAttribute('data-theme', next);
             localStorage.setItem('theme', next);
         }
