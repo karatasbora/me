@@ -193,7 +193,7 @@ h1 {
 .contact-link { 
     color: var(--meta-color); 
     text-decoration: none; 
-    border-bottom: 1px solid var(--subheading-color); /* Changed from dotted to solid */
+    border-bottom: 1px solid var(--accent-color); /* Changed from dotted to solid */
     transition: color 0.2s; 
 }
 
