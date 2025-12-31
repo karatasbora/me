@@ -159,11 +159,16 @@ function renderResume(lang) {
 // --- 5. INITIALIZATION & EVENTS ---
 document.addEventListener('DOMContentLoaded', () => {
     
-    // A. Detect Language: 1. Saved Preference -> 2. Browser Language -> 3. Default (EN)
+    // Safety check: Ensure data.js loaded correctly
+    if (typeof resumeData === 'undefined') {
+        console.error("Data.js failed to load or is not accessible yet.");
+        return;
+    }
+
+    // A. Detect Language (with Persistence)
     const savedLang = localStorage.getItem('preferredLang');
-    const browserLang = (navigator.language || navigator.userLanguage).startsWith('tr') ? 'tr' : 'en';
-    
-    let currentLang = savedLang || browserLang;
+    const userLang = navigator.language || navigator.userLanguage;
+    let currentLang = savedLang || (userLang.startsWith('tr') ? 'tr' : 'en');
 
     // B. Initial Render
     renderResume(currentLang);
@@ -173,16 +178,42 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('preferredLang', 'tr');
         renderResume('tr');
     });
-
     document.getElementById('btn-en').addEventListener('click', () => {
         localStorage.setItem('preferredLang', 'en');
         renderResume('en');
     });
+
     // D. Print Functionality
     const btnPrint = document.getElementById('btn-print');
-    if (btnPrint) {
-        btnPrint.addEventListener('click', () => window.print());
+    if (btnPrint) btnPrint.addEventListener('click', () => window.print());
+
+    // E. Dark Mode (with Persistence)
+    const btnTheme = document.getElementById('btn-theme');
+    const savedTheme = localStorage.getItem('theme');
+    
+    // Initial check (Saved preference or System preference)
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.body.setAttribute('data-theme', 'dark');
     }
+
+    if (btnTheme) {
+        btnTheme.addEventListener('click', () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    }
+
+    // F. Register Service Worker (PWA)
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW error:', err));
+    }
+});
 
 // E. Dark Mode Logic
 const btnTheme = document.getElementById('btn-theme');
