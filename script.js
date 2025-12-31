@@ -147,9 +147,15 @@ function renderResume(lang) {
     document.getElementById('languages-list').innerHTML = 
         createLanguageHTML(resumeData.languages, lang);
 
-    // 5. Update UI Button States (Visual Feedback)
+    // 5. Update UI Button States
     document.getElementById('btn-tr').setAttribute('aria-pressed', lang === 'tr');
     document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
+    
+    // NEW: Apply dynamic staggered animation delays to skills
+    const skillTags = document.querySelectorAll('#skills-list .skill-tag');
+    skillTags.forEach((tag, index) => {
+        tag.style.animationDelay = `${(index + 1) * 0.1}s`;
+    });
     
     // Toggle body class for generic CSS styling
     document.body.classList.remove('lang-tr', 'lang-en');
