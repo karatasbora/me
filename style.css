@@ -82,18 +82,19 @@ header {
     position: relative; 
 }
 
+/* --- FIXED PROFILE CONTAINER --- */
 .profile-container {
     width: 140px;
     height: 140px;
     border-radius: var(--radius);
-    padding: 8px; /* Precise gap between border and picture */
+    padding: 8px; 
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     
-    /* Corrected "H" GEOMETRY */
+    /* SYNCED H-GEOMETRY: 30% Pillars, 8px Bridge */
     background: 
         /* Right Nodes (Neural Violet) */
         linear-gradient(var(--neural-violet) 40%, transparent 40%, transparent 60%, var(--neural-violet) 60%) no-repeat right / 30% 100%,
@@ -105,6 +106,16 @@ header {
     background-origin: border-box;
     box-shadow: var(--card-shadow);
     transition: transform 0.3s ease;
+}
+
+.profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+    background-color: var(--card-bg);
+    border: 4px solid var(--card-bg); /* Creates the transparent-look gap */
 }
 
 .profile-container:hover {
