@@ -140,7 +140,7 @@ header {
     background: none;
     border: 1px solid transparent;
     cursor: pointer;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     font-weight: 700;
     color: var(--meta-color);
