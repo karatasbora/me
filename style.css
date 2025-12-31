@@ -280,11 +280,21 @@ h1 {
 }
 
 .contact-info { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--primary-text); }
-.contact-link { 
-    color: var(--meta-color); 
-    text-decoration: none; 
-    border-bottom: 1px solid var(--accent-color); /* Changed from dotted to solid */
-    transition: color 0.2s; 
+
+/* When the 'copied' class is active, hide the real text for the screen only */
+.contact-link.copied {
+    color: var(--accent-color);
+    position: relative;
+}
+
+/* Show the "Copied" text using a pseudo-element */
+.contact-link.copied::after {
+    content: attr(data-copy-text); /* Pulls text from JS */
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--bg-color); /* Overlays the original text */
+    width: 100%;
 }
 
 .contact-link:hover { 
