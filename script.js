@@ -207,5 +207,5 @@ function renderResume(lang) {
             navigator.serviceWorker.register('./sw.js').catch(function(){});
         }
     });
-});
+})();
 }
