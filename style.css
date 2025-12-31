@@ -82,30 +82,44 @@ header {
     position: relative; 
 }
 
-.profile-photo {
-    width: 130px;
-    height: 130px;
-    /* Changed from 50% to var(--radius) to match the card style */
-    border-radius: var(--radius); 
-    object-fit: cover;
-    
-    /* "Mimicking the spans": Split border geometry */
-    border: 5px solid transparent;
-    background-image: linear-gradient(var(--card-bg), var(--card-bg)), 
-                      linear-gradient(to right, var(--oxford-slate) 40%, transparent 40%, transparent 55%, var(--neural-violet) 55%);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
-    
-    padding: 2px;
-    box-shadow: var(--card-shadow);
+.profile-container {
+    width: 140px;
+    height: 140px;
+    border-radius: var(--radius);
+    padding: 6px; /* This creates the space between border and picture */
     flex-shrink: 0;
-    transition: all 0.3s ease;
+    position: relative;
+    
+    /* THE "H" GEOMETRY: 
+       1. Left vertical (Slate)
+       2. Right vertical (Violet)
+       3. Horizontal Bridge (Slate) */
+    background: 
+        /* Horizontal Bridge */
+        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat center center / 100% 8px,
+        /* Vertical Pillars */
+        linear-gradient(to right, 
+            var(--oxford-slate) 0%, var(--oxford-slate) 35%, 
+            transparent 35%, transparent 65%, 
+            var(--neural-violet) 65%, var(--neural-violet) 100%
+        );
+    
+    background-origin: border-box;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
 }
 
-.profile-photo:hover {
-    transform: scale(1.02);
-    /* Subtle glow on the AI side on hover */
-    box-shadow: 5px 0 15px -5px rgba(108, 92, 231, 0.3);
+.profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px; /* Slightly tighter radius for the inner image */
+    background-color: var(--card-bg); /* Fills the "gap" with paper-white */
+}
+
+.profile-container:hover {
+    transform: scale(1.03);
 }
 
 .header-text { flex-grow: 1; width: 100%; }
