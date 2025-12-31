@@ -157,61 +157,55 @@ function renderResume(lang) {
 }
 
 // --- 5. INITIALIZATION & EVENTS ---
-(function() {
-    window.addEventListener('load', function() {
-        if (typeof resumeData === 'undefined') {
-            console.error("Data.js missing.");
-            return;
-        }
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // A. Detect Language: 1. Saved Preference -> 2. Browser Language -> 3. Default (EN)
+    const savedLang = localStorage.getItem('preferredLang');
+    const browserLang = (navigator.language || navigator.userLanguage).startsWith('tr') ? 'tr' : 'en';
+    
+    let currentLang = savedLang || browserLang;
 
-        // Safe Language Detection
-        var currentLang = 'en'; 
-        try {
-            var savedLang = localStorage.getItem('preferredLang');
-            currentLang = savedLang || (navigator.language.startsWith('tr') ? 'tr' : 'en');
-        } catch (e) { console.warn("Storage blocked"); }
+    // B. Initial Render
+    renderResume(currentLang);
 
-        renderResume(currentLang);
+    // C. Event Listeners for Language Switching
+    document.getElementById('btn-tr').addEventListener('click', () => {
+        localStorage.setItem('preferredLang', 'tr');
+        renderResume('tr');
+    });
 
-        // Language Click Listeners
-        document.getElementById('btn-tr').onclick = function() {
-            try { localStorage.setItem('preferredLang', 'tr'); } catch(e){}
-            renderResume('tr');
-        };
-        document.getElementById('btn-en').onclick = function() {
-            try { localStorage.setItem('preferredLang', 'en'); } catch(e){}
-            renderResume('en');
-        };
+    document.getElementById('btn-en').addEventListener('click', () => {
+        localStorage.setItem('preferredLang', 'en');
+        renderResume('en');
+    });
+    // D. Print Functionality
+    const btnPrint = document.getElementById('btn-print');
+    if (btnPrint) {
+        btnPrint.addEventListener('click', () => window.print());
+    }
 
-        // Dark Mode Logic
-        var btnTheme = document.getElementById('btn-theme');
-        var body = document.body;
+// E. Dark Mode Logic
+const btnTheme = document.getElementById('btn-theme');
 
-        try {
-            if (localStorage.getItem('theme') === 'dark') {
-                body.setAttribute('data-theme', 'dark');
-            }
-        } catch (e) {}
+// 1. Initial State Check
+const savedTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-        if (btnTheme) {
-            btnTheme.onclick = function() {
-                var isDark = body.getAttribute('data-theme') === 'dark';
-                if (isDark) {
-                    body.removeAttribute('data-theme');
-                    try { localStorage.setItem('theme', 'light'); } catch(e){}
-                } else {
-                    body.setAttribute('data-theme', 'dark');
-                    try { localStorage.setItem('theme', 'dark'); } catch(e){}
-                }
-            };
-        }
+// Prioritize saved preference, then system preference
+if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    document.body.setAttribute('data-theme', 'dark');
+}
 
-        // Service Worker (Safe for Incognito)
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js').catch(function(err) {
-                console.log("SW blocked/failed (Likely Incognito)");
-            });
+// 2. Toggle and Persist on click
+if (btnTheme) {
+    btnTheme.addEventListener('click', () => {
+        const body = document.body;
+        if (body.getAttribute('data-theme') === 'dark') {
+            body.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light'); // Persist light mode
+        } else {
+            body.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');  // Persist dark mode
         }
     });
-})(); // <-- CRITICAL: The invocation parentheses
 }
