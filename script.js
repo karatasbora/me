@@ -211,20 +211,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // NEW: Email Copy-to-Clipboard Feature
-    const mailLink = document.getElementById('link-email');
-    if (mailLink) {
-        mailLink.addEventListener('click', (e) => {
-            e.preventDefault(); // Stop the default mail app from opening
-            const emailText = resumeData.meta.email;
+const mailLink = document.getElementById('link-email');
+
+if (mailLink) {
+    mailLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const emailText = resumeData.meta.email;
+        const isTr = document.documentElement.lang === 'tr';
+        
+        navigator.clipboard.writeText(emailText).then(() => {
+            // Set the message for the CSS to pick up
+            mailLink.setAttribute('data-copy-text', isTr ? "Kopyalandı!" : "Copied!");
             
-            navigator.clipboard.writeText(emailText).then(() => {
-                const originalText = mailLink.textContent;
-                mailLink.textContent = "Copied! / Kopyalandı!";
-                
-                setTimeout(() => {
-                    mailLink.textContent = originalText;
-                }, 2000);
-            });
+            // Add the class that triggers the CSS overlay
+            mailLink.classList.add('copied');
+            
+            setTimeout(() => {
+                mailLink.classList.remove('copied');
+            }, 2000);
         });
-    }
+    });
+}
 });
