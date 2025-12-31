@@ -438,6 +438,15 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
         border: 2px solid #000 !important;
         background: none !important;
     }
+
+.contact-link.copied::after {
+        display: none !important; /* Hide "Copied" text on PDF */
+    }
+    .contact-link {
+        color: #000 !important;
+        opacity: 1 !important;
+    }
+    
 } /* Final closing brace for media query */
 
 /* Global Link Style - Outside of Print Query */
