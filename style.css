@@ -82,41 +82,46 @@ header {
     position: relative; 
 }
 
+:root {
+    --oxford-slate: #2C3E50;
+    --neural-violet: #6C5CE7;
+    --paper-white: #FFFFFF;
+}
+
 .profile-container {
-    width: 160px; /* Slightly larger to account for the thick frame */
+    width: 160px;
     height: 160px;
-    border-radius: 8px; /* Outer rounding */
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
     
-    /* THE GEOMETRY: Using percentages of the total container size */
+    /* THE FAVICON GEOMETRY */
+    /* 1. Right Top Square (Violet) */
     background: 
-        /* Right Top (Violet) */
-        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right top / 45% 48%,
-        /* Right Bottom (Violet) */
-        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right bottom / 45% 48%,
-        /* Left Pillar (Slate) */
-        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left / 45% 100%;
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right 0% / 45% 47%,
+        /* 2. Right Bottom Square (Violet) */
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right 100% / 45% 47%,
+        /* 3. Left Pillar (Slate) */
+        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left center / 45% 100%;
     
-    background-color: var(--oxford-slate); /* Fallback */
+    background-color: transparent; /* Ensures the gaps show as empty/transparent if needed */
 }
 
 .profile-photo {
-    width: 90%; /* Leaves room for the colored blocks to show */
-    height: 90%;
+    width: 82%; /* Adjusted to let the border breathe */
+    height: 82%;
     object-fit: cover;
     display: block;
     border-radius: 4px; 
     
-    /* THE INNER WHITE FRAME: Matches your uploaded image */
     background-color: var(--paper-white);
-    border: 6px solid var(--paper-white); 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 4px solid var(--paper-white); 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1;
 }
-
 .profile-container:hover {
     transform: scale(1.03);
 }
