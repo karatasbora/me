@@ -454,19 +454,18 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
     }
 
     contact-link {
-        display: inline !important; /* Reset to standard text for PDF */
+    display: inline !important;
         color: #000 !important;
-        text-decoration: none !important;
+        border-bottom: 1px solid #000 !important; /* Restore line for professional PDF */
     }
     
     contact-link.copied {
         color: #000 !important; /* Force black text even if 'copied' class is on */
-        border-bottom: 2px solid #000 !important; /* Restores the line for the printed version */
     }
 
     contact-link::after, contact-link.copied::after {
-        display: none !important; /* Completely kill the 'Copied' text on PDF */
-        content: none !important;
+        display: none !important;
+        content: "" !important;
     }
     
 } /* Final closing brace for media query */
