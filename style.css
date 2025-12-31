@@ -97,34 +97,28 @@ header {
     justify-content: center;
     position: relative;
     
-    /* THE GEOMETRY WITH TRANSPARENT GAPS */
+    /* THE FAVICON GEOMETRY */
+    /* Truly transparent gaps: no background-color set on the container */
     background: 
-        /* Right Top Violet: 45% width, 47% height */
-        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right 0% / 45% 47%,
-        
-        /* Right Bottom Violet: 45% width, 47% height */
-        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right 100% / 45% 47%,
-        
-        /* Left Pillar Slate: 45% width, 100% height */
+        /* Top Right Violet */
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right top / 45% 46%,
+        /* Bottom Right Violet */
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right bottom / 45% 46%,
+        /* Left Pillar Slate */
         linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left center / 45% 100%;
-
-    /* Critical: No background-color here so the gaps remain transparent */
 }
 
 .profile-photo {
-    /* We use a smaller percentage so the photo doesn't 
-       physically "touch" the gaps, preserving the transparency 
-    */
-    width: 84%; 
-    height: 86%;
+    /* Sizing the photo to create a transparent gap between it and the border */
+    width: 80%; 
+    height: 85%;
     object-fit: cover;
     display: block;
-    border-radius: 6px; 
+    border-radius: 6px; /* Rounded corners for the photo itself */
     z-index: 2;
     
-    background-color: var(--paper-white);
-    border: 5px solid var(--paper-white); 
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    /* Removed background-color, border, and padding to eliminate the white frame */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 .profile-container:hover {
     transform: scale(1.03);
