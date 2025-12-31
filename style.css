@@ -82,7 +82,6 @@ header {
     position: relative; 
 }
 
-/* --- FIXED PROFILE CONTAINER --- */
 .profile-container {
     width: 140px;
     height: 140px;
@@ -94,22 +93,19 @@ header {
     justify-content: center;
     position: relative;
     
-    /* REFINED GEOMETRY: Spans match Favicon proportions exactly */
+    /* GEOMETRY: 1 Pillar + 2 Blocks (No bridge) */
     background: 
-        /* 1. Right Top Node (Neural Violet) */
-        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right top / 30% 42%,
-        /* 2. Right Bottom Node (Neural Violet) */
-        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right bottom / 30% 42%,
-        /* 3. Left Pillar (Oxford Slate) */
-        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left / 30% 100%,
-        /* 4. Horizontal Bridge (Oxford Slate) */
-        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat center / 100% 10px;
+        /* Top Right Block */
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right top / 44% 46%,
+        /* Bottom Right Block */
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right bottom / 44% 46%,
+        /* Left Pillar */
+        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left / 44% 100%;
 
-    background-origin: border-box;
-    /* Adding subtle rounding to the background layers using mask-image or clipping isn't 
-       fully stable across browsers, so we rely on the container's radius for the outer edges */
+    background-origin: content-box; 
     box-shadow: var(--card-shadow);
     transition: transform 0.3s ease;
+    background-color: transparent; /* Ensures paper-white shows through the gaps */
 }
 
 .profile-photo {
@@ -117,9 +113,10 @@ header {
     height: 100%;
     object-fit: cover;
     display: block;
-    border-radius: 4px; /* Slightly sharper inner corners for "Modern Sage" look */
-    background-color: var(--card-bg);
-    border: 5px solid var(--card-bg); /* The "halo" gap */
+    border-radius: 4px; 
+    background-color: var(--paper-white);
+    /* The 8px border creates the "gap" that reveals the geometry behind the photo */
+    border: 8px solid var(--paper-white); 
 }
 
 .profile-container:hover {
