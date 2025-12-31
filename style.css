@@ -303,7 +303,7 @@ h1 {
     top: 50%;
     transform: translate(-50%, -50%);
     color: var(--accent-color) !important;
-    border-bottom-color: transparent !important; /* This hides the underline */
+    border-bottom: transparent !important; /* This hides the underline */
     text-decoration: none !important; /* Backup for standard underlines */
     font-weight: bold;
     white-space: nowrap;
