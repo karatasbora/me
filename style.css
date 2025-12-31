@@ -25,8 +25,11 @@
     --focus-ring: 2px solid var(--neural-violet);
 
     body::before {
-        opacity: 0.10;
-        mix-blend-mode: multiply;
+        opacity: 0.11;
+    }
+    
+    body::after {
+         opacity: 0.018;
     }
 }
 
@@ -64,7 +67,7 @@ body::before {
 
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
 
-    opacity: 0.08;
+    opacity: 0.1;
     mix-blend-mode: multiply;
 }
 
@@ -73,10 +76,27 @@ body::before {
     mix-blend-mode: screen;
 }
 
+[data-theme="dark"] body::after {
+    opacity: 0.02;
+    mix-blend-mode: color-dodge;
+}
+
 /* --- ACCESSIBILITY --- */
 button:focus-visible, a:focus-visible {
     outline: var(--focus-ring);
     outline-offset: 2px;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+
+    background-color: var(--heading-color);
+    opacity: 0.015;
+    mix-blend-mode: multiply;
 }
 
 /* --- ANIMATIONS --- */
