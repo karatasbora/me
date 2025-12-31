@@ -97,36 +97,25 @@ header {
     width: 140px;
     height: 140px;
     border-radius: var(--radius);
-    padding: 6px; /* This creates the space between border and picture */
+    padding: 8px; /* Precise gap between border and picture */
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
     
-    /* THE "H" GEOMETRY: 
-       1. Left vertical (Slate)
-       2. Right vertical (Violet)
-       3. Horizontal Bridge (Slate) */
+    /* Corrected "H" GEOMETRY */
     background: 
-        /* Horizontal Bridge */
-        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat center center / 100% 8px,
-        /* Vertical Pillars */
-        linear-gradient(to right, 
-            var(--oxford-slate) 0%, var(--oxford-slate) 35%, 
-            transparent 35%, transparent 65%, 
-            var(--neural-violet) 65%, var(--neural-violet) 100%
-        );
-    
+        /* Right Nodes (Neural Violet) */
+        linear-gradient(var(--neural-violet) 40%, transparent 40%, transparent 60%, var(--neural-violet) 60%) no-repeat right / 30% 100%,
+        /* Left Pillar (Oxford Slate) */
+        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left / 30% 100%,
+        /* Horizontal Bridge (Oxford Slate) */
+        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat center / 100% 8px;
+
     background-origin: border-box;
     box-shadow: var(--card-shadow);
     transition: transform 0.3s ease;
-}
-
-.profile-photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    border-radius: 4px; /* Slightly tighter radius for the inner image */
-    background-color: var(--card-bg); /* Fills the "gap" with paper-white */
 }
 
 .profile-container:hover {
