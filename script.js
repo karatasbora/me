@@ -159,53 +159,40 @@ function renderResume(lang) {
 // --- 5. INITIALIZATION & EVENTS ---
 document.addEventListener('DOMContentLoaded', () => {
     
-    // A. Detect Language: 1. Saved Preference -> 2. Browser Language -> 3. Default (EN)
-    const savedLang = localStorage.getItem('preferredLang');
-    const browserLang = (navigator.language || navigator.userLanguage).startsWith('tr') ? 'tr' : 'en';
-    
-    let currentLang = savedLang || browserLang;
+    // A. Auto-Detect Browser Language
+    const userLang = navigator.language || navigator.userLanguage;
+    let currentLang = userLang.startsWith('tr') ? 'tr' : 'en';
 
     // B. Initial Render
     renderResume(currentLang);
 
     // C. Event Listeners for Language Switching
-    document.getElementById('btn-tr').addEventListener('click', () => {
-        localStorage.setItem('preferredLang', 'tr');
-        renderResume('tr');
-    });
+    document.getElementById('btn-tr').addEventListener('click', () => renderResume('tr'));
+    document.getElementById('btn-en').addEventListener('click', () => renderResume('en'));
 
-    document.getElementById('btn-en').addEventListener('click', () => {
-        localStorage.setItem('preferredLang', 'en');
-        renderResume('en');
-    });
     // D. Print Functionality
     const btnPrint = document.getElementById('btn-print');
     if (btnPrint) {
         btnPrint.addEventListener('click', () => window.print());
     }
 
-// E. Dark Mode Logic
-const btnTheme = document.getElementById('btn-theme');
+    // E. Dark Mode Logic
+    const btnTheme = document.getElementById('btn-theme');
+    
+    // 1. Check system preference immediately
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.setAttribute('data-theme', 'dark');
+    }
 
-// 1. Initial State Check
-const savedTheme = localStorage.getItem('theme');
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-// Prioritize saved preference, then system preference
-if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-    document.body.setAttribute('data-theme', 'dark');
-}
-
-// 2. Toggle and Persist on click
-if (btnTheme) {
-    btnTheme.addEventListener('click', () => {
-        const body = document.body;
-        if (body.getAttribute('data-theme') === 'dark') {
-            body.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'light'); // Persist light mode
-        } else {
-            body.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');  // Persist dark mode
-        }
-    });
-}
+    // 2. Toggle on click
+    if (btnTheme) {
+        btnTheme.addEventListener('click', () => {
+            const body = document.body;
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+            }
+        });
+    }
+});
