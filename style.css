@@ -456,7 +456,7 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
     contact-link {
     display: inline !important;
         color: #000 !important;
-        border-bottom: 1px solid #000 !important; /* Restore line for professional PDF */
+        border-bottom: 2px solid var(--accent-color) !important; /* Restore line for professional PDF */
     }
     
     contact-link.copied {
@@ -474,7 +474,7 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
 a {
     color: var(--primary-text);
     text-decoration: none;
-    border-bottom: 1px solid var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
     transition: all 0.2s;
 }
 
