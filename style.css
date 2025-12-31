@@ -98,7 +98,7 @@ header {
     flex-shrink: 0;
 
     /* 🔑 reserve space for the frame INSIDE */
-    padding: 18px;
+    padding: 2px;
     box-sizing: border-box;
 }
 
