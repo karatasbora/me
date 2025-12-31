@@ -355,6 +355,7 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
         border-radius: 4px !important;
         background: none !important;
     }
+}
     
 a {
     color: var(--primary-text);
