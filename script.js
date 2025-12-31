@@ -215,37 +215,4 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW error:', err));
     }
 });
-
-// E. Dark Mode Logic
-const btnTheme = document.getElementById('btn-theme');
-
-// 1. Initial State Check
-const savedTheme = localStorage.getItem('theme');
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-// Prioritize saved preference, then system preference
-if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-    document.body.setAttribute('data-theme', 'dark');
-}
-
-// 2. Toggle and Persist on click
-if (btnTheme) {
-    btnTheme.addEventListener('click', () => {
-        const body = document.body;
-        if (body.getAttribute('data-theme') === 'dark') {
-            body.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'light'); // Persist light mode
-        } else {
-            body.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');  // Persist dark mode
-        }
-    });
-}
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('Service Worker registered'))
-      .catch(err => console.log('Service Worker failed', err));
-  });
 }
