@@ -281,26 +281,32 @@ h1 {
 
 .contact-info { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--primary-text); }
 
+.contact-link {
+    position: relative;
+    display: inline-flex; /* Required for centering and dimensions */
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
 /* When the 'copied' class is active, hide the real text for the screen only */
 .contact-link.copied {
     color: transparent !important; /* Hide original text on screen */
-    position: relative;
-    user-select: none;
 }
 
 /* Show the "Copied" text using a pseudo-element */
 .contact-link.copied::after {
     content: attr(data-copy-text);
     position: absolute;
-    inset: 0; /* Cover the entire link area */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-color); /* Matches your theme background */
-    color: var(--accent-color);
+    /* Center it perfectly */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--accent-color) !important;
     font-weight: bold;
-    font-size: 0.85rem;
-    pointer-events: none;
+    white-space: nowrap;
+    background-color: var(--bg-color); /* Cover the transparent text below */
+    padding: 0 5px;
 }
 
 .contact-link:hover { 
@@ -445,11 +451,20 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
         background: none !important;
     }
 
-.contact-link.copied {
-        color: #000 !important; /* Force real email to be visible */
+    contact-link {
+        display: inline !important; /* Reset to standard text for PDF */
+        color: #000 !important;
+        text-decoration: none !important;
     }
-    .contact-link.copied::after {
-        display: none !important; /* Completely remove overlay from PDF */
+    
+    contact-link.copied {
+        color: #000 !important; /* Force black text even if 'copied' class is on */
+    }
+
+    contact-link::after, 
+    contact-link.copied::after {
+        display: none !important; /* Completely kill the 'Copied' text on PDF */
+        content: none !important;
     }
     
 } /* Final closing brace for media query */
