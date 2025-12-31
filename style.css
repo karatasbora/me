@@ -93,12 +93,12 @@ header {
 
 .profile-container {
     position: relative;
-    height: 5lh;
+    height: 5.2lh;
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
 
     /* 🔑 reserve space for the frame INSIDE */
-    padding: 2px;
+    padding: 4px;
     box-sizing: border-box;
 }
 
