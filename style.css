@@ -89,36 +89,38 @@ header {
 }
 
 .profile-container {
+    /* 1. Equal dimensions for a perfect square look */
     width: 160px;
-    height: 180px;
-    border-radius: 12px;
+    height: 160px; 
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     
-    /* THE FAVICON GEOMETRY */
-    /* Truly transparent gaps: no background-color set on the container */
+    /* 2. THINNER BORDERS: Reduced from 45% to 25% width */
+    /* GAPS: 48% height creates a very subtle 4% transparent horizontal slit */
     background: 
-        /* Top Right Violet */
-        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right top / 45% 46%,
-        /* Bottom Right Violet */
-        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right bottom / 45% 46%,
+        /* Right Top Violet */
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right top / 25% 48%,
+        /* Right Bottom Violet */
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right bottom / 25% 48%,
         /* Left Pillar Slate */
-        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left center / 45% 100%;
+        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left center / 25% 100%;
 }
 
 .profile-photo {
-    /* Sizing the photo to create a transparent gap between it and the border */
-    width: 80%; 
+    /* 3. SQUARE PHOTO: Sized to ensure a clean transparent moat on all sides */
+    width: 85%; 
     height: 85%;
     object-fit: cover;
     display: block;
-    border-radius: 6px; /* Rounded corners for the photo itself */
+    
+    /* Subtle rounding so it doesn't look "sharp" against the dynamic background */
+    border-radius: 2px; 
     z-index: 2;
     
-    /* Removed background-color, border, and padding to eliminate the white frame */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    /* Minimal shadow to lift it off the dynamic background without a frame */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 .profile-container:hover {
     transform: scale(1.03);
