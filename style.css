@@ -89,38 +89,35 @@ header {
 }
 
 .profile-container {
-    /* 1. Equal dimensions for a perfect square look */
-    width: 160px;
-    height: 160px; 
+    width: 120px; /* Adjusted to match the scale in your screenshot */
+    height: 120px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    
-    /* 2. THINNER BORDERS: Reduced from 45% to 25% width */
-    /* GAPS: 48% height creates a very subtle 4% transparent horizontal slit */
+
+    /* THE FAVICON BORDER: Thin and precise */
+    /* We use 40% width for the blocks to keep them slim */
     background: 
         /* Right Top Violet */
-        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right top / 25% 48%,
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right top / 40% 46%,
         /* Right Bottom Violet */
-        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right bottom / 25% 48%,
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right bottom / 40% 46%,
         /* Left Pillar Slate */
-        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left center / 25% 100%;
+        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left center / 40% 100%;
 }
 
 .profile-photo {
-    /* 3. SQUARE PHOTO: Sized to ensure a clean transparent moat on all sides */
-    width: 85%; 
-    height: 85%;
+    /* Square photo that stays inside the border area */
+    width: 80%; 
+    height: 80%;
     object-fit: cover;
     display: block;
-    
-    /* Subtle rounding so it doesn't look "sharp" against the dynamic background */
-    border-radius: 2px; 
+    border-radius: 2px;
     z-index: 2;
     
-    /* Minimal shadow to lift it off the dynamic background without a frame */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    /* NO WHITE FRAME - just the photo and a subtle lift */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 .profile-container:hover {
     transform: scale(1.03);
