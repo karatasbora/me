@@ -108,6 +108,9 @@ header {
 
 .profile-photo {
     /* 3. THE TRANSPARENT MOAT */
+    /* Sizing the photo to 80% creates the physical gap on all sides */
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     
     /* 4. REFINEMENT */
