@@ -80,6 +80,7 @@ header {
     padding-bottom: 25px;
     border-bottom: 2px solid var(--border-color);
     position: relative; 
+    min-width: 0;
 }
 
 :root {
@@ -91,10 +92,10 @@ header {
 /* ================= PROFILE + FAVICON FRAME ================= */
 
   .profile-container {
-    position: relative;
-    height: 3lh;  
-    aspect-ratio: 1 / 1;
-    flex-shrink: 0;
+  min-width: 0;          /* 🔑 allows flexbox to shrink it */
+  height: 4lh;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 1;        /* allow shrinking */
   }
 
   /* ================= FRAME ================= */
