@@ -331,17 +331,33 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
 
 /* --- SKILL TAGS --- */
 .tags-wrapper { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+/* --- Updated Skill Tag Style --- */
 .skill-tag {
     font-family: 'Inter', sans-serif;
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     color: var(--tag-text);
-    background-color: transparent; /* Transparent default */
+    background-color: transparent;
     border: 1px solid var(--border-color);
     padding: 5px 12px;
-    border-radius: 20px; /* Pill shape */
+    border-radius: 20px;
     transition: all 0.2s;
+    
+    /* Animation Properties */
+    opacity: 0; 
+    animation: tagFadeIn 0.5s ease-out forwards;
+}
+
+@keyframes tagFadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
 }
 
 .skill-tag:hover {
