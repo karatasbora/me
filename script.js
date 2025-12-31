@@ -190,28 +190,23 @@ document.addEventListener('DOMContentLoaded', () => {
         btnPrint.addEventListener('click', () => window.print());
     }
 
-// E. Dark Mode Logic
-const btnTheme = document.getElementById('btn-theme');
+    // E. Dark Mode Logic
+    const btnTheme = document.getElementById('btn-theme');
+    
+    // 1. Check system preference immediately
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.setAttribute('data-theme', 'dark');
+    }
 
-// 1. Initial State Check
-const savedTheme = localStorage.getItem('theme');
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-// Prioritize saved preference, then system preference
-if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-    document.body.setAttribute('data-theme', 'dark');
-}
-
-// 2. Toggle and Persist on click
-if (btnTheme) {
-    btnTheme.addEventListener('click', () => {
-        const body = document.body;
-        if (body.getAttribute('data-theme') === 'dark') {
-            body.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'light'); // Persist light mode
-        } else {
-            body.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');  // Persist dark mode
-        }
-    });
-}
+    // 2. Toggle on click
+    if (btnTheme) {
+        btnTheme.addEventListener('click', () => {
+            const body = document.body;
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+            }
+        });
+    }
+});
