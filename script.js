@@ -158,54 +158,60 @@ function renderResume(lang) {
 
 // --- 5. INITIALIZATION & EVENTS ---
 (function() {
-    // Wait for the window to be fully ready
     window.addEventListener('load', function() {
-        
-        // 1. Check Data
         if (typeof resumeData === 'undefined') {
-            console.error("resumeData not found. Ensure data.js is linked correctly.");
+            console.error("Data.js missing.");
             return;
         }
 
-        // 2. Setup Language
-        var savedLang = localStorage.getItem('preferredLang');
-        var currentLang = savedLang || (navigator.language.startsWith('tr') ? 'tr' : 'en');
+        // Safe Language Detection
+        var currentLang = 'en'; 
+        try {
+            var savedLang = localStorage.getItem('preferredLang');
+            currentLang = savedLang || (navigator.language.startsWith('tr') ? 'tr' : 'en');
+        } catch (e) { console.warn("Storage blocked"); }
+
         renderResume(currentLang);
 
+        // Language Click Listeners
         document.getElementById('btn-tr').onclick = function() {
-            localStorage.setItem('preferredLang', 'tr');
+            try { localStorage.setItem('preferredLang', 'tr'); } catch(e){}
             renderResume('tr');
         };
         document.getElementById('btn-en').onclick = function() {
-            localStorage.setItem('preferredLang', 'en');
+            try { localStorage.setItem('preferredLang', 'en'); } catch(e){}
             renderResume('en');
         };
 
-        // 3. DARK MODE (Direct implementation)
+        // Dark Mode Logic
         var btnTheme = document.getElementById('btn-theme');
         var body = document.body;
 
-        // Apply saved preference immediately
-        if (localStorage.getItem('theme') === 'dark') {
-            body.setAttribute('data-theme', 'dark');
-        }
+        try {
+            if (localStorage.getItem('theme') === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+            }
+        } catch (e) {}
 
         if (btnTheme) {
             btnTheme.onclick = function() {
-                if (body.getAttribute('data-theme') === 'dark') {
+                var isDark = body.getAttribute('data-theme') === 'dark';
+                if (isDark) {
                     body.removeAttribute('data-theme');
-                    localStorage.setItem('theme', 'light');
+                    try { localStorage.setItem('theme', 'light'); } catch(e){}
                 } else {
                     body.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
+                    try { localStorage.setItem('theme', 'dark'); } catch(e){}
                 }
             };
         }
 
-        // 4. Service Worker (Silent fail if blocked)
+        // Service Worker (Safe for Incognito)
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js').catch(function(){});
+            navigator.serviceWorker.register('./sw.js').catch(function(err) {
+                console.log("SW blocked/failed (Likely Incognito)");
+            });
         }
     });
-})();
+})(); // <-- CRITICAL: The invocation parentheses
 }
