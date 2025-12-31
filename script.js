@@ -209,4 +209,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // NEW: Email Copy-to-Clipboard Feature
+    const mailLink = document.getElementById('link-email');
+    if (mailLink) {
+        mailLink.addEventListener('click', (e) => {
+            e.preventDefault(); // Stop the default mail app from opening
+            const emailText = resumeData.meta.email;
+            
+            navigator.clipboard.writeText(emailText).then(() => {
+                const originalText = mailLink.textContent;
+                mailLink.textContent = "Copied! / Kopyalandı!";
+                
+                setTimeout(() => {
+                    mailLink.textContent = originalText;
+                }, 2000);
+            });
+        });
+    }
 });
