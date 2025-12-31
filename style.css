@@ -87,23 +87,27 @@ header {
     width: 140px;
     height: 140px;
     border-radius: var(--radius);
-    padding: 8px; 
+    padding: 10px; 
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     
-    /* SYNCED H-GEOMETRY: 30% Pillars, 8px Bridge */
+    /* REFINED GEOMETRY: Spans match Favicon proportions exactly */
     background: 
-        /* Right Nodes (Neural Violet) */
-        linear-gradient(var(--neural-violet) 40%, transparent 40%, transparent 60%, var(--neural-violet) 60%) no-repeat right / 30% 100%,
-        /* Left Pillar (Oxford Slate) */
+        /* 1. Right Top Node (Neural Violet) */
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right top / 30% 42%,
+        /* 2. Right Bottom Node (Neural Violet) */
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right bottom / 30% 42%,
+        /* 3. Left Pillar (Oxford Slate) */
         linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left / 30% 100%,
-        /* Horizontal Bridge (Oxford Slate) */
-        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat center / 100% 8px;
+        /* 4. Horizontal Bridge (Oxford Slate) */
+        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat center / 100% 10px;
 
     background-origin: border-box;
+    /* Adding subtle rounding to the background layers using mask-image or clipping isn't 
+       fully stable across browsers, so we rely on the container's radius for the outer edges */
     box-shadow: var(--card-shadow);
     transition: transform 0.3s ease;
 }
@@ -113,9 +117,9 @@ header {
     height: 100%;
     object-fit: cover;
     display: block;
-    border-radius: 4px;
+    border-radius: 4px; /* Slightly sharper inner corners for "Modern Sage" look */
     background-color: var(--card-bg);
-    border: 4px solid var(--card-bg); /* Creates the transparent-look gap */
+    border: 5px solid var(--card-bg); /* The "halo" gap */
 }
 
 .profile-container:hover {
