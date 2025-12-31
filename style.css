@@ -297,11 +297,9 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
     .lang-grid { flex-direction: column; gap: 10px; }
 }
 
-/* --- PRINT SETTINGS (FIXED) --- */
+/* --- PRINT SETTINGS (FIXED BRACES) --- */
 @media print {
-    /* 1. Force OVERRIDE all variables to Light Mode values using !important */
     :root, [data-theme="dark"], body {
-        --primary-text: #000000 !important;
         --primary-text: #000000 !important;
         --heading-color: #000000 !important;
         --bg-color: #ffffff !important;
@@ -310,26 +308,22 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
         --tag-bg: #f0f0f0 !important;
         --tag-text: #000000 !important;
         --border-color: #eeeeee !important;
-        --accent-color: #6C5CE7 !important; /* Original Accent */
+        --accent-color: #6C5CE7 !important;
         --shadow: none !important;
     }
 
-    /* 2. Reset Layout Containers */
     body { 
         background-color: #ffffff !important; 
         color: #000000 !important; 
         box-shadow: none !important; 
         width: 100%; 
-        max-width: 100%; 
         margin: 0; 
         padding: 0;
-        zoom: 75%; /* Scales down to fit A4 better */
+        zoom: 75%; 
     }
 
-    /* 3. Hide UI Buttons */
     .controls { display: none !important; }
     
-    /* 4. Ensure readability of elements */
     .skill-tag, .lang-item {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
@@ -338,18 +332,17 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
         border: 1px solid #ccc !important;
     }
 
-    .profile-photo {
-        display: block !important;
-        border: 2px solid #000000 !important;
-        border-radius: 4px !important;
+    .profile-container {
+        border: 2px solid #000 !important;
         background: none !important;
     }
-}
-    
+} /* Final closing brace for media query */
+
+/* Global Link Style - Outside of Print Query */
 a {
     color: var(--primary-text);
     text-decoration: none;
-    border-bottom: 1px solid var(--accent-color); /* Solid Line */
+    border-bottom: 1px solid var(--accent-color);
     transition: all 0.2s;
 }
 
