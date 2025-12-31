@@ -283,18 +283,24 @@ h1 {
 
 /* When the 'copied' class is active, hide the real text for the screen only */
 .contact-link.copied {
-    color: var(--accent-color);
+    color: transparent !important; /* Hide original text on screen */
     position: relative;
+    user-select: none;
 }
 
 /* Show the "Copied" text using a pseudo-element */
 .contact-link.copied::after {
-    content: attr(data-copy-text); /* Pulls text from JS */
+    content: attr(data-copy-text);
     position: absolute;
-    left: 0;
-    top: 0;
-    background: var(--bg-color); /* Overlays the original text */
-    width: 100%;
+    inset: 0; /* Cover the entire link area */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-color); /* Matches your theme background */
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 0.85rem;
+    pointer-events: none;
 }
 
 .contact-link:hover { 
@@ -439,12 +445,11 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
         background: none !important;
     }
 
-.contact-link.copied::after {
-        display: none !important; /* Hide "Copied" text on PDF */
+.contact-link.copied {
+        color: #000 !important; /* Force real email to be visible */
     }
-    .contact-link {
-        color: #000 !important;
-        opacity: 1 !important;
+    .contact-link.copied::after {
+        display: none !important; /* Completely remove overlay from PDF */
     }
     
 } /* Final closing brace for media query */
