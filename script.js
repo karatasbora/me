@@ -159,59 +159,56 @@ function renderResume(lang) {
 // --- 5. INITIALIZATION & EVENTS ---
 document.addEventListener('DOMContentLoaded', () => {
     
-    // Safety check: Ensure data.js loaded correctly
+    // 1. Data Integrity Check
     if (typeof resumeData === 'undefined') {
-        console.error("Data.js failed to load or is not accessible yet.");
+        console.error("resumeData is missing. Check if data.js is loaded before script.js.");
         return;
     }
 
-    // A. Detect Language (with Persistence)
-    const savedLang = localStorage.getItem('preferredLang');
-    const userLang = navigator.language || navigator.userLanguage;
-    let currentLang = savedLang || (userLang.startsWith('tr') ? 'tr' : 'en');
-
-    // B. Initial Render
+    // 2. Language Initialization
+    var savedLang = localStorage.getItem('preferredLang');
+    var browserLang = (navigator.language || navigator.userLanguage).startsWith('tr') ? 'tr' : 'en');
+    var currentLang = savedLang || browserLang;
     renderResume(currentLang);
 
-    // C. Event Listeners for Language Switching
-    document.getElementById('btn-tr').addEventListener('click', () => {
+    // 3. Language Listeners
+    document.getElementById('btn-tr').onclick = () => {
         localStorage.setItem('preferredLang', 'tr');
         renderResume('tr');
-    });
-    document.getElementById('btn-en').addEventListener('click', () => {
+    };
+    document.getElementById('btn-en').onclick = () => {
         localStorage.setItem('preferredLang', 'en');
         renderResume('en');
-    });
+    };
 
-    // D. Print Functionality
-    const btnPrint = document.getElementById('btn-print');
-    if (btnPrint) btnPrint.addEventListener('click', () => window.print());
+    // 4. DARK MODE FIX
+    var btnTheme = document.getElementById('btn-theme');
+    var body = document.body;
 
-    // E. Dark Mode (with Persistence)
-const btnTheme = document.getElementById('btn-theme');
-const savedTheme = localStorage.getItem('theme');
-const body = document.body;
+    // Apply saved theme immediately
+    var savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        body.setAttribute('data-theme', 'dark');
+    }
 
-// 1. Initial State Check (Runs once on load)
-if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    body.setAttribute('data-theme', 'dark');
-}
+    // Toggle Logic
+    if (btnTheme) {
+        btnTheme.onclick = function() {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        };
+    }
 
-// 2. Toggle Event Listener
-if (btnTheme) {
-    btnTheme.addEventListener('click', () => {
-        // Always check the current live attribute value
-        const currentTheme = body.getAttribute('data-theme');
-        
-        if (currentTheme === 'dark') {
-            body.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'light');
-        } else {
-            body.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-        }
-    });
-}
+    // 5. Service Worker (PWA)
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW error:', err));
+    }
+});
 
     // F. Register Service Worker (PWA)
     if ('serviceWorker' in navigator) {
