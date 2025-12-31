@@ -91,19 +91,23 @@ header {
 
 /* ================= PROFILE + FAVICON FRAME ================= */
 
-  .profile-container {
-  min-width: 0;          /* 🔑 allows flexbox to shrink it */
-  height: 4lh;
-  aspect-ratio: 1 / 1;
-  flex-shrink: 1;        /* allow shrinking */
-  }
+.profile-container {
+    position: relative;
+    height: 3lh;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+
+    /* 🔑 reserve space for the frame INSIDE */
+    padding: 18px;
+    box-sizing: border-box;
+}
 
   /* ================= FRAME ================= */
-  .favicon-frame {
+.favicon-frame {
     position: absolute;
-    inset: -18px;          /* frame goes around */
+    inset: 0;        /* ✅ never exceeds container */
     z-index: 0;
-  }
+}
 
   /* LEFT — SOLID, FULL HEIGHT */
   .frame-left {
