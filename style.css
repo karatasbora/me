@@ -93,33 +93,42 @@ header {
     background: transparent;
 }
 
-/* The "H" Logo Spans - Stable Rendering */
-.profile-container::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: var(--radius); /* */
-    pointer-events: none;
+.profile-container {
+    width: 140px;
+    height: 140px;
+    border-radius: var(--radius);
+    padding: 6px; /* This creates the space between border and picture */
+    flex-shrink: 0;
+    position: relative;
     
-    /* LEFT PILLAR */
+    /* THE "H" GEOMETRY: 
+       1. Left vertical (Slate)
+       2. Right vertical (Violet)
+       3. Horizontal Bridge (Slate) */
     background: 
-        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left / 30% 100%,
-        /* RIGHT NODES (Split) */
-        linear-gradient(var(--neural-violet) 38%, transparent 38%, transparent 62%, var(--neural-violet) 62%) no-repeat right / 30% 100%,
-        /* HORIZONTAL BRIDGE */
-        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat center / 100% 8px;
+        /* Horizontal Bridge */
+        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat center center / 100% 8px,
+        /* Vertical Pillars */
+        linear-gradient(to right, 
+            var(--oxford-slate) 0%, var(--oxford-slate) 35%, 
+            transparent 35%, transparent 65%, 
+            var(--neural-violet) 65%, var(--neural-violet) 100%
+        );
+    
+    background-origin: border-box;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
 }
 
 .profile-photo {
-    width: 115px; /* Creates the space from the border */
-    height: 115px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     display: block;
-    border-radius: 4px; /* */
-    z-index: 1;
-    /* Keeps the photo crisp against the background texture */
-    border: 3px solid var(--card-bg); 
+    border-radius: 4px; /* Slightly tighter radius for the inner image */
+    background-color: var(--card-bg); /* Fills the "gap" with paper-white */
 }
+
 .profile-container:hover {
     transform: scale(1.03);
 }
