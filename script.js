@@ -188,26 +188,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnPrint) btnPrint.addEventListener('click', () => window.print());
 
     // E. Dark Mode (with Persistence)
-    const btnTheme = document.getElementById('btn-theme');
-    const savedTheme = localStorage.getItem('theme');
-    
-    // Initial check (Saved preference or System preference)
-    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.body.setAttribute('data-theme', 'dark');
-    }
+const btnTheme = document.getElementById('btn-theme');
+const savedTheme = localStorage.getItem('theme');
+const body = document.body;
 
-    if (btnTheme) {
-        btnTheme.addEventListener('click', () => {
-            const isDark = document.body.getAttribute('data-theme') === 'dark';
-            if (isDark) {
-                document.body.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-    }
+// 1. Initial State Check (Runs once on load)
+if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    body.setAttribute('data-theme', 'dark');
+}
+
+// 2. Toggle Event Listener
+if (btnTheme) {
+    btnTheme.addEventListener('click', () => {
+        // Always check the current live attribute value
+        const currentTheme = body.getAttribute('data-theme');
+        
+        if (currentTheme === 'dark') {
+            body.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+        } else {
+            body.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+}
 
     // F. Register Service Worker (PWA)
     if ('serviceWorker' in navigator) {
