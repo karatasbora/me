@@ -89,36 +89,38 @@ header {
 }
 
 .profile-container {
-    width: 120px; /* Adjusted to match the scale in your screenshot */
-    height: 120px;
-    position: relative;
+    /* 1. Dimensions & Square Lock */
+    width: 120px; 
+    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    /* THE FAVICON BORDER: Thin and precise */
-    /* We use 40% width for the blocks to keep them slim */
+    position: relative;
+    
+    /* 2. THE FAVICON BORDER (Geometric & Thin) */
+    /* 35% width makes the bars thin and elegant */
+    /* 47% height creates the precise transparent horizontal slit on the right */
     background: 
-        /* Right Top Violet */
-        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right top / 40% 46%,
-        /* Right Bottom Violet */
-        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right bottom / 40% 46%,
-        /* Left Pillar Slate */
-        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left center / 40% 100%;
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right top / 35% 47%,
+        linear-gradient(var(--neural-violet), var(--neural-violet)) no-repeat right bottom / 35% 47%,
+        linear-gradient(var(--oxford-slate), var(--oxford-slate)) no-repeat left center / 35% 100%;
 }
 
 .profile-photo {
-    /* Square photo that stays inside the border area */
-    width: 80%; 
+    /* 3. THE TRANSPARENT MOAT */
+    /* Sizing the photo to 80% creates the physical gap on all sides */
+    width: 80%;
     height: 80%;
     object-fit: cover;
-    display: block;
-    border-radius: 2px;
+    
+    /* 4. REFINEMENT */
+    border-radius: 4px; /* Matches the subtle rounding in your screenshot */
     z-index: 2;
     
-    /* NO WHITE FRAME - just the photo and a subtle lift */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    /* Shadow adjusted for dynamic backgrounds: deeper but softer */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
+
 .profile-container:hover {
     transform: scale(1.03);
 }
