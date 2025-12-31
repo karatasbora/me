@@ -157,62 +157,55 @@ function renderResume(lang) {
 }
 
 // --- 5. INITIALIZATION & EVENTS ---
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Data Integrity Check
-    if (typeof resumeData === 'undefined') {
-        console.error("resumeData is missing. Check if data.js is loaded before script.js.");
-        return;
-    }
+(function() {
+    // Wait for the window to be fully ready
+    window.addEventListener('load', function() {
+        
+        // 1. Check Data
+        if (typeof resumeData === 'undefined') {
+            console.error("resumeData not found. Ensure data.js is linked correctly.");
+            return;
+        }
 
-    // 2. Language Initialization
-    var savedLang = localStorage.getItem('preferredLang');
-    var browserLang = (navigator.language || navigator.userLanguage).startsWith('tr') ? 'tr' : 'en');
-    var currentLang = savedLang || browserLang;
-    renderResume(currentLang);
+        // 2. Setup Language
+        var savedLang = localStorage.getItem('preferredLang');
+        var currentLang = savedLang || (navigator.language.startsWith('tr') ? 'tr' : 'en');
+        renderResume(currentLang);
 
-    // 3. Language Listeners
-    document.getElementById('btn-tr').onclick = () => {
-        localStorage.setItem('preferredLang', 'tr');
-        renderResume('tr');
-    };
-    document.getElementById('btn-en').onclick = () => {
-        localStorage.setItem('preferredLang', 'en');
-        renderResume('en');
-    };
-
-    // 4. DARK MODE FIX
-    var btnTheme = document.getElementById('btn-theme');
-    var body = document.body;
-
-    // Apply saved theme immediately
-    var savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        body.setAttribute('data-theme', 'dark');
-    }
-
-    // Toggle Logic
-    if (btnTheme) {
-        btnTheme.onclick = function() {
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            }
+        document.getElementById('btn-tr').onclick = function() {
+            localStorage.setItem('preferredLang', 'tr');
+            renderResume('tr');
         };
-    }
+        document.getElementById('btn-en').onclick = function() {
+            localStorage.setItem('preferredLang', 'en');
+            renderResume('en');
+        };
 
-    // 5. Service Worker (PWA)
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW error:', err));
-    }
-});
+        // 3. DARK MODE (Direct implementation)
+        var btnTheme = document.getElementById('btn-theme');
+        var body = document.body;
 
-    // F. Register Service Worker (PWA)
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW error:', err));
-    }
+        // Apply saved preference immediately
+        if (localStorage.getItem('theme') === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+        }
+
+        if (btnTheme) {
+            btnTheme.onclick = function() {
+                if (body.getAttribute('data-theme') === 'dark') {
+                    body.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            };
+        }
+
+        // 4. Service Worker (Silent fail if blocked)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').catch(function(){});
+        }
+    });
 });
 }
