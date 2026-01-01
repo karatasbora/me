@@ -504,7 +504,6 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
         break-after: avoid;
         page-break-after: avoid;
     }
-}
 } /* Final closing brace for media query */
 
 /* Global Link Style - Outside of Print Query */
