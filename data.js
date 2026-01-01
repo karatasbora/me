@@ -26,6 +26,17 @@ const resumeData = {
     },
   },
 
+  interface: {
+    about: { tr: "Hakkında", en: "About" },
+    experience: { tr: "Deneyim", en: "Experience" },
+    education: { tr: "Eğitim", en: "Education" },
+    skills: { tr: "Teknik Yetkinlikler", en: "Technical Skills" },
+    skillsSub: { tr: "Uzmanlık Alanları", en: "Specializations" }, // Added for clarity
+    languages: { tr: "Diller", en: "Languages" },
+    print: { tr: "PDF Olarak Kaydet", en: "Save as PDF" },
+    copy: { tr: "Kopyalandı!", en: "Copied!" } // Moved from script.js
+  },
+  
   profile: {
     name: "Bora Karataş",
     title: {
