@@ -448,9 +448,23 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
         border: 1px solid #ccc !important;
     }
 
+/* 1. Ensure background colors are forced to print */
+    .frame-left, 
+    .frame-top-right, 
+    .frame-bottom-right {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* 2. Remove 'background: none !important' which was hiding the frame */
     .profile-container {
-        border: 2px solid #000 !important;
-        background: none !important;
+        border: none !important; /* Removes the standard box border */
+        /* background: none !important;  <-- REMOVE OR COMMENT THIS LINE */
+    }
+
+    /* 3. Ensure the photo still renders correctly */
+    .profile-photo {
+        border: 1px solid #000; /* Optional: adds a thin line for clarity */
     }
 
     .contact-link {
