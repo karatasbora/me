@@ -291,24 +291,22 @@ h1 {
 
 /* When the 'copied' class is active, hide the real text for the screen only */
 .contact-link.copied {
-    color: transparent !important; /* Hide original text on screen */
+    color: transparent !important;
+    border-bottom-color: transparent !important; /* This is the fix */
 }
 
-/* Show the "Copied" text using a pseudo-element */
 .contact-link.copied::after {
     content: attr(data-copy-text);
     position: absolute;
-    /* Center it perfectly */
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     color: var(--accent-color) !important;
-    border-bottom: transparent !important; /* This hides the underline */
-    text-decoration: none !important; /* Backup for standard underlines */
     font-weight: bold;
     white-space: nowrap;
-    background-color: var(--bg-color); /* Cover the transparent text below */
+    background-color: var(--bg-color);
     padding: 0 5px;
+    /* No border-bottom logic needed here */
 }
 
 .contact-link:hover { 
