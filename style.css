@@ -53,9 +53,12 @@ body {
     color: var(--primary-text);
     line-height: 1.65;
     max-width: 900px;
-    margin: 40px auto;
-    padding: 60px;
-    box-shadow: none; /* Removed the old box container shadow */
+    margin: 0 auto; /* Centered */
+    padding: clamp(20px, 5vw, 60px); /* Responsive padding */
+}
+
+.job-block, .skill-tag {
+    will-change: transform, opacity; /* Optimizes browser rendering */
 }
 
 body::before {
