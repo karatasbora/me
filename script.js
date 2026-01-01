@@ -6,15 +6,6 @@
  */
 
 // --- 1. CONFIGURATION & CACHE ---
-const UI_LABELS = {
-    about: { tr: "Hakkında", en: "About" },
-    experience: { tr: "Deneyim", en: "Experience" },
-    education: { tr: "Eğitim", en: "Education" },
-    skills: { tr: "Teknik Yetkinlikler & Uzmanlıklar", en: "Technical Skills & Specializations" },
-    languages: { tr: "Diller", en: "Languages" },
-    print: { tr: "PDF", en: "PDF" }
-};
-
 // Cache DOM elements once to avoid repetitive lookups
 const dom = {
     html: document.documentElement,
