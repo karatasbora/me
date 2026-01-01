@@ -9,6 +9,28 @@ const UI_LABELS = {
     print: { tr: "PDF", en: "PDF" }
 };
 
+const dom = {
+    html: document.documentElement,
+    name: document.getElementById('p-name'),
+    title: document.getElementById('p-title'),
+    location: document.getElementById('p-location'),
+    email: document.getElementById('link-email'),
+    linkedin: document.getElementById('link-linkedin'),
+    aboutHead: document.getElementById('head-about'),
+    aboutPara: document.getElementById('p-about'),
+    expHead: document.getElementById('head-experience'),
+    expList: document.getElementById('experience-list'),
+    eduHead: document.getElementById('head-education'),
+    eduList: document.getElementById('education-list'),
+    skillsHead: document.getElementById('head-skills'),
+    skillsList: document.getElementById('skills-list'),
+    langsHead: document.getElementById('head-languages'),
+    langsList: document.getElementById('languages-list'),
+    btnPrint: document.querySelector('#btn-print span'),
+    btnTr: document.getElementById('btn-tr'),
+    btnEn: document.getElementById('btn-en')
+};
+
 // --- 2. SEO & METADATA MANAGEMENT ---
 function updateSEO(lang) {
     const seoData = {
@@ -98,66 +120,57 @@ function createBlockHTML(item, langKey) {
 
 // --- 4. MAIN RENDER FUNCTION ---
 function renderResume(lang) {
-    // 1. Update SEO & HTML Lang Attribute
+    // A. Update Global State & SEO
     updateSEO(lang);
-    document.documentElement.lang = lang;
+    dom.html.lang = lang;
 
-    // 2. Update Header Profile Info
-    document.getElementById('p-name').textContent = resumeData.profile.name;
-    document.getElementById('p-title').textContent = resumeData.profile.title[lang];
-    document.getElementById('p-location').textContent = resumeData.meta.location[lang];
+    // B. Header & Profile Info
+    dom.name.textContent = resumeData.profile.name;
+    dom.title.textContent = resumeData.profile.title[lang];
+    dom.location.textContent = resumeData.meta.location[lang];
     
-    // Update Contact Links
-    const mailLink = document.getElementById('link-email');
-    mailLink.textContent = resumeData.meta.email;
-    mailLink.href = `mailto:${resumeData.meta.email}`;
+    // Contact Links
+    dom.email.textContent = resumeData.meta.email;
+    dom.email.href = `mailto:${resumeData.meta.email}`;
+    dom.linkedin.textContent = resumeData.meta.linkedinLabel || "LinkedIn";
+    dom.linkedin.href = resumeData.meta.linkedin;
 
-    const linkedinLink = document.getElementById('link-linkedin');
-    linkedinLink.textContent = resumeData.meta.linkedinLabel || "LinkedIn";
-    linkedinLink.href = resumeData.meta.linkedin;
+    // C. UI Labels (Section Headers)
+    dom.aboutHead.textContent = UI_LABELS.about[lang];
+    dom.expHead.textContent = UI_LABELS.experience[lang];
+    dom.eduHead.textContent = UI_LABELS.education[lang];
+    dom.skillsHead.textContent = UI_LABELS.skills[lang];
+    dom.langsHead.textContent = UI_LABELS.languages[lang];
+    if (dom.btnPrint) dom.btnPrint.textContent = UI_LABELS.print[lang];
 
-    // 3. Update Section Headers (using UI_LABELS)
-    document.getElementById('head-about').textContent = UI_LABELS.about[lang];
-    document.getElementById('head-experience').textContent = UI_LABELS.experience[lang];
-    document.getElementById('head-education').textContent = UI_LABELS.education[lang];
-    document.getElementById('head-skills').textContent = UI_LABELS.skills[lang];
-    document.getElementById('head-languages').textContent = UI_LABELS.languages[lang];
+    // D. Dynamic List Rendering
+    // Update About content
+    dom.aboutPara.textContent = resumeData.profile.about[lang];
+
+    // Batch update lists to minimize browser reflows
+    dom.expList.innerHTML = resumeData.experience
+        .map(job => createBlockHTML(job, lang))
+        .join('');
+
+    dom.eduList.innerHTML = resumeData.education
+        .map(school => createBlockHTML(school, lang))
+        .join('');
+
+    dom.skillsList.innerHTML = createTagsHTML(resumeData.skills[lang]);
+
+    dom.langsList.innerHTML = createLanguageHTML(resumeData.languages, lang);
+
+    // E. UI State & Post-Processing
+    dom.btnTr.setAttribute('aria-pressed', lang === 'tr');
+    dom.btnEn.setAttribute('aria-pressed', lang === 'en');
     
-    // Update Print Button Text
-    const printBtnSpan = document.querySelector('#btn-print span');
-    if (printBtnSpan) printBtnSpan.textContent = UI_LABELS.print[lang];
-
-    // 4. Render Dynamic Content
-    // A. About Text
-    document.getElementById('p-about').textContent = resumeData.profile.about[lang];
-
-    // B. Experience List
-    document.getElementById('experience-list').innerHTML = 
-        resumeData.experience.map(job => createBlockHTML(job, lang)).join('');
-
-    // C. Education List
-    document.getElementById('education-list').innerHTML = 
-        resumeData.education.map(school => createBlockHTML(school, lang)).join('');
-
-    // D. Skills List
-    document.getElementById('skills-list').innerHTML = 
-        createTagsHTML(resumeData.skills[lang]);
-
-    // E. Languages List
-    document.getElementById('languages-list').innerHTML = 
-        createLanguageHTML(resumeData.languages, lang);
-
-    // 5. Update UI Button States
-    document.getElementById('btn-tr').setAttribute('aria-pressed', lang === 'tr');
-    document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
-    
-    // NEW: Apply dynamic staggered animation delays to skills
-    const skillTags = document.querySelectorAll('#skills-list .skill-tag');
+    // Apply staggered animation delays to skill tags
+    const skillTags = dom.skillsList.querySelectorAll('.skill-tag');
     skillTags.forEach((tag, index) => {
-        tag.style.animationDelay = `${(index + 1) * 0.1}s`;
+        tag.style.animationDelay = `${(index + 1) * 0.08}s`; // Slightly faster stagger
     });
     
-    // Toggle body class for generic CSS styling
+    // Update body classes for language-specific styling
     document.body.classList.remove('lang-tr', 'lang-en');
     document.body.classList.add(`lang-${lang}`);
 }
