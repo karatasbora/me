@@ -490,7 +490,21 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
         display: none !important;
         content: "" !important;
     }
-    
+    /* Force blocks to stay together on one page */
+    .job-block, 
+    .lang-item,
+    section {
+        break-inside: avoid;
+        page-break-inside: avoid; /* Backward compatibility */
+        display: block; /* Ensures the break property is respected */
+    }
+
+    /* Prevent headings from being left alone at the bottom of a page */
+    h2, h3 {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+}
 } /* Final closing brace for media query */
 
 /* Global Link Style - Outside of Print Query */
