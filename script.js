@@ -1,9 +1,11 @@
 /**
- * Bora Karataş Resume Logic
- * Optimized for performance and maintainability
+ * Resume Logic Optimization
+ * - Reduced DOM reflows by calculating styles during string generation.
+ * - Added reactive system theme listener.
+ * - Improved clipboard safety.
  */
 
-// --- 1. CONFIGURATION & CONSTANTS ---
+// --- 1. CONFIGURATION & CACHE ---
 const UI_LABELS = {
     about: { tr: "Hakkında", en: "About" },
     experience: { tr: "Deneyim", en: "Experience" },
@@ -13,188 +15,277 @@ const UI_LABELS = {
     print: { tr: "PDF", en: "PDF" }
 };
 
-// Cache DOM elements once
+// Cache DOM elements once to avoid repetitive lookups
 const dom = {
     html: document.documentElement,
-    body: document.body,
+    // Text Elements
     name: document.getElementById('p-name'),
     title: document.getElementById('p-title'),
     location: document.getElementById('p-location'),
+    aboutPara: document.getElementById('p-about'),
+    // Links
     email: document.getElementById('link-email'),
     linkedin: document.getElementById('link-linkedin'),
+    // Headers
     aboutHead: document.getElementById('head-about'),
-    aboutPara: document.getElementById('p-about'),
     expHead: document.getElementById('head-experience'),
-    expList: document.getElementById('experience-list'),
     eduHead: document.getElementById('head-education'),
-    eduList: document.getElementById('education-list'),
     skillsHead: document.getElementById('head-skills'),
-    skillsList: document.getElementById('skills-list'),
     langsHead: document.getElementById('head-languages'),
+    // Containers
+    expList: document.getElementById('experience-list'),
+    eduList: document.getElementById('education-list'),
+    skillsList: document.getElementById('skills-list'),
     langsList: document.getElementById('languages-list'),
-    btnPrint: document.getElementById('btn-print'),
+    // Interactive
+    btnPrintLabel: document.querySelector('#btn-print span'),
     btnTr: document.getElementById('btn-tr'),
     btnEn: document.getElementById('btn-en'),
-    btnTheme: document.getElementById('btn-theme')
+    jsonLd: document.getElementById('json-ld')
 };
 
-// --- 2. SEO & METADATA ---
+// --- 2. HTML GENERATORS (Pure Functions) ---
+
+/**
+ * Creates skill tags with pre-calculated animation delays to avoid DOM reflows.
+ */
+function createTagsHTML(tagsArray) {
+    if (!tagsArray || !tagsArray.length) return '';
+    
+    return tagsArray.map((tag, index) => {
+        // Optimization: Inline the delay here instead of querying DOM later
+        const delay = (index + 1) * 0.08;
+        return `<span class="skill-tag" style="animation-delay: ${delay}s">${tag}</span>`;
+    }).join('');
+}
+
+function createLanguageHTML(languages, langKey) {
+    return languages.map(langItem => `
+        <div class="lang-item">
+            <span class="lang-title">${langItem.name[langKey]}</span>
+            <span class="lang-level">${langItem.level[langKey]}</span>
+        </div>
+    `).join('');
+}
+
+function createBlockHTML(item, langKey) {
+    // Fallback logic in case properties are missing
+    const title = item.role?.[langKey] || item.degree?.[langKey] || '';
+    const subTitle = item.company?.[langKey] || item.school?.[langKey] || '';
+    const date = item.date?.[langKey] || '';
+    const location = item.location?.[langKey] || '';
+    const desc = item.desc?.[langKey] || '';
+    
+    // Only render tags wrapper if tags exist
+    const tagsHTML = item.tags 
+        ? `<div class="tags-wrapper">${createTagsHTML(item.tags[langKey])}</div>` 
+        : '';
+
+    return `
+    <div class="job-block">
+        <div class="job-header">
+            <span class="job-title">${title}</span>
+            <span class="job-date">${date}</span>
+        </div>
+        <div class="job-subheader">
+            <span class="company">${subTitle}</span>
+            <span class="location">${location}</span>
+        </div>
+        <div class="job-content">
+            <p>${desc}</p>
+            ${tagsHTML}
+        </div>
+    </div>`;
+}
+
+// --- 3. LOGIC & STATE MANAGEMENT ---
+
 function updateSEO(lang) {
     const seoData = {
         tr: {
             title: "Bora Karataş - Özgeçmiş",
-            desc: "İçerik Editörü ve Eğitimci. Yapay Zeka destekli, erişilebilir öğrenme deneyimleri tasarlıyor.",
+            desc: "İçerik Editörü ve Eğitimci. Yapay Zeka destekli, erişilebilir öğrenme deneyimleri tasarlıyor. Anadolu Üniversitesi Ar-Ge Birimi.",
             jobTitle: "İçerik Editörü"
         },
         en: {
             title: "Bora Karataş - Resume",
-            desc: "Content Editor & Educator specializing in AI-Supported Learning Experiences.",
+            desc: "Content Editor & Educator specializing in AI-Supported Learning Experiences. Instructional Design & EdTech Portfolio.",
             jobTitle: "Content Editor"
         }
     };
 
-    const { title, desc, jobTitle } = seoData[lang];
+    const currentSEO = seoData[lang];
 
-    // Bulk Update Metadata
-    document.title = title;
-    const metaTags = {
-        'meta[name="description"]': desc,
-        'meta[property="og:title"]': title,
-        'meta[property="og:description"]': desc,
-        'meta[name="twitter:title"]': title,
-        'meta[name="twitter:description"]': desc
+    document.title = currentSEO.title;
+    
+    // Efficiently update meta tags using a helper mapping
+    const metaUpdates = {
+        'description': currentSEO.desc,
+        'og:title': currentSEO.title,
+        'og:description': currentSEO.desc,
+        'twitter:title': currentSEO.title,
+        'twitter:description': currentSEO.desc
     };
 
-    Object.entries(metaTags).forEach(([selector, value]) => {
-        const el = document.querySelector(selector);
-        if (el) el.setAttribute('content', value);
-    });
+    for (const [name, content] of Object.entries(metaUpdates)) {
+        // Select by name OR property (covers standard meta and og tags)
+        const tag = document.querySelector(`meta[name="${name}"], meta[property="${name}"]`);
+        if (tag) tag.setAttribute('content', content);
+    }
 
     // Update JSON-LD
-    const jsonLdScript = document.getElementById('json-ld');
-    if (jsonLdScript) {
+    if (dom.jsonLd) {
         try {
-            const schema = JSON.parse(jsonLdScript.textContent);
-            schema.jobTitle = jobTitle;
-            schema.description = desc;
-            jsonLdScript.textContent = JSON.stringify(schema, null, 2);
+            const schema = JSON.parse(dom.jsonLd.textContent);
+            schema.jobTitle = currentSEO.jobTitle;
+            schema.description = currentSEO.desc;
+            dom.jsonLd.textContent = JSON.stringify(schema, null, 2);
         } catch (e) {
-            console.error("JSON-LD parse error", e);
+            console.warn("JSON-LD update skipped:", e);
         }
     }
 }
 
-// --- 3. HTML GENERATORS ---
-const createTagsHTML = (tags) => tags ? tags.map(tag => `<span class="skill-tag">${tag}</span>`).join('') : '';
-
-const createLanguageHTML = (languages, langKey) => languages.map(({ name, level }) => `
-    <div class="lang-item">
-        <span class="lang-title">${name[langKey]}</span>
-        <span class="lang-level">${level[langKey]}</span>
-    </div>
-`).join('');
-
-const createBlockHTML = (item, langKey) => {
-    const title = item.role ? item.role[langKey] : item.degree[langKey];
-    const subTitle = item.company ? item.company[langKey] : item.school[langKey];
-    const tagsHTML = item.tags ? `<div class="tags-wrapper">${createTagsHTML(item.tags[langKey])}</div>` : '';
-
-    return `
-    <article class="job-block">
-        <div class="job-header">
-            <h4 class="job-title">${title}</h4>
-            <time class="job-date">${item.date[langKey]}</time>
-        </div>
-        <div class="job-subheader">
-            <span class="company">${subTitle}</span>
-            <span class="location">${item.location[langKey]}</span>
-        </div>
-        <div class="job-content">
-            <p>${item.desc[langKey]}</p>
-            ${tagsHTML}
-        </div>
-    </article>`;
-};
-
-// --- 4. RENDER ENGINE ---
 function renderResume(lang) {
-    if (typeof resumeData === 'undefined') return console.error("Resume data not found.");
+    if (!resumeData) return; // Safety check
 
-    updateSEO(lang);
+    // 1. Update Document State
     dom.html.lang = lang;
+    updateSEO(lang);
 
-    // Profile Info
+    // 2. Profile & Contact
     dom.name.textContent = resumeData.profile.name;
     dom.title.textContent = resumeData.profile.title[lang];
     dom.location.textContent = resumeData.meta.location[lang];
-    
-    // Links
     dom.email.textContent = resumeData.meta.email;
     dom.email.href = `mailto:${resumeData.meta.email}`;
+    dom.linkedin.textContent = resumeData.meta.linkedinLabel || "LinkedIn";
     dom.linkedin.href = resumeData.meta.linkedin;
 
-    // UI Labels
-    const labels = ['about', 'experience', 'education', 'skills', 'languages'];
-    labels.forEach(key => {
-        if (dom[`${key}Head`]) dom[`${key}Head`].textContent = UI_LABELS[key][lang];
-    });
-    if (dom.btnPrint) dom.btnPrint.querySelector('span').textContent = UI_LABELS.print[lang];
+    // 3. UI Labels
+    dom.aboutHead.textContent = UI_LABELS.about[lang];
+    dom.expHead.textContent = UI_LABELS.experience[lang];
+    dom.eduHead.textContent = UI_LABELS.education[lang];
+    dom.skillsHead.textContent = UI_LABELS.skills[lang];
+    dom.langsHead.textContent = UI_LABELS.languages[lang];
+    if (dom.btnPrintLabel) dom.btnPrintLabel.textContent = UI_LABELS.print[lang];
 
-    // List Rendering
+    // 4. Content Content
     dom.aboutPara.textContent = resumeData.profile.about[lang];
+
+    // 5. Lists (Batch Updates)
     dom.expList.innerHTML = resumeData.experience.map(job => createBlockHTML(job, lang)).join('');
-    dom.eduList.innerHTML = resumeData.education.map(edu => createBlockHTML(edu, lang)).join('');
+    dom.eduList.innerHTML = resumeData.education.map(school => createBlockHTML(school, lang)).join('');
+    
+    // Note: Styles for animation are now embedded in the HTML string, removing the need for a post-render loop
     dom.skillsList.innerHTML = createTagsHTML(resumeData.skills[lang]);
+    
     dom.langsList.innerHTML = createLanguageHTML(resumeData.languages, lang);
 
-    // Staggered Animations
-    dom.skillsList.querySelectorAll('.skill-tag').forEach((tag, i) => {
-        tag.style.animationDelay = `${(i + 1) * 0.05}s`;
+    // 6. Button States
+    dom.btnTr.setAttribute('aria-pressed', lang === 'tr');
+    dom.btnEn.setAttribute('aria-pressed', lang === 'en');
+    
+    // 7. Update Body Class
+    document.body.classList.remove('lang-tr', 'lang-en');
+    document.body.classList.add(`lang-${lang}`);
+}
+
+// --- 4. THEME & INTERACTION HANDLERS ---
+
+function initTheme() {
+    const btnTheme = document.getElementById('btn-theme');
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Helper to apply theme
+    const applyTheme = (isDark) => {
+        if (isDark) document.body.setAttribute('data-theme', 'dark');
+        else document.body.removeAttribute('data-theme');
+    };
+
+    // 1. Check saved preference or system default
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        applyTheme(savedTheme === 'dark');
+    } else {
+        applyTheme(mediaQuery.matches);
+    }
+
+    // 2. Listen for System Changes (Reactive)
+    mediaQuery.addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            applyTheme(e.matches);
+        }
     });
 
-    // Body Classes
-    dom.body.classList.remove('lang-tr', 'lang-en');
-    dom.body.classList.add(`lang-${lang}`);
+    // 3. Manual Toggle
+    if (btnTheme) {
+        btnTheme.addEventListener('click', () => {
+            const isDarkNow = document.body.getAttribute('data-theme') === 'dark';
+            applyTheme(!isDarkNow);
+            localStorage.setItem('theme', !isDarkNow ? 'dark' : 'light');
+        });
+    }
+}
+
+function initClipboard() {
+    const mailLink = dom.email;
+    if (!mailLink) return;
+
+    mailLink.addEventListener('click', async (e) => {
+        e.preventDefault();
+        
+        // Guard clause for Clipboard API
+        if (!navigator.clipboard) {
+            window.location.href = mailLink.href; // Fallback to default mailto behavior
+            return;
+        }
+
+        try {
+            await navigator.clipboard.writeText(resumeData.meta.email);
+            const isTr = document.documentElement.lang === 'tr';
+            
+            mailLink.setAttribute('data-copy-text', isTr ? "Kopyalandı!" : "Copied!");
+            mailLink.classList.add('copied');
+            
+            setTimeout(() => mailLink.classList.remove('copied'), 2000);
+        } catch (err) {
+            console.error('Copy failed', err);
+            window.location.href = mailLink.href; // Fallback
+        }
+    });
 }
 
 // --- 5. INITIALIZATION ---
+
 document.addEventListener('DOMContentLoaded', () => {
-    const getLang = () => localStorage.getItem('preferredLang') || 
-                         (navigator.language.startsWith('tr') ? 'tr' : 'en');
-    
-    renderResume(getLang());
+    // 1. Language Setup
+    const savedLang = localStorage.getItem('preferredLang');
+    const browserLang = (navigator.language || navigator.userLanguage).startsWith('tr') ? 'tr' : 'en';
+    const currentLang = savedLang || browserLang;
 
-    // Event Delegation for Buttons
-    document.addEventListener('click', (e) => {
-        const id = e.target.closest('[id]')?.id;
-        
-        if (id === 'btn-tr' || id === 'btn-en') {
-            const lang = id.split('-')[1];
-            localStorage.setItem('preferredLang', lang);
-            renderResume(lang);
-        }
+    // 2. Initial Render
+    if (typeof resumeData !== 'undefined') {
+        renderResume(currentLang);
+    } else {
+        console.error("Critical: resumeData is not loaded.");
+    }
 
-        if (id === 'btn-print') window.print();
-
-        if (id === 'btn-theme') {
-            const isDark = dom.body.getAttribute('data-theme') === 'dark';
-            isDark ? dom.body.removeAttribute('data-theme') : dom.body.setAttribute('data-theme', 'dark');
-        }
+    // 3. Event Listeners
+    dom.btnTr.addEventListener('click', () => {
+        localStorage.setItem('preferredLang', 'tr');
+        renderResume('tr');
     });
 
-    // Clipboard Logic
-    if (dom.email) {
-        dom.email.addEventListener('click', async (e) => {
-            e.preventDefault();
-            try {
-                await navigator.clipboard.writeText(resumeData.meta.email);
-                const isTr = dom.html.lang === 'tr';
-                dom.email.setAttribute('data-copy-text', isTr ? "Kopyalandı!" : "Copied!");
-                dom.email.classList.add('copied');
-                setTimeout(() => dom.email.classList.remove('copied'), 2000);
-            } catch (err) {
-                console.error('Failed to copy', err);
-            }
-        });
-    }
+    dom.btnEn.addEventListener('click', () => {
+        localStorage.setItem('preferredLang', 'en');
+        renderResume('en');
+    });
+
+    const btnPrint = document.getElementById('btn-print');
+    if (btnPrint) btnPrint.addEventListener('click', () => window.print());
+
+    // 4. Init Modules
+    initTheme();
+    initClipboard();
 });
