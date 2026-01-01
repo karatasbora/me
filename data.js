@@ -15,7 +15,7 @@ const resumeData = {
     profile: {
         name: "Bora Karataş",
         title: {
-            tr: "Eğitim Uzmanı & İçerik Editörü | Yapay Zekâ Destekli Öğretim Taasarımı | ELT · EdTech · Erişilebilir & İnsan Merkezli Eğitim",
+            tr: "Eğitim Uzmanı & İçerik Editörü | Yapay Zekâ Destekli Öğretim Tasarımı | ELT · EdTech · Erişilebilir & İnsan Merkezli Eğitim",
             en: "Education Specialist & Content Editor | AI-Supported Instructional Design | ELT · EdTech · Accessible & Human-Centered Education"
         },
         about: {
