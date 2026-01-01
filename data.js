@@ -182,4 +182,4 @@ const resumeData = {
 };
 
 // Freezing guarantees that the data remains static during runtime
-export default Object.freeze(resumeData);
+Object.freeze(resumeData);
