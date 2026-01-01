@@ -1,27 +1,29 @@
 /**
- * data.js
- * FIXED: Removed 'export default' to prevent browser crash.
+ * @typedef {Object} LocalizedString
+ * @property {string} tr - Turkish translation
+ * @property {string} en - English translation
+ */
+
+/**
+ * @typedef {Object} LocalizedArray
+ * @property {string[]} tr - Turkish list
+ * @property {string[]} en - English list
+ */
+
+/**
+ * Resume Data Store
+ * optimized for i18n context switching.
  */
 const resumeData = {
   meta: {
     image: "profil.png",
     email: "borakaratas@anadolu.edu.tr",
     linkedin: "https://www.linkedin.com/in/borakaratas",
+    // Optimization: Removed 'linkedinLabel'. logic should derive "linkedin.com..." from the URL.
     location: {
       tr: "Eskişehir, Türkiye",
       en: "Eskisehir, Turkey",
     },
-  },
-
-  interface: {
-    about: { tr: "Hakkında", en: "About" },
-    experience: { tr: "Deneyim", en: "Experience" },
-    education: { tr: "Eğitim", en: "Education" },
-    skills: { tr: "Teknik Yetkinlikler", en: "Technical Skills" },
-    skillsSub: { tr: "Uzmanlık Alanları", en: "Specializations" },
-    languages: { tr: "Diller", en: "Languages" },
-    print: { tr: "PDF Olarak Kaydet", en: "Save as PDF" },
-    copy: { tr: "Kopyalandı!", en: "Copied!" }
   },
 
   profile: {
@@ -179,5 +181,5 @@ const resumeData = {
   ],
 };
 
-// CRITICAL FIX: Make it global, do NOT use 'export default'
-window.resumeData = Object.freeze(resumeData);
+// Freezing guarantees that the data remains static during runtime
+export default Object.freeze(resumeData);
