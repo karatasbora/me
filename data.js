@@ -35,7 +35,7 @@ const resumeData = {
                 en: "Contribute to institutional digital transformation initiatives aimed at converting static instructional materials into interactive and inclusive digital learning experiences. Integrate Generative AI (LLM) tools into content development workflows to improve editorial efficiency, consistency, and scalability while adhering to universal design and accessibility principles. Collaborate with multidisciplinary teams to enhance learner engagement and support diverse learning needs across digital platforms."
             },
             tags: {
-                tr: ["İçerik Stratejisi", "Yapay Zekâ Prompt Mühendisliğ", "Öğrenme Yönetim Sistemleri (LMS)"],
+                tr: ["İçerik Stratejisi", "Yapay Zekâ Prompt Mühendisliği", "Öğrenme Yönetim Sistemleri (LMS)"],
                 en: ["Content Strategy", "AI Prompt Engineering", "Learning Management Systems"]
             }
         },
