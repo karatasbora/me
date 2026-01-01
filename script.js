@@ -1,291 +1,180 @@
-/**
- * Resume Logic Optimization
- * - Reduced DOM reflows by calculating styles during string generation.
- * - Added reactive system theme listener.
- * - Improved clipboard safety.
- */
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2C3E50"> <title>Bora Karataş - Özgeçmiş/Resume</title>
+    <meta name="description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
+    <meta name="author" content="Bora Karataş">
+    <meta name="keywords" content="Bora Karataş, İçerik Editörü, Content Editor, ELT, EdTech, Yapay Zeka, AI Learning, Instructional Design, Anadolu University">
+    <link rel="canonical" href="https://karatasbora.github.io/resume/">
+    <meta name="google-site-verification" content="QzyLRgFCHH93peNx08rdCue9fZDR-5OYVc818U5goIU">
 
-// --- 1. CONFIGURATION & CACHE ---
-const UI_LABELS = {
-    about: { tr: "Hakkında", en: "About" },
-    experience: { tr: "Deneyim", en: "Experience" },
-    education: { tr: "Eğitim", en: "Education" },
-    skills: { tr: "Teknik Yetkinlikler & Uzmanlıklar", en: "Technical Skills & Specializations" },
-    languages: { tr: "Diller", en: "Languages" },
-    print: { tr: "PDF", en: "PDF" }
-};
+    <meta property="og:title" content="Bora Karataş - Özgeçmiş/Resume">
+    <meta property="og:site_name" content="Bora Karataş | ELT & EdTech">
+    <meta property="og:description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://karatasbora.github.io/resume/">
+    <meta property="og:image" content="https://karatasbora.github.io/resume/profil_lowres.png">
 
-// Cache DOM elements once to avoid repetitive lookups
-const dom = {
-    html: document.documentElement,
-    // Text Elements
-    name: document.getElementById('p-name'),
-    title: document.getElementById('p-title'),
-    location: document.getElementById('p-location'),
-    aboutPara: document.getElementById('p-about'),
-    // Links
-    email: document.getElementById('link-email'),
-    linkedin: document.getElementById('link-linkedin'),
-    // Headers
-    aboutHead: document.getElementById('head-about'),
-    expHead: document.getElementById('head-experience'),
-    eduHead: document.getElementById('head-education'),
-    skillsHead: document.getElementById('head-skills'),
-    langsHead: document.getElementById('head-languages'),
-    // Containers
-    expList: document.getElementById('experience-list'),
-    eduList: document.getElementById('education-list'),
-    skillsList: document.getElementById('skills-list'),
-    langsList: document.getElementById('languages-list'),
-    // Interactive
-    btnPrintLabel: document.querySelector('#btn-print span'),
-    btnTr: document.getElementById('btn-tr'),
-    btnEn: document.getElementById('btn-en'),
-    jsonLd: document.getElementById('json-ld')
-};
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bora Karataş - Resume">
+    <meta name="twitter:description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
+    <meta name="twitter:image" content="https://karatasbora.github.io/resume/profil_lowres.png">
 
-// --- 2. HTML GENERATORS (Pure Functions) ---
-
-/**
- * Creates skill tags with pre-calculated animation delays to avoid DOM reflows.
- */
-function createTagsHTML(tagsArray) {
-    if (!tagsArray || !tagsArray.length) return '';
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    return tagsArray.map((tag, index) => {
-        // Optimization: Inline the delay here instead of querying DOM later
-        const delay = (index + 1) * 0.08;
-        return `<span class="skill-tag" style="animation-delay: ${delay}s">${tag}</span>`;
-    }).join('');
-}
-
-function createLanguageHTML(languages, langKey) {
-    return languages.map(langItem => `
-        <div class="lang-item">
-            <span class="lang-title">${langItem.name[langKey]}</span>
-            <span class="lang-level">${langItem.level[langKey]}</span>
-        </div>
-    `).join('');
-}
-
-function createBlockHTML(item, langKey) {
-    // Fallback logic in case properties are missing
-    const title = item.role?.[langKey] || item.degree?.[langKey] || '';
-    const subTitle = item.company?.[langKey] || item.school?.[langKey] || '';
-    const date = item.date?.[langKey] || '';
-    const location = item.location?.[langKey] || '';
-    const desc = item.desc?.[langKey] || '';
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%220%22 y=%220%22 width=%2244%22 height=%22100%22 fill=%22%232C3E50%22/><rect x=%2256%22 y=%220%22 width=%2244%22 height=%2246%22 fill=%22%236C5CE7%22/><rect x=%2256%22 y=%2254%22 width=%2244%22 height=%2246%22 fill=%22%236C5CE7%22/></svg>">
     
-    // Only render tags wrapper if tags exist
-    const tagsHTML = item.tags 
-        ? `<div class="tags-wrapper">${createTagsHTML(item.tags[langKey])}</div>` 
-        : '';
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 
-    return `
-    <div class="job-block">
-        <div class="job-header">
-            <span class="job-title">${title}</span>
-            <span class="job-date">${date}</span>
-        </div>
-        <div class="job-subheader">
-            <span class="company">${subTitle}</span>
-            <span class="location">${location}</span>
-        </div>
-        <div class="job-content">
-            <p>${desc}</p>
-            ${tagsHTML}
-        </div>
-    </div>`;
-}
-
-// --- 3. LOGIC & STATE MANAGEMENT ---
-
-function updateSEO(lang) {
-    const seoData = {
-        tr: {
-            title: "Bora Karataş - Özgeçmiş",
-            desc: "İçerik Editörü ve Eğitimci. Yapay Zeka destekli, erişilebilir öğrenme deneyimleri tasarlıyor. Anadolu Üniversitesi Ar-Ge Birimi.",
-            jobTitle: "İçerik Editörü"
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      "name": "Bora Karataş | ELT & EdTech",
+      "mainEntity": {
+        "@type": "Person",
+        "name": "Bora Karataş",
+        "jobTitle": "Content Editor & Educator",
+        "description": "Content Editor & Educator specializing in AI-Supported Learning Experiences.",
+        "url": "https://karatasbora.github.io/resume/",
+        "image": "https://karatasbora.github.io/resume/profil_lowres.png",
+        "sameAs": [
+          "https://www.linkedin.com/in/borakaratas",
+          "mailto:borakaratas@anadolu.edu.tr"
+        ],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Anadolu University"
         },
-        en: {
-            title: "Bora Karataş - Resume",
-            desc: "Content Editor & Educator specializing in AI-Supported Learning Experiences. Instructional Design & EdTech Portfolio.",
-            jobTitle: "Content Editor"
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Anadolu University"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Eskisehir",
+          "addressCountry": "Turkey"
         }
-    };
-
-    const currentSEO = seoData[lang];
-
-    document.title = currentSEO.title;
-    
-    // Efficiently update meta tags using a helper mapping
-    const metaUpdates = {
-        'description': currentSEO.desc,
-        'og:title': currentSEO.title,
-        'og:description': currentSEO.desc,
-        'twitter:title': currentSEO.title,
-        'twitter:description': currentSEO.desc
-    };
-
-    for (const [name, content] of Object.entries(metaUpdates)) {
-        // Select by name OR property (covers standard meta and og tags)
-        const tag = document.querySelector(`meta[name="${name}"], meta[property="${name}"]`);
-        if (tag) tag.setAttribute('content', content);
+      }
     }
+    </script>
 
-    // Update JSON-LD
-    if (dom.jsonLd) {
-        try {
-            const schema = JSON.parse(dom.jsonLd.textContent);
-            schema.jobTitle = currentSEO.jobTitle;
-            schema.description = currentSEO.desc;
-            dom.jsonLd.textContent = JSON.stringify(schema, null, 2);
-        } catch (e) {
-            console.warn("JSON-LD update skipped:", e);
-        }
-    }
-}
+    <script src="data.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
 
-function renderResume(lang) {
-    if (!resumeData) return; // Safety check
+<body>
+    <noscript>
+        <div style="font-family: sans-serif; padding: 20px; color: #333; max-width: 800px; margin: 0 auto;">
+            <h1 style="margin-bottom: 5px;">Bora Karataş</h1>
+            <p style="font-size: 1.2em; font-weight: bold; margin-top: 0; color: #A54522;">
+                Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech
+            </p>
+            <p>
+                Eskisehir, Turkey | 
+                <a href="mailto:borakaratas@anadolu.edu.tr">borakaratas@anadolu.edu.tr</a> | 
+                <a href="https://www.linkedin.com/in/borakaratas" rel="noopener noreferrer">linkedin.com/in/borakaratas</a>
+            </p>
+            <hr>
 
-    // 1. Update Document State
-    dom.html.lang = lang;
-    updateSEO(lang);
+            <h2>About</h2>
+            <p>
+                In the digital age where learning evolves from storing information to generating skills, I develop AI-supported content strategies. To make education more human and accessible; I use technology not as a goal, but as a tool that liberates the discovery process. I offer a modern and analytical learning vision free from performance anxiety.
+            </p>
 
-    // 2. Profile & Contact
-    dom.name.textContent = resumeData.profile.name;
-    dom.title.textContent = resumeData.profile.title[lang];
-    dom.location.textContent = resumeData.meta.location[lang];
-    dom.email.textContent = resumeData.meta.email;
-    dom.email.href = `mailto:${resumeData.meta.email}`;
-    dom.linkedin.textContent = resumeData.meta.linkedinLabel || "LinkedIn";
-    dom.linkedin.href = resumeData.meta.linkedin;
+            <h2>Experience</h2>
+            <div style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 5px;">Content Editor</h3>
+                <p style="margin: 0; font-style: italic;">Anadolu University | Learning Technologies R&D Unit (DEC 2022 - PRESENT)</p>
+                <p>
+                    Within the Learning Technologies R&D Unit, I am part of a comprehensive digital transformation process that turns static course materials into digital experiences. I integrate Generative AI (LLM) tools into content strategy to increase editorial efficiency while optimizing accessibility and student engagement with universal design principles. I position technology not just as a tool, but as an element that liberates the learning process.
+                </p>
+                <p><strong>Tags:</strong> Content Strategy, AI Prompts, LMS</p>
+            </div>
+            </div>
+    </noscript>
 
-    // 3. UI Labels
-    dom.aboutHead.textContent = UI_LABELS.about[lang];
-    dom.expHead.textContent = UI_LABELS.experience[lang];
-    dom.eduHead.textContent = UI_LABELS.education[lang];
-    dom.skillsHead.textContent = UI_LABELS.skills[lang];
-    dom.langsHead.textContent = UI_LABELS.languages[lang];
-    if (dom.btnPrintLabel) dom.btnPrintLabel.textContent = UI_LABELS.print[lang];
+    <header>
+        <div class="profile-container">
+            <div class="favicon-frame">
+                <span class="frame-left"></span>
+                <span class="frame-top-right"></span>
+                <span class="frame-bottom-right"></span>
+            </div>
 
-    // 4. Content Content
-    dom.aboutPara.textContent = resumeData.profile.about[lang];
+            <div class="profile-photo">
+                <img src="profil_lowres.png" 
+                     alt="Bora Karataş" 
+                     width="150" 
+                     height="150" 
+                     loading="eager">
+            </div>
+        </div>
 
-    // 5. Lists (Batch Updates)
-    dom.expList.innerHTML = resumeData.experience.map(job => createBlockHTML(job, lang)).join('');
-    dom.eduList.innerHTML = resumeData.education.map(school => createBlockHTML(school, lang)).join('');
-    
-    // Note: Styles for animation are now embedded in the HTML string, removing the need for a post-render loop
-    dom.skillsList.innerHTML = createTagsHTML(resumeData.skills[lang]);
-    
-    dom.langsList.innerHTML = createLanguageHTML(resumeData.languages, lang);
+        <div class="header-text">
+            <h1 id="p-name"></h1>
+            <div class="headline" id="p-title"></div>
+            
+            <div class="contact-info">
+                <span id="p-location"></span>
+                <span class="sep">|</span> 
+                <a href="" id="link-email" class="contact-link" data-email-label=""></a>
+                <span class="sep">|</span> 
+                <a href="" id="link-linkedin" class="contact-link" target="_blank" rel="noopener noreferrer"></a>
+            </div>
+        </div>
 
-    // 6. Button States
-    dom.btnTr.setAttribute('aria-pressed', lang === 'tr');
-    dom.btnEn.setAttribute('aria-pressed', lang === 'en');
-    
-    // 7. Update Body Class
-    document.body.classList.remove('lang-tr', 'lang-en');
-    document.body.classList.add(`lang-${lang}`);
-}
+        <div class="controls">
+            <button class="btn-icon" id="btn-theme" aria-label="Toggle Dark Mode">
+                <svg id="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <svg id="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
+            <span class="separator">|</span>
+            <button class="btn-icon" id="btn-tr" aria-label="Switch to Turkish">TR</button>
+            <button class="btn-icon" id="btn-en" aria-label="Switch to English">EN</button>
+            <button class="download-btn" id="btn-print" aria-label="Print or Save as PDF">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                <span>PDF</span>
+            </button>
+        </div>
+    </header>
 
-// --- 4. THEME & INTERACTION HANDLERS ---
+    <section aria-live="polite">
+        <h2 id="head-about"></h2>
+        <p id="p-about"></p>
+    </section>
 
-function initTheme() {
-    const btnTheme = document.getElementById('btn-theme');
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    // Helper to apply theme
-    const applyTheme = (isDark) => {
-        if (isDark) document.body.setAttribute('data-theme', 'dark');
-        else document.body.removeAttribute('data-theme');
-    };
+    <section aria-live="polite">
+        <h2 id="head-experience"></h2>
+        <div id="experience-list"></div>
+    </section>
 
-    // 1. Check saved preference or system default
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        applyTheme(savedTheme === 'dark');
-    } else {
-        applyTheme(mediaQuery.matches);
-    }
+    <section aria-live="polite">
+        <h2 id="head-education"></h2>
+        <div id="education-list"></div>
+    </section>
 
-    // 2. Listen for System Changes (Reactive)
-    mediaQuery.addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-            applyTheme(e.matches);
-        }
-    });
-
-    // 3. Manual Toggle
-    if (btnTheme) {
-        btnTheme.addEventListener('click', () => {
-            const isDarkNow = document.body.getAttribute('data-theme') === 'dark';
-            applyTheme(!isDarkNow);
-            localStorage.setItem('theme', !isDarkNow ? 'dark' : 'light');
-        });
-    }
-}
-
-function initClipboard() {
-    const mailLink = dom.email;
-    if (!mailLink) return;
-
-    mailLink.addEventListener('click', async (e) => {
-        e.preventDefault();
+    <section aria-live="polite">
+        <h2 id="head-skills"></h2>
         
-        // Guard clause for Clipboard API
-        if (!navigator.clipboard) {
-            window.location.href = mailLink.href; // Fallback to default mailto behavior
-            return;
-        }
+        <div class="job-block">
+            <div class="job-header">
+                <span class="job-title" id="head-skills-sub"></span> 
+            </div>
+            <div class="tags-wrapper" id="skills-list" style="padding-left:0; margin-top: 5px;"></div>
+        </div>
 
-        try {
-            await navigator.clipboard.writeText(resumeData.meta.email);
-            const isTr = document.documentElement.lang === 'tr';
-            
-            mailLink.setAttribute('data-copy-text', isTr ? "Kopyalandı!" : "Copied!");
-            mailLink.classList.add('copied');
-            
-            setTimeout(() => mailLink.classList.remove('copied'), 2000);
-        } catch (err) {
-            console.error('Copy failed', err);
-            window.location.href = mailLink.href; // Fallback
-        }
-    });
-}
-
-// --- 5. INITIALIZATION ---
-
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Language Setup
-    const savedLang = localStorage.getItem('preferredLang');
-    const browserLang = (navigator.language || navigator.userLanguage).startsWith('tr') ? 'tr' : 'en';
-    const currentLang = savedLang || browserLang;
-
-    // 2. Initial Render
-    if (typeof resumeData !== 'undefined') {
-        renderResume(currentLang);
-    } else {
-        console.error("Critical: resumeData is not loaded.");
-    }
-
-    // 3. Event Listeners
-    dom.btnTr.addEventListener('click', () => {
-        localStorage.setItem('preferredLang', 'tr');
-        renderResume('tr');
-    });
-
-    dom.btnEn.addEventListener('click', () => {
-        localStorage.setItem('preferredLang', 'en');
-        renderResume('en');
-    });
-
-    const btnPrint = document.getElementById('btn-print');
-    if (btnPrint) btnPrint.addEventListener('click', () => window.print());
-
-    // 4. Init Modules
-    initTheme();
-    initClipboard();
-});
+        <div class="job-block" style="margin-top: 30px; border:none;">
+            <div class="job-header">
+                <span class="job-title" id="head-languages"></span>
+            </div>
+            <div class="lang-grid" id="languages-list"></div>
+        </div>
+    </section>
+</body>
+</html>
