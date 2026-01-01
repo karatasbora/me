@@ -15,11 +15,11 @@ const resumeData = {
     profile: {
         name: "Bora Karataş",
         title: {
-            tr: "İçerik Editörü & Eğitimci | Yapay Zeka Destekli, Erişilebilir Öğrenme Deneyimleri Tasarlıyor | ELT & EdTech",
-            en: "Education Specialist & Content Editor | AI-Supported Learning Design | ELT · EdTech · Accessible & Human-Centered Education"
+            tr: "Eğitim Uzmanı & İçerik Editörü | Yapay Zekâ Destekli Öğretim Taasarımı | ELT · EdTech · Erişilebilir & İnsan Merkezli Eğitim",
+            en: "Education Specialist & Content Editor | AI-Supported Instructional Design | ELT · EdTech · Accessible & Human-Centered Education"
         },
         about: {
-            tr: "Öğrenmenin bilgi depolamaktan, beceri üretmeye evrildiği dijital çağda, yapay zeka destekli içerik stratejileri geliştiriyorum. Eğitimi daha insani ve erişilebilir kılmak adına; teknolojiyi bir amaç değil, keşfetme sürecini özgürleştiren bir araç olarak kullanıyorum. Performans kaygısından uzak, modern ve analitik bir öğrenme vizyonu sunuyorum.",
+            tr: "Yapay zekâ ve eğitim teknolojileriyle desteklenen, erişilebilir ve insan odaklı öğrenme deneyimlerinin tasarımı konusunda uzmanlaşmış bir eğitim profesyoneliyim. Yükseköğretim ve kamu eğitimi bağlamlarında içerik stratejisi, öğretim tasarımı ve dijital dönüşüm alanlarında deneyime sahibim. Küresel sürdürülebilirlik ve eşitlik hedefleriyle uyumlu, kapsayıcı, etik ve öğrenen merkezli eğitimi ilerletmeye kararlıyım. Teknolojiyi, kendi başına bir amaç olarak değil; keşif, eleştirel düşünme ve yaşam boyu öğrenmeyi mümkün kılan bir araç olarak ele alırım.",
             en: "Education professional specializing in the design of accessible, human-centered learning experiences supported by artificial intelligence and educational technologies. Experienced in content strategy, instructional design, and digital transformation within higher education and public schooling contexts. Committed to advancing inclusive, ethical, and learner-centered education aligned with global sustainability and equity goals. Approaches technology as an enabling tool for exploration, critical thinking, and lifelong learning rather than as an end in itself."
         }
     },
@@ -31,11 +31,11 @@ const resumeData = {
             date: { tr: "ARALIK 2022 - HALEN", en: "DEC 2022 - PRESENT" },
             location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
             desc: {
-                tr: "Statik ders materyallerini dijital deneyimlere dönüştüren kapsamlı bir dijital dönüşüm sürecinin parçasıyım. İçerik stratejisine Generative AI (LLM) araçlarını entegre ederek editöryal verimliliği artırırken evrensel tasarım ilkeleriyle erişilebilirliği ve öğrenci etkileşimini optimize ediyorum. Teknolojiyi sadece bir araç olarak değil, öğrenme sürecini özgürleştiren bir unsur olarak konumluyorum.",
+                tr: "Kurumsal dijital dönüşüm girişimlerine katkı sağlayarak durağan öğretim materyallerinin etkileşimli ve kapsayıcı dijital öğrenme deneyimlerine dönüştürülmesi üzerinde çalışıyorum. Evrensel tasarım ve erişilebilirlik ilkelerine bağlı kalarak, editoryal verimliliği, tutarlılığı ve ölçeklenebilirliği artırmak için içerik geliştirme iş akışlarına Üretken Yapay Zekâ (LLM) araçlarını entegre ediyorum. Çok disiplinli ekiplerle iş birliği içinde çalışarak dijital platformlarda öğrenen etkileşimini artırıyor ve farklı öğrenme ihtiyaçlarını destekliyorum.",
                 en: "Contribute to institutional digital transformation initiatives aimed at converting static instructional materials into interactive and inclusive digital learning experiences. Integrate Generative AI (LLM) tools into content development workflows to improve editorial efficiency, consistency, and scalability while adhering to universal design and accessibility principles. Collaborate with multidisciplinary teams to enhance learner engagement and support diverse learning needs across digital platforms."
             },
             tags: {
-                tr: ["İçerik Stratejisi", "Yapay Zeka İstemleri", "Eğitim Yönetimi Sistemleri"],
+                tr: ["İçerik Stratejisi", "Yapay Zekâ Prompt Mühendisliğ", "Öğrenme Yönetim Sistemleri (LMS)"],
                 en: ["Content Strategy", "AI Prompt Engineering", "Learning Management Systems"]
             }
         },
@@ -45,7 +45,7 @@ const resumeData = {
             date: { tr: "EYLÜL 2025 - ARALIK 2025", en: "SEP 2025 - DEC 2025" },
             location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
             desc: {
-                tr: "Ezbere dayalı klasik gramer öğretimi yerine, dili aktif bir iletişim aracı olarak konumlandıran öğrenci merkezli bir müfredat uyguladım. Ders tasarımlarımı sadece dil bilgisi odaklı değil, 21. yüzyıl becerileri (4C) ve eleştirel düşünme yetisini geliştirecek şekilde kurguladım. Sınıf yönetiminde oyunlaştırma (gamification) tekniklerini stratejik olarak kullanarak pasif öğrencilerin motivasyonunu yükselttim ve derse katılım oranlarını maksimize ettim.",
+                tr: "Ezbere dayalı dilbilgisi öğretimi yerine iletişim, eleştirel düşünme ve gerçek yaşamda dil kullanımını merkeze alan öğrenen odaklı bir İngilizce öğretim programı uyguladım. Dersleri 21. yüzyıl yetkinlikleriyle (iletişim, iş birliği, yaratıcılık ve eleştirel düşünme) uyumlu şekilde tasarladım. Öğrenci motivasyonunu, katılımını ve kapsayıcılığı artırmak amacıyla sınıf yönetiminde oyunlaştırma stratejileri kullandım.",
                 en: "Implemented a learner-centered English language curriculum emphasizing communication, critical thinking, and real-world language use rather than rote grammar instruction. Designed lessons aligned with 21st-century competencies (communication, collaboration, creativity, and critical thinking). Applied gamification strategies to classroom management to increase student motivation, participation, and inclusivity."
             },
             tags: {
@@ -57,13 +57,13 @@ const resumeData = {
 
     education: [
         {
-            degree: { tr: "İngilizce Öğretmenliği", en: "English Language Teaching (ELT)" },
+            degree: { tr: "İngilizce Öğretmenliği", en: "English Language Teaching" },
             school: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
             date: { tr: "Lisans Derecesi", en: "Bachelor's Degree" },
             location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
             desc: {
-                tr: "Pedagoji ve öğretim teknolojileri üzerine odaklandım. Geleneksel yaklaşımları modern EdTech araçlarıyla harmanlayan projeler geliştirdim.",
-                en: "Academic focus on pedagogy, instructional technologies, and learner-centered teaching methodologies. Developed projects integrating traditional educational approaches with contemporary EdTech tools."
+                tr: "Pedagoji, öğretim teknolojileri ve öğrenen merkezli öğretim yaklaşımlarına akademik olarak odaklandım. Geleneksel eğitim yöntemlerini çağdaş EdTech araçlarıyla bütünleştiren projeler geliştirdim.",
+                en: "Focused academically on pedagogy, instructional technologies, and learner-centered teaching methodologies. Developed projects integrating traditional educational approaches with contemporary EdTech tools."
             }
         },
         {
@@ -72,7 +72,7 @@ const resumeData = {
             date: { tr: "ERASMUS+", en: "ERASMUS+" },
             location: { tr: "COIMBRA, PORTEKİZ", en: "COIMBRA, PORTUGAL" },
             desc: {
-                tr: "Kültürlerarası iletişim ve adaptasyon yetkinlikleri kazandım. Global eğitim sistemlerini yerinde analiz etme fırsatı buldum.",
+                tr: "Kültürlerarası iletişim ve küresel vatandaşlık yetkinlikleri geliştirdim. Akademik hareketlilik yoluyla uluslararası eğitim sistemlerine karşılaştırmalı bir bakış kazandım.",
                 en: "Developed intercultural communication and global citizenship competencies. Gained comparative insight into international education systems through academic mobility."
             }
         },
@@ -82,7 +82,7 @@ const resumeData = {
             date: { tr: "Lisans Derecesi", en: "Bachelor's Degree" },
             location: { tr: "UZAKTAN EĞİTİM", en: "REMOTE LEARNING" },
             desc: {
-                tr: "Sistem düşüncesi, veri okuryazarlığı ve analitik karar alma süreçleri üzerine eğitim alıyorum.",
+                tr: "Eğitim politikası ve kalkınma bağlamlarıyla ilişkili sistem düşüncesi, veri okuryazarlığı ve analitik karar verme süreçlerine odaklanan devam eden çalışmalar.",
                 en: "Ongoing studies with emphasis on systems thinking, data literacy, and analytical decision-making processes relevant to education policy and development contexts."
             }
         }
@@ -90,9 +90,9 @@ const resumeData = {
 
     skills: {
         tr: [
-            "Prompt Mühendisliği", "Öğretim Tasarımı", "Yapay Zeka", 
-            "Öğrenme Yönetim Sistemleri", "İçerik Yönetim Sistemleri", 
-            "Dijital Arşivleme", "Akademik Araştırma", "Sistem Düşüncesi"
+            "Eğitimde Yapay Zekâ", "Eğitsel İçerik için Prompt Mühendisliği", "Öğretim Tasarımı & Öğrenme Deneyimi Tasarımı (LXD)", 
+            "Öğrenme Yönetim Sistemleri (LMS)", "İçerik Yönetim Sistemleri", 
+            "Dijital Arşivleme & Bilgi Organizasyonu", "Akademik Araştırma & Analiz", "Sistem Düşüncesi"
         ],
         en: [
             "Artificial Intelligence in Education", "Prompt Engineering for Educational Content", "Instructional Design & Learning Experience Design (LXD)", 
