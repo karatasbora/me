@@ -440,29 +440,14 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
         zoom: 75%; 
     }
 
-    /* 2. Force text to be solid black and full opacity */
+    /* 2. Force text to be full opacity */
     p, span, li, div {
         opacity: 1 !important;
-        color: #000000 !important;
-        -webkit-print-color-adjust: economy;
     }
 
     /* 3. Increase font weight slightly for printing if using Inter */
     body {
         font-weight: 500;
-    }
-
-    /* 4. Ensure headings stand out */
-    h1, h2, h3 {
-        color: #000000 !important;
-        font-weight: 700 !important;
-    }
-
-    /* 5. Fix the faint border on job blocks */
-    .job-block {
-        border: 1px solid #000 !important;
-        box-shadow: none !important;
-        background: #fff !important;
     }
 
     .controls { display: none !important; }
@@ -487,11 +472,6 @@ p { margin-bottom: 1rem; text-align: left; color: var(--primary-text); opacity: 
     .profile-container {
         border: none !important; /* Removes the standard box border */
         /* background: none !important;  <-- REMOVE OR COMMENT THIS LINE */
-    }
-
-    /* 3. Ensure the photo still renders correctly */
-    .profile-photo {
-        border: 1px solid #000; /* Optional: adds a thin line for clarity */
     }
 
     .contact-link {
