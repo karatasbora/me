@@ -27,7 +27,7 @@ const resumeData = {
     experience: [
         {
             role: { tr: "İçerik Editörü", en: "Content Editor" },
-            company: { tr: "Anadolu Üniversitesi | Öğrenme Teknolojileri Ar-Ge Birimi", en: "Anadolu University | Learning Technologies R&D Unit" },
+            company: { tr: "Hibrit · Yarı zamanlı | Anadolu Üniversitesi · Öğrenme Teknolojileri Ar-Ge Birimi", en: "Hybrid · Part-time | Anadolu University · Learning Technologies R&D Unit" },
             date: { tr: "ARALIK 2022 - HALEN", en: "DEC 2022 - PRESENT" },
             location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
             desc: {
@@ -40,8 +40,8 @@ const resumeData = {
             }
         },
         {
-            role: { tr: "İngilizce Öğretmeni (Stajyer)", en: "English Teacher (Intern)" },
-            company: { tr: "T.C. Millî Eğitim Bakanlığı | Gülay Kanatlı Ortaokulu", en: "Ministry of National Education | Gülay Kanatlı Secondary School" },
+            role: { tr: "İngilizce Öğretmeni", en: "English Teacher" },
+            company: { tr: "Yerinde · Staj | T.C. Millî Eğitim Bakanlığı · Gülay Kanatlı Ortaokulu", en: "On-site · Internship | Ministry of National Education · Gülay Kanatlı Secondary School" },
             date: { tr: "EYLÜL 2025 - ARALIK 2025", en: "SEP 2025 - DEC 2025" },
             location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
             desc: {
