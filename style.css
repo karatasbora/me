@@ -262,14 +262,75 @@ a:hover { color: var(--accent-color); }
     .job-date { margin-bottom: 5px; }
 }
 
-/* --- PRINT --- */
+/* --- PRINT FIXES --- */
 @media print {
-    body { background-color: #fff !important; color: #000 !important; width: 100%; margin: 0; padding: 0; zoom: 75%; }
-    .controls, body::before, body::after { display: none !important; }
-    .job-block { break-inside: avoid; border: none; box-shadow: none; padding: 10px 0; margin-bottom: 10px; border-bottom: 1px solid #eee; }
-    .skill-tag, .lang-item { border: 1px solid #ccc !important; color: #000 !important; }
-    a { border-bottom: none !important; text-decoration: none !important; color: #000 !important; }
+    /* 1. Global Ink Reset */
+    :root, body, [data-theme="dark"] {
+        --bg-color: #ffffff !important;
+        --card-bg: #ffffff !important;
+        --primary-text: #000000 !important;
+        --heading-color: #000000 !important;
+        --meta-color: #000000 !important; /* Forces gray dates/locations to black */
+        --tag-text: #000000 !important;
+        --border-color: #000000 !important; /* Darkens borders */
+    }
+
+    /* 2. Force Solid Colors (Fixes Faintness) */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        text-shadow: none !important;
+        filter: none !important;
+    }
+
+    /* 3. Reset Layout & Remove Screen Elements */
+    body { 
+        margin: 0; 
+        padding: 0; 
+        width: 100%; 
+        zoom: 75%; /* Scales content to fit A4 */
+    }
+    
+    .controls, body::before, body::after, .download-btn { 
+        display: none !important; 
+    }
+
+    /* 4. Force Opacity to 100% (Crucial for Sharp Text) */
+    p, span, h1, h2, h3, h4, li, div {
+        opacity: 1 !important;
+        color: #000000 !important;
+    }
+
+    /* 5. Card & Block Styling */
+    .job-block {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 10px 0;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #000 !important; /* Solid black divider */
+    }
+
+    /* 6. Preservation of Geometric Colors (Favicon Frame) */
+    .frame-left { background-color: #2C3E50 !important; }
+    .frame-top-right, .frame-bottom-right { background-color: #6C5CE7 !important; }
     .profile-container { background: none !important; }
-    /* Force background colors for the favicon frame */
-    .frame-left, .frame-top-right, .frame-bottom-right { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    /* 7. Tags & Skills - High Contrast */
+    .skill-tag, .lang-item {
+        border: 1px solid #000 !important;
+        background-color: #f0f0f0 !important; /* Light gray bg for readability */
+        color: #000 !important;
+        font-weight: bold;
+    }
+
+    /* 8. Links */
+    a {
+        text-decoration: none !important;
+        color: #000 !important;
+        border-bottom: none !important;
+    }
+    /* Optional: Show URL after links if needed */
+    /* a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; } */
 }
