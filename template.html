@@ -7,17 +7,14 @@
     <script>
         (function() {
             try {
-                // Check localStorage or System Preference
                 var savedTheme = localStorage.getItem('theme-preference');
                 var sysTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                
-                // Apply to HTML element (root), not Body, for faster painting
                 if (savedTheme === 'dark' || (!savedTheme && sysTheme)) {
                     document.documentElement.setAttribute('data-theme', 'dark');
                 } else {
                     document.documentElement.removeAttribute('data-theme');
                 }
-            } catch (e) { console.log(e); }
+            } catch (e) {}
         })();
     </script>
 
@@ -34,20 +31,23 @@
     <meta property="og:description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
     <meta property="og:type" content="profile">
     <meta property="og:url" content="https://karatasbora.github.io/resume/">
-    <meta property="og:image" content="https://karatasbora.github.io/resume/profil_lowres.png">
+    <meta property="og:image" content="https://karatasbora.github.io/resume/profil.webp">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Bora Karataş - Resume">
     <meta name="twitter:description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
-    <meta name="twitter:image" content="https://karatasbora.github.io/resume/profil_lowres.png">
+    <meta name="twitter:image" content="https://karatasbora.github.io/resume/profil.webp">
 
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%220%22 y=%220%22 width=%2244%22 height=%22100%22 fill=%22%232C3E50%22/><rect x=%2256%22 y=%220%22 width=%2244%22 height=%2246%22 fill=%22%236C5CE7%22/><rect x=%2256%22 y=%2254%22 width=%2244%22 height=%2246%22 fill=%22%236C5CE7%22/></svg>">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
+
+    <script src="data.js" defer></script>
+    <script src="script.js" defer></script>
 
     <script type="application/ld+json" id="json-ld">
     {
@@ -73,7 +73,7 @@
             "jobTitle": "Content Editor & Educator",
             "description": "Content Editor & Educator specializing in AI-Supported Learning Experiences.",
             "url": "https://karatasbora.github.io/resume/",
-            "image": "https://karatasbora.github.io/resume/profil_lowres.png",
+            "image": "https://karatasbora.github.io/resume/profil.webp",
             "sameAs": [
               "https://www.linkedin.com/in/borakaratas",
               "mailto:borakaratas@anadolu.edu.tr"
@@ -109,11 +109,12 @@
 
             <div class="profile-photo">
                 <img 
-                    src="profil_lowres.png" 
+                    src="profil.webp" 
                     alt="Bora Karataş" 
                     width="400" 
                     height="400" 
-                    style="width:100%; height:100%; object-fit:cover; object-position: center 20%;"
+                    style="width:100%; height:100%; object-fit:cover; object-position: center 20%; aspect-ratio: 1/1;"
+                    loading="eager"
                 >
             </div>
         </div>
@@ -179,7 +180,5 @@
         </div>
     </section>
 
-    <script src="data.js"></script>
-    <script src="script.js"></script>
-</body>
+    </body>
 </html>
