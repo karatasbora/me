@@ -33,35 +33,51 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ProfilePage",
-  "name": "Bora Karataş | ELT & EdTech"
-  "mainEntity": {
-    "@type": "Person",
-    "name": "Bora Karataş",
-    "jobTitle": "Content Editor & Educator",
-    "description": "Content Editor & Educator specializing in AI-Supported Learning Experiences.",
-    "url": "https://karatasbora.github.io/resume/",
-    "image": "https://karatasbora.github.io/resume/profil_lowres.png",
-    "sameAs": [
-      "https://www.linkedin.com/in/borakaratas",
-      "mailto:borakaratas@anadolu.edu.tr"
-    ],
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Anadolu University"
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "Bora Karataş",
+      "url": "https://karatasbora.github.io/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://karatasbora.github.io/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
     },
-    "alumniOf": {
-      "@type": "CollegeOrUniversity",
-      "name": "Anadolu University"
-    },
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Eskisehir",
-      "addressCountry": "Turkey"
+    {
+      "@type": "ProfilePage",
+      "name": "Bora Karataş | ELT & EdTech",
+      "url": "https://karatasbora.github.io/",
+      "mainEntity": {
+        "@type": "Person",
+        "name": "Bora Karataş",
+        "jobTitle": "Content Editor & Educator",
+        "description": "Content Editor & Educator specializing in AI-Supported Learning Experiences.",
+        "url": "https://karatasbora.github.io/resume/",
+        "image": "https://karatasbora.github.io/resume/profil_lowres.png",
+        "sameAs": [
+          "https://www.linkedin.com/in/borakaratas",
+          "mailto:borakaratas@anadolu.edu.tr"
+        ],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Anadolu University"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Anadolu University"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Eskisehir",
+          "addressCountry": "Turkey"
+        }
+      }
     }
-  }
+  ]
 }
 </script>
+
 </head>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -221,6 +237,7 @@
 
 </body>
 </html>
+
 
 
 
