@@ -1,181 +1,219 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="google-site-verification" content="QzyLRgFCHH93peNx08rdCue9fZDR-5OYVc818U5goIU" />
+    <script>
+        (function() {
+            try {
+                // Check localStorage or System Preference
+                var savedTheme = localStorage.getItem('theme-preference');
+                var sysTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                // Apply to HTML element (root), not Body, for faster painting
+                if (savedTheme === 'dark' || (!savedTheme && sysTheme)) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+            } catch (e) { console.log(e); }
+        })();
+    </script>
 
-<title>Bora Karataş - Özgeçmiş/Resume</title>
-<meta name="description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
-<meta name="author" content="Bora Karataş">
-<meta name="keywords" content="Bora Karataş, İçerik Editörü, Content Editor, ELT, EdTech, Yapay Zeka, AI Learning, Instructional Design, Anadolu University">
-<link rel="canonical" href="https://karatasbora.github.io/resume/">
+    <meta name="google-site-verification" content="QzyLRgFCHH93peNx08rdCue9fZDR-5OYVc818U5goIU" />
 
-<meta property="og:title" content="Bora Karataş - Özgeçmiş/Resume">
-<meta property="og:site_name" content="Bora Karataş | ELT & EdTech">
-<meta property="og:description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
-<meta property="og:type" content="profile">
-<meta property="og:url" content="https://karatasbora.github.io/resume/">
-<meta property="og:image" content="https://karatasbora.github.io/resume/profil_lowres.png">
+    <title>Bora Karataş - Özgeçmiş/Resume</title>
+    <meta name="description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
+    <meta name="author" content="Bora Karataş">
+    <meta name="keywords" content="Bora Karataş, İçerik Editörü, Content Editor, ELT, EdTech, Yapay Zeka, AI Learning, Instructional Design, Anadolu University">
+    <link rel="canonical" href="https://karatasbora.github.io/resume/">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Bora Karataş - Resume">
-<meta name="twitter:description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
-<meta name="twitter:image" content="https://karatasbora.github.io/resume/profil_lowres.png">
+    <meta property="og:title" content="Bora Karataş - Özgeçmiş/Resume">
+    <meta property="og:site_name" content="Bora Karataş | ELT & EdTech">
+    <meta property="og:description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://karatasbora.github.io/resume/">
+    <meta property="og:image" content="https://karatasbora.github.io/resume/profil_lowres.png">
 
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22>
-    <rect x=%220%22 y=%220%22 width=%2244%22 height=%22100%22 fill=%22%232C3E50%22/>
-    <rect x=%2256%22 y=%220%22 width=%2244%22 height=%2246%22 fill=%22%236C5CE7%22/>
-    <rect x=%2256%22 y=%2254%22 width=%2244%22 height=%2246%22 fill=%22%236C5CE7%22/>
-</svg>">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bora Karataş - Resume">
+    <meta name="twitter:description" content="Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech">
+    <meta name="twitter:image" content="https://karatasbora.github.io/resume/profil_lowres.png">
 
-<link rel="stylesheet" href="style.css">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%220%22 y=%220%22 width=%2244%22 height=%22100%22 fill=%22%232C3E50%22/><rect x=%2256%22 y=%220%22 width=%2244%22 height=%2246%22 fill=%22%236C5CE7%22/><rect x=%2256%22 y=%2254%22 width=%2244%22 height=%2246%22 fill=%22%236C5CE7%22/></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <script type="application/ld+json" id="json-ld">
     {
-      "@type": "WebSite",
-      "name": "Bora Karataş",
-      "url": "https://karatasbora.github.io/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://karatasbora.github.io/?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    },
-    {
-      "@type": "ProfilePage",
-      "name": "Bora Karataş | ELT & EdTech",
-      "url": "https://karatasbora.github.io/",
-      "mainEntity": {
-        "@type": "Person",
-        "name": "Bora Karataş",
-        "jobTitle": "Content Editor & Educator",
-        "description": "Content Editor & Educator specializing in AI-Supported Learning Experiences.",
-        "url": "https://karatasbora.github.io/resume/",
-        "image": "https://karatasbora.github.io/resume/profil_lowres.png",
-        "sameAs": [
-          "https://www.linkedin.com/in/borakaratas",
-          "mailto:borakaratas@anadolu.edu.tr"
-        ],
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Anadolu University"
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "Bora Karataş",
+          "url": "https://karatasbora.github.io/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://karatasbora.github.io/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
         },
-        "alumniOf": {
-          "@type": "CollegeOrUniversity",
-          "name": "Anadolu University"
-        },
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Eskisehir",
-          "addressCountry": "Turkey"
+        {
+          "@type": "ProfilePage",
+          "name": "Bora Karataş | ELT & EdTech",
+          "url": "https://karatasbora.github.io/",
+          "mainEntity": {
+            "@type": "Person",
+            "name": "Bora Karataş",
+            "jobTitle": "Content Editor & Educator",
+            "description": "Content Editor & Educator specializing in AI-Supported Learning Experiences.",
+            "url": "https://karatasbora.github.io/resume/",
+            "image": "https://karatasbora.github.io/resume/profil_lowres.png",
+            "sameAs": [
+              "https://www.linkedin.com/in/borakaratas",
+              "mailto:borakaratas@anadolu.edu.tr"
+            ],
+            "worksFor": {
+              "@type": "Organization",
+              "name": "Anadolu University"
+            },
+            "alumniOf": {
+              "@type": "CollegeOrUniversity",
+              "name": "Anadolu University"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Eskisehir",
+              "addressCountry": "Turkey"
+            }
+          }
         }
-      }
+      ]
     }
-  ]
-}
-</script>
-
+    </script>
 </head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-  <body>
+<body>
     <noscript>
-    <div style="font-family: sans-serif; padding: 20px; color: #333; max-width: 800px; margin: 0 auto;">
-        
-        <h1 style="margin-bottom: 5px;">Bora Karataş</h1>
-        <p style="font-size: 1.2em; font-weight: bold; margin-top: 0; color: #A54522;">
-            Content Editor & Educator | Designing AI-Supported, Accessible Learning Experiences | ELT & EdTech
-        </p>
-        <p>
-            Eskisehir, Turkey | 
-            <a href="mailto:borakaratas@anadolu.edu.tr">borakaratas@anadolu.edu.tr</a> | 
-            <a href="https://www.linkedin.com/in/borakaratas">linkedin.com/in/borakaratas</a>
-        </p>
-        <hr>
+        <article style="font-family: 'Inter', sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 40px auto; padding: 20px;">
+            
+            <header style="border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 30px;">
+                <h1 style="font-family: 'Libre Baskerville', serif; font-size: 2.5rem; margin-bottom: 10px; color: #2C3E50;">Bora Karataş</h1>
+                <p style="font-size: 1.1rem; color: #6C5CE7; font-weight: bold; margin-bottom: 10px;">
+                    Education Specialist & Content Editor | AI-Supported Instructional Design | ELT · EdTech
+                </p>
+                <div style="font-size: 0.95rem;">
+                    <span>Eskisehir, Turkey</span> | 
+                    <a href="mailto:borakaratas@anadolu.edu.tr" style="color: #333; text-decoration: underline;">borakaratas@anadolu.edu.tr</a> | 
+                    <a href="https://www.linkedin.com/in/borakaratas" style="color: #333; text-decoration: underline;">LinkedIn Profile</a>
+                </div>
+            </header>
+    
+            <section style="margin-bottom: 40px;">
+                <h2 style="font-family: 'Libre Baskerville', serif; border-left: 4px solid #6C5CE7; padding-left: 15px; color: #2C3E50;">About</h2>
+                <p>
+                    Education professional specializing in the design of accessible, human-centered learning experiences supported by artificial intelligence and educational technologies. Experienced in content strategy, instructional design, and digital transformation within higher education and public schooling contexts. Committed to advancing inclusive, ethical, and learner-centered education aligned with global sustainability and equity goals. Approaches technology as an enabling tool for exploration, critical thinking, and lifelong learning rather than as an end in itself.
+                </p>
+            </section>
+    
+            <section style="margin-bottom: 40px;">
+                <h2 style="font-family: 'Libre Baskerville', serif; border-left: 4px solid #6C5CE7; padding-left: 15px; color: #2C3E50;">Experience</h2>
+                
+                <article style="margin-bottom: 25px;">
+                    <h3 style="margin-bottom: 5px; color: #2C3E50;">Content Editor</h3>
+                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 10px;">
+                        <strong>Anadolu University · Learning Technologies R&D Unit</strong> | Hybrid · Part-time | DEC 2022 - PRESENT
+                    </div>
+                    <p>
+                        Contribute to institutional digital transformation initiatives aimed at converting static instructional materials into interactive and inclusive digital learning experiences. Integrate Generative AI (LLM) tools into content development workflows to improve editorial efficiency, consistency, and scalability while adhering to universal design and accessibility principles. Collaborate with multidisciplinary teams to enhance learner engagement and support diverse learning needs across digital platforms.
+                    </p>
+                    <p><em>Key Skills: Content Strategy, AI Prompt Engineering, Learning Management Systems</em></p>
+                </article>
+    
+                <article style="margin-bottom: 25px;">
+                    <h3 style="margin-bottom: 5px; color: #2C3E50;">English Teacher</h3>
+                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 10px;">
+                        <strong>Ministry of National Education · Gülay Kanatlı Secondary School</strong> | On-site · Internship | SEP 2025 - DEC 2025
+                    </div>
+                    <p>
+                        Implemented a learner-centered English language curriculum emphasizing communication, critical thinking, and real-world language use rather than rote grammar instruction. Designed lessons aligned with 21st-century competencies (communication, collaboration, creativity, and critical thinking). Applied gamification strategies to classroom management to increase student motivation, participation, and inclusivity.
+                    </p>
+                    <p><em>Key Skills: Instructional Design, Classroom Management, Teaching English as a Foreign Language</em></p>
+                </article>
+            </section>
+    
+            <section style="margin-bottom: 40px;">
+                <h2 style="font-family: 'Libre Baskerville', serif; border-left: 4px solid #6C5CE7; padding-left: 15px; color: #2C3E50;">Education</h2>
+                
+                <article style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 5px; color: #2C3E50;">English Language Teaching (Bachelor's Degree)</h3>
+                    <div style="color: #666; font-size: 0.9rem;">Anadolu University</div>
+                    <p>Focused academically on pedagogy, instructional technologies, and learner-centered teaching methodologies. Developed projects integrating traditional educational approaches with contemporary EdTech tools.</p>
+                </article>
+    
+                <article style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 5px; color: #2C3E50;">Anglo-American Studies (ERASMUS+)</h3>
+                    <div style="color: #666; font-size: 0.9rem;">Universidade de Coimbra</div>
+                    <p>Developed intercultural communication and global citizenship competencies. Gained comparative insight into international education systems through academic mobility.</p>
+                </article>
+    
+                <article style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 5px; color: #2C3E50;">Economics (Bachelor's Degree)</h3>
+                    <div style="color: #666; font-size: 0.9rem;">Anadolu University (Remote)</div>
+                    <p>Ongoing studies with emphasis on systems thinking, data literacy, and analytical decision-making processes relevant to education policy and development contexts.</p>
+                </article>
+            </section>
+    
+            <section style="margin-bottom: 40px;">
+                <h2 style="font-family: 'Libre Baskerville', serif; border-left: 4px solid #6C5CE7; padding-left: 15px; color: #2C3E50;">Technical Skills & Specializations</h2>
+                <ul style="list-style-type: square; padding-left: 20px;">
+                    <li>Artificial Intelligence in Education</li>
+                    <li>Prompt Engineering for Educational Content</li>
+                    <li>Instructional Design & Learning Experience Design (LXD)</li>
+                    <li>Learning Management Systems (LMS)</li>
+                    <li>Content Management Systems (CMS)</li>
+                    <li>Digital Archiving & Knowledge Organization</li>
+                    <li>Academic Research & Analysis</li>
+                    <li>Systems Thinking</li>
+                </ul>
+            </section>
+    
+            <section>
+                <h2 style="font-family: 'Libre Baskerville', serif; border-left: 4px solid #6C5CE7; padding-left: 15px; color: #2C3E50;">Languages</h2>
+                <ul style="list-style-type: none; padding: 0;">
+                    <li style="margin-bottom: 5px;"><strong>Turkish:</strong> Native / Editorial Proficiency</li>
+                    <li style="margin-bottom: 5px;"><strong>English:</strong> Full Professional / C2 (Academic)</li>
+                    <li style="margin-bottom: 5px;"><strong>Portuguese:</strong> Basic Cultural Familiarity</li>
+                </ul>
+            </section>
+    
+        </article>
+    </noscript>
 
-        <h2>About</h2>
-        <p>
-            In the digital age where learning evolves from storing information to generating skills, I develop AI-supported content strategies. To make education more human and accessible; I use technology not as a goal, but as a tool that liberates the discovery process. I offer a modern and analytical learning vision free from performance anxiety.
-        </p>
-
-        <h2>Experience</h2>
-        
-        <div style="margin-bottom: 20px;">
-            <h3 style="margin-bottom: 5px;">Content Editor</h3>
-            <p style="margin: 0; font-style: italic;">Anadolu University | Learning Technologies R&D Unit (DEC 2022 - PRESENT)</p>
-            <p>
-                Within the Learning Technologies R&D Unit, I am part of a comprehensive digital transformation process that turns static course materials into digital experiences. I integrate Generative AI (LLM) tools into content strategy to increase editorial efficiency while optimizing accessibility and student engagement with universal design principles. I position technology not just as a tool, but as an element that liberates the learning process.
-            </p>
-            <p><strong>Tags:</strong> Content Strategy, AI Prompts, LMS</p>
-        </div>
-
-        <div style="margin-bottom: 20px;">
-            <h3 style="margin-bottom: 5px;">English Teacher (Intern)</h3>
-            <p style="margin: 0; font-style: italic;">Ministry of National Education | Gülay Kanatlı Secondary School (SEP 2025 - DEC 2025)</p>
-            <p>
-                Implemented a student-centered curriculum positioning language as an active communication tool rather than rote-based grammar teaching. Designed lessons focused on 21st-century skills (4C) and critical thinking. Strategically used gamification techniques in classroom management to boost motivation of passive students and maximize participation rates.
-            </p>
-            <p><strong>Tags:</strong> Instructional Design, Classroom Management, TEFL</p>
-        </div>
-
-        <h2>Education</h2>
-        
-        <div style="margin-bottom: 15px;">
-            <h3 style="margin-bottom: 5px;">English Language Teaching (ELT) - Bachelor's Degree</h3>
-            <p style="margin: 0; font-style: italic;">Anadolu University</p>
-            <p>Focused on pedagogy and instructional technologies. Developed projects blending traditional approaches with modern EdTech tools.</p>
-        </div>
-
-        <div style="margin-bottom: 15px;">
-            <h3 style="margin-bottom: 5px;">Anglo-American Studies - ERASMUS+</h3>
-            <p style="margin: 0; font-style: italic;">Universidade de Coimbra</p>
-            <p>Gained intercultural communication and adaptation competencies. Had the opportunity to analyze global education systems on-site.</p>
-        </div>
-
-        <div style="margin-bottom: 15px;">
-            <h3 style="margin-bottom: 5px;">Economics (English) - Bachelor's Degree</h3>
-            <p style="margin: 0; font-style: italic;">Anadolu University (Remote Learning)</p>
-            <p>Studying systems thinking, data literacy, and analytical decision-making processes.</p>
-        </div>
-
-        <h2>Technical Skills & Specializations</h2>
-        <p>
-            Prompt Engineering, Instructional Design, Artificial Intelligence, LMS, CMS, Digital Archiving, Academic Research, Systems Thinking
-        </p>
-
-        <h2>Languages</h2>
-        <ul>
-            <li><strong>Turkish:</strong> Native / Editorial Mastery</li>
-            <li><strong>English:</strong> Full Professional / C2 (Academic)</li>
-            <li><strong>Portuguese:</strong> Basic Cultural Familiarity</li>
-        </ul>
-    </div>
-</noscript>
     <header>
-<div class="profile-container">
+        <div class="profile-container">
+            <div class="favicon-frame">
+                <span class="frame-left"></span>
+                <span class="frame-top-right"></span>
+                <span class="frame-bottom-right"></span>
+            </div>
 
-  <div class="favicon-frame">
-    <span class="frame-left"></span>
-    <span class="frame-top-right"></span>
-    <span class="frame-bottom-right"></span>
-  </div>
-
-  <div class="profile-photo">
-    <img src="profil_lowres.png" alt="Bora Karataş">
-  </div>
-
-</div>
-
+            <div class="profile-photo">
+                <picture>
+                    <source srcset="profil.avif" type="image/avif">
+                    <source srcset="profil.webp" type="image/webp">
+                    <img src="profil_lowres.png" alt="Bora Karataş" width="400" height="400" style="width:100%; height:100%; object-fit:cover;">
+                </picture>
+            </div>
+        </div>
         
         <div class="header-text">
-            <h1 id="p-name"></h1>
-            <div class="headline" id="p-title"></div>
+            <h1 id="p-name">Bora Karataş</h1> <div class="headline" id="p-title"></div>
             
             <div class="contact-info">
                 <span id="p-location"></span>
@@ -221,7 +259,8 @@
         
         <div class="job-block">
             <div class="job-header">
-                <span class="job-title" id="head-skills-sub"></span> </div>
+                <span class="job-title" id="head-skills-sub"></span> 
+            </div>
             <div class="tags-wrapper" id="skills-list" style="padding-left:0; margin-top: 5px;"></div>
         </div>
 
@@ -235,28 +274,5 @@
 
     <script src="data.js"></script>
     <script src="script.js"></script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
