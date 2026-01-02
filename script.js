@@ -192,20 +192,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // E. Dark Mode Logic
     const btnTheme = document.getElementById('btn-theme');
-    
+    const htmlElement = document.documentElement; // CHANGE THIS
+
     // 1. Check system preference immediately
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.setAttribute('data-theme', 'dark');
-    }
+    // (This part is fine, but redundant since index.html handles it. 
+    // You can keep it to be safe or rely on the head script.)
 
     // 2. Toggle on click
     if (btnTheme) {
         btnTheme.addEventListener('click', () => {
-            const body = document.body;
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.removeAttribute('data-theme');
+            // Check the HTML tag, not the BODY tag
+            if (htmlElement.getAttribute('data-theme') === 'dark') {
+                htmlElement.removeAttribute('data-theme');
+                localStorage.setItem('theme-preference', 'light'); // Optional: Save state
             } else {
-                body.setAttribute('data-theme', 'dark');
+                htmlElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme-preference', 'dark'); // Optional: Save state
             }
         });
     }
