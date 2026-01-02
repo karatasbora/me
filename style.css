@@ -262,75 +262,112 @@ a:hover { color: var(--accent-color); }
     .job-date { margin-bottom: 5px; }
 }
 
-/* --- PRINT FIXES --- */
 @media print {
-    /* 1. Global Ink Reset */
-    :root, body, [data-theme="dark"] {
-        --bg-color: #ffffff !important;
-        --card-bg: #ffffff !important;
+    /* 1. Global Print Variables & Reset */
+    :root {
         --primary-text: #000000 !important;
         --heading-color: #000000 !important;
-        --meta-color: #000000 !important; /* Forces gray dates/locations to black */
+        --bg-color: #ffffff !important;
+        --card-bg: #ffffff !important;
+        --meta-color: #444444 !important;
+        --tag-bg: #f0f0f0 !important;
         --tag-text: #000000 !important;
-        --border-color: #000000 !important; /* Darkens borders */
+        --border-color: #eeeeee !important;
+        --accent-color: #6C5CE7 !important;
+        --shadow: none !important;
     }
 
-    /* 2. Force Solid Colors (Fixes Faintness) */
-    * {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+    /* 2. Page Setup & Typography */
+    @page {
+        margin: 1cm; /* Standard print margin */
+        size: auto;
+    }
+
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-size: 10pt; /* Replaces 'zoom' for better cross-browser support */
+        line-height: 1.3;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* Increase weight for print legibility */
+    body, h1, h2, h3, h4 {
+        font-weight: 500;
+    }
+
+    /* 3. Universal Cleanup */
+    *, *::before, *::after {
+        box-shadow: none !important;
         text-shadow: none !important;
-        filter: none !important;
+        opacity: 1 !important; /* Forces all text/elements to full opacity */
     }
 
-    /* 3. Reset Layout & Remove Screen Elements */
-    body { 
-        margin: 0; 
-        padding: 0; 
-        width: 100%; 
-        zoom: 75%; /* Scales content to fit A4 */
-    }
-    
-    .controls, body::before, body::after, .download-btn { 
+    /* Hide decorative/UI elements */
+    .controls,
+    body::before,
+    body::after,
+    .contact-link::after { 
         display: none !important; 
     }
 
-    /* 4. Force Opacity to 100% (Crucial for Sharp Text) */
-    p, span, h1, h2, h3, h4, li, div {
-        opacity: 1 !important;
-        color: #000000 !important;
+    /* 4. Color & Background Force */
+    /* Groups all elements that need background colors preserved */
+    .skill-tag, 
+    .lang-item, 
+    .frame-left, 
+    .frame-top-right, 
+    .frame-bottom-right {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 
-    /* 5. Card & Block Styling */
-    .job-block {
+    /* Specific styles for tags */
+    .skill-tag, .lang-item {
+        background-color: #f0f0f0 !important;
+        color: #000 !important;
+        border: 1px solid #ccc !important;
+    }
+
+    /* 5. Layout & Containers */
+    .profile-container {
+        border: none !important;
+        margin: 0 !important;
+    }
+
+    /* 6. Page Break Logic */
+    /* Prevent breaks inside small components */
+    .job-block, 
+    .lang-item, 
+    tr, 
+    img {
         break-inside: avoid;
         page-break-inside: avoid;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 10px 0;
-        margin-bottom: 15px;
-        border-bottom: 1px solid #000 !important; /* Solid black divider */
     }
 
-    /* 6. Preservation of Geometric Colors (Favicon Frame) */
-    .frame-left { background-color: #2C3E50 !important; }
-    .frame-top-right, .frame-bottom-right { background-color: #6C5CE7 !important; }
-    .profile-container { background: none !important; }
+    /* Keep headings attached to their content */
+    h2, h3 {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
 
-    /* 7. Tags & Skills - High Contrast */
-    .skill-tag, .lang-item {
-        border: 1px solid #000 !important;
-        background-color: #f0f0f0 !important; /* Light gray bg for readability */
+    /* Allow sections to break if necessary to avoid massive whitespace gaps */
+    section {
+        break-inside: auto; 
+    }
+
+    /* 7. Links */
+    .contact-link,
+    .contact-link.copied {
+        display: inline !important;
         color: #000 !important;
-        font-weight: bold;
-    }
-
-    /* 8. Links */
-    a {
         text-decoration: none !important;
-        color: #000 !important;
-        border-bottom: none !important;
+        border-bottom: 2px solid var(--accent-color) !important;
     }
-    /* Optional: Show URL after links if needed */
-    /* a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; } */
+    
+    /* Optional: If you want to show URLs for external links in print */
+    /* a[href^="http"]::after { content: " (" attr(href) ")"; } */
 }
