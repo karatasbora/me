@@ -262,9 +262,9 @@ a:hover { color: var(--accent-color); }
     .job-date { margin-bottom: 5px; }
 }
 
+/* --- PRINT SETTINGS --- */
 @media print {
-    /* 1. Global Print Variables & Reset */
-    :root {
+    :root, [data-theme="dark"], body {
         --primary-text: #000000 !important;
         --heading-color: #000000 !important;
         --bg-color: #ffffff !important;
@@ -277,47 +277,41 @@ a:hover { color: var(--accent-color); }
         --shadow: none !important;
     }
 
-    /* 2. Page Setup & Typography */
-    @page {
-        margin: 1cm; /* Standard print margin */
-        size: auto;
+    body::before, body::after {
+        display: none !important;
+        content: none !important;
     }
 
-    body {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        width: 100%;
-        margin: 0;
+    body { 
+        background-color: #ffffff !important; 
+        color: #000000 !important; 
+        width: 100%; 
+        margin: 0; 
         padding: 0;
-        font-size: 10pt; /* Replaces 'zoom' for better cross-browser support */
-        line-height: 1.3;
-        -webkit-font-smoothing: antialiased;
+        zoom: 75%; 
     }
 
-    /* Increase weight for print legibility */
-    body, h1, h2, h3, h4 {
+    /* 2. Force text to be full opacity */
+    p, span, li, div {
+        opacity: 1 !important;
+    }
+
+    /* 3. Increase font weight slightly for printing if using Inter */
+    body {
         font-weight: 500;
     }
 
-    /* 3. Universal Cleanup */
-    *, *::before, *::after {
-        box-shadow: none !important;
-        text-shadow: none !important;
-        opacity: 1 !important; /* Forces all text/elements to full opacity */
+    .controls { display: none !important; }
+    
+    .skill-tag, .lang-item {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        background-color: #f0f0f0 !important;
+        color: #000 !important;
+        border: 1px solid #ccc !important;
     }
 
-    /* Hide decorative/UI elements */
-    .controls,
-    body::before,
-    body::after,
-    .contact-link::after { 
-        display: none !important; 
-    }
-
-    /* 4. Color & Background Force */
-    /* Groups all elements that need background colors preserved */
-    .skill-tag, 
-    .lang-item, 
+/* 1. Ensure background colors are forced to print */
     .frame-left, 
     .frame-top-right, 
     .frame-bottom-right {
@@ -325,49 +319,40 @@ a:hover { color: var(--accent-color); }
         print-color-adjust: exact !important;
     }
 
-    /* Specific styles for tags */
-    .skill-tag, .lang-item {
-        background-color: #f0f0f0 !important;
-        color: #000 !important;
-        border: 1px solid #ccc !important;
-    }
-
-    /* 5. Layout & Containers */
+    /* 2. Remove 'background: none !important' which was hiding the frame */
     .profile-container {
-        border: none !important;
-        margin: 0 !important;
+        border: none !important; /* Removes the standard box border */
+        /* background: none !important;  <-- REMOVE OR COMMENT THIS LINE */
     }
 
-    /* 6. Page Break Logic */
-    /* Prevent breaks inside small components */
+    .contact-link {
+        display: inline !important;
+        color: #000 !important;
+        border-bottom: 2px solid var(--accent-color) !important; /* Restore line for professional PDF */
+        text-decoration: none !important;
+    }
+    
+    .contact-link.copied {
+        color: #000 !important; /* Force black text even if 'copied' class is on */
+        border-bottom: 2px solid var(--accent-color) !important;
+    }
+
+    .contact-link::after, .contact-link.copied::after {
+        display: none !important;
+        content: "" !important;
+    }
+    /* Force blocks to stay together on one page */
     .job-block, 
-    .lang-item, 
-    tr, 
-    img {
+    .lang-item,
+    section {
         break-inside: avoid;
-        page-break-inside: avoid;
+        page-break-inside: avoid; /* Backward compatibility */
+        display: block; /* Ensures the break property is respected */
     }
 
-    /* Keep headings attached to their content */
+    /* Prevent headings from being left alone at the bottom of a page */
     h2, h3 {
         break-after: avoid;
         page-break-after: avoid;
     }
-
-    /* Allow sections to break if necessary to avoid massive whitespace gaps */
-    section {
-        break-inside: auto; 
-    }
-
-    /* 7. Links */
-    .contact-link,
-    .contact-link.copied {
-        display: inline !important;
-        color: #000 !important;
-        text-decoration: none !important;
-        border-bottom: 2px solid var(--accent-color) !important;
-    }
-    
-    /* Optional: If you want to show URLs for external links in print */
-    /* a[href^="http"]::after { content: " (" attr(href) ")"; } */
-}
+} /* Final closing brace for media query */
