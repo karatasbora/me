@@ -1,6 +1,4 @@
-/* style.css */
-
-/* --- 1. THE MODERN SAGE: COLOR PALETTE & VARIABLES --- */
+/* --- THE MODERN SAGE: COLOR PALETTE --- */
 :root {
     /* Brand Colors */
     --oxford-slate: #2C3E50;       /* Primary: Authority */
@@ -9,7 +7,7 @@
     --ink-black: #333333;          /* Text: Soft charcoal */
     --neural-violet: #6C5CE7;      /* Accent: AI/Innovation */
     
-    /* UI Mapping */
+    /* Mapping to UI */
     --primary-text: var(--ink-black);
     --heading-color: var(--oxford-slate);
     --subheading-color: var(--burnished-leather);
@@ -21,13 +19,21 @@
     --tag-text: var(--oxford-slate);
     --border-color: #E2E8F0;
     
-    /* Layout & Physics */
+    /* Tactile Physics */
     --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     --radius: 6px;
     --focus-ring: 2px solid var(--neural-violet);
+
+    body::before {
+        opacity: 0.14;
+    }
+    
+    body::after {
+         opacity: 0.018;
+    }
 }
 
-/* --- 2. DARK MODE THEME --- */
+/* --- DARK MODE: THE DIGITAL ARCHIVE --- */
 [data-theme="dark"] {
     --bg-color: #1a202c;
     --card-bg: #2D3748;
@@ -41,7 +47,6 @@
     --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
 }
 
-/* --- 3. BASE STYLES --- */
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-color);
@@ -50,36 +55,51 @@ body {
     max-width: 900px;
     margin: 40px auto;
     padding: 60px;
-    /* Optimization: Improve text rendering */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    box-shadow: none; /* Removed the old box container shadow */
 }
 
-/* OPTIMIZATION: Replaced heavy SVG noise with lightweight overlay */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 9999;
-    
-    /* Fallback for the noise texture (simulates the darkening effect efficiently) */
-    background-color: var(--primary-text);
-    opacity: 0.03;
+
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.35' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+
+    opacity: 0.12;
     mix-blend-mode: multiply;
 }
 
 [data-theme="dark"] body::before {
-    opacity: 0.05;
-    mix-blend-mode: overlay;
+    opacity: 0.07;
+    mix-blend-mode: screen;
 }
 
-/* --- 4. ACCESSIBILITY & ANIMATIONS --- */
+[data-theme="dark"] body::after {
+    opacity: 0.02;
+    mix-blend-mode: color-dodge;
+}
+
+/* --- ACCESSIBILITY --- */
 button:focus-visible, a:focus-visible {
     outline: var(--focus-ring);
     outline-offset: 2px;
 }
 
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+
+    background-color: var(--heading-color);
+    opacity: 0.015;
+    mix-blend-mode: multiply;
+}
+
+/* --- ANIMATIONS --- */
 @keyframes simpleFade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -89,7 +109,7 @@ section:nth-of-type(2) { animation: slideUp 0.6s ease-out 0.2s forwards; opacity
 section:nth-of-type(3) { animation: slideUp 0.6s ease-out 0.3s forwards; opacity: 0; }
 section:nth-of-type(4) { animation: slideUp 0.6s ease-out 0.4s forwards; opacity: 0; }
 
-/* --- 5. COMPONENT: HEADER & PROFILE --- */
+/* --- HEADER --- */
 header {
     display: flex;
     align-items: center;
@@ -101,60 +121,80 @@ header {
     min-width: 0;
 }
 
+:root {
+    --oxford-slate: #2C3E50;
+    --neural-violet: #6C5CE7;
+    --paper-white: #FFFFFF;
+}
+
+/* ================= PROFILE + FAVICON FRAME ================= */
+
 .profile-container {
     position: relative;
     height: 5.2lh;
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
+
+    /* 🔑 reserve space for the frame INSIDE */
     padding: 4px;
     box-sizing: border-box;
-    transition: transform 0.3s ease;
 }
 
-.profile-container:hover { transform: scale(1.03); }
+  /* ================= FRAME ================= */
+.favicon-frame {
+    position: absolute;
+    inset: 0;        /* ✅ never exceeds container */
+    z-index: 0;
+}
 
-/* Profile Frame Construction */
-.favicon-frame { position: absolute; inset: 0; z-index: 0; }
-.frame-left { position: absolute; left: 0; top: 0; width: 44%; height: 100%; background: #2C3E50; }
-.frame-top-right { position: absolute; top: 0; right: 0; width: 44%; height: 46%; background: #6C5CE7; }
-.frame-bottom-right { position: absolute; bottom: 0; right: 0; width: 44%; height: 46%; background: #6C5CE7; }
+  /* LEFT — SOLID, FULL HEIGHT */
+  .frame-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 44%;
+    height: 100%;
+    background: #2C3E50;
+  }
 
-.profile-photo {
+  /* TOP RIGHT */
+  .frame-top-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 44%;
+    height: 46%;
+    background: #6C5CE7;
+  }
+
+  /* BOTTOM RIGHT */
+  .frame-bottom-right {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 44%;
+    height: 46%;
+    background: #6C5CE7;
+  }
+
+  /* ================= PHOTO ================= */
+  .profile-photo {
     position: relative;
     z-index: 1;
     width: 100%;
     height: 100%;
     background: #111;
     overflow: hidden;
-    box-shadow: 0 14px 36px rgba(0,0,0,.15); /* Slightly lighter shadow for perf */
+    box-shadow: 0 14px 36px rgba(0,0,0,.65);
+  }
+
+.profile-container:hover {
+    transform: scale(1.03);
 }
 
-/* Header Text */
 .header-text { flex-grow: 1; width: 100%; }
 
-h1 {
-    font-family: 'Libre Baskerville', serif;
-    font-size: 2.5rem;
-    color: var(--heading-color);
-    margin: 0 0 10px 0;
-    font-weight: 700;
-    line-height: 1.2;
-}
-
-.headline {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.05rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--accent-color); 
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-
-.contact-info { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--primary-text); }
-.contact-info .sep { margin: 0 8px; color: var(--border-color); }
-
-/* --- 6. CONTROLS (Theme/Lang/PDF) --- */
+/* --- CONTROLS --- */
 .controls {
     position: absolute;
     top: 0;
@@ -174,14 +214,20 @@ h1 {
     color: var(--meta-color);
     padding: 6px 8px;
     border-radius: 4px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .btn-icon:hover { color: var(--accent-color); background-color: var(--tag-bg); }
-.btn-icon[aria-pressed="true"] { color: var(--card-bg); background-color: var(--accent-color); }
 
+/* Active State Styling */
+.btn-icon[aria-pressed="true"] { 
+    color: var(--card-bg); 
+    background-color: var(--accent-color); 
+}
+
+/* Theme Icons Toggle */
 #sun-icon { display: none; }
 [data-theme="dark"] #moon-icon { display: none; }
 [data-theme="dark"] #sun-icon { display: block; }
@@ -203,21 +249,77 @@ h1 {
 }
 .download-btn:hover { opacity: 0.9; }
 .download-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
 .separator { color: var(--border-color); font-size: 0.85rem; }
 
-/* --- 7. CONTENT BLOCKS --- */
-section { margin-bottom: 3rem; }
+/* --- TYPOGRAPHY --- */
+h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 2.5rem;
+    color: var(--heading-color); /* Updated */
+    margin: 0 0 10px 0;
+    font-weight: 700;
+    line-height: 1.2;
+    padding-right: 0;
+}
 
+.headline {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent-color); 
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.contact-info { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--primary-text); }
+
+.contact-link {
+    position: relative;
+    display: inline-flex; /* Required for centering and dimensions */
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
+/* When the 'copied' class is active, hide the real text for the screen only */
+.contact-link.copied {
+    color: transparent !important;
+    border-bottom-color: transparent !important; /* This is the fix */
+}
+
+.contact-link.copied::after {
+    content: attr(data-copy-text);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--accent-color) !important;
+    font-weight: bold;
+    white-space: nowrap;
+    background-color: var(--bg-color);
+    padding: 0 5px;
+    /* No border-bottom logic needed here */
+}
+
+.contact-link:hover { 
+    color: var(--accent-color); 
+    border-bottom-color: var(--accent-color);
+}
+.contact-info .sep { margin: 0 8px; color: var(--border-color); }
+
+section { margin-bottom: 3rem; }
 h2 {
     font-family: 'Libre Baskerville', serif;
     color: var(--heading-color);
-    border-left: 4px solid var(--accent-color);
+    border-left: 4px solid var(--accent-color); /* Neural Violet */
     padding-left: 18px;
     margin: 2.5rem 0 1.5rem 0;
 }
-
 p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacity: 0.9; }
 
+/* --- JOB CARDS --- */
 .job-block {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -225,15 +327,17 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
     padding: 24px;
     margin-bottom: 24px;
     box-shadow: var(--card-shadow);
+    page-break-inside: avoid;
     transition: transform 0.2s ease;
 }
 
-.job-block:hover { transform: translateY(-2px); }
+.job-block:hover {
+    transform: translateY(-2px);
+}
 
 .job-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem; }
 .job-title { font-family: 'Libre Baskerville', serif; font-size: 1.2rem; font-weight: 700; color: var(--primary-text); }
 .job-date { font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--meta-color); font-weight: 700; text-transform: uppercase; }
-
 .job-subheader { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
 .company { font-family: 'Inter', sans-serif; font-weight: 600; color: var(--meta-color); font-size: 1rem; }
 .location { font-family: 'Inter', sans-serif; font-size: 0.75rem; color: var(--accent-color); font-weight: 700; text-transform: uppercase; }
@@ -241,9 +345,9 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
 .job-content { border-left: 2px solid var(--border-color); padding-left: 15px; }
 .job-content p { margin: 0 0 10px 0; font-size: 0.95rem; text-align: justify; color: var(--primary-text); opacity: 0.85; }
 
-/* --- 8. SKILLS & LANGUAGES --- */
+/* --- SKILL TAGS --- */
 .tags-wrapper { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
-
+/* --- Updated Skill Tag Style --- */
 .skill-tag {
     font-family: 'Inter', sans-serif;
     font-size: 0.75rem;
@@ -255,13 +359,30 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
     padding: 5px 12px;
     border-radius: 20px;
     transition: all 0.2s;
+    
+    /* Animation Properties */
     opacity: 0; 
     animation: tagFadeIn 0.5s ease-out forwards;
 }
 
-@keyframes tagFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.skill-tag:hover { border-color: var(--accent-color); color: var(--accent-color); background-color: rgba(108, 92, 231, 0.05); }
+@keyframes tagFadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
 
+.skill-tag:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background-color: rgba(108, 92, 231, 0.05);
+}
+
+/* --- LANGUAGES --- */
 .lang-grid { display: flex; gap: 20px; margin-top: 10px; }
 .lang-item {
     flex: 1;
@@ -273,41 +394,18 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
 .lang-title { font-weight: bold; font-family: 'Libre Baskerville', serif; font-size: 0.9rem; display: block; color: var(--primary-text); }
 .lang-level { font-size: 0.8rem; color: var(--meta-color); display: block; margin-top: 4px; }
 
-/* --- 9. LINKS & INTERACTIONS --- */
-a {
-    color: var(--primary-text);
-    text-decoration: none;
-    border-bottom: 2px solid var(--accent-color);
-    transition: all 0.2s;
-}
-
-a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); }
-
-/* Copied State for Email Link */
-.contact-link { position: relative; display: inline-flex; align-items: center; justify-content: center; }
-.contact-link.copied { color: transparent !important; border-bottom-color: transparent !important; }
-.contact-link.copied::after {
-    content: attr(data-copy-text);
-    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-    color: var(--accent-color) !important; font-weight: bold; white-space: nowrap;
-    background-color: var(--bg-color); padding: 0 5px;
-}
-
-/* --- 10. MEDIA QUERIES --- */
-
-/* Mobile */
+/* --- RESPONSIVE --- */
 @media (max-width: 600px) {
-    body { padding: 30px 20px; width: auto; margin: 0; }
     header { flex-wrap: wrap; text-align: center; justify-content: center; }
     .controls { position: relative; width: 100%; justify-content: center; order: -1; margin-bottom: 15px; top: auto; right: auto; }
-    h1 { padding-right: 0; font-size: 2rem; }
+    h1 { padding-right: 0; }
     .header-text { width: 100%; }
     .job-header, .job-subheader { flex-direction: column; align-items: flex-start; }
     .job-date, .location { margin-top: 5px; }
     .lang-grid { flex-direction: column; gap: 10px; }
 }
 
-/* Print */
+/* --- PRINT SETTINGS --- */
 @media print {
     :root, [data-theme="dark"], body {
         --primary-text: #000000 !important;
@@ -322,29 +420,95 @@ a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); 
         --shadow: none !important;
     }
 
+    body::before, body::after {
+        display: none !important;
+        content: none !important;
+    }
+
     body { 
         background-color: #ffffff !important; 
         color: #000000 !important; 
-        width: 100%; margin: 0; padding: 0; zoom: 75%; 
+        width: 100%; 
+        margin: 0; 
+        padding: 0;
+        zoom: 75%; 
+    }
+
+    /* 2. Force text to be full opacity */
+    p, span, li, div {
+        opacity: 1 !important;
+    }
+
+    /* 3. Increase font weight slightly for printing if using Inter */
+    body {
         font-weight: 500;
     }
 
-    body::before, body::after, .controls, .download-btn { display: none !important; }
+    .controls { display: none !important; }
     
-    .job-block { box-shadow: none !important; border: none !important; border-bottom: 1px solid #eee !important; padding: 15px 0 !important; }
-    .profile-container { border: none !important; }
-    
-    /* Ensure colors print */
-    .frame-left, .frame-top-right, .frame-bottom-right, .skill-tag, .lang-item {
+    .skill-tag, .lang-item {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        background-color: #f0f0f0 !important;
+        color: #000 !important;
+        border: 1px solid #ccc !important;
+    }
+
+/* 1. Ensure background colors are forced to print */
+    .frame-left, 
+    .frame-top-right, 
+    .frame-bottom-right {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
+
+    /* 2. Remove 'background: none !important' which was hiding the frame */
+    .profile-container {
+        border: none !important; /* Removes the standard box border */
+        /* background: none !important;  <-- REMOVE OR COMMENT THIS LINE */
+    }
+
+    .contact-link {
+        display: inline !important;
+        color: #000 !important;
+        border-bottom: 2px solid var(--accent-color) !important; /* Restore line for professional PDF */
+        text-decoration: none !important;
+    }
     
-    .skill-tag, .lang-item { border: 1px solid #ccc !important; background-color: #f5f5f5 !important; }
-    
-    a { text-decoration: none !important; color: #000 !important; border-bottom: 1px solid #ccc !important; }
-    
-    /* Break handling */
-    .job-block, .lang-item, section { break-inside: avoid; page-break-inside: avoid; display: block; }
-    h2, h3 { break-after: avoid; page-break-after: avoid; }
+    .contact-link.copied {
+        color: #000 !important; /* Force black text even if 'copied' class is on */
+        border-bottom: 2px solid var(--accent-color) !important;
+    }
+
+    .contact-link::after, .contact-link.copied::after {
+        display: none !important;
+        content: "" !important;
+    }
+    /* Force blocks to stay together on one page */
+    .job-block, 
+    .lang-item,
+    section {
+        break-inside: avoid;
+        page-break-inside: avoid; /* Backward compatibility */
+        display: block; /* Ensures the break property is respected */
+    }
+
+    /* Prevent headings from being left alone at the bottom of a page */
+    h2, h3 {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+} /* Final closing brace for media query */
+
+/* Global Link Style - Outside of Print Query */
+a {
+    color: var(--primary-text);
+    text-decoration: none;
+    border-bottom: 2px solid var(--accent-color);
+    transition: all 0.2s;
+}
+
+a:hover {
+    color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
 }
