@@ -1,6 +1,5 @@
 // --- 1. SEO & METADATA MANAGEMENT ---
 function updateSEO(lang) {
-    // Pull from the new 'ui' section in data.js
     const title = resumeData.ui.documentTitle[lang];
     const desc = resumeData.ui.seoDesc[lang];
     const jobTitle = resumeData.ui.jobTitleShort[lang];
@@ -29,54 +28,12 @@ function updateSEO(lang) {
     } catch (e) { console.warn("JSON-LD update failed", e); }
 }
 
-// --- 2. HTML GENERATORS ---
-// (Keep createTagsHTML, createLanguageHTML, createBlockHTML exactly as they were)
-function createTagsHTML(tagsArray) {
-    if (!tagsArray) return '';
-    return tagsArray.map(tag => `<span class="skill-tag">${tag}</span>`).join('');
-}
-
-function createLanguageHTML(languages, langKey) {
-    return languages.map(langItem => `
-        <div class="lang-item">
-            <span class="lang-title">${langItem.name[langKey]}</span>
-            <span class="lang-level">${langItem.level[langKey]}</span>
-        </div>
-    `).join('');
-}
-
-function createBlockHTML(item, langKey) {
-    const title = item.role ? item.role[langKey] : item.degree[langKey];
-    const subTitle = item.company ? item.company[langKey] : item.school[langKey];
-    const tagsHTML = item.tags ? `<div class="tags-wrapper">${createTagsHTML(item.tags[langKey])}</div>` : '';
-
-    return `
-    <div class="job-block">
-        <div class="job-header">
-            <span class="job-title">${title}</span>
-            <span class="job-date">${item.date[langKey]}</span>
-        </div>
-        <div class="job-subheader">
-            <span class="company">${subTitle}</span>
-            <span class="location">${item.location[langKey]}</span>
-        </div>
-        <div class="job-content">
-            <p>${item.desc[langKey]}</p>
-            ${tagsHTML}
-        </div>
-    </div>`;
-}
-
-// --- 3. MAIN RENDER FUNCTION ---
+// --- 2. MAIN RENDER FUNCTION ---
 function renderResume(lang) {
     // --- AUTOMATED UI WIRING ---
-    // Loop through every key in data.ui (e.g., "about", "experience", "projects")
     Object.keys(resumeData.ui).forEach(key => {
-        // 1. Construct the expected ID (e.g., "ui-about")
         const elementId = `ui-${key}`;
         const element = document.getElementById(elementId);
-
-        // 2. If the element exists in HTML, update it
         if (element) {
             element.textContent = resumeData.ui[key][lang];
         }
@@ -99,7 +56,7 @@ function renderResume(lang) {
     linkedinLink.textContent = resumeData.meta.linkedinLabel;
     linkedinLink.href = resumeData.meta.linkedin;
 
-    // --- UPDATED: Dynamic Section Headers from data.js ---
+    // UI Labels
     document.getElementById('head-about').textContent = resumeData.ui.about[lang];
     document.getElementById('head-experience').textContent = resumeData.ui.experience[lang];
     document.getElementById('head-education').textContent = resumeData.ui.education[lang];
@@ -109,12 +66,20 @@ function renderResume(lang) {
     const printBtnSpan = document.querySelector('#btn-print span');
     if (printBtnSpan) printBtnSpan.textContent = resumeData.ui.print[lang];
 
-    // Content
+    // Content - NOW USING resumeUtils
     document.getElementById('p-about').textContent = resumeData.profile.about[lang];
-    document.getElementById('experience-list').innerHTML = resumeData.experience.map(job => createBlockHTML(job, lang)).join('');
-    document.getElementById('education-list').innerHTML = resumeData.education.map(school => createBlockHTML(school, lang)).join('');
-    document.getElementById('skills-list').innerHTML = createTagsHTML(resumeData.skills[lang]);
-    document.getElementById('languages-list').innerHTML = createLanguageHTML(resumeData.languages, lang);
+    
+    document.getElementById('experience-list').innerHTML = 
+        resumeData.experience.map(job => resumeUtils.createBlockHTML(job, lang)).join('');
+        
+    document.getElementById('education-list').innerHTML = 
+        resumeData.education.map(school => resumeUtils.createBlockHTML(school, lang)).join('');
+        
+    document.getElementById('skills-list').innerHTML = 
+        resumeUtils.createTagsHTML(resumeData.skills[lang]);
+        
+    document.getElementById('languages-list').innerHTML = 
+        resumeUtils.createLanguageHTML(resumeData.languages, lang);
 
     // States
     document.getElementById('btn-tr').setAttribute('aria-pressed', lang === 'tr');
@@ -128,7 +93,7 @@ function renderResume(lang) {
     document.body.classList.add(`lang-${lang}`);
 }
 
-// --- 4. EVENTS ---
+// --- 3. EVENTS ---
 document.addEventListener('DOMContentLoaded', () => {
     const savedLang = localStorage.getItem('preferredLang');
     const browserLang = (navigator.language || navigator.userLanguage).startsWith('tr') ? 'tr' : 'en';
@@ -163,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Email Copy Logic (Same as before)
     const mailLink = document.getElementById('link-email');
     if (mailLink) {
         mailLink.addEventListener('click', (e) => {
