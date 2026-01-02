@@ -5,71 +5,23 @@
 
 const fs = require('fs');
 const data = require('./data.js');
+const utils = require('./utils.js'); // Import shared utils
 
 // CONFIG: Choose the default language for the static HTML
 const LANG = 'en'; 
 
-// --- 1. HELPER FUNCTIONS (Mirrors logic from script.js) ---
-
-// Generates the colorful skill tags HTML
-function createTagsHTML(tagsArray) {
-    if (!tagsArray) return '';
-    return tagsArray.map(tag => `<span class="skill-tag">${tag}</span>`).join('');
-}
-
-// Generates the Language cards HTML
-function createLanguageHTML(languages, langKey) {
-    return languages.map(langItem => `
-        <div class="lang-item">
-            <span class="lang-title">${langItem.name[langKey]}</span>
-            <span class="lang-level">${langItem.level[langKey]}</span>
-        </div>
-    `).join('');
-}
-
-// Generates Job and Education blocks HTML
-function createBlockHTML(item, langKey) {
-    const title = item.role ? item.role[langKey] : item.degree[langKey];
-    const subTitle = item.company ? item.company[langKey] : item.school[langKey];
-    const tagsHTML = item.tags ? `<div class="tags-wrapper">${createTagsHTML(item.tags[langKey])}</div>` : '';
-
-    return `
-    <div class="job-block">
-        <div class="job-header">
-            <span class="job-title">${title}</span>
-            <span class="job-date">${item.date[langKey]}</span>
-        </div>
-        <div class="job-subheader">
-            <span class="company">${subTitle}</span>
-            <span class="location">${item.location[langKey]}</span>
-        </div>
-        <div class="job-content">
-            <p>${item.desc[langKey]}</p>
-            ${tagsHTML}
-        </div>
-    </div>`;
-}
-
-// --- 2. ROBUST INJECTION HELPER ---
+// --- 1. ROBUST INJECTION HELPER ---
 
 function injectById(html, id, newContent) {
-    // We look for the ID, then find the specific markers inside it.
-    // Make sure your index.html has: <div id="x">...</div>
     const regex = new RegExp(`(id="${id}"[^>]*>\\s*)([\\s\\S]*?)(\\s*<\\/[^>]+>)`, 'i');
-    
     if (!html.match(regex)) {
-        // Fallback: If markers don't exist, try to insert them for the first time
-        // This handles the "clean" template case
         const simpleRegex = new RegExp(`(id="${id}"[^>]*>)(.*?)(<\/[^>]+>)`, 's');
         return html.replace(simpleRegex, `$1${newContent}$3`);
     }
-
-    // Replace only the content between markers
     return html.replace(regex, `$1${newContent}$3`);
 }
 
 function injectAttrById(html, id, attr, newValue) {
-    // [Keep your existing attribute injection logic, it works fine]
     const tagRegex = new RegExp(`(<[^>]+id="${id}"[^>]*>)`, 'g');
     return html.replace(tagRegex, (openTag) => {
         const attrRegex = new RegExp(`${attr}="([^"]*)"`);
@@ -80,7 +32,8 @@ function injectAttrById(html, id, attr, newValue) {
         }
     });
 }
-// --- 3. EXECUTION ---
+
+// --- 2. EXECUTION ---
 
 console.log(`⚙️  Generating Static Site for Default Lang: [${LANG.toUpperCase()}]...`);
 
@@ -88,21 +41,15 @@ try {
     // 1. Read the template
     let indexHtml = fs.readFileSync('index.html', 'utf8');
 
-    // 2. SEO & METADATA (From data.ui and data.meta)
-    // Note: We access data.ui for these now, ensuring Single Source of Truth
+    // 2. SEO & METADATA
     const seoTitle = data.ui.documentTitle[LANG];
     const seoDesc = data.ui.seoDesc[LANG];
 
-    // Replace <title>
     indexHtml = indexHtml.replace(/<title>.*?<\/title>/, `<title>${seoTitle}</title>`);
-    
-    // Replace <meta name="description">
     indexHtml = indexHtml.replace(
         /(<meta name="description" content=")(.*?)(")/, 
         `$1${seoDesc}$3`
     );
-    
-    // Set HTML Lang Attribute
     indexHtml = indexHtml.replace(/<html lang=".*?">/, `<html lang="${LANG}">`);
 
     // 3. HEADER & PROFILE
@@ -110,48 +57,39 @@ try {
     indexHtml = injectById(indexHtml, 'p-title', data.profile.title[LANG]);
     indexHtml = injectById(indexHtml, 'p-location', data.meta.location[LANG]);
     
-    // Contact Links
     indexHtml = injectById(indexHtml, 'link-email', data.meta.email);
     indexHtml = injectAttrById(indexHtml, 'link-email', 'href', `mailto:${data.meta.email}`);
     
     indexHtml = injectById(indexHtml, 'link-linkedin', data.meta.linkedinLabel || "LinkedIn");
     indexHtml = injectAttrById(indexHtml, 'link-linkedin', 'href', data.meta.linkedin);
 
-    // 4. UI LABELS (About, Experience, Skills, etc.)
-    // We now pull these directly from data.ui
+    // 4. UI LABELS
     const ui = data.ui; 
-
     indexHtml = injectById(indexHtml, 'head-about', ui.about[LANG]);
     indexHtml = injectById(indexHtml, 'head-experience', ui.experience[LANG]);
     indexHtml = injectById(indexHtml, 'head-education', ui.education[LANG]);
     indexHtml = injectById(indexHtml, 'head-skills', ui.skills[LANG]);
     indexHtml = injectById(indexHtml, 'head-languages', ui.languages[LANG]);
-    
-    // Attempt to inject PDF button text (requires stricter regex or ID match)
-    // We assume the span inside #btn-print is the target.
-    // This is a simple replace for the "PDF" text if it matches generic structure or you can add an ID like 'lbl-print' to the span.
-    // For now, we'll try a safe replacement if the ID exists, otherwise skip.
-    // indexHtml = injectById(indexHtml, 'lbl-print', ui.print[LANG]); 
 
-    // 5. DYNAMIC CONTENT BLOCKS
+    // 5. DYNAMIC CONTENT BLOCKS - NOW USING UTILS
     
     // A. About Text
     indexHtml = injectById(indexHtml, 'p-about', data.profile.about[LANG]);
 
     // B. Experience List
-    const expHTML = data.experience.map(job => createBlockHTML(job, LANG)).join('');
+    const expHTML = data.experience.map(job => utils.createBlockHTML(job, LANG)).join('');
     indexHtml = injectById(indexHtml, 'experience-list', expHTML);
 
     // C. Education List
-    const eduHTML = data.education.map(school => createBlockHTML(school, LANG)).join('');
+    const eduHTML = data.education.map(school => utils.createBlockHTML(school, LANG)).join('');
     indexHtml = injectById(indexHtml, 'education-list', eduHTML);
 
     // D. Skills List
-    const skillHTML = createTagsHTML(data.skills[LANG]);
+    const skillHTML = utils.createTagsHTML(data.skills[LANG]);
     indexHtml = injectById(indexHtml, 'skills-list', skillHTML);
 
     // E. Languages List
-    const langHTML = createLanguageHTML(data.languages, LANG);
+    const langHTML = utils.createLanguageHTML(data.languages, LANG);
     indexHtml = injectById(indexHtml, 'languages-list', langHTML);
 
     // 6. WRITE FILE
