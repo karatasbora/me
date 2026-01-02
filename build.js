@@ -1,19 +1,16 @@
 const fs = require('fs');
-const path = require('path');
 
-// 1. Load your Resume Data
-// We use 'eval' here simply because data.js is a client-side file with 'const'.
-// In a larger app, you'd use JSON, but this works for your current setup.
+// 1. Load Data
 const dataContent = fs.readFileSync('./data.js', 'utf8');
-const resumeData = eval(dataContent + '; resumeData;'); // Extract the object
+const resumeData = eval(dataContent + '; resumeData;'); 
 
-// 2. Load your HTML Template
-let html = fs.readFileSync('./index.html', 'utf8');
+// 2. Load the CLEAN Template (Not the finished index.html)
+// We use template.html so we always start fresh.
+let html = fs.readFileSync('./template.html', 'utf8');
 
-// 3. Define the "Default" Language (e.g., English)
-const lang = 'en'; 
+const lang = 'en'; // Default language for SEO/Bots
 
-// 4. Helper function to generate HTML (Mirrors your script.js logic)
+// 3. Helper Function (Generates the HTML Block)
 function generateList(items) {
     return items.map(item => {
         const title = item.role ? item.role[lang] : item.degree[lang];
@@ -37,12 +34,13 @@ function generateList(items) {
     }).join('');
 }
 
-// 5. INJECT CONTENT (Replacements)
-// This replaces empty divs with actual content
+// 4. Inject Content into the Template
+// We replace the empty tags with the filled content
 html = html.replace('<div id="experience-list"></div>', `<div id="experience-list">${generateList(resumeData.experience)}</div>`);
 html = html.replace('<div id="education-list"></div>', `<div id="education-list">${generateList(resumeData.education)}</div>`);
 html = html.replace('<p id="p-about"></p>', `<p id="p-about">${resumeData.profile.about[lang]}</p>`);
 
-// 6. Write the final file
+// 5. Save as index.html (This overwrites the old one with the new version)
 fs.writeFileSync('./index.html', html);
-console.log('✅ index.html has been pre-rendered with English content!');
+
+console.log('🚀 Build Complete! index.html has been regenerated.');
