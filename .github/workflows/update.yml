@@ -7,8 +7,8 @@ on:
       - main  # Change this to 'master' if your branch is named master
     paths:
       - 'data.js'
-      - 'generate-static.js'
-      - '.github/workflows/update-seo.yml'
+      - 'static.js'
+      - '.github/workflows/update.yml'
 
 jobs:
   update-static-content:
