@@ -20,8 +20,8 @@ const resumeData = {
             en: "Education Specialist & Content Editor | AI-Supported Instructional Design | ELT · EdTech · Accessible & Human-Centered Education"
         },
         jobTitleShort: { 
-            tr: "İçerik Editörü", 
-            en: "Content Editor" 
+            tr: "Eğitim Uzmanı & İçerik Editörü", 
+            en: "Education Specialist & Content Editor" 
         }
     },
 
