@@ -1,7 +1,7 @@
 // data.js
 
 const resumeData = {
-    // --- 1. UI LABELS & SEO (Required by your generate-static.js) ---
+    // --- 1. UI LABELS & SEO (Required by static.js) ---
     ui: {
         about: { tr: "Hakkında", en: "About" },
         experience: { tr: "Deneyim", en: "Experience" },
