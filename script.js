@@ -69,6 +69,19 @@ function createBlockHTML(item, langKey) {
 
 // --- 3. MAIN RENDER FUNCTION ---
 function renderResume(lang) {
+    // --- AUTOMATED UI WIRING ---
+    // Loop through every key in data.ui (e.g., "about", "experience", "projects")
+    Object.keys(resumeData.ui).forEach(key => {
+        // 1. Construct the expected ID (e.g., "ui-about")
+        const elementId = `ui-${key}`;
+        const element = document.getElementById(elementId);
+
+        // 2. If the element exists in HTML, update it
+        if (element) {
+            element.textContent = resumeData.ui[key][lang];
+        }
+    });
+    
     updateSEO(lang);
     document.documentElement.lang = lang;
 
