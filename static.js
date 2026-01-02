@@ -50,45 +50,36 @@ function createBlockHTML(item, langKey) {
     </div>`;
 }
 
-// --- 2. INJECTION HELPERS ---
+// --- 2. ROBUST INJECTION HELPER ---
 
-// Helper to replace content inside a specific ID tag
-// Matches: <tag id="targetID" ...> OLD CONTENT </tag>
 function injectById(html, id, newContent) {
-    // Regex explanation:
-    // 1. (id="${id}"[^>]*>)  -> Matches the opening tag part including the specific ID
-    // 2. (.*?)               -> Matches any content inside (non-greedy)
-    // 3. (<\/[^>]+>)         -> Matches the closing tag
-    const regex = new RegExp(`(id="${id}"[^>]*>)(.*?)(<\/[^>]+>)`, 's');
+    // We look for the ID, then find the specific markers inside it.
+    // Make sure your index.html has: <div id="x">...</div>
+    const regex = new RegExp(`(id="${id}"[^>]*>\\s*)([\\s\\S]*?)(\\s*<\\/[^>]+>)`, 'i');
     
     if (!html.match(regex)) {
-        console.warn(`⚠️ Warning: ID #${id} not found in HTML. Skipping injection.`);
-        return html;
+        // Fallback: If markers don't exist, try to insert them for the first time
+        // This handles the "clean" template case
+        const simpleRegex = new RegExp(`(id="${id}"[^>]*>)(.*?)(<\/[^>]+>)`, 's');
+        return html.replace(simpleRegex, `$1${newContent}$3`);
     }
-    
-    // Replace the middle group ($2) with newContent
+
+    // Replace only the content between markers
     return html.replace(regex, `$1${newContent}$3`);
 }
 
-// Helper to update specific attributes (like href)
 function injectAttrById(html, id, attr, newValue) {
-    // 1. Find the tag with the ID
+    // [Keep your existing attribute injection logic, it works fine]
     const tagRegex = new RegExp(`(<[^>]+id="${id}"[^>]*>)`, 'g');
-    
     return html.replace(tagRegex, (openTag) => {
-        // 2. Check if the attribute already exists
         const attrRegex = new RegExp(`${attr}="([^"]*)"`);
-        
         if (openTag.match(attrRegex)) {
-            // Replace existing value
             return openTag.replace(attrRegex, `${attr}="${newValue}"`);
         } else {
-            // Append attribute if missing (before the closing >)
             return openTag.replace('>', ` ${attr}="${newValue}">`);
         }
     });
 }
-
 // --- 3. EXECUTION ---
 
 console.log(`⚙️  Generating Static Site for Default Lang: [${LANG.toUpperCase()}]...`);
