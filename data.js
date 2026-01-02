@@ -1,9 +1,8 @@
 // data.js
 
 const resumeData = {
-    // --- 1. UI & METADATA (Interface Labels & SEO) ---
+    // --- 1. UI LABELS & SEO (Required by your generate-static.js) ---
     ui: {
-        // Section Headers
         about: { tr: "Hakkında", en: "About" },
         experience: { tr: "Deneyim", en: "Experience" },
         education: { tr: "Eğitim", en: "Education" },
@@ -11,14 +10,14 @@ const resumeData = {
         languages: { tr: "Diller", en: "Languages" },
         print: { tr: "PDF", en: "PDF" },
 
-        // Dynamic Window Titles & Meta Descriptions
+        // SEO Metadata
         documentTitle: { 
             tr: "Bora Karataş - Özgeçmiş", 
             en: "Bora Karataş - Resume" 
         },
         seoDesc: {
-            tr: "İçerik Editörü ve Eğitimci. Yapay Zeka destekli, erişilebilir öğrenme deneyimleri tasarlıyor. Anadolu Üniversitesi Ar-Ge Birimi.",
-            en: "Content Editor & Educator specializing in AI-Supported Learning Experiences. Instructional Design & EdTech Portfolio."
+            tr: "İçerik Editörü ve Eğitimci. Yapay Zeka destekli, erişilebilir öğrenme deneyimleri tasarlıyor.",
+            en: "Content Editor & Educator specializing in AI-Supported Learning Experiences."
         },
         jobTitleShort: { 
             tr: "İçerik Editörü", 
@@ -26,7 +25,7 @@ const resumeData = {
         }
     },
 
-    // --- 2. GLOBAL META (Links & Contact) ---
+    // --- 2. GLOBAL META ---
     meta: {
         image: "profil.webp",
         email: "borakaratas@anadolu.edu.tr",
@@ -38,10 +37,8 @@ const resumeData = {
         }
     },
 
-    // --- 3. PROFILE HEADER (Configured Container) ---
+    // --- 3. PROFILE ---
     profile: {
-        id: "p-about",        // Target ID for the 'About' text injection
-        type: "text-content", // Render type
         name: "Bora Karataş",
         title: {
             tr: "Eğitim Uzmanı & İçerik Editörü | Yapay Zekâ Destekli Öğretim Tasarımı | ELT · EdTech · Erişilebilir & İnsan Merkezli Eğitim",
@@ -53,120 +50,103 @@ const resumeData = {
         }
     },
 
-    // --- 4. EXPERIENCE SECTION (Standard Block) ---
-    experience: {
-        id: "experience-list",
-        type: "std-block",
-        items: [
-            {
-                role: { tr: "İçerik Editörü", en: "Content Editor" },
-                company: { tr: "Hibrit · Yarı zamanlı | Anadolu Üniversitesi · Öğrenme Teknolojileri Ar-Ge Birimi", en: "Hybrid · Part-time | Anadolu University · Learning Technologies R&D Unit" },
-                date: { tr: "ARALIK 2022 - HALEN", en: "DEC 2022 - PRESENT" },
-                location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
-                desc: {
-                    tr: "Kurumsal dijital dönüşüm girişimlerine katkı sağlayarak durağan öğretim materyallerinin etkileşimli ve kapsayıcı dijital öğrenme deneyimlerine dönüştürülmesi üzerinde çalışıyorum. Evrensel tasarım ve erişilebilirlik ilkelerine bağlı kalarak, editoryal verimliliği, tutarlılığı ve ölçeklenebilirliği artırmak için içerik geliştirme iş akışlarına Üretken Yapay Zekâ (LLM) araçlarını entegre ediyorum. Çok disiplinli ekiplerle iş birliği içinde çalışarak dijital platformlarda öğrenen etkileşimini artırıyor ve farklı öğrenme ihtiyaçlarını destekliyorum.",
-                    en: "Contribute to institutional digital transformation initiatives aimed at converting static instructional materials into interactive and inclusive digital learning experiences. Integrate Generative AI (LLM) tools into content development workflows to improve editorial efficiency, consistency, and scalability while adhering to universal design and accessibility principles. Collaborate with multidisciplinary teams to enhance learner engagement and support diverse learning needs across digital platforms."
-                },
-                tags: {
-                    tr: ["İçerik Stratejisi", "Yapay Zekâ Prompt Mühendisliği", "Öğrenme Yönetim Sistemleri (LMS)"],
-                    en: ["Content Strategy", "AI Prompt Engineering", "Learning Management Systems"]
-                }
+    // --- 4. EXPERIENCE (Standard Array Format) ---
+    experience: [
+        {
+            role: { tr: "İçerik Editörü", en: "Content Editor" },
+            company: { tr: "Hibrit · Yarı zamanlı | Anadolu Üniversitesi · Öğrenme Teknolojileri Ar-Ge Birimi", en: "Hybrid · Part-time | Anadolu University · Learning Technologies R&D Unit" },
+            date: { tr: "ARALIK 2022 - HALEN", en: "DEC 2022 - PRESENT" },
+            location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
+            desc: {
+                tr: "Kurumsal dijital dönüşüm girişimlerine katkı sağlayarak durağan öğretim materyallerinin etkileşimli ve kapsayıcı dijital öğrenme deneyimlerine dönüştürülmesi üzerinde çalışıyorum. Evrensel tasarım ve erişilebilirlik ilkelerine bağlı kalarak, editoryal verimliliği, tutarlılığı ve ölçeklenebilirliği artırmak için içerik geliştirme iş akışlarına Üretken Yapay Zekâ (LLM) araçlarını entegre ediyorum. Çok disiplinli ekiplerle iş birliği içinde çalışarak dijital platformlarda öğrenen etkileşimini artırıyor ve farklı öğrenme ihtiyaçlarını destekliyorum.",
+                en: "Contribute to institutional digital transformation initiatives aimed at converting static instructional materials into interactive and inclusive digital learning experiences. Integrate Generative AI (LLM) tools into content development workflows to improve editorial efficiency, consistency, and scalability while adhering to universal design and accessibility principles. Collaborate with multidisciplinary teams to enhance learner engagement and support diverse learning needs across digital platforms."
             },
-            {
-                role: { tr: "İngilizce Öğretmeni", en: "English Teacher" },
-                company: { tr: "Yerinde · Staj | T.C. Millî Eğitim Bakanlığı · Gülay Kanatlı Ortaokulu", en: "On-site · Internship | Ministry of National Education · Gülay Kanatlı Secondary School" },
-                date: { tr: "EYLÜL 2025 - ARALIK 2025", en: "SEP 2025 - DEC 2025" },
-                location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
-                desc: {
-                    tr: "Ezbere dayalı dilbilgisi öğretimi yerine iletişim, eleştirel düşünme ve gerçek yaşamda dil kullanımını merkeze alan öğrenen odaklı bir İngilizce öğretim programı uyguladım. Dersleri 21. yüzyıl yetkinlikleriyle (iletişim, iş birliği, yaratıcılık ve eleştirel düşünme) uyumlu şekilde tasarladım. Öğrenci motivasyonunu, katılımını ve kapsayıcılığı artırmak amacıyla sınıf yönetiminde oyunlaştırma stratejileri kullandım.",
-                    en: "Implemented a learner-centered English language curriculum emphasizing communication, critical thinking, and real-world language use rather than rote grammar instruction. Designed lessons aligned with 21st-century competencies (communication, collaboration, creativity, and critical thinking). Applied gamification strategies to classroom management to increase student motivation, participation, and inclusivity."
-                },
-                tags: {
-                    tr: ["Öğretim Tasarımı", "Sınıf Yönetimi", "Yabancı Dil olarak İngilizce Öğretimi"],
-                    en: ["Instructional Design", "Classroom Management", "Teaching English as a Foreign Language"]
-                }
+            tags: {
+                tr: ["İçerik Stratejisi", "Yapay Zekâ Prompt Mühendisliği", "Öğrenme Yönetim Sistemleri (LMS)"],
+                en: ["Content Strategy", "AI Prompt Engineering", "Learning Management Systems"]
             }
-        ]
-    },
-
-    // --- 5. EDUCATION SECTION (Standard Block) ---
-    education: {
-        id: "education-list",
-        type: "std-block",
-        items: [
-            {
-                degree: { tr: "İngilizce Öğretmenliği", en: "English Language Teaching" },
-                school: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
-                date: { tr: "Lisans Derecesi", en: "Bachelor's Degree" },
-                location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
-                desc: {
-                    tr: "Pedagoji, öğretim teknolojileri ve öğrenen merkezli öğretim yaklaşımlarına akademik olarak odaklandım. Geleneksel eğitim yöntemlerini çağdaş EdTech araçlarıyla bütünleştiren projeler geliştirdim.",
-                    en: "Focused academically on pedagogy, instructional technologies, and learner-centered teaching methodologies. Developed projects integrating traditional educational approaches with contemporary EdTech tools."
-                }
+        },
+        {
+            role: { tr: "İngilizce Öğretmeni", en: "English Teacher" },
+            company: { tr: "Yerinde · Staj | T.C. Millî Eğitim Bakanlığı · Gülay Kanatlı Ortaokulu", en: "On-site · Internship | Ministry of National Education · Gülay Kanatlı Secondary School" },
+            date: { tr: "EYLÜL 2025 - ARALIK 2025", en: "SEP 2025 - DEC 2025" },
+            location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
+            desc: {
+                tr: "Ezbere dayalı dilbilgisi öğretimi yerine iletişim, eleştirel düşünme ve gerçek yaşamda dil kullanımını merkeze alan öğrenen odaklı bir İngilizce öğretim programı uyguladım. Dersleri 21. yüzyıl yetkinlikleriyle (iletişim, iş birliği, yaratıcılık ve eleştirel düşünme) uyumlu şekilde tasarladım. Öğrenci motivasyonunu, katılımını ve kapsayıcılığı artırmak amacıyla sınıf yönetiminde oyunlaştırma stratejileri kullandım.",
+                en: "Implemented a learner-centered English language curriculum emphasizing communication, critical thinking, and real-world language use rather than rote grammar instruction. Designed lessons aligned with 21st-century competencies (communication, collaboration, creativity, and critical thinking). Applied gamification strategies to classroom management to increase student motivation, participation, and inclusivity."
             },
-            {
-                degree: { tr: "Anglo-Amerikan Çalışmaları", en: "Anglo-American Studies" },
-                school: { tr: "Universidade de Coimbra", en: "Universidade de Coimbra" },
-                date: { tr: "ERASMUS+", en: "ERASMUS+" },
-                location: { tr: "COIMBRA, PORTEKİZ", en: "COIMBRA, PORTUGAL" },
-                desc: {
-                    tr: "Kültürlerarası iletişim ve küresel vatandaşlık yetkinlikleri geliştirdim. Akademik hareketlilik yoluyla uluslararası eğitim sistemlerine karşılaştırmalı bir bakış kazandım.",
-                    en: "Developed intercultural communication and global citizenship competencies. Gained comparative insight into international education systems through academic mobility."
-                }
-            },
-            {
-                degree: { tr: "İktisat (İngilizce)", en: "Economics (English)" },
-                school: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
-                date: { tr: "Lisans Derecesi", en: "Bachelor's Degree" },
-                location: { tr: "UZAKTAN EĞİTİM", en: "REMOTE LEARNING" },
-                desc: {
-                    tr: "Eğitim politikası ve kalkınma bağlamlarıyla ilişkili sistem düşüncesi, veri okuryazarlığı ve analitik karar verme süreçlerine odaklanan devam eden çalışmalar.",
-                    en: "Ongoing studies with emphasis on systems thinking, data literacy, and analytical decision-making processes relevant to education policy and development contexts."
-                }
+            tags: {
+                tr: ["Öğretim Tasarımı", "Sınıf Yönetimi", "Yabancı Dil olarak İngilizce Öğretimi"],
+                en: ["Instructional Design", "Classroom Management", "Teaching English as a Foreign Language"]
             }
-        ]
-    },
-
-    // --- 6. SKILLS SECTION (Tag Cloud) ---
-    skills: {
-        id: "skills-list",
-        type: "tag-cloud",
-        data: {
-            tr: [
-                "Eğitimde Yapay Zekâ", "Eğitsel İçerik için Prompt Mühendisliği", "Öğretim Tasarımı & Öğrenme Deneyimi Tasarımı (LXD)", 
-                "Öğrenme Yönetim Sistemleri (LMS)", "İçerik Yönetim Sistemleri", 
-                "Dijital Arşivleme & Bilgi Organizasyonu", "Akademik Araştırma & Analiz", "Sistem Düşüncesi"
-            ],
-            en: [
-                "Artificial Intelligence in Education", "Prompt Engineering for Educational Content", "Instructional Design & Learning Experience Design (LXD)", 
-                "Learning Management Systems (LMS)", "Content Management Systems (CMS)", "Digital Archiving & Knowledge Organization", 
-                "Academic Research & Analysis", "Systems Thinking"
-            ]
         }
+    ],
+
+    // --- 5. EDUCATION ---
+    education: [
+        {
+            degree: { tr: "İngilizce Öğretmenliği", en: "English Language Teaching" },
+            school: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
+            date: { tr: "Lisans Derecesi", en: "Bachelor's Degree" },
+            location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
+            desc: {
+                tr: "Pedagoji, öğretim teknolojileri ve öğrenen merkezli öğretim yaklaşımlarına akademik olarak odaklandım. Geleneksel eğitim yöntemlerini çağdaş EdTech araçlarıyla bütünleştiren projeler geliştirdim.",
+                en: "Focused academically on pedagogy, instructional technologies, and learner-centered teaching methodologies. Developed projects integrating traditional educational approaches with contemporary EdTech tools."
+            }
+        },
+        {
+            degree: { tr: "Anglo-Amerikan Çalışmaları", en: "Anglo-American Studies" },
+            school: { tr: "Universidade de Coimbra", en: "Universidade de Coimbra" },
+            date: { tr: "ERASMUS+", en: "ERASMUS+" },
+            location: { tr: "COIMBRA, PORTEKİZ", en: "COIMBRA, PORTUGAL" },
+            desc: {
+                tr: "Kültürlerarası iletişim ve küresel vatandaşlık yetkinlikleri geliştirdim. Akademik hareketlilik yoluyla uluslararası eğitim sistemlerine karşılaştırmalı bir bakış kazandım.",
+                en: "Developed intercultural communication and global citizenship competencies. Gained comparative insight into international education systems through academic mobility."
+            }
+        },
+        {
+            degree: { tr: "İktisat (İngilizce)", en: "Economics (English)" },
+            school: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
+            date: { tr: "Lisans Derecesi", en: "Bachelor's Degree" },
+            location: { tr: "UZAKTAN EĞİTİM", en: "REMOTE LEARNING" },
+            desc: {
+                tr: "Eğitim politikası ve kalkınma bağlamlarıyla ilişkili sistem düşüncesi, veri okuryazarlığı ve analitik karar verme süreçlerine odaklanan devam eden çalışmalar.",
+                en: "Ongoing studies with emphasis on systems thinking, data literacy, and analytical decision-making processes relevant to education policy and development contexts."
+            }
+        }
+    ],
+
+    // --- 6. SKILLS ---
+    skills: {
+        tr: [
+            "Eğitimde Yapay Zekâ", "Eğitsel İçerik için Prompt Mühendisliği", "Öğretim Tasarımı & Öğrenme Deneyimi Tasarımı (LXD)", 
+            "Öğrenme Yönetim Sistemleri (LMS)", "İçerik Yönetim Sistemleri", 
+            "Dijital Arşivleme & Bilgi Organizasyonu", "Akademik Araştırma & Analiz", "Sistem Düşüncesi"
+        ],
+        en: [
+            "Artificial Intelligence in Education", "Prompt Engineering for Educational Content", "Instructional Design & Learning Experience Design (LXD)", 
+            "Learning Management Systems (LMS)", "Content Management Systems (CMS)", "Digital Archiving & Knowledge Organization", 
+            "Academic Research & Analysis", "Systems Thinking"
+        ]
     },
 
-    // --- 7. LANGUAGES SECTION (Grid) ---
-    languages: {
-        id: "languages-list",
-        type: "lang-grid",
-        items: [
-            {
-                name: { tr: "TÜRKÇE", en: "TURKISH" },
-                level: { tr: "Ana Dili / Editoryal Hakimiyet", en: "Native / Editorial Proficiency" }
-            },
-            {
-                name: { tr: "İNGİLİZCE", en: "ENGLISH" },
-                level: { tr: "Tam Profesyonel / C2 (Akademik)", en: "Full Professional / C2 (Academic)" }
-            },
-            {
-                name: { tr: "PORTEKİZCE", en: "PORTUGUESE" },
-                level: { tr: "Temel Kültürel Aşinalık", en: "Basic Cultural Familiarity" }
-            }
-        ]
-    }
+    // --- 7. LANGUAGES ---
+    languages: [
+        {
+            name: { tr: "TÜRKÇE", en: "TURKISH" },
+            level: { tr: "Ana Dili / Editoryal Hakimiyet", en: "Native / Editorial Proficiency" }
+        },
+        {
+            name: { tr: "İNGİLİZCE", en: "ENGLISH" },
+            level: { tr: "Tam Profesyonel / C2 (Akademik)", en: "Full Professional / C2 (Academic)" }
+        },
+        {
+            name: { tr: "PORTEKİZCE", en: "PORTUGUESE" },
+            level: { tr: "Temel Kültürel Aşinalık", en: "Basic Cultural Familiarity" }
+        }
+    ]
 };
 
-// Universal export: works in Node (build) and Browser (window)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = resumeData;
 }
