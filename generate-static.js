@@ -1,23 +1,21 @@
 /* SSG BUILDER: generate-static.js
-   - Runs in Node.js (Server Side)
-   - Reads data.js and "bakes" it into index.html
-   - NO browser code (document/window) allowed here!
+   - Reads 'template.html' (Clean Source)
+   - Injects Data
+   - Writes 'index.html' (Build Artifact)
+   - Prevents duplication bugs by always starting fresh.
 */
 
 const fs = require('fs');
 const data = require('./data.js');
 
-const LANG = 'en'; // Default language for bots/SEO
+const LANG = 'en'; 
 
-// --- 1. RENDERERS (Node.js Version) ---
-// These functions return pure HTML strings.
+// --- 1. RENDERERS ---
 const RENDERERS = {
-    // Renders "Experience" and "Education" blocks
     'std-block': (container, lang) => {
         return container.items.map(item => {
             const title = item.role ? item.role[lang] : item.degree[lang];
             const subTitle = item.company ? item.company[lang] : item.school[lang];
-            
             const tagsHTML = item.tags 
                 ? `<div class="tags-wrapper">${item.tags[lang].map(t => `<span class="skill-tag">${t}</span>`).join('')}</div>` 
                 : '';
@@ -40,12 +38,10 @@ const RENDERERS = {
         }).join('');
     },
 
-    // Renders "Skills" tag cloud
     'tag-cloud': (container, lang) => {
         return container.data[lang].map(tag => `<span class="skill-tag">${tag}</span>`).join('');
     },
 
-    // Renders "Languages" grid
     'lang-grid': (container, lang) => {
         return container.items.map(item => `
         <div class="lang-item">
@@ -54,15 +50,14 @@ const RENDERERS = {
         </div>`).join('');
     },
     
-    // Renders simple text (like the Profile About section)
     'text-content': (container, lang) => {
         return container.about[lang];
     }
 };
 
-// --- 2. INJECTION HELPERS ---
-// Replaces content inside specific IDs in the HTML string
+// --- 2. INJECTION HELPER ---
 function injectById(html, id, content) {
+    // Regex matches: id="target" ... > (Match content) <
     const regex = new RegExp(`(id="${id}"[^>]*>)(.*?)(<\/[^>]+>)`, 's');
     return html.match(regex) ? html.replace(regex, `$1${content}$3`) : html;
 }
@@ -79,65 +74,58 @@ function injectAttrById(html, id, attr, newValue) {
     });
 }
 
-// --- 3. MAIN BUILD SCRIPT ---
-console.log(`⚙️  Generating Static Site for Default Lang: [${LANG.toUpperCase()}]...`);
+// --- 3. MAIN BUILD PROCESS ---
+console.log(`⚙️  Reading 'template.html' and building for: [${LANG.toUpperCase()}]...`);
 
 try {
-    let indexHtml = fs.readFileSync('index.html', 'utf8');
+    // READ FROM TEMPLATE (The Clean Source)
+    let html = fs.readFileSync('template.html', 'utf8');
 
-    // A. SEO & METADATA (From data.ui)
-    indexHtml = indexHtml.replace(/<title>.*?<\/title>/, `<title>${data.ui.documentTitle[LANG]}</title>`);
-    indexHtml = indexHtml.replace(
-        /(<meta name="description" content=")(.*?)(")/, 
-        `$1${data.ui.seoDesc[LANG]}$3`
-    );
-    indexHtml = indexHtml.replace(/<html lang=".*?">/, `<html lang="${LANG}">`);
+    // A. SEO & HEADER
+    html = html.replace(/<title>.*?<\/title>/, `<title>${data.ui.documentTitle[LANG]}</title>`);
+    html = html.replace(/(<meta name="description" content=")(.*?)(")/, `$1${data.ui.seoDesc[LANG]}$3`);
+    html = html.replace(/<html lang=".*?">/, `<html lang="${LANG}">`);
 
-    // B. STATIC HEADER INFO (Direct Injection)
-    indexHtml = injectById(indexHtml, 'p-name', data.profile.name);
-    indexHtml = injectById(indexHtml, 'p-title', data.profile.title[LANG]);
-    indexHtml = injectById(indexHtml, 'p-location', data.meta.location[LANG]);
+    // B. STATIC HEADER INFO
+    html = injectById(html, 'p-name', data.profile.name);
+    html = injectById(html, 'p-title', data.profile.title[LANG]);
+    html = injectById(html, 'p-location', data.meta.location[LANG]);
     
-    // Links
-    indexHtml = injectById(indexHtml, 'link-email', data.meta.email);
-    indexHtml = injectAttrById(indexHtml, 'link-email', 'href', `mailto:${data.meta.email}`);
+    html = injectById(html, 'link-email', data.meta.email);
+    html = injectAttrById(html, 'link-email', 'href', `mailto:${data.meta.email}`);
     
-    indexHtml = injectById(indexHtml, 'link-linkedin', data.meta.linkedinLabel || "LinkedIn");
-    indexHtml = injectAttrById(indexHtml, 'link-linkedin', 'href', data.meta.linkedin);
+    html = injectById(html, 'link-linkedin', data.meta.linkedinLabel || "LinkedIn");
+    html = injectAttrById(html, 'link-linkedin', 'href', data.meta.linkedin);
 
-    // C. AUTO-WIRE UI LABELS (Headings)
-    // Injects "About", "Experience", etc. into <h2 id="ui-about"> or <h2 id="head-about">
+    // C. UI LABELS
     Object.keys(data.ui).forEach(key => {
         if (['documentTitle', 'seoDesc', 'jobTitleShort'].includes(key)) return;
-
-        // Try both ID naming conventions
         const val = data.ui[key][LANG] || data.ui[key];
-        indexHtml = injectById(indexHtml, `ui-${key}`, val);
-        indexHtml = injectById(indexHtml, `head-${key}`, val);
+        html = injectById(html, `ui-${key}`, val);
     });
 
-    // D. DYNAMIC CONTENT LOOP (Container Pattern)
-    // Loops through experience, education, skills, etc.
+    // D. DYNAMIC CONTENT
     Object.keys(data).forEach(key => {
         const section = data[key];
-
-        // Check if this data block has config for rendering
         if (section && section.id && section.type) {
             const renderer = RENDERERS[section.type];
-            
             if (renderer) {
                 console.log(`   -> Rendering [${key}] into #${section.id}`);
-                const htmlContent = renderer(section, LANG);
-                indexHtml = injectById(indexHtml, section.id, htmlContent);
+                const content = renderer(section, LANG);
+                html = injectById(html, section.id, content);
             }
         }
     });
 
-    // E. SAVE FILE
-    fs.writeFileSync('index.html', indexHtml);
-    console.log('✅ index.html fully hydrated! Build complete.');
+    // WRITE TO INDEX.HTML (The Build Artifact)
+    fs.writeFileSync('index.html', html);
+    console.log('✅ Build Complete: index.html has been generated from template.html');
 
 } catch (err) {
-    console.error("❌ Error generating static site:", err);
+    if (err.code === 'ENOENT') {
+        console.error("❌ Error: 'template.html' not found. Please create it by duplicating index.html and clearing the content.");
+    } else {
+        console.error("❌ Build Failed:", err);
+    }
     process.exit(1);
 }
