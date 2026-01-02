@@ -1,25 +1,15 @@
-/* SSG BUILDER: generate-static.js
-   Injects data.js content directly into index.html tags.
-   Features "Auto-Wiring" for UI labels to reduce manual code updates.
-   
-   Run: node generate-static.js
+/* CONTROLLER: script.js
+   Handles Client-Side Interactivity, Language Switching, and Dynamic Rendering.
+   Reads strictly from data.js (Single Source of Truth).
 */
-
-const fs = require('fs');
-const data = require('./data.js');
-
-// CONFIG: Choose the default language for the static HTML (SEO)
-const LANG = 'en'; 
 
 // --- 1. HELPER FUNCTIONS (HTML Generators) ---
 
-// Generates the colorful skill tags HTML
 function createTagsHTML(tagsArray) {
     if (!tagsArray) return '';
     return tagsArray.map(tag => `<span class="skill-tag">${tag}</span>`).join('');
 }
 
-// Generates the Language cards HTML
 function createLanguageHTML(languages, langKey) {
     return languages.map(langItem => `
         <div class="lang-item">
@@ -29,11 +19,13 @@ function createLanguageHTML(languages, langKey) {
     `).join('');
 }
 
-// Generates Job and Education blocks HTML
 function createBlockHTML(item, langKey) {
     const title = item.role ? item.role[langKey] : item.degree[langKey];
     const subTitle = item.company ? item.company[langKey] : item.school[langKey];
-    const tagsHTML = item.tags ? `<div class="tags-wrapper">${createTagsHTML(item.tags[langKey])}</div>` : '';
+    
+    const tagsHTML = item.tags 
+        ? `<div class="tags-wrapper">${createTagsHTML(item.tags[langKey])}</div>` 
+        : '';
 
     return `
     <div class="job-block">
@@ -52,149 +44,187 @@ function createBlockHTML(item, langKey) {
     </div>`;
 }
 
-// --- 2. INJECTION HELPERS ---
-
-// Helper to replace content inside a specific ID tag
-// Matches: <tag id="targetID" ...> OLD CONTENT </tag>
-function injectById(html, id, newContent) {
-    // Regex explanation:
-    // 1. (id="${id}"[^>]*>)  -> Matches opening tag with specific ID
-    // 2. (.*?)               -> Matches inner content (non-greedy)
-    // 3. (<\/[^>]+>)         -> Matches closing tag
-    const regex = new RegExp(`(id="${id}"[^>]*>)(.*?)(<\/[^>]+>)`, 's');
-    
-    if (!html.match(regex)) {
-        // Quiet fail: handy if you haven't added the HTML tag yet
-        // console.warn(`⚠️  ID #${id} not found. Skipping.`); 
-        return html;
+// --- 2. RENDERERS CONFIGURATION (Client-Side) ---
+// Maps 'type' string from data.js to the generator functions above.
+const RENDERERS = {
+    'std-block': (container, lang) => {
+        return container.items.map(item => createBlockHTML(item, lang)).join('');
+    },
+    'tag-cloud': (container, lang) => {
+        return createTagsHTML(container.data[lang]);
+    },
+    'lang-grid': (container, lang) => {
+        return createLanguageHTML(container.items, lang);
+    },
+    'text-content': (container, lang) => {
+        // Specifically for the profile/about text
+        return container.about[lang];
     }
-    
-    return html.replace(regex, `$1${newContent}$3`);
-}
+};
 
-// Helper to update specific attributes (like href)
-function injectAttrById(html, id, attr, newValue) {
-    const tagRegex = new RegExp(`(<[^>]+id="${id}"[^>]*>)`, 'g');
-    
-    return html.replace(tagRegex, (openTag) => {
-        const attrRegex = new RegExp(`${attr}="([^"]*)"`);
-        if (openTag.match(attrRegex)) {
-            return openTag.replace(attrRegex, `${attr}="${newValue}"`);
-        } else {
-            return openTag.replace('>', ` ${attr}="${newValue}">`);
+// --- 3. SEO MANAGER (The Automation You Asked For) ---
+function updateSEO(lang) {
+    const ui = resumeData.ui;
+
+    // 1. Browser Title
+    document.title = ui.documentTitle[lang];
+
+    // 2. Meta Description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', ui.seoDesc[lang]);
+
+    // 3. Open Graph (Facebook/LinkedIn)
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', ui.documentTitle[lang]);
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', ui.seoDesc[lang]);
+
+    // 4. Twitter Card
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twTitle) twTitle.setAttribute('content', ui.documentTitle[lang]);
+
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    if (twDesc) twDesc.setAttribute('content', ui.seoDesc[lang]);
+
+    // 5. JSON-LD Structured Data (Google Rich Results)
+    try {
+        const jsonLdScript = document.getElementById('json-ld');
+        if (jsonLdScript) {
+            const schema = JSON.parse(jsonLdScript.textContent);
+            
+            // Dynamically update schema based on data.js
+            schema.jobTitle = ui.jobTitleShort[lang];
+            schema.description = ui.seoDesc[lang];
+            
+            jsonLdScript.textContent = JSON.stringify(schema, null, 2);
         }
-    });
+    } catch (e) {
+        console.warn("JSON-LD update failed", e);
+    }
 }
 
-// --- 3. MAIN BUILD PROCESS ---
 
-console.log(`⚙️  Generating Static Site for Default Lang: [${LANG.toUpperCase()}]...`);
+// --- 4. MAIN RENDER FUNCTION ---
+function renderResume(lang) {
+    // A. Update HTML Lang & SEO
+    document.documentElement.lang = lang;
+    updateSEO(lang);
 
-try {
-    let indexHtml = fs.readFileSync('index.html', 'utf8');
-
-    // A. SEO & METADATA
-    // Pulling strictly from data.ui and data.meta
-    const seoTitle = data.ui.documentTitle[LANG];
-    const seoDesc = data.ui.seoDesc[LANG];
-
-    // Inject Title
-    indexHtml = indexHtml.replace(/<title>.*?<\/title>/, `<title>${seoTitle}</title>`);
-    
-    // Inject Meta Description
-    indexHtml = indexHtml.replace(
-        /(<meta name="description" content=")(.*?)(")/, 
-        `$1${seoDesc}$3`
-    );
-    
-    // Set HTML Lang Attribute
-    indexHtml = indexHtml.replace(/<html lang=".*?">/, `<html lang="${LANG}">`);
-
-
-    // B. STATIC HEADER & PROFILE INFO
-    indexHtml = injectById(indexHtml, 'p-name', data.profile.name);
-    indexHtml = injectById(indexHtml, 'p-title', data.profile.title[LANG]);
-    indexHtml = injectById(indexHtml, 'p-location', data.meta.location[LANG]);
+    // B. Static Header Elements (Profile)
+    // These are unique, so we keep manual binding for safety/layout reasons
+    document.getElementById('p-name').textContent = resumeData.profile.name;
+    document.getElementById('p-title').textContent = resumeData.profile.title[lang];
+    document.getElementById('p-location').textContent = resumeData.meta.location[lang];
     
     // Links
-    indexHtml = injectById(indexHtml, 'link-email', data.meta.email);
-    indexHtml = injectAttrById(indexHtml, 'link-email', 'href', `mailto:${data.meta.email}`);
-    
-    indexHtml = injectById(indexHtml, 'link-linkedin', data.meta.linkedinLabel || "LinkedIn");
-    indexHtml = injectAttrById(indexHtml, 'link-linkedin', 'href', data.meta.linkedin);
+    const mailLink = document.getElementById('link-email');
+    mailLink.textContent = resumeData.meta.email;
+    mailLink.href = `mailto:${resumeData.meta.email}`;
 
+    const linkedinLink = document.getElementById('link-linkedin');
+    linkedinLink.textContent = resumeData.meta.linkedinLabel;
+    linkedinLink.href = resumeData.meta.linkedin;
 
-    // C. AUTO-WIRED UI LABELS
-    // Loop through keys in data.ui (about, experience, projects, etc.)
-    // and inject into matching #ui-{key} IDs.
-    const ui = data.ui;
-    
-    Object.keys(ui).forEach(key => {
-        // We skip special keys used for SEO/Metadata
+    // C. Automated UI Labels (Headings)
+    // Looks for IDs like 'head-about', 'head-experience' matching keys in data.ui
+    Object.keys(resumeData.ui).forEach(key => {
+        // Skip SEO keys
         if (['documentTitle', 'seoDesc', 'jobTitleShort'].includes(key)) return;
 
-        const targetId = `ui-${key}`;
-        // If content is an object (tr/en), grab the lang. If string, use as is.
-        const content = ui[key][LANG] || ui[key]; 
+        // Try 'ui-{key}' (New Standard) or 'head-{key}' (Legacy Support)
+        const el = document.getElementById(`ui-${key}`) || document.getElementById(`head-${key}`);
         
-        indexHtml = injectById(indexHtml, targetId, content);
+        if (el) {
+            // Check if it's a simple string or an object {tr, en}
+            const val = resumeData.ui[key];
+            el.textContent = val[lang] || val;
+        }
     });
 
+    // D. Container Loop (The "Container Pattern")
+    // Iterates over profile, experience, education, etc.
+    Object.keys(resumeData).forEach(key => {
+        const section = resumeData[key];
 
-    // --- D. DYNAMIC CONTENT LISTS (CONFIGURATION) ---
-   // Define how to handle each list type
-   const LIST_CONFIG = [
-       { key: 'experience', id: 'experience-list', generator: createBlockHTML },
-       { key: 'education',  id: 'education-list',  generator: createBlockHTML },
-       { key: 'skills',     id: 'skills-list',     generator: createTagsHTML },
-       { key: 'languages',  id: 'languages-list',  generator: createLanguageHTML },
-       // If you add projects later, you just uncomment this:
-       // { key: 'projects',   id: 'projects-list',   generator: createBlockHTML }
-   ];
-   
-   // --- EXECUTION LOOP ---
-   console.log(`⚙️  Hydrating Dynamic Lists...`);
-   
-   LIST_CONFIG.forEach(config => {
-       // 1. Get the data array from data.js (e.g., data.experience)
-       const dataList = data[config.key];
-       
-       if (!dataList) {
-           console.warn(`⚠️  Data key '${config.key}' not found in data.js. Skipping.`);
-           return;
-       }
-   
-       // 2. Check if the HTML element exists (fail quietly if not found)
-       // We use a regex check similar to injectById to see if the ID exists in the string
-       const idExists = new RegExp(`id="${config.id}"`).test(indexHtml);
-       
-       if (idExists) {
-           // 3. Generate HTML
-           // Note: Some generators (createBlockHTML, createLanguageHTML) need the 'LANG' arg.
-           // createTagsHTML only needs the array. We pass LANG to all just in case.
-           let generatedHTML = '';
-           
-           if (config.generator === createTagsHTML) {
-               // Skills are a special case: data.skills is an object {tr:[], en:[]}, not an array of objects
-               generatedHTML = config.generator(dataList[LANG]); 
-           } else {
-               // Standard Arrays (Experience, Education)
-               generatedHTML = dataList.map(item => config.generator(item, LANG)).join('');
-           }
-   
-           // 4. Inject
-           indexHtml = injectById(indexHtml, config.id, generatedHTML);
-           console.log(`   -> Wired '${config.key}' to '#${config.id}'`);
-       } else {
-           console.log(`   -> Skipped '${config.key}' (ID #${config.id} missing in HTML)`);
-       }
-   });
+        // We only process objects that have an 'id' and 'type'
+        if (section && section.id && section.type) {
+            const renderer = RENDERERS[section.type];
+            const targetEl = document.getElementById(section.id);
 
-    // E. WRITE TO FILE
-    fs.writeFileSync('index.html', indexHtml);
-    console.log('✅ index.html successfully hydrated!');
+            if (renderer && targetEl) {
+                targetEl.innerHTML = renderer(section, lang);
+            }
+        }
+    });
 
-} catch (err) {
-    console.error("❌ Error generating static site:", err);
-    process.exit(1);
+    // E. State & Animations
+    document.getElementById('btn-tr').setAttribute('aria-pressed', lang === 'tr');
+    document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
+    
+    // Staggered animation for skills
+    const skillTags = document.querySelectorAll('.skill-tag');
+    skillTags.forEach((tag, index) => {
+        tag.style.animationDelay = `${(index + 1) * 0.05}s`;
+    });
+
+    document.body.classList.remove('lang-tr', 'lang-en');
+    document.body.classList.add(`lang-${lang}`);
 }
+
+
+// --- 5. EVENTS & INIT ---
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Language Detection
+    const savedLang = localStorage.getItem('preferredLang');
+    const browserLang = (navigator.language || navigator.userLanguage).startsWith('tr') ? 'tr' : 'en';
+    const currentLang = savedLang || browserLang;
+
+    // 2. Initial Render
+    renderResume(currentLang);
+
+    // 3. Language Buttons
+    document.getElementById('btn-tr').addEventListener('click', () => {
+        localStorage.setItem('preferredLang', 'tr');
+        renderResume('tr');
+    });
+
+    document.getElementById('btn-en').addEventListener('click', () => {
+        localStorage.setItem('preferredLang', 'en');
+        renderResume('en');
+    });
+
+    // 4. Print Button
+    const btnPrint = document.getElementById('btn-print');
+    if (btnPrint) btnPrint.addEventListener('click', () => window.print());
+
+    // 5. Dark Mode Toggle
+    const btnTheme = document.getElementById('btn-theme');
+    if (btnTheme) {
+        btnTheme.addEventListener('click', () => {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme-preference', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme-preference', 'dark');
+            }
+        });
+    }
+
+    // 6. Email Copy Feature
+    const mailLink = document.getElementById('link-email');
+    if (mailLink) {
+        mailLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isTr = document.documentElement.lang === 'tr';
+            
+            navigator.clipboard.writeText(resumeData.meta.email).then(() => {
+                mailLink.setAttribute('data-copy-text', isTr ? "Kopyalandı!" : "Copied!");
+                mailLink.classList.add('copied');
+                setTimeout(() => mailLink.classList.remove('copied'), 2000);
+            });
+        });
+    }
+});
