@@ -1,6 +1,6 @@
-/* SSG BUILDER: generate-static.js
-   Injects data.js content directly into index.html tags for SEO & Accessibility.
-   Run: node generate-static.js
+/* SSG BUILDER: static.js
+   Injects data.js content directly into index.html
+   Run: node static.js
 */
 
 const fs = require('fs');
