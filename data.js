@@ -116,3 +116,8 @@ const resumeData = {
         }
     ]
 };
+
+// Universal export: works in Node (build) and Browser (window)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = resumeData;
+}
