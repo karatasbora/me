@@ -16,8 +16,8 @@ const resumeData = {
             en: "Bora Karataş - Resume" 
         },
         seoDesc: {
-            tr: "İçerik Editörü ve Eğitimci. Yapay Zeka destekli, erişilebilir öğrenme deneyimleri tasarlıyor.",
-            en: "Content Editor & Educator specializing in AI-Supported Learning Experiences."
+            tr: "Eğitim Uzmanı & İçerik Editörü | Yapay Zekâ Destekli Öğretim Tasarımı | ELT · EdTech · Erişilebilir & İnsan Merkezli Eğitim",
+            en: "Education Specialist & Content Editor | AI-Supported Instructional Design | ELT · EdTech · Accessible & Human-Centered Education"
         },
         jobTitleShort: { 
             tr: "İçerik Editörü", 
