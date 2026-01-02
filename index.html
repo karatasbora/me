@@ -1,40 +1,162 @@
-<title>Bora Karataş - Resume</title>
-<meta name="description" content="Content Editor & Educator specializing in AI-Supported Learning Experiences. Instructional Design & EdTech Portfolio.">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script>
+        (function() {
+            try {
+                var localTheme = localStorage.getItem('theme-preference');
+                var sysTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (localTheme === 'dark' || (!localTheme && sysTheme)) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
 
-<div id="p-about">Education professional specializing in the design of accessible, human-centered learning experiences supported by artificial intelligence and educational technologies. Experienced in content strategy, instructional design, and digital transformation within higher education and public schooling contexts. Committed to advancing inclusive, ethical, and learner-centered education aligned with global sustainability and equity goals. Approaches technology as an enabling tool for exploration, critical thinking, and lifelong learning rather than as an end in itself.</div>
+    <title></title>
+    <meta name="description" content="">
+    <meta name="author" content="Bora Karataş">
+    
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:url" content="https://karatasbora.github.io/resume/">
+    <meta property="og:image" content="https://karatasbora.github.io/resume/profil.webp">
 
-<section>
-    <h2 id="ui-experience">Experience</h2>
-    <div id="experience-list">
-            <div class="job-block">
-                <div class="job-header">
-                    <span class="job-title">Content Editor</span>
-                    <span class="job-date">DEC 2022 - PRESENT</span>
-                </div>
-                <div class="job-subheader">
-                    <span class="company">Hybrid · Part-time | Anadolu University · Learning Technologies R&D Unit</span>
-                    <span class="location">ESKISEHIR, TURKEY</span>
-                </div>
-                <div class="job-content">
-                    <p>Contribute to institutional digital transformation initiatives aimed at converting static instructional materials into interactive and inclusive digital learning experiences. Integrate Generative AI (LLM) tools into content development workflows to improve editorial efficiency, consistency, and scalability while adhering to universal design and accessibility principles. Collaborate with multidisciplinary teams to enhance learner engagement and support diverse learning needs across digital platforms.</p>
-                    <div class="tags-wrapper"><span class="skill-tag">Content Strategy</span><span class="skill-tag">AI Prompt Engineering</span><span class="skill-tag">Learning Management Systems</span></div>
-                </div>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:image" content="https://karatasbora.github.io/resume/profil.webp">
+
+    <link rel="canonical" href="https://karatasbora.github.io/resume/">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <script type="application/ld+json" id="json-ld">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "Bora Karataş",
+          "url": "https://karatasbora.github.io/"
+        },
+        {
+          "@type": "ProfilePage",
+          "name": "Bora Karataş | ELT & EdTech",
+          "url": "https://karatasbora.github.io/resume/",
+          "mainEntity": {
+            "@type": "Person",
+            "name": "Bora Karataş",
+            "jobTitle": "Content Editor",
+            "image": "https://karatasbora.github.io/resume/profil.webp",
+            "sameAs": [
+              "https://www.linkedin.com/in/borakaratas",
+              "mailto:borakaratas@anadolu.edu.tr"
+            ],
+            "worksFor": { "@type": "Organization", "name": "Anadolu University" }
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="profile-container">
+            <div class="favicon-frame">
+                <span class="frame-left"></span>
+                <span class="frame-top-right"></span>
+                <span class="frame-bottom-right"></span>
             </div>
+
+            <div class="profile-photo">
+                <img 
+                    src="profil.webp" 
+                    alt="Bora Karataş" 
+                    width="400" 
+                    height="400" 
+                    loading="eager"
+                    style="width:100%; height:100%; object-fit:cover; object-position: center 20%;"
+                >
+            </div>
+        </div>
+        
+        <div class="header-text">
+            <h1 id="p-name"></h1> 
+            <div class="headline" id="p-title"></div>
+            
+            <div class="contact-info">
+                <span id="p-location"></span>
+                <span class="sep">|</span> 
+                <a href="" id="link-email" class="contact-link"></a>
+                <span class="sep">|</span> 
+                <a href="" id="link-linkedin" class="contact-link" target="_blank" rel="noopener noreferrer"></a>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-icon" id="btn-theme" aria-label="Toggle Dark Mode">
+                <svg id="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <svg id="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
+            
+            <span class="separator">|</span>
+            
+            <button class="btn-icon" id="btn-tr" aria-label="Switch to Turkish">TR</button>
+            <button class="btn-icon" id="btn-en" aria-label="Switch to English">EN</button>
+            
+            <button class="download-btn" id="btn-print" aria-label="Print or Save as PDF">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                <span>PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h2 id="head-about"></h2>
+            <p id="p-about"></p>
+        </section>
+
+        <section>
+            <h2 id="head-experience"></h2>
+            <div id="experience-list"></div>
+        </section>
+
+        <section>
+            <h2 id="head-education"></h2>
+            <div id="education-list"></div>
+        </section>
+
+        <section>
+            <h2 id="head-skills"></h2>
+            
             <div class="job-block">
                 <div class="job-header">
-                    <span class="job-title">English Teacher</span>
-                    <span class="job-date">SEP 2025 - DEC 2025</span>
+                    <span class="job-title" id="head-skills-sub"></span> 
                 </div>
-                <div class="job-subheader">
-                    <span class="company">On-site · Internship | Ministry of National Education · Gülay Kanatlı Secondary School</span>
-                    <span class="location">ESKISEHIR, TURKEY</span>
-                </div>
-                <div class="job-content">
-                    <p>Implemented a learner-centered English language curriculum emphasizing communication, critical thinking, and real-world language use rather than rote grammar instruction. Designed lessons aligned with 21st-century competencies (communication, collaboration, creativity, and critical thinking). Applied gamification strategies to classroom management to increase student motivation, participation, and inclusivity.</p>
-                    <div class="tags-wrapper"><span class="skill-tag">Instructional Design</span><span class="skill-tag">Classroom Management</span><span class="skill-tag">Teaching English as a Foreign Language</span></div>
-                </div>
-            </div></div> </section>
+                <div class="tags-wrapper" id="skills-list" style="padding-left:0; margin-top: 5px;"></div>
+            </div>
 
-<section>
-    <h2 id="ui-skills">Technical Skills & Specializations</h2>
-    <div id="skills-list"><span class="skill-tag">Artificial Intelligence in Education</span><span class="skill-tag">Prompt Engineering for Educational Content</span><span class="skill-tag">Instructional Design & Learning Experience Design (LXD)</span><span class="skill-tag">Learning Management Systems (LMS)</span><span class="skill-tag">Content Management Systems (CMS)</span><span class="skill-tag">Digital Archiving & Knowledge Organization</span><span class="skill-tag">Academic Research & Analysis</span><span class="skill-tag">Systems Thinking</span></div> </section>
+            <div class="job-block" style="margin-top: 30px; border:none;">
+                <div class="job-header">
+                    <span class="job-title" id="head-languages"></span>
+                </div>
+                <div class="lang-grid" id="languages-list"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
