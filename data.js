@@ -6,9 +6,8 @@ const resumeData = {
         { type: 'text', titleKey: 'about', dataKey: 'profile.about' },
         { type: 'list', titleKey: 'experience', dataKey: 'experience' },
         { type: 'list', titleKey: 'education', dataKey: 'education' },
-        // 'skills' is now the Master Source of Truth for tags
+        { type: 'grid', titleKey: 'languages', dataKey: 'languages' },
         { type: 'tags', titleKey: 'skills', dataKey: 'skills' }, 
-        { type: 'grid', titleKey: 'languages', dataKey: 'languages' }
     ],
 
     // --- 2. UI LABELS ---
