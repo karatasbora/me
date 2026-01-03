@@ -102,6 +102,21 @@ section {
 }
 section.visible { opacity: 1; transform: translateY(0); }
 
+/* ETHICAL MOTION (Reduced Motion Preference) */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    header, section { 
+        opacity: 1 !important; 
+        transform: none !important; 
+        animation: none !important;
+    }
+}
+
 /* --- HEADER --- */
 header {
     display: flex;
@@ -242,7 +257,7 @@ h1 {
 
 section { margin-bottom: 3rem; }
 
-/* SECTION TITLES (The "Old Titling with Vertical Line") */
+/* SECTION TITLES */
 h2 {
     font-family: 'Libre Baskerville', serif;
     color: var(--heading-color);
@@ -261,14 +276,52 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
     margin-bottom: 24px;
     box-shadow: var(--card-shadow);
     page-break-inside: avoid;
-    transition: transform 0.2s ease, background-color 0.5s ease;
+    /* Merged Spotlight Physics Transitions */
+    transition: transform 0.2s ease, opacity 0.5s ease, filter 0.5s ease, background-color 0.5s ease;
     scroll-margin-top: 100px;
+    position: relative; /* For the new timeline node */
 }
 .job-block:hover { transform: translateY(-2px); }
 
+/* NEW: Timeline Visual Hierarchy Node */
+.job-block::before {
+    content: "";
+    position: absolute;
+    left: -29px; /* Aligns with section border */
+    top: 28px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-color);
+    transition: background 0.3s;
+}
+.job-block:hover::before { background: var(--accent-color); }
+
+/* SPOTLIGHT MODE (Active when a skill is clicked) */
+body.spotlight-active .job-block {
+    opacity: 0.3;       /* Fade out everything */
+    filter: blur(1px);  /* Subtle blur for depth of field */
+    pointer-events: none;
+}
+body.spotlight-active .job-block.spotlight-target {
+    opacity: 1;         /* Keep target visible */
+    filter: blur(0);
+    transform: scale(1.02); /* Slight lift */
+    box-shadow: 0 10px 25px rgba(108, 92, 231, 0.2); /* Glow effect */
+}
+
 .job-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem; }
 .job-title { font-family: 'Libre Baskerville', serif; font-size: 1.2rem; font-weight: 700; color: var(--primary-text); }
-.job-date { font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--meta-color); font-weight: 700; text-transform: uppercase; }
+.job-date { 
+    font-family: 'Inter', sans-serif; 
+    font-size: 0.85rem; 
+    color: var(--meta-color); 
+    font-weight: 700; 
+    text-transform: uppercase;
+    letter-spacing: 0.05em; /* Added breathing room */
+    opacity: 0.8; 
+}
+
 .job-subheader { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
 .company { font-family: 'Inter', sans-serif; font-weight: 600; color: var(--meta-color); font-size: 1rem; }
 .location { font-family: 'Inter', sans-serif; font-size: 0.75rem; color: var(--accent-color); font-weight: 700; text-transform: uppercase; }
@@ -436,7 +489,7 @@ a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); 
 .nav-item:hover { background-color: var(--bg-color); color: var(--accent-color); }
 .nav-item .nav-context { display: block; font-size: 0.7rem; color: var(--meta-color); margin-top: 2px; }
 
-/* PRINT SETTINGS */
+/* PRINT SETTINGS (Enhanced) */
 @media print {
     :root, [data-theme="dark"], body {
         --primary-text: #000000 !important;
@@ -470,7 +523,20 @@ a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); 
     .skill-category-title { color: #000 !important; border-bottom-color: #ccc !important; }
     .contact-link { display: inline !important; color: #000 !important; border-bottom: 2px solid var(--accent-color) !important; text-decoration: none !important; }
     .contact-link.copied { color: #000 !important; }
-    .contact-link::after, .contact-link.copied::after { display: none !important; }
+    
+    /* Paper Trail: Link Expansion */
+    a[href]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+        font-weight: normal;
+    }
+    /* Exceptions */
+    a[href^="#"]::after,
+    a[href^="javascript"]::after,
+    a[href^="mailto"]::after,
+    .contact-link::after {
+        content: "";
+    }
 
     .job-block, .lang-item, section, .skill-category { break-inside: avoid; page-break-inside: avoid; display: block; }
     h2, h3 { break-after: avoid; page-break-after: avoid; }
