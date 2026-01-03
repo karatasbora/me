@@ -2,13 +2,12 @@
 
 const resumeData = {
     // --- 1. CONFIGURATION: THE LAYOUT ---
-    // This array controls the order and type of sections. 
-    // To add a section, simply add it here and define its data below.
     structure: [
         { type: 'text', titleKey: 'about', dataKey: 'profile.about' },
         { type: 'list', titleKey: 'experience', dataKey: 'experience' },
         { type: 'list', titleKey: 'education', dataKey: 'education' },
-        { type: 'tags', titleKey: 'skills', dataKey: 'skills' },
+        // 'skills' is now the Master Source of Truth for tags
+        { type: 'tags', titleKey: 'skills', dataKey: 'skills' }, 
         { type: 'grid', titleKey: 'languages', dataKey: 'languages' }
     ],
 
@@ -47,7 +46,7 @@ const resumeData = {
         }
     },
 
-    // --- 4. DATA SECTIONS ---
+    // --- 4. PROFILE SECTION ---
     profile: {
         name: "Bora Karataş",
         title: {
@@ -60,8 +59,10 @@ const resumeData = {
         }
     },
 
+    // --- 5. EXPERIENCE (With IDs, No Tags) ---
     experience: [
         {
+            id: "job-editor", // Unique ID
             role: { tr: "İçerik Editörü", en: "Content Editor" },
             company: { tr: "Hibrit · Yarı zamanlı | Anadolu Üniversitesi · Öğrenme Teknolojileri Ar-Ge Birimi", en: "Hybrid · Part-time | Anadolu University · Learning Technologies R&D Unit" },
             date: { tr: "ARALIK 2022 - HALEN", en: "DEC 2022 - PRESENT" },
@@ -69,13 +70,10 @@ const resumeData = {
             desc: {
                 tr: "Kurumsal dijital dönüşüm girişimlerine katkı sağlayarak durağan öğretim materyallerinin etkileşimli ve kapsayıcı dijital öğrenme deneyimlerine dönüştürülmesi üzerinde çalışıyorum. Evrensel tasarım ve erişilebilirlik ilkelerine bağlı kalarak, editoryal verimliliği, tutarlılığı ve ölçeklenebilirliği artırmak için içerik geliştirme iş akışlarına Üretken Yapay Zekâ (LLM) araçlarını entegre ediyorum. Çok disiplinli ekiplerle iş birliği içinde çalışarak dijital platformlarda öğrenen etkileşimini artırıyor ve farklı öğrenme ihtiyaçlarını destekliyorum.",
                 en: "Contribute to institutional digital transformation initiatives aimed at converting static instructional materials into interactive and inclusive digital learning experiences. Integrate Generative AI (LLM) tools into content development workflows to improve editorial efficiency, consistency, and scalability while adhering to universal design and accessibility principles. Collaborate with multidisciplinary teams to enhance learner engagement and support diverse learning needs across digital platforms."
-            },
-            tags: {
-                tr: ["İçerik Stratejisi", "Yapay Zekâ Prompt Mühendisliği", "Öğrenme Yönetim Sistemleri (LMS)"],
-                en: ["Content Strategy", "AI Prompt Engineering", "Learning Management Systems"]
             }
         },
         {
+            id: "job-teacher", // Unique ID
             role: { tr: "İngilizce Öğretmeni", en: "English Teacher" },
             company: { tr: "Yerinde · Staj | T.C. Millî Eğitim Bakanlığı · Gülay Kanatlı Ortaokulu", en: "On-site · Internship | Ministry of National Education · Gülay Kanatlı Secondary School" },
             date: { tr: "EYLÜL 2025 - ARALIK 2025", en: "SEP 2025 - DEC 2025" },
@@ -83,16 +81,14 @@ const resumeData = {
             desc: {
                 tr: "Ezbere dayalı dilbilgisi öğretimi yerine iletişim, eleştirel düşünme ve gerçek yaşamda dil kullanımını merkeze alan öğrenen odaklı bir İngilizce öğretim programı uyguladım. Dersleri 21. yüzyıl yetkinlikleriyle (iletişim, iş birliği, yaratıcılık ve eleştirel düşünme) uyumlu şekilde tasarladım. Öğrenci motivasyonunu, katılımını ve kapsayıcılığı artırmak amacıyla sınıf yönetiminde oyunlaştırma stratejileri kullandım.",
                 en: "Implemented a learner-centered English language curriculum emphasizing communication, critical thinking, and real-world language use rather than rote grammar instruction. Designed lessons aligned with 21st-century competencies (communication, collaboration, creativity, and critical thinking). Applied gamification strategies to classroom management to increase student motivation, participation, and inclusivity."
-            },
-            tags: {
-                tr: ["Öğretim Tasarımı", "Sınıf Yönetimi", "Yabancı Dil olarak İngilizce Öğretimi"],
-                en: ["Instructional Design", "Classroom Management", "Teaching English as a Foreign Language"]
             }
         }
     ],
 
+    // --- 6. EDUCATION (With IDs, No Tags) ---
     education: [
         {
+            id: "edu-elt", // Unique ID
             degree: { tr: "İngilizce Öğretmenliği", en: "English Language Teaching" },
             school: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
             date: { tr: "Lisans Derecesi", en: "Bachelor's Degree" },
@@ -103,6 +99,7 @@ const resumeData = {
             }
         },
         {
+            id: "edu-erasmus",
             degree: { tr: "Anglo-Amerikan Çalışmaları", en: "Anglo-American Studies" },
             school: { tr: "Universidade de Coimbra", en: "Universidade de Coimbra" },
             date: { tr: "ERASMUS+", en: "ERASMUS+" },
@@ -113,6 +110,7 @@ const resumeData = {
             }
         },
         {
+            id: "edu-econ",
             degree: { tr: "İktisat (İngilizce)", en: "Economics (English)" },
             school: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
             date: { tr: "Lisans Derecesi", en: "Bachelor's Degree" },
@@ -124,18 +122,70 @@ const resumeData = {
         }
     ],
 
-    skills: {
-        tr: [
-            "Eğitimde Yapay Zekâ", "Eğitsel İçerik için Prompt Mühendisliği", "Öğretim Tasarımı & Öğrenme Deneyimi Tasarımı (LXD)", 
-            "Öğrenme Yönetim Sistemleri (LMS)", "İçerik Yönetim Sistemleri", 
-            "Dijital Arşivleme & Bilgi Organizasyonu", "Akademik Araştırma & Analiz", "Sistem Düşüncesi"
-        ],
-        en: [
-            "Artificial Intelligence in Education", "Prompt Engineering for Educational Content", "Instructional Design & Learning Experience Design (LXD)", 
-            "Learning Management Systems (LMS)", "Content Management Systems (CMS)", "Digital Archiving & Knowledge Organization", 
-            "Academic Research & Analysis", "Systems Thinking"
-        ]
-    },
+    // --- 7. MASTER SKILLS LIST (Reverse Logic) ---
+    // Defines the skill ONCE, then targets the IDs where it should appear.
+    skills: [
+        {
+            tr: "Eğitsel İçerik için Prompt Mühendisliği",
+            en: "Prompt Engineering for Educational Content",
+            targets: ["job-editor"]
+        },
+        {
+            tr: "Öğrenme Yönetim Sistemleri (LMS)",
+            en: "Learning Management Systems (LMS)",
+            targets: ["job-editor"]
+        },
+        {
+            tr: "İçerik Yönetim Sistemleri (CMS)",
+            en: "Content Management Systems (CMS)",
+            targets: ["job-editor"]
+        },
+        {
+            tr: "Dijital Arşivleme & Bilgi Organizasyonu",
+            en: "Digital Archiving & Knowledge Organization",
+            targets: ["job-editor"]
+        },
+        {
+            tr: "Öğretim Tasarımı & LXD",
+            en: "Instructional Design & LXD",
+            targets: ["job-editor", "job-teacher"] // Appears in BOTH
+        },
+        {
+            tr: "Sınıf Yönetimi",
+            en: "Classroom Management",
+            targets: ["job-teacher"]
+        },
+        {
+            tr: "Yabancı Dil olarak İngilizce Öğretimi",
+            en: "Teaching English as a Foreign Language",
+            targets: ["job-teacher"]
+        },
+        {
+            tr: "Eğitimde Yapay Zekâ",
+            en: "Artificial Intelligence in Education",
+            targets: ["edu-elt", "job-editor"] // Appears in BOTH
+        },
+        {
+            tr: "Eğitim Teknolojileri",
+            en: "Educational Technology",
+            targets: ["edu-elt"]
+        },
+        {
+            tr: "Kültürlerarası İletişim",
+            en: "Intercultural Communication",
+            targets: ["edu-erasmus"]
+        },
+        {
+            tr: "Sistem Düşüncesi",
+            en: "Systems Thinking",
+            targets: ["edu-econ"]
+        },
+        {
+            tr: "Akademik Araştırma & Analiz",
+            en: "Academic Research & Analysis",
+            targets: ["edu-econ"]
+        }
+    ],
 
     languages: [
         {
