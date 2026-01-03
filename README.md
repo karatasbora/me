@@ -133,12 +133,3 @@ This project is licensed under the **GNU General Public License v3.0**.
 Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved.
 
 See the [LICENSE](https://www.google.com/search?q=LICENSE) file for the full text of the license.
-
-```
-
-### ✅ Action Item: Add the License File
-Since you have chosen GPL-3.0, you **must** add a file named `LICENSE` to the root of your repository containing the full legal text.
-
-You can copy the official text from here: [https://www.gnu.org/licenses/gpl-3.0.txt](https://www.gnu.org/licenses/gpl-3.0.txt)
-
-```
