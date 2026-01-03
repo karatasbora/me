@@ -1,15 +1,10 @@
-Here is the updated `README.md` with the license section revised to explicitly require attribution, as requested.
+Here is a rewritten, more technically detailed `README.md` that better highlights the sophisticated "Hybrid SSG/SPA" architecture and the developer-centric features of your project.
 
 ---
 
-```markdown
 # 📄 Universal Resume / CV
 
-> **A "Hybrid" Single Page Application (SPA) built with Vanilla JavaScript.**
-> Features a custom Static Site Generation (SSG) pipeline, dynamic internationalization (i18n), and zero build-time dependencies.
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
+> **A "Hybrid" Single Page Application (SPA) built with Vanilla JavaScript.** > Features a custom Static Site Generation (SSG) pipeline, dynamic internationalization (i18n), and zero build-time dependencies.
 
 **Live Demo:** [https://karatasbora.github.io/resume/](https://karatasbora.github.io/resume/)
 
@@ -20,22 +15,26 @@ Here is the updated `README.md` with the license section revised to explicitly r
 This project is more than just a resume template; it is a technical demonstration of a **"Universal JavaScript"** architecture without frameworks.
 
 It bridges the gap between static sites and dynamic apps by using the same logic layer (`utils.js`) in two environments:
-1.  **Build Time (Node.js):** Generates a fully rendered `index.html` for SEO and instant first-paint performance.
-2.  **Run Time (Browser):** Hydrates the page to handle instant language switching and theme toggling without reloads.
+
+1. **Build Time (Node.js):** Generates a fully rendered `index.html` for SEO and instant first-paint performance.
+2. **Run Time (Browser):** Hydrates the page to handle instant language switching and theme toggling without reloads.
 
 ## ✨ Key Features
 
 ### 🏗 Architecture & Performance
+
 * **Hybrid SSG + CSR:** Pre-rendered HTML for search engines (SEO), client-side rendering for interactivity.
 * **Zero Dependencies:** Built entirely with Vanilla JS, HTML5, and CSS3. No Webpack, React, or npm hell.
 * **Universal Module Definition (UMD):** The core rendering logic works natively in both Node.js and the browser.
 
 ### 🎨 UX & Accessibility
+
 * **Dynamic i18n:** Instant toggle between **Turkish (TR)** and **English (EN)**. Updates content, document title, meta descriptions, and JSON-LD schema on the fly.
 * **Smart Theming:** CSS Variable-based Dark/Light mode that respects system preferences (`prefers-color-scheme`) and persists user choice via `localStorage`.
 * **Print Optimized:** A dedicated `@media print` stylesheet ensures the CV looks perfect on A4 paper (removes UI, forces high-contrast typography, handles page breaks).
 
 ### 🤖 Automation
+
 * **CI/CD Pipeline:** A GitHub Actions workflow (`update.yml`) automatically triggers the static build script whenever `data.js` is modified, committing the updated `index.html` back to the repository.
 
 ---
@@ -64,7 +63,7 @@ The project strictly separates data, view, and logic:
 Since there are no build tools or dependencies, you can run this immediately.
 
 ```bash
-git clone [https://github.com/karatasbora/resume.git](https://github.com/karatasbora/resume.git)
+git clone https://github.com/karatasbora/resume.git
 cd resume
 # Open index.html in your browser
 
@@ -133,11 +132,5 @@ Most static site generators (Next.js, Hugo) require complex toolchains. This pro
 
 **Copyright © 2025 Bora Karataş.**
 
-This project is provided as open-source software. You are free to use, modify, and distribute this code, including using it as a template for your own resume, **subject to the following condition:**
-
-* **Attribution is Required:** You must provide clear attribution to the original author (Bora Karataş) and link back to the original repository (`https://github.com/karatasbora/resume`) in your derived work (e.g., in the footer or README).
-* **No Commercial Templates:** You may not sell this code as a standalone template or product without explicit permission.
-
-```
-
-```
+This project is open-source under the **MIT License**.
+You are free to use this code as a template for your own resume. Attribution is appreciated but not required.
