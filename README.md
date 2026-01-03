@@ -1,90 +1,143 @@
-# 📄 Interactive Resume / CV
-
-A modern, data-driven personal resume website built with **Vanilla JavaScript**, **CSS Variables**, and **Semantic HTML5**.
-
-This project functions as a Single Page Application (SPA) where content is strictly decoupled from the presentation layer. It features dynamic localization (i18n), accessible design patterns, and an automated SEO strategy.
-
-🔗 **Live Demo:** [https://karatasbora.github.io/resume/](https://karatasbora.github.io/resume/)
-
-## ✨ Key Features
-
-* **⚡ Data-Driven Architecture:** All content (experience, education, skills) is stored in a structured JSON object (`data.js`), making updates instant without touching HTML.
-* **🌍 Bilingual Support (i18n):** Toggles between **Turkish (TR)** and **English (EN)** instantly. This changes not just text, but also:
-* `document.lang` attributes for screen readers.
-* SEO Metadata (`<title>`, `<meta description>`).
-* JSON-LD Structured Data for search engines.
-
-
-* **wm/🌙 Dark & Light Mode:** * Uses CSS Variables for efficient theming.
-* Automatically detects system preference (`prefers-color-scheme`).
-* Persists state during the session.
-
-
-* **🖨️ Print Optimized:** Includes a tailored `@media print` stylesheet that removes UI elements, forces high-contrast black/white typography, and scales the layout to fit perfectly on A4 paper.
-* **🛡️ Robust Fallbacks:** Includes a `<noscript>` version that renders a raw HTML view for users/bots with JavaScript disabled.
-
-## 🛠️ Tech Stack
-
-* **Core:** HTML5, CSS3, ES6+ JavaScript.
-* **Styling:** CSS Custom Properties (Variables), Flexbox, Mobile-First Design.
-* **No Dependencies:** Zero frameworks, zero build steps, lightweight performance.
-
-## 📂 Project Structure
-
-```bash
-├── data.js       # The "Database" - Contains all resume content (JSON format)
-├── index.html    # The "View" - Semantic skeleton and SEO meta tags
-├── script.js     # The "Controller" - Handles rendering, state, and DOM manipulation
-├── style.css     # The Styling - Includes animations and print media queries
-└── profil.png    # Profile image assets
-
-```
-
-## 🚀 How to Use / Customize
-
-Since this project separates data from the view, you can easily adapt it for your own use.
-
-1. **Clone the repository:**
-```bash
-git clone https://github.com/karatasbora/resume.git
-
-```
-
-
-2. **Edit Content:**
-Open `data.js`. You will see the `resumeData` object. simply edit the strings for `tr` and `en` keys.
-```javascript
-// Example: data.js
-profile: {
-    name: "Your Name",
-    title: {
-        tr: "Unvanınız",
-        en: "Your Job Title"
-    },
-    // ...
-}
-
-```
-
-
-3. **Change Images:**
-Replace `profil.png` with your own photo. Ensure the aspect ratio is roughly square (1:1).
-4. **Run Locally:**
-No build server is required. simply open `index.html` in your browser, or use an extension like **Live Server** in VS Code.
-
-## 🔍 SEO & Metadata
-
-The application dynamically updates Open Graph (Facebook/LinkedIn) and Twitter Card tags when the language changes, ensuring that shared links display the correct language context.
-
-* **Google Verification:** Integrated via meta tag.
-* **JSON-LD:** Structured `Person` schema included for rich search results.
-
-## © Copyright
-
-**Copyright © 2025 Bora Karataş. All Rights Reserved.**
-
-This repository is for personal portfolio demonstration purposes only. You are welcome to review the code, but you may not reproduce, distribute, or use this code as a template without permission.
+Here is the updated `README.md` with the license section revised to explicitly require attribution, as requested.
 
 ---
 
-**Author:** [Bora Karataş](https://www.linkedin.com/in/borakaratas)
+```markdown
+# 📄 Universal Resume / CV
+
+> **A "Hybrid" Single Page Application (SPA) built with Vanilla JavaScript.**
+> Features a custom Static Site Generation (SSG) pipeline, dynamic internationalization (i18n), and zero build-time dependencies.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
+
+**Live Demo:** [https://karatasbora.github.io/resume/](https://karatasbora.github.io/resume/)
+
+---
+
+## 💡 Overview
+
+This project is more than just a resume template; it is a technical demonstration of a **"Universal JavaScript"** architecture without frameworks.
+
+It bridges the gap between static sites and dynamic apps by using the same logic layer (`utils.js`) in two environments:
+1.  **Build Time (Node.js):** Generates a fully rendered `index.html` for SEO and instant first-paint performance.
+2.  **Run Time (Browser):** Hydrates the page to handle instant language switching and theme toggling without reloads.
+
+## ✨ Key Features
+
+### 🏗 Architecture & Performance
+* **Hybrid SSG + CSR:** Pre-rendered HTML for search engines (SEO), client-side rendering for interactivity.
+* **Zero Dependencies:** Built entirely with Vanilla JS, HTML5, and CSS3. No Webpack, React, or npm hell.
+* **Universal Module Definition (UMD):** The core rendering logic works natively in both Node.js and the browser.
+
+### 🎨 UX & Accessibility
+* **Dynamic i18n:** Instant toggle between **Turkish (TR)** and **English (EN)**. Updates content, document title, meta descriptions, and JSON-LD schema on the fly.
+* **Smart Theming:** CSS Variable-based Dark/Light mode that respects system preferences (`prefers-color-scheme`) and persists user choice via `localStorage`.
+* **Print Optimized:** A dedicated `@media print` stylesheet ensures the CV looks perfect on A4 paper (removes UI, forces high-contrast typography, handles page breaks).
+
+### 🤖 Automation
+* **CI/CD Pipeline:** A GitHub Actions workflow (`update.yml`) automatically triggers the static build script whenever `data.js` is modified, committing the updated `index.html` back to the repository.
+
+---
+
+## 📂 Project Structure
+
+The project strictly separates data, view, and logic:
+
+```bash
+├── data.js       # SINGLE SOURCE OF TRUTH. Contains all resume content (JSON).
+├── utils.js      # UNIVERSAL LOGIC. Rendering functions shared by Node & Browser.
+├── static.js     # BUILD SCRIPT. Node.js script for Static Site Generation (SSG).
+├── script.js     # CLIENT SCRIPT. Handles DOM events, state, and browser rendering.
+├── style.css     # STYLES. CSS Variables, Animations, and Print rules.
+├── index.html    # TEMPLATE. The semantic skeleton injected by the build script.
+└── .github/      # CI/CD. Workflows for auto-building on push.
+
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone & Run Locally
+
+Since there are no build tools or dependencies, you can run this immediately.
+
+```bash
+git clone [https://github.com/karatasbora/resume.git](https://github.com/karatasbora/resume.git)
+cd resume
+# Open index.html in your browser
+
+```
+
+*(Optional)* To test the Static Site Generator locally:
+
+```bash
+# Requires Node.js installed
+node static.js
+
+```
+
+### 2. Customization
+
+You never need to touch the HTML.
+
+1. Open `data.js`.
+2. Modify the `resumeData` object.
+3. To change the section order, rearrange the `structure` array at the top of the file:
+```javascript
+structure: [
+    { type: 'text', titleKey: 'about', dataKey: 'profile.about' },
+    { type: 'list', titleKey: 'experience', dataKey: 'experience' },
+    // ... reorder as needed
+]
+
+```
+
+
+
+### 3. Deployment
+
+Simply push your changes to the `main` branch.
+
+* **GitHub Pages** will serve the content.
+* **GitHub Actions** will detect changes to `data.js` and automatically run `node static.js` to update the HTML structure if you haven't done so locally.
+
+---
+
+## 🛠 Technical Deep Dive: The "Universal" Pattern
+
+Most static site generators (Next.js, Hugo) require complex toolchains. This project achieves similar results with simple code:
+
+**The Shared Renderer (`utils.js`):**
+
+```javascript
+(function(root, factory) {
+    if (typeof module === 'object' && module.exports) {
+        module.exports = factory(); // Export for Node.js
+    } else {
+        root.resumeUtils = factory(); // Export for Browser
+    }
+}(this, function() {
+    return { renderLayout: (data, lang) => { ... } };
+}));
+
+```
+
+* **On GitHub Push:** `static.js` requires this file to build the HTML string and write it to disk.
+* **In Browser:** `script.js` uses the global `resumeUtils` to re-render the `<main>` content when you click the "TR/EN" toggle.
+
+---
+
+## © License & Copyright
+
+**Copyright © 2025 Bora Karataş.**
+
+This project is provided as open-source software. You are free to use, modify, and distribute this code, including using it as a template for your own resume, **subject to the following condition:**
+
+* **Attribution is Required:** You must provide clear attribution to the original author (Bora Karataş) and link back to the original repository (`https://github.com/karatasbora/resume`) in your derived work (e.g., in the footer or README).
+* **No Commercial Templates:** You may not sell this code as a standalone template or product without explicit permission.
+
+```
+
+```
