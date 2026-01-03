@@ -8,18 +8,18 @@
     }
 }(typeof self !== 'undefined' ? self : this, function() {
 
-    // --- HELPER: GET SKILLS FOR A JOB ---
-    // Veri yapısı değiştiği için iç içe döngü ile tarama yapıyoruz
+    // --- HELPER: GET SKILLS FOR A JOB (HIERARCHICAL FIX) ---
+    // This now correctly drills down into categories -> items to find matches
     function getRelevantSkills(id, skillCategories, lang) {
         const relevant = [];
         if (!id || !skillCategories) return relevant;
 
-        // Kategorileri gez
+        // Iterate through Categories
         skillCategories.forEach(cat => {
             if (cat.items) {
-                // Kategori içindeki yetenekleri gez
+                // Iterate through Items inside Category
                 cat.items.forEach(skill => {
-                    // Eğer yetenek hedefleri arasında bu ID varsa listeye ekle
+                    // Check if the skill targets this job ID
                     if (skill.targets && skill.targets.includes(id)) {
                         relevant.push({
                             label: skill[lang],
@@ -32,11 +32,22 @@
         return relevant;
     }
 
+    // --- HELPER: GROUP SKILLS BY CATEGORY ---
+    // Not strictly needed for rendering since data is already grouped, 
+    // but useful if we ever need to re-sort. 
+    function groupSkillsByCategory(skills, lang) {
+        // Since your data is ALREADY hierarchical, we might not need this,
+        // but for safety/flexibility let's keep it simple or just use raw data in renderTags.
+        return skills; 
+    }
+
     // --- SUB-RENDERERS ---
     
+    // Renders Experience & Education blocks (THE TIMELINE)
     function renderBlock(items, lang, skillCategories) {
         if (!items) return '';
         return items.map(item => {
+            // FIXED: Now passes the hierarchical skillCategories correctly
             const relevantSkills = getRelevantSkills(item.id, skillCategories, lang);
             
             // Branding Tags (Footer)
@@ -84,14 +95,14 @@
         }).join('');
     }
 
-    // --- RENDER SKILLS SUMMARY ---
-    // Artık gruplama yapmaya gerek yok, veri zaten gruplanmış geliyor.
+    // Renders Skills Summary (From Hierarchical Data)
     function renderTags(skillCategories, lang) {
         if (!skillCategories) return '';
         
-        // Doğrudan kategori dizisi üzerinden map yapıyoruz
+        // Map directly over the hierarchical structure from data.js
         const categoryBlocks = skillCategories.map(cat => {
             const categoryTitle = cat.category[lang];
+            
             const skillsHTML = cat.items.map(skill => 
                 `<button class="skill-tag" data-targets="${skill.targets.join(',')}" data-origin="summary">${skill[lang]}</button>`
             ).join('');
@@ -107,6 +118,7 @@
         return `<div class="job-block skills-container">${categoryBlocks.join('\n')}</div>`;
     }
 
+    // Renders Language Grid
     function renderGrid(languages, lang) {
         if (!languages) return '';
         return `
@@ -138,12 +150,14 @@
                 }
             }
             
+            // --- SECTION RENDERER SELECTION ---
             if (section.type === 'text') {
+                // Pure text for About (No Box)
                 contentHTML = contentData ? `<p>${contentData[lang]}</p>` : '';
             } else if (section.type === 'list') {
+                // Pass hierarchical skills to block renderer
                 contentHTML = renderBlock(contentData, lang, data.skills);
             } else if (section.type === 'tags') {
-                // Yeni hiyerarşik data.skills yapısını gönderiyoruz
                 contentHTML = renderTags(contentData, lang);
             } else if (section.type === 'grid') {
                 contentHTML = renderGrid(contentData, lang);
