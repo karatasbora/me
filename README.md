@@ -124,11 +124,21 @@ Most static site generators (Next.js, Hugo) require complex toolchains. This pro
 
 ---
 
-© License & Copyright
-Copyright © 2025 Bora Karataş.
+## © License
 
-This project is provided as open-source software. You are free to use, modify, and distribute this code, including using it as a template for your own resume, subject to the following condition:
+**Copyright © 2025 Bora Karataş.**
 
-Attribution is Required: You must provide clear attribution to the original author (Bora Karataş) and link back to the original repository (https://github.com/karatasbora/resume) in your derived work (e.g., in the footer or README).
+This project is licensed under the **GNU General Public License v3.0**.
 
-No Commercial Templates: You may not sell this code as a standalone template or product without explicit permission.
+Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved.
+
+See the [LICENSE](https://www.google.com/search?q=LICENSE) file for the full text of the license.
+
+```
+
+### ✅ Action Item: Add the License File
+Since you have chosen GPL-3.0, you **must** add a file named `LICENSE` to the root of your repository containing the full legal text.
+
+You can copy the official text from here: [https://www.gnu.org/licenses/gpl-3.0.txt](https://www.gnu.org/licenses/gpl-3.0.txt)
+
+```
