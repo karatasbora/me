@@ -125,69 +125,6 @@ const resumeData = {
     // --- 7. MASTER SKILLS LIST (Reverse Logic) ---
     // Defines the skill ONCE, then targets the IDs where it should appear.
     skills: [
-        {
-            tr: "Eğitsel İçerik için Prompt Mühendisliği",
-            en: "Prompt Engineering for Educational Content",
-            targets: ["job-editor"]
-        },
-        {
-            tr: "Öğrenme Yönetim Sistemleri (LMS)",
-            en: "Learning Management Systems (LMS)",
-            targets: ["job-editor"]
-        },
-        {
-            tr: "İçerik Yönetim Sistemleri (CMS)",
-            en: "Content Management Systems (CMS)",
-            targets: ["job-editor"]
-        },
-        {
-            tr: "Dijital Arşivleme & Bilgi Organizasyonu",
-            en: "Digital Archiving & Knowledge Organization",
-            targets: ["job-editor"]
-        },
-        {
-            tr: "Öğretim Tasarımı & LXD",
-            en: "Instructional Design & LXD",
-            targets: ["job-editor", "job-teacher"] // Appears in BOTH
-        },
-        {
-            tr: "Sınıf Yönetimi",
-            en: "Classroom Management",
-            targets: ["job-teacher"]
-        },
-        {
-            tr: "Yabancı Dil olarak İngilizce Öğretimi",
-            en: "Teaching English as a Foreign Language",
-            targets: ["job-teacher"]
-        },
-        {
-            tr: "Eğitimde Yapay Zekâ",
-            en: "Artificial Intelligence in Education",
-            targets: ["edu-elt", "job-editor"] // Appears in BOTH
-        },
-        {
-            tr: "Eğitim Teknolojileri",
-            en: "Educational Technology",
-            targets: ["edu-elt"]
-        },
-        {
-            tr: "Kültürlerarası İletişim",
-            en: "Intercultural Communication",
-            targets: ["edu-erasmus"]
-        },
-        {
-            tr: "Sistem Düşüncesi",
-            en: "Systems Thinking",
-            targets: ["edu-econ"]
-        },
-        {
-            tr: "Akademik Araştırma & Analiz",
-            en: "Academic Research & Analysis",
-            targets: ["edu-econ"]
-        }
-    ],
-
-    skills: [
         // Category: EdTech & AI
         {
             tr: "Eğitsel İçerik için Prompt Mühendisliği", en: "Prompt Engineering for Ed. Content",
