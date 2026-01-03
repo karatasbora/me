@@ -1,4 +1,4 @@
-// utils.js - Shared rendering logic for Node (SSG) and Browser (CSR)
+// utils.js
 
 (function(root, factory) {
     if (typeof module === 'object' && module.exports) {
@@ -9,35 +9,37 @@
 }(typeof self !== 'undefined' ? self : this, function() {
 
     // --- HELPER: GET SKILLS FOR A JOB ---
-    function getRelevantSkills(id, allSkills, lang) {
-        if (!id || !allSkills) return [];
-        return allSkills
-            .filter(skill => skill.targets && skill.targets.includes(id))
-            .map(skill => ({
-                label: skill[lang],
-                targets: skill.targets
-            }));
-    }
+    // Veri yapısı değiştiği için iç içe döngü ile tarama yapıyoruz
+    function getRelevantSkills(id, skillCategories, lang) {
+        const relevant = [];
+        if (!id || !skillCategories) return relevant;
 
-    // --- HELPER: GROUP SKILLS BY CATEGORY ---
-    function groupSkillsByCategory(skills, lang) {
-        const groups = {};
-        skills.forEach(skill => {
-            const cat = (skill.category && skill.category[lang]) ? skill.category[lang] : (lang === 'tr' ? 'Diğer' : 'Other');
-            if (!groups[cat]) groups[cat] = [];
-            groups[cat].push(skill);
+        // Kategorileri gez
+        skillCategories.forEach(cat => {
+            if (cat.items) {
+                // Kategori içindeki yetenekleri gez
+                cat.items.forEach(skill => {
+                    // Eğer yetenek hedefleri arasında bu ID varsa listeye ekle
+                    if (skill.targets && skill.targets.includes(id)) {
+                        relevant.push({
+                            label: skill[lang],
+                            targets: skill.targets
+                        });
+                    }
+                });
+            }
         });
-        return groups;
+        return relevant;
     }
 
     // --- SUB-RENDERERS ---
     
-    function renderBlock(items, lang, allSkills) {
+    function renderBlock(items, lang, skillCategories) {
         if (!items) return '';
         return items.map(item => {
-            const relevantSkills = getRelevantSkills(item.id, allSkills, lang);
+            const relevantSkills = getRelevantSkills(item.id, skillCategories, lang);
             
-            // Render Skills (Branding)
+            // Branding Tags (Footer)
             const tagsHTML = (relevantSkills.length > 0) 
                 ? `<div class="tags-wrapper branding-tags">
                     ${relevantSkills.map(s => `
@@ -65,7 +67,7 @@
                 
                 <div class="job-content">
                     <button class="desc-toggle" aria-expanded="false" aria-label="${toggleText}">
-                        <svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                     </button>
@@ -82,18 +84,22 @@
         }).join('');
     }
 
-    // --- RENDER TAGS (For the Summary Section) ---
-    function renderTags(skills, lang) {
-        if (!skills) return '';
-        const groups = groupSkillsByCategory(skills, lang);
+    // --- RENDER SKILLS SUMMARY ---
+    // Artık gruplama yapmaya gerek yok, veri zaten gruplanmış geliyor.
+    function renderTags(skillCategories, lang) {
+        if (!skillCategories) return '';
         
-        const categoryBlocks = Object.entries(groups).map(([category, categorySkills]) => {
+        // Doğrudan kategori dizisi üzerinden map yapıyoruz
+        const categoryBlocks = skillCategories.map(cat => {
+            const categoryTitle = cat.category[lang];
+            const skillsHTML = cat.items.map(skill => 
+                `<button class="skill-tag" data-targets="${skill.targets.join(',')}" data-origin="summary">${skill[lang]}</button>`
+            ).join('');
+
             return `<div class="skill-category">` + 
-                        `<h3 class="skill-category-title">${category}</h3>` + 
+                        `<h3 class="skill-category-title">${categoryTitle}</h3>` + 
                         `<div class="tags-wrapper">` + 
-                            categorySkills.map(skill => 
-                                `<button class="skill-tag" data-targets="${skill.targets.join(',')}" data-origin="summary">${skill[lang]}</button>`
-                            ).join('') + 
+                            skillsHTML + 
                         `</div>` + 
                     `</div>`;
         });
@@ -137,6 +143,7 @@
             } else if (section.type === 'list') {
                 contentHTML = renderBlock(contentData, lang, data.skills);
             } else if (section.type === 'tags') {
+                // Yeni hiyerarşik data.skills yapısını gönderiyoruz
                 contentHTML = renderTags(contentData, lang);
             } else if (section.type === 'grid') {
                 contentHTML = renderGrid(contentData, lang);
