@@ -55,7 +55,7 @@ body {
     max-width: 900px;
     margin: 40px auto;
     padding: 60px;
-    box-shadow: none; /* Removed the old box container shadow */
+    box-shadow: none;
 }
 
 body::before {
@@ -72,8 +72,8 @@ body::before {
 }
 
 [data-theme="dark"] body::before {
-    opacity: 0.03; /* Reduced from 0.07 */
-    mix-blend-mode: overlay; /* Try 'overlay' or keep 'screen' but with lower opacity */
+    opacity: 0.03;
+    mix-blend-mode: overlay;
 }
 
 [data-theme="dark"] body::after {
@@ -102,6 +102,16 @@ body::after {
 /* --- ANIMATIONS --- */
 @keyframes simpleFade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes tagFadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
 
 header { animation: simpleFade 0.8s ease-out forwards; opacity: 0; }
 section {
@@ -110,16 +120,9 @@ section {
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-/* This class will be added by JavaScript */
 section.visible {
     opacity: 1;
     transform: translateY(0);
-}
-
-/* Keep your slideUp keyframes if you prefer the animation over transition */
-@keyframes slideUp { 
-    from { opacity: 0; transform: translateY(15px); } 
-    to { opacity: 1; transform: translateY(0); } 
 }
 
 .animate-slide-up {
@@ -138,64 +141,26 @@ header {
     min-width: 0;
 }
 
-:root {
-    --oxford-slate: #2C3E50;
-    --neural-violet: #6C5CE7;
-    --paper-white: #FFFFFF;
-}
-
 /* ================= PROFILE + FAVICON FRAME ================= */
-
 .profile-container {
     position: relative;
     height: 5.2lh;
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
-
-    /* 🔑 reserve space for the frame INSIDE */
     padding: 4px;
     box-sizing: border-box;
+    transition: transform 0.3s ease;
 }
+.profile-container:hover { transform: scale(1.03); }
 
-  /* ================= FRAME ================= */
-.favicon-frame {
-    position: absolute;
-    inset: 0;        /* ✅ never exceeds container */
-    z-index: 0;
-}
+/* FRAME */
+.favicon-frame { position: absolute; inset: 0; z-index: 0; }
+.frame-left { position: absolute; left: 0; top: 0; width: 44%; height: 100%; background: #2C3E50; }
+.frame-top-right { position: absolute; top: 0; right: 0; width: 44%; height: 46%; background: #6C5CE7; }
+.frame-bottom-right { position: absolute; bottom: 0; right: 0; width: 44%; height: 46%; background: #6C5CE7; }
 
-  /* LEFT — SOLID, FULL HEIGHT */
-  .frame-left {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 44%;
-    height: 100%;
-    background: #2C3E50;
-  }
-
-  /* TOP RIGHT */
-  .frame-top-right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 44%;
-    height: 46%;
-    background: #6C5CE7;
-  }
-
-  /* BOTTOM RIGHT */
-  .frame-bottom-right {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 44%;
-    height: 46%;
-    background: #6C5CE7;
-  }
-
-  /* ================= PHOTO ================= */
-  .profile-photo {
+/* PHOTO */
+.profile-photo {
     position: relative;
     z-index: 1;
     width: 100%;
@@ -203,10 +168,6 @@ header {
     background: #111;
     overflow: hidden;
     box-shadow: 0 14px 36px rgba(0,0,0,.65);
-  }
-
-.profile-container:hover {
-    transform: scale(1.03);
 }
 
 .header-text { flex-grow: 1; width: 100%; }
@@ -237,12 +198,7 @@ header {
     justify-content: center;
 }
 .btn-icon:hover { color: var(--accent-color); background-color: var(--tag-bg); }
-
-/* Active State Styling */
-.btn-icon[aria-pressed="true"] { 
-    color: var(--card-bg); 
-    background-color: var(--accent-color); 
-}
+.btn-icon[aria-pressed="true"] { color: var(--card-bg); background-color: var(--accent-color); }
 
 /* Theme Icons Toggle */
 #sun-icon { display: none; }
@@ -273,7 +229,7 @@ header {
 h1 {
     font-family: 'Libre Baskerville', serif;
     font-size: 2.5rem;
-    color: var(--heading-color); /* Updated */
+    color: var(--heading-color);
     margin: 0 0 10px 0;
     font-weight: 700;
     line-height: 1.2;
@@ -294,16 +250,15 @@ h1 {
 
 .contact-link {
     position: relative;
-    display: inline-flex; /* Required for centering and dimensions */
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     transition: color 0.3s ease;
 }
 
-/* When the 'copied' class is active, hide the real text for the screen only */
 .contact-link.copied {
     color: transparent !important;
-    border-bottom-color: transparent !important; /* This is the fix */
+    border-bottom-color: transparent !important;
 }
 
 .contact-link.copied::after {
@@ -317,7 +272,6 @@ h1 {
     white-space: nowrap;
     background-color: var(--bg-color);
     padding: 0 5px;
-    /* No border-bottom logic needed here */
 }
 
 .contact-link:hover { 
@@ -330,7 +284,7 @@ section { margin-bottom: 3rem; }
 h2 {
     font-family: 'Libre Baskerville', serif;
     color: var(--heading-color);
-    border-left: 4px solid var(--accent-color); /* Neural Violet */
+    border-left: 4px solid var(--accent-color);
     padding-left: 18px;
     margin: 2.5rem 0 1.5rem 0;
 }
@@ -345,7 +299,8 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
     margin-bottom: 24px;
     box-shadow: var(--card-shadow);
     page-break-inside: avoid;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, background-color 0.5s ease;
+    scroll-margin-top: 100px; /* Helper for scrollIntoView */
 }
 
 .job-block:hover {
@@ -362,41 +317,97 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
 .job-content { border-left: 2px solid var(--border-color); padding-left: 15px; }
 .job-content p { margin: 0 0 10px 0; font-size: 0.95rem; text-align: justify; color: var(--primary-text); opacity: 0.85; }
 
-/* --- SKILL TAGS --- */
+/* --- INTERACTIVE SKILL TAGS (UPDATED) --- */
 .tags-wrapper { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
-/* --- Updated Skill Tag Style --- */
+
 .skill-tag {
+    /* Reset Button Styles */
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    cursor: pointer;
+    
+    /* Inherit Font Styles */
     font-family: 'Inter', sans-serif;
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     color: var(--tag-text);
-    background-color: transparent;
-    border: 1px solid var(--border-color);
+    
+    /* Box Model */
     padding: 5px 12px;
     border-radius: 20px;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
     
-    /* Animation Properties */
+    /* Animation */
     opacity: 0; 
     animation: tagFadeIn 0.5s ease-out forwards;
 }
 
-@keyframes tagFadeIn {
-    from { 
-        opacity: 0; 
-        transform: translateY(10px); 
-    }
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
-    }
-}
-
-.skill-tag:hover {
+.skill-tag:hover, .skill-tag:focus {
     border-color: var(--accent-color);
     color: var(--accent-color);
     background-color: rgba(108, 92, 231, 0.05);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    outline: none;
+}
+
+/* --- NAVIGATION DROPDOWN (NEW) --- */
+.nav-dropdown {
+    position: absolute;
+    z-index: 1000;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    min-width: 220px;
+    padding: 8px 0;
+    margin-top: 8px;
+    
+    /* Animation */
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: simpleFade 0.2s forwards;
+}
+
+.nav-dropdown-header {
+    padding: 4px 16px 8px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--meta-color);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.nav-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: var(--primary-text);
+    cursor: pointer;
+    transition: background 0.1s;
+    text-decoration: none !important;
+    border-bottom: none !important;
+}
+
+.nav-item:hover {
+    background-color: var(--bg-color);
+    color: var(--accent-color);
+}
+
+.nav-item .nav-context {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--meta-color);
+    margin-top: 2px;
 }
 
 /* --- LANGUAGES --- */
@@ -421,6 +432,15 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
     .job-date, .location { margin-top: 5px; }
     .lang-grid { flex-direction: column; gap: 10px; }
 }
+
+/* --- GLOBAL LINKS --- */
+a {
+    color: var(--primary-text);
+    text-decoration: none;
+    border-bottom: 2px solid var(--accent-color);
+    transition: all 0.2s;
+}
+a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); }
 
 /* --- PRINT SETTINGS --- */
 @media print {
@@ -449,83 +469,50 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
         margin: 0; 
         padding: 0;
         zoom: 75%; 
-    }
-
-    /* 2. Force text to be full opacity */
-    p, span, li, div {
-        opacity: 1 !important;
-    }
-
-    /* 3. Increase font weight slightly for printing if using Inter */
-    body {
         font-weight: 500;
     }
 
-    .controls { display: none !important; }
+    /* Hide UI elements */
+    .controls, .nav-dropdown { display: none !important; }
     
+    /* 1. Ensure background colors are forced to print for frame */
+    .frame-left, .frame-top-right, .frame-bottom-right {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .profile-container { border: none !important; }
+
+    /* Tags adjustments */
     .skill-tag, .lang-item {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
         background-color: #f0f0f0 !important;
         color: #000 !important;
         border: 1px solid #ccc !important;
+        pointer-events: none; /* Disable clicking in PDF */
     }
 
-/* 1. Ensure background colors are forced to print */
-    .frame-left, 
-    .frame-top-right, 
-    .frame-bottom-right {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-    }
-
-    /* 2. Remove 'background: none !important' which was hiding the frame */
-    .profile-container {
-        border: none !important; /* Removes the standard box border */
-        /* background: none !important;  <-- REMOVE OR COMMENT THIS LINE */
-    }
-
+    /* Links adjustments */
     .contact-link {
         display: inline !important;
         color: #000 !important;
-        border-bottom: 2px solid var(--accent-color) !important; /* Restore line for professional PDF */
+        border-bottom: 2px solid var(--accent-color) !important;
         text-decoration: none !important;
     }
-    
-    .contact-link.copied {
-        color: #000 !important; /* Force black text even if 'copied' class is on */
-        border-bottom: 2px solid var(--accent-color) !important;
-    }
+    .contact-link.copied { color: #000 !important; }
+    .contact-link::after, .contact-link.copied::after { display: none !important; }
 
-    .contact-link::after, .contact-link.copied::after {
-        display: none !important;
-        content: "" !important;
-    }
-    /* Force blocks to stay together on one page */
-    .job-block, 
-    .lang-item,
-    section {
+    /* Page Breaks */
+    .job-block, .lang-item, section {
         break-inside: avoid;
-        page-break-inside: avoid; /* Backward compatibility */
-        display: block; /* Ensures the break property is respected */
+        page-break-inside: avoid;
+        display: block;
     }
-
-    /* Prevent headings from being left alone at the bottom of a page */
     h2, h3 {
         break-after: avoid;
         page-break-after: avoid;
     }
-} /* Final closing brace for media query */
-
-/* Global Link Style - Outside of Print Query */
-a {
-    color: var(--primary-text);
-    text-decoration: none;
-    border-bottom: 2px solid var(--accent-color);
-    transition: all 0.2s;
-}
-
-a:hover {
-    color: var(--accent-color);
-    border-bottom-color: var(--accent-color);
+    
+    p, span, li, div { opacity: 1 !important; }
 }
