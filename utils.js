@@ -1,4 +1,4 @@
-// utils.js
+// utils.js - Shared rendering logic for Node (SSG) and Browser (CSR)
 
 (function(root, factory) {
     if (typeof module === 'object' && module.exports) {
@@ -8,33 +8,43 @@
     }
 }(typeof self !== 'undefined' ? self : this, function() {
 
-    // --- HELPER: GET TAGS FOR A SPECIFIC JOB ID ---
-    // Searches the Master Skills list for any skill targeting this ID
-    function getTagsForId(id, allSkills, lang) {
+    // --- HELPER: GET SKILL OBJECTS FOR A JOB ID ---
+    function getRelevantSkills(id, allSkills, lang) {
         if (!id || !allSkills) return [];
-        
-        // Filter skills that include this ID in their 'targets' array
         return allSkills
             .filter(skill => skill.targets && skill.targets.includes(id))
-            .map(skill => skill[lang]); // Return the localized string
+            .map(skill => ({
+                label: skill[lang],
+                targets: skill.targets // Pass the full array of targets
+            }));
     }
 
     // --- SUB-RENDERERS ---
     
-    // Now accepts 'allSkills' to perform the lookup
     function renderBlock(items, lang, allSkills) {
         if (!items) return '';
         return items.map(item => {
             
-            // REVERSE LOGIC: We fetch tags from the master list, not the item itself
-            const relevantTags = getTagsForId(item.id, allSkills, lang);
+            // 1. Fetch full skill objects (with target lists)
+            const relevantSkills = getRelevantSkills(item.id, allSkills, lang);
             
-            const tagsHTML = (relevantTags.length > 0)
-                ? `<div class="tags-wrapper">${relevantTags.map(t => `<span class="skill-tag">${t}</span>`).join('')}</div>`
+            // 2. Render clickable buttons with data attributes
+            const tagsHTML = (relevantSkills.length > 0) 
+                ? `<div class="tags-wrapper">
+                    ${relevantSkills.map(s => `
+                        <button class="skill-tag" 
+                                data-targets="${s.targets.join(',')}" 
+                                data-origin="${item.id}"
+                                aria-label="See where ${s.label} is used">
+                            ${s.label}
+                        </button>
+                    `).join('')}
+                  </div>` 
                 : '';
 
+            // 3. Inject ID into the main block wrapper
             return `
-            <div class="job-block">
+            <div class="job-block" id="${item.id}">
                 <div class="job-header">
                     <span class="job-title">${item.role ? item.role[lang] : item.degree[lang]}</span>
                     <span class="job-date">${item.date[lang]}</span>
@@ -53,11 +63,17 @@
 
     function renderTags(skills, lang) {
         if (!skills) return '';
-        // 'skills' is now the Master List of objects, so we map directly
+        // Render the Master List as clickable buttons too
         return `
         <div class="job-block">
             <div class="tags-wrapper" style="padding-left:0; margin-top: 5px;">
-                ${skills.map(skill => `<span class="skill-tag">${skill[lang]}</span>`).join('')}
+                ${skills.map(skill => `
+                    <button class="skill-tag" 
+                            data-targets="${skill.targets.join(',')}" 
+                            data-origin="summary">
+                        ${skill[lang]}
+                    </button>
+                `).join('')}
             </div>
         </div>`;
     }
@@ -85,7 +101,6 @@
             const title = data.ui[section.titleKey] ? data.ui[section.titleKey][lang] : section.titleKey;
             let contentHTML = '';
 
-            // Resolve Data Key
             let contentData = data;
             if (section.dataKey) {
                 const keys = section.dataKey.split('.');
@@ -94,19 +109,14 @@
                 }
             }
             
-            // Render based on type
             if (section.type === 'text') {
                 contentHTML = contentData ? `<p>${contentData[lang]}</p>` : '';
-            } 
-            else if (section.type === 'list') {
-                // Pass the MASTER SKILLS list to the block renderer
+            } else if (section.type === 'list') {
+                // Pass Master Skills to render tags inside blocks
                 contentHTML = renderBlock(contentData, lang, data.skills);
-            } 
-            else if (section.type === 'tags') {
-                // Render the Master Skills list directly
+            } else if (section.type === 'tags') {
                 contentHTML = renderTags(contentData, lang);
-            } 
-            else if (section.type === 'grid') {
+            } else if (section.type === 'grid') {
                 contentHTML = renderGrid(contentData, lang);
             }
 
