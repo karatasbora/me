@@ -51,7 +51,30 @@ function renderResume(lang) {
     // 2. MAIN CONTENT (Dynamic Generation)
     const mainHTML = resumeUtils.renderLayout(resumeData, lang);
     const mainContent = document.getElementById('main-content');
-    mainContent.innerHTML = mainHTML;
+    
+    // Check if content actually changed to avoid unnecessary repaints
+    if (mainContent.innerHTML !== mainHTML) {
+        mainContent.innerHTML = mainHTML;
+        
+        // 3. AUTOMATED SECTION ANIMATIONS
+        // Only animate if we are near the top or it's a fresh load, 
+        // otherwise it can be jarring to see animations while reading the footer.
+        if (scrollPos < 100) {
+            const sections = mainContent.querySelectorAll('section');
+            sections.forEach((section, index) => {
+                section.style.opacity = "0"; 
+                section.style.animation = `slideUp 0.6s ease-out ${(index + 1) * 0.1}s forwards`;
+            });
+        } else {
+            // If scrolled down, ensure sections are visible immediately
+            const sections = mainContent.querySelectorAll('section');
+            sections.forEach(section => {
+                section.style.opacity = "1";
+                section.style.animation = "none";
+                section.style.transform = "translateY(0)";
+            });
+        }
+    }
 
     // 3. AUTOMATED SECTION ANIMATIONS
     const sections = mainContent.querySelectorAll('section');
