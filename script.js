@@ -52,7 +52,18 @@ function renderResume(lang) {
     const mainHTML = resumeUtils.renderLayout(resumeData, lang);
     document.getElementById('main-content').innerHTML = mainHTML;
 
-    // 3. STATES & ANIMATION
+    const mainHTML = resumeUtils.renderLayout(resumeData, lang);
+    document.getElementById('main-content').innerHTML = mainHTML;
+
+    // 3. AUTOMATED SECTION ANIMATIONS
+    // This finds every section and applies a staggered delay automatically
+    const sections = document.querySelectorAll('main section');
+    sections.forEach((section, index) => {
+        section.style.opacity = "0"; // Ensure they start hidden
+        section.style.animation = `slideUp 0.6s ease-out ${(index + 1) * 0.1}s forwards`;
+    });
+    
+    // 4. STATES & ANIMATION
     document.getElementById('btn-tr').setAttribute('aria-pressed', lang === 'tr');
     document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
     
