@@ -290,7 +290,7 @@ h2 {
 }
 p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacity: 0.9; }
 
-/* --- JOB CARDS --- */
+/* --- JOB CARDS & LAYOUT --- */
 .job-block {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -314,10 +314,71 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
 .company { font-family: 'Inter', sans-serif; font-weight: 600; color: var(--meta-color); font-size: 1rem; }
 .location { font-family: 'Inter', sans-serif; font-size: 0.75rem; color: var(--accent-color); font-weight: 700; text-transform: uppercase; }
 
-.job-content { border-left: 2px solid var(--border-color); padding-left: 15px; }
-.job-content p { margin: 0 0 10px 0; font-size: 0.95rem; text-align: justify; color: var(--primary-text); opacity: 0.85; }
+.job-content { 
+    position: relative;
+    /* Removed border-left to reduce clutter */
+}
 
-/* --- INTERACTIVE SKILL TAGS (UPDATED) --- */
+/* --- ACCORDION & TOGGLE STYLES --- */
+.desc-toggle {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--border-color);
+    color: var(--meta-color);
+    cursor: pointer;
+    padding: 0 0 8px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+    margin-bottom: 10px;
+}
+
+.desc-toggle:hover {
+    color: var(--accent-color);
+    background-color: transparent;
+}
+
+.chevron-icon {
+    transition: transform 0.3s ease;
+}
+
+.desc-toggle[aria-expanded="true"] .chevron-icon {
+    transform: rotate(180deg);
+}
+
+.job-description {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease-out;
+}
+
+.job-description.expanded {
+    grid-template-rows: 1fr;
+}
+
+.desc-inner {
+    overflow: hidden;
+}
+
+.desc-inner p {
+    margin: 0; 
+    padding-bottom: 5px;
+    font-size: 0.95rem;
+    color: var(--primary-text);
+    opacity: 0.9;
+}
+
+/* --- BRANDING TAGS (FOOTER STYLE) --- */
+.branding-tags {
+    margin-top: 15px;    
+    margin-bottom: 0;   
+    padding-top: 10px;
+    border-top: 1px dashed var(--border-color);
+}
+
+/* --- INTERACTIVE SKILL TAGS --- */
 .tags-wrapper { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
 
 .skill-tag {
@@ -354,7 +415,7 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
     outline: none;
 }
 
-/* --- NAVIGATION DROPDOWN (NEW) --- */
+/* --- NAVIGATION DROPDOWN --- */
 .nav-dropdown {
     position: absolute;
     z-index: 1000;
@@ -408,6 +469,31 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
     font-size: 0.7rem;
     color: var(--meta-color);
     margin-top: 2px;
+}
+
+/* --- SKILLS CATEGORIES --- */
+.skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+    padding-bottom: 30px;
+}
+
+.skill-category {
+    page-break-inside: avoid;
+}
+
+.skill-category-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--meta-color);
+    margin: 0 0 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 4px;
+    display: inline-block;
 }
 
 /* --- LANGUAGES --- */
@@ -475,7 +561,18 @@ a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); 
     /* Hide UI elements */
     .controls, .nav-dropdown { display: none !important; }
     
-    /* 1. Ensure background colors are forced to print for frame */
+    /* 1. FORCE EXPAND DESCRIPTIONS */
+    .job-description {
+        display: block !important;
+        grid-template-rows: 1fr !important;
+        height: auto !important;
+    }
+    .desc-inner { overflow: visible !important; }
+    
+    /* 2. HIDE TOGGLE BUTTON */
+    .desc-toggle { display: none !important; }
+
+    /* Frame Adjustments */
     .frame-left, .frame-top-right, .frame-bottom-right {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
@@ -484,6 +581,12 @@ a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); 
     .profile-container { border: none !important; }
 
     /* Tags adjustments */
+    .branding-tags { 
+        margin-top: 10px; 
+        border-top: none;
+        page-break-inside: avoid;
+    }
+
     .skill-tag, .lang-item {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
@@ -491,6 +594,19 @@ a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); 
         color: #000 !important;
         border: 1px solid #ccc !important;
         pointer-events: none; /* Disable clicking in PDF */
+    }
+
+    /* Categories adjustments */
+    .skills-container {
+        gap: 10px;
+        padding-bottom: 0;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+    .skill-category-title {
+        color: #000 !important;
+        border-bottom-color: #ccc !important;
     }
 
     /* Links adjustments */
@@ -504,7 +620,7 @@ a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); 
     .contact-link::after, .contact-link.copied::after { display: none !important; }
 
     /* Page Breaks */
-    .job-block, .lang-item, section {
+    .job-block, .lang-item, section, .skill-category {
         break-inside: avoid;
         page-break-inside: avoid;
         display: block;
