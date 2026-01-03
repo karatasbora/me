@@ -9,23 +9,9 @@ const utils = require('./utils.js');
 
 const LANG = 'en'; 
 
-// --- 1. ROBUST INJECTION HELPERS ---
-
+// Helper: Simple attribute injection for the header
 function injectById(html, id, newContent) {
-    // 1. Find the tag type (e.g. 'h2', 'span', 'div')
-    const tagMatch = html.match(new RegExp(`<([a-z0-9]+)[^>]*id="${id}"`, 'i'));
-    
-    if (!tagMatch) {
-        // Fallback: Use simple greedy replacement if ID not found in standard format
-        return html; 
-    }
-
-    const tagName = tagMatch[1];
-    
-    // 2. Build regex to match from ID -> closing tag of that specific type
-    // This prevents matching a </span> when looking for a </div>
-    const regex = new RegExp(`(id="${id}"[^>]*>)([\\s\\S]*?)(<\\/${tagName}>)`, 'i');
-    
+    const regex = new RegExp(`(id="${id}"[^>]*>)([\\s\\S]*?)(<\\/[^>]+>)`, 'i');
     return html.replace(regex, `$1${newContent}$3`);
 }
 
@@ -41,19 +27,12 @@ function injectAttrById(html, id, attr, newValue) {
     });
 }
 
-function injectByMarker(html, key, newContent) {
-    // Matches ... const regex = new RegExp(`()([\\s\\S]*?)()`, 'i');
-    return html.replace(regex, `$1\n${newContent}\n$3`);
-}
-
-// --- 2. EXECUTION ---
-
 console.log(`⚙️  Generating Static Site for Default Lang: [${LANG.toUpperCase()}]...`);
 
 try {
     let indexHtml = fs.readFileSync('index.html', 'utf8');
 
-    // 2. SEO & METADATA
+    // 1. SEO & METADATA
     const seoTitle = data.ui.documentTitle[LANG];
     const seoDesc = data.ui.seoDesc[LANG];
 
@@ -64,10 +43,11 @@ try {
     );
     indexHtml = indexHtml.replace(/<html lang=".*?">/, `<html lang="${LANG}">`);
 
-    // 3. HEADER & PROFILE (Using Tag-Aware Injection)
+    // 2. HEADER & PROFILE
     indexHtml = injectById(indexHtml, 'p-name', data.profile.name);
     indexHtml = injectById(indexHtml, 'p-title', data.profile.title[LANG]);
     indexHtml = injectById(indexHtml, 'p-location', data.meta.location[LANG]);
+    indexHtml = injectById(indexHtml, 'ui-print', data.ui.print[LANG]);
     
     indexHtml = injectById(indexHtml, 'link-email', data.meta.email);
     indexHtml = injectAttrById(indexHtml, 'link-email', 'href', `mailto:${data.meta.email}`);
@@ -75,32 +55,18 @@ try {
     indexHtml = injectById(indexHtml, 'link-linkedin', data.meta.linkedinLabel || "LinkedIn");
     indexHtml = injectAttrById(indexHtml, 'link-linkedin', 'href', data.meta.linkedin);
 
-    // 4. UI LABELS (Using Tag-Aware Injection)
-    Object.keys(data.ui).forEach(key => {
-        indexHtml = injectById(indexHtml, `ui-${key}`, data.ui[key][LANG]);
-    });
-
-    // 5. DYNAMIC CONTENT BLOCKS (Using Marker Injection)
+    // 3. DYNAMIC CONTENT INJECTION
+    // This is the key: We render the layout using utils and push it into <main>
+    const mainContent = utils.renderLayout(data, LANG);
     
-    // A. About Text (Simple enough for ID injection)
-    indexHtml = injectById(indexHtml, 'p-about', data.profile.about[LANG]);
+    // Replace content inside <main id="main-content"> ... </main>
+    indexHtml = indexHtml.replace(
+        /(<main id="main-content"[^>]*>)([\s\S]*?)(<\/main>)/,
+        `$1${mainContent}$3`
+    );
 
-    // B. Complex Lists (Using Markers to avoid nesting errors)
-    const expHTML = data.experience.map(job => utils.createBlockHTML(job, LANG)).join('');
-    indexHtml = injectByMarker(indexHtml, 'experience', expHTML);
-
-    const eduHTML = data.education.map(school => utils.createBlockHTML(school, LANG)).join('');
-    indexHtml = injectByMarker(indexHtml, 'education', eduHTML);
-
-    const skillHTML = utils.createTagsHTML(data.skills[LANG]);
-    indexHtml = injectByMarker(indexHtml, 'skills', skillHTML);
-
-    const langHTML = utils.createLanguageHTML(data.languages, LANG);
-    indexHtml = injectByMarker(indexHtml, 'languages', langHTML);
-
-    // 6. WRITE FILE
     fs.writeFileSync('index.html', indexHtml);
-    console.log('✅ index.html fully hydrated with Marker Strategy.');
+    console.log('✅ index.html generated with Dynamic Layout Structure.');
 
 } catch (err) {
     console.error("❌ Error generating static site:", err);
