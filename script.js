@@ -31,6 +31,8 @@ function updateSEO(lang) {
 // --- 2. MAIN RENDER FUNCTION ---
 function renderResume(lang) {
     // --- AUTOMATED UI WIRING ---
+    // Single Source of Truth: Driven entirely by data.ui keys
+    // This replaces manual assignments like: element.textContent = resumeData.ui.about[lang]
     Object.keys(resumeData.ui).forEach(key => {
         const elementId = `ui-${key}`;
         const element = document.getElementById(elementId);
@@ -42,7 +44,8 @@ function renderResume(lang) {
     updateSEO(lang);
     document.documentElement.lang = lang;
 
-    // Header
+    // --- DYNAMIC PROFILE CONTENT ---
+    // These remain specific because they don't map 1:1 to the 'ui' object structure
     document.getElementById('p-name').textContent = resumeData.profile.name;
     document.getElementById('p-title').textContent = resumeData.profile.title[lang];
     document.getElementById('p-location').textContent = resumeData.meta.location[lang];
@@ -56,17 +59,7 @@ function renderResume(lang) {
     linkedinLink.textContent = resumeData.meta.linkedinLabel;
     linkedinLink.href = resumeData.meta.linkedin;
 
-    // UI Labels
-    document.getElementById('head-about').textContent = resumeData.ui.about[lang];
-    document.getElementById('head-experience').textContent = resumeData.ui.experience[lang];
-    document.getElementById('head-education').textContent = resumeData.ui.education[lang];
-    document.getElementById('head-skills').textContent = resumeData.ui.skills[lang];
-    document.getElementById('head-languages').textContent = resumeData.ui.languages[lang];
-    
-    const printBtnSpan = document.querySelector('#btn-print span');
-    if (printBtnSpan) printBtnSpan.textContent = resumeData.ui.print[lang];
-
-    // Content - NOW USING resumeUtils
+    // --- MAIN CONTENT BLOCKS (Using resumeUtils) ---
     document.getElementById('p-about').textContent = resumeData.profile.about[lang];
     
     document.getElementById('experience-list').innerHTML = 
@@ -81,11 +74,11 @@ function renderResume(lang) {
     document.getElementById('languages-list').innerHTML = 
         resumeUtils.createLanguageHTML(resumeData.languages, lang);
 
-    // States
+    // --- STATES & ANIMATION ---
     document.getElementById('btn-tr').setAttribute('aria-pressed', lang === 'tr');
     document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
     
-    // Animations
+    // Re-trigger animations for skills
     const skillTags = document.querySelectorAll('#skills-list .skill-tag');
     skillTags.forEach((tag, index) => { tag.style.animationDelay = `${(index + 1) * 0.1}s`; });
     
