@@ -124,9 +124,11 @@ Most static site generators (Next.js, Hugo) require complex toolchains. This pro
 
 ---
 
-## © License & Copyright
+© License & Copyright
+Copyright © 2025 Bora Karataş.
 
-**Copyright © 2025 Bora Karataş.**
+This project is provided as open-source software. You are free to use, modify, and distribute this code, including using it as a template for your own resume, subject to the following condition:
 
-This project is open-source under the **MIT License**.
-You are free to use this code as a template for your own resume. Attribution is appreciated but not required.
+Attribution is Required: You must provide clear attribution to the original author (Bora Karataş) and link back to the original repository (https://github.com/karatasbora/resume) in your derived work (e.g., in the footer or README).
+
+No Commercial Templates: You may not sell this code as a standalone template or product without explicit permission.
