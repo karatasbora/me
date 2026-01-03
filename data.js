@@ -8,10 +8,6 @@ const resumeData = {
         { type: 'text', titleKey: 'about', dataKey: 'profile.about' },
         { type: 'list', titleKey: 'experience', dataKey: 'experience' },
         { type: 'list', titleKey: 'education', dataKey: 'education' },
-        
-        // 🟢 TEST: Adding Certifications simply requires this line + the data below
-        { type: 'list', titleKey: 'certifications', dataKey: 'certifications' }, 
-        
         { type: 'tags', titleKey: 'skills', dataKey: 'skills' },
         { type: 'grid', titleKey: 'languages', dataKey: 'languages' }
     ],
@@ -23,7 +19,6 @@ const resumeData = {
         education: { tr: "Eğitim", en: "Education" },
         skills: { tr: "Teknik Yetkinlikler & Uzmanlıklar", en: "Technical Skills & Specializations" },
         languages: { tr: "Diller", en: "Languages" },
-        certifications: { tr: "Sertifikalar", en: "Certifications" }, // New Label
         print: { tr: "PDF", en: "PDF" },
 
         documentTitle: { 
@@ -125,20 +120,6 @@ const resumeData = {
             desc: {
                 tr: "Eğitim politikası ve kalkınma bağlamlarıyla ilişkili sistem düşüncesi, veri okuryazarlığı ve analitik karar verme süreçlerine odaklanan devam eden çalışmalar.",
                 en: "Ongoing studies with emphasis on systems thinking, data literacy, and analytical decision-making processes relevant to education policy and development contexts."
-            }
-        }
-    ],
-
-    // 🟢 NEW DATA SECTION
-    certifications: [
-        {
-            role: { tr: "Sertifikalı Scrum Master", en: "Certified Scrum Master" },
-            company: { tr: "Scrum Alliance", en: "Scrum Alliance" },
-            date: { tr: "2023", en: "2023" },
-            location: { tr: "ONLINE", en: "ONLINE" },
-            desc: { 
-                tr: "Çevik proje yönetimi ve takım liderliği konusunda uluslararası geçerliliği olan sertifika.",
-                en: "Internationally recognized certification in Agile project management and team leadership." 
             }
         }
     ],
