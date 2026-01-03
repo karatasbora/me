@@ -8,21 +8,28 @@
     }
 }(typeof self !== 'undefined' ? self : this, function() {
 
-    // --- HELPER: GET SKILLS FOR A JOB (HIERARCHICAL FIX) ---
-    // This now correctly drills down into categories -> items to find matches
+    // --- NEW: XSS PROTECTION ---
+    function escapeHtml(unsafe) {
+        if (typeof unsafe !== 'string') return unsafe;
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    // --- HELPER: GET SKILLS FOR A JOB ---
     function getRelevantSkills(id, skillCategories, lang) {
         const relevant = [];
         if (!id || !skillCategories) return relevant;
 
-        // Iterate through Categories
         skillCategories.forEach(cat => {
             if (cat.items) {
-                // Iterate through Items inside Category
                 cat.items.forEach(skill => {
-                    // Check if the skill targets this job ID
                     if (skill.targets && skill.targets.includes(id)) {
                         relevant.push({
-                            label: skill[lang],
+                            label: skill[lang], // We will escape this later
                             targets: skill.targets
                         });
                     }
@@ -32,32 +39,20 @@
         return relevant;
     }
 
-    // --- HELPER: GROUP SKILLS BY CATEGORY ---
-    // Not strictly needed for rendering since data is already grouped, 
-    // but useful if we ever need to re-sort. 
-    function groupSkillsByCategory(skills, lang) {
-        // Since your data is ALREADY hierarchical, we might not need this,
-        // but for safety/flexibility let's keep it simple or just use raw data in renderTags.
-        return skills; 
-    }
-
-    // --- SUB-RENDERERS ---
+    // --- SUB-RENDERERS (Now using escapeHtml) ---
     
-    // Renders Experience & Education blocks (THE TIMELINE)
     function renderBlock(items, lang, skillCategories) {
         if (!items) return '';
         return items.map(item => {
-            // FIXED: Now passes the hierarchical skillCategories correctly
             const relevantSkills = getRelevantSkills(item.id, skillCategories, lang);
             
-            // Branding Tags (Footer)
             const tagsHTML = (relevantSkills.length > 0) 
                 ? `<div class="tags-wrapper branding-tags">
                     ${relevantSkills.map(s => `
                         <button class="skill-tag" 
                                 data-targets="${s.targets.join(',')}" 
                                 data-origin="${item.id}">
-                            ${s.label}
+                            ${escapeHtml(s.label)}
                         </button>
                     `).join('')}
                   </div>` 
@@ -65,15 +60,19 @@
 
             const toggleText = lang === 'tr' ? 'Detayları Göster' : 'Show Details';
 
+            // Determine display fields
+            const role = item.role ? item.role[lang] : item.degree[lang];
+            const company = item.company ? item.company[lang] : item.school[lang];
+
             return `
             <div class="job-block" id="${item.id}">
                 <div class="job-header">
-                    <span class="job-title">${item.role ? item.role[lang] : item.degree[lang]}</span>
-                    <span class="job-date">${item.date[lang]}</span>
+                    <span class="job-title">${escapeHtml(role)}</span>
+                    <span class="job-date">${escapeHtml(item.date[lang])}</span>
                 </div>
                 <div class="job-subheader">
-                    <span class="company">${item.company ? item.company[lang] : item.school[lang]}</span>
-                    <span class="location">${item.location[lang]}</span>
+                    <span class="company">${escapeHtml(company)}</span>
+                    <span class="location">${escapeHtml(item.location[lang])}</span>
                 </div>
                 
                 <div class="job-content">
@@ -85,7 +84,7 @@
 
                     <div class="job-description collapsed">
                         <div class="desc-inner">
-                            <p>${item.desc[lang]}</p>
+                            <p>${escapeHtml(item.desc[lang])}</p>
                         </div>
                     </div>
 
@@ -95,16 +94,14 @@
         }).join('');
     }
 
-    // Renders Skills Summary (From Hierarchical Data)
     function renderTags(skillCategories, lang) {
         if (!skillCategories) return '';
         
-        // Map directly over the hierarchical structure from data.js
         const categoryBlocks = skillCategories.map(cat => {
-            const categoryTitle = cat.category[lang];
+            const categoryTitle = escapeHtml(cat.category[lang]);
             
             const skillsHTML = cat.items.map(skill => 
-                `<button class="skill-tag" data-targets="${skill.targets.join(',')}" data-origin="summary">${skill[lang]}</button>`
+                `<button class="skill-tag" data-targets="${skill.targets.join(',')}" data-origin="summary">${escapeHtml(skill[lang])}</button>`
             ).join('');
 
             return `<div class="skill-category">` + 
@@ -118,7 +115,6 @@
         return `<div class="job-block skills-container">${categoryBlocks.join('\n')}</div>`;
     }
 
-    // Renders Language Grid
     function renderGrid(languages, lang) {
         if (!languages) return '';
         return `
@@ -126,8 +122,8 @@
             <div class="lang-grid">
                 ${languages.map(l => `
                     <div class="lang-item">
-                        <span class="lang-title">${l.name[lang]}</span>
-                        <span class="lang-level">${l.level[lang]}</span>
+                        <span class="lang-title">${escapeHtml(l.name[lang])}</span>
+                        <span class="lang-level">${escapeHtml(l.level[lang])}</span>
                     </div>
                 `).join('')}
             </div>
@@ -145,17 +141,12 @@
             let contentData = data;
             if (section.dataKey) {
                 const keys = section.dataKey.split('.');
-                for (let k of keys) {
-                    contentData = (contentData && contentData[k]) ? contentData[k] : null;
-                }
+                for (let k of keys) contentData = (contentData && contentData[k]) ? contentData[k] : null;
             }
             
-            // --- SECTION RENDERER SELECTION ---
             if (section.type === 'text') {
-                // Pure text for About (No Box)
-                contentHTML = contentData ? `<p>${contentData[lang]}</p>` : '';
+                contentHTML = contentData ? `<p>${escapeHtml(contentData[lang])}</p>` : '';
             } else if (section.type === 'list') {
-                // Pass hierarchical skills to block renderer
                 contentHTML = renderBlock(contentData, lang, data.skills);
             } else if (section.type === 'tags') {
                 contentHTML = renderTags(contentData, lang);
@@ -165,7 +156,7 @@
 
             return `
             <section>
-                <h2 id="ui-${section.titleKey}">${title}</h2>
+                <h2 id="ui-${section.titleKey}">${escapeHtml(title)}</h2>
                 <div id="${section.titleKey}-list">
                     ${contentHTML}
                 </div>
