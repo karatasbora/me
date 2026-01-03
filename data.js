@@ -16,7 +16,7 @@ const resumeData = {
         about: { tr: "Hakkında", en: "About" },
         experience: { tr: "Deneyim", en: "Experience" },
         education: { tr: "Eğitim", en: "Education" },
-        skills: { tr: "Teknik Yetkinlikler & Uzmanlıklar", en: "Technical Skills & Specializations" },
+        skills: { tr: "Yetkinlikler Özeti", en: "Skills Summary" },
         languages: { tr: "Diller", en: "Languages" },
         print: { tr: "PDF", en: "PDF" },
 
@@ -122,76 +122,6 @@ const resumeData = {
         }
     ],
 
-    // --- 7. MASTER SKILLS LIST (Reverse Logic) ---
-    // Defines the skill ONCE, then targets the IDs where it should appear.
-    skills: [
-        // Category: EdTech & AI
-        {
-            tr: "Eğitsel İçerik için Prompt Mühendisliği", en: "Prompt Engineering for Ed. Content",
-            category: { tr: "Eğitim Teknolojileri & YZ", en: "EdTech & AI" },
-            targets: ["job-editor"]
-        },
-        {
-            tr: "Öğrenme Yönetim Sistemleri (LMS)", en: "Learning Management Systems (LMS)",
-            category: { tr: "Eğitim Teknolojileri & YZ", en: "EdTech & AI" },
-            targets: ["job-editor"]
-        },
-        {
-            tr: "İçerik Yönetim Sistemleri (CMS)", en: "Content Management Systems (CMS)",
-            category: { tr: "Eğitim Teknolojileri & YZ", en: "EdTech & AI" },
-            targets: ["job-editor"]
-        },
-        {
-            tr: "Eğitimde Yapay Zekâ", en: "AI in Education",
-            category: { tr: "Eğitim Teknolojileri & YZ", en: "EdTech & AI" },
-            targets: ["edu-elt", "job-editor"]
-        },
-        {
-            tr: "Eğitim Teknolojileri", en: "Educational Technology",
-            category: { tr: "Eğitim Teknolojileri & YZ", en: "EdTech & AI" },
-            targets: ["edu-elt"]
-        },
-
-        // Category: Pedagogy & Design
-        {
-            tr: "Öğretim Tasarımı & LXD", en: "Instructional Design & LXD",
-            category: { tr: "Pedagoji & Tasarım", en: "Pedagogy & Design" },
-            targets: ["job-teacher", "job-editor"]
-        },
-        {
-            tr: "Sınıf Yönetimi", en: "Classroom Management",
-            category: { tr: "Pedagoji & Tasarım", en: "Pedagogy & Design" },
-            targets: ["job-teacher"]
-        },
-        {
-            tr: "Yabancı Dil olarak İngilizce Öğretimi", en: "TEFL",
-            category: { tr: "Pedagoji & Tasarım", en: "Pedagogy & Design" },
-            targets: ["job-teacher"]
-        },
-
-        // Category: Analysis & Soft Skills
-        {
-            tr: "Dijital Arşivleme & Bilgi Organizasyonu", en: "Digital Archiving & Info Org.",
-            category: { tr: "Analiz & Strateji", en: "Analysis & Strategy" },
-            targets: ["job-editor"]
-        },
-        {
-            tr: "Sistem Düşüncesi", en: "Systems Thinking",
-            category: { tr: "Analiz & Strateji", en: "Analysis & Strategy" },
-            targets: ["edu-econ"]
-        },
-        {
-            tr: "Akademik Araştırma & Analiz", en: "Academic Research & Analysis",
-            category: { tr: "Analiz & Strateji", en: "Analysis & Strategy" },
-            targets: ["edu-econ"]
-        },
-        {
-            tr: "Kültürlerarası İletişim", en: "Intercultural Communication",
-            category: { tr: "Analiz & Strateji", en: "Analysis & Strategy" },
-            targets: ["edu-erasmus"]
-        }
-    ],
-
     languages: [
         {
             name: { tr: "TÜRKÇE", en: "TURKISH" },
@@ -206,6 +136,87 @@ const resumeData = {
             level: { tr: "Temel Kültürel Aşinalık", en: "Basic Cultural Familiarity" }
         }
     ]
+
+    
+    // --- 7. MASTER SKILLS LIST (Reverse Logic) ---
+    // Defines the skill ONCE, then targets the IDs where it should appear.
+    skills: [
+        {
+            category: { tr: "Eğitim Teknolojileri & YZ", en: "EdTech & AI" },
+            items: [
+                {
+                    tr: "Eğitsel İçerik için Prompt Mühendisliği", 
+                    en: "Prompt Engineering for Educational Content", // Restored full text
+                    targets: ["job-editor"]
+                },
+                {
+                    tr: "Öğrenme Yönetim Sistemleri (LMS)", 
+                    en: "Learning Management Systems (LMS)",
+                    targets: ["job-editor"]
+                },
+                {
+                    tr: "İçerik Yönetim Sistemleri (CMS)", 
+                    en: "Content Management Systems (CMS)",
+                    targets: ["job-editor"]
+                },
+                {
+                    tr: "Eğitimde Yapay Zekâ", 
+                    en: "Artificial Intelligence in Education", // Restored full text
+                    targets: ["edu-elt", "job-editor"]
+                },
+                {
+                    tr: "Eğitim Teknolojileri", 
+                    en: "Educational Technology",
+                    targets: ["edu-elt"]
+                }
+            ]
+        },
+        {
+            category: { tr: "Pedagoji & Tasarım", en: "Pedagogy & Design" },
+            items: [
+                {
+                    tr: "Öğretim Tasarımı & LXD", 
+                    en: "Instructional Design & LXD",
+                    targets: ["job-teacher", "job-editor"]
+                },
+                {
+                    tr: "Sınıf Yönetimi", 
+                    en: "Classroom Management",
+                    targets: ["job-teacher"]
+                },
+                {
+                    tr: "Yabancı Dil olarak İngilizce Öğretimi", 
+                    en: "Teaching English as a Foreign Language", // Restored full text
+                    targets: ["job-teacher"]
+                }
+            ]
+        },
+        {
+            category: { tr: "Analiz & Strateji", en: "Analysis & Strategy" },
+            items: [
+                {
+                    tr: "Dijital Arşivleme & Bilgi Organizasyonu", 
+                    en: "Digital Archiving & Knowledge Organization", // Restored full text
+                    targets: ["job-editor"]
+                },
+                {
+                    tr: "Sistem Düşüncesi", 
+                    en: "Systems Thinking",
+                    targets: ["edu-econ"]
+                },
+                {
+                    tr: "Akademik Araştırma & Analiz", 
+                    en: "Academic Research & Analysis",
+                    targets: ["edu-econ"]
+                },
+                {
+                    tr: "Kültürlerarası İletişim", 
+                    en: "Intercultural Communication",
+                    targets: ["edu-erasmus"]
+                }
+            ]
+        }
+    ],
 };
 
 if (typeof module !== 'undefined' && module.exports) {
