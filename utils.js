@@ -69,33 +69,29 @@
     }
 
     // UPDATED: Renders skills in CATEGORIES
+    // Uses .join('\n') to ensure source code separation between groups,
+    // but guarantees the first group has NO preceding whitespace.
     function renderTags(skills, lang) {
         if (!skills) return '';
         
         // 1. Group them
         const groups = groupSkillsByCategory(skills, lang);
         
-        // 2. Render each group
-        let html = '<div class="job-block skills-container">'; // Single container for all skills
+        // 2. Generate an Array of HTML strings (one per category)
+        const categoryBlocks = Object.entries(groups).map(([category, categorySkills]) => {
+            return `<div class="skill-category">` + 
+                        `<h3 class="skill-category-title">${category}</h3>` + 
+                        `<div class="tags-wrapper">` + 
+                            categorySkills.map(skill => 
+                                `<button class="skill-tag" data-targets="${skill.targets.join(',')}" data-origin="summary">${skill[lang]}</button>`
+                            ).join('') + 
+                        `</div>` + 
+                    `</div>`;
+        });
         
-        for (const [category, categorySkills] of Object.entries(groups)) {
-            html += `
-            <div class="skill-category">
-                <h3 class="skill-category-title">${category}</h3>
-                <div class="tags-wrapper">
-                    ${categorySkills.map(skill => `
-                        <button class="skill-tag" 
-                                data-targets="${skill.targets.join(',')}" 
-                                data-origin="summary">
-                            ${skill[lang]}
-                        </button>
-                    `).join('')}
-                </div>
-            </div>`;
-        }
-        
-        html += '</div>';
-        return html;
+        // 3. Join with newline and wrap
+        // This puts a newline BETWEEN items (Group 1 \n Group 2) but not before Group 1.
+        return `<div class="job-block skills-container">${categoryBlocks.join('\n')}</div>`;
     }
 
     function renderGrid(languages, lang) {
