@@ -1,3 +1,5 @@
+/* style.css */
+
 /* --- THE MODERN SAGE: COLOR PALETTE --- */
 :root {
     /* Brand Colors */
@@ -280,16 +282,6 @@ h1 {
 }
 .contact-info .sep { margin: 0 8px; color: var(--border-color); }
 
-section { margin-bottom: 3rem; }
-h2 {
-    font-family: 'Libre Baskerville', serif;
-    color: var(--heading-color);
-    border-left: 4px solid var(--accent-color);
-    padding-left: 18px;
-    margin: 2.5rem 0 1.5rem 0;
-}
-p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacity: 0.9; }
-
 /* --- JOB CARDS & TIMELINE LAYOUT --- */
 .job-block {
     background-color: var(--card-bg);
@@ -391,16 +383,19 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
     opacity: 0.9;
 }
 
-/* --- BRANDING TAGS (Footer) --- */
+/* --- BRANDING TAGS (Compact Footer) --- */
 .branding-tags {
-    margin-top: 15px;    
+    margin-top: 10px;    /* Reduced space */
     margin-bottom: 0;   
-    padding-top: 10px;
-    border-top: 1px dashed var(--border-color);
+    padding-top: 0;
+    border-top: none;    /* REMOVED BOTTOM LINE */
 }
 
 /* --- INTERACTIVE SKILL TAGS --- */
 .tags-wrapper { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+
+/* Override wrapper margin inside branding tags since we handled it on parent */
+.branding-tags .tags-wrapper { margin-top: 0; }
 
 .skill-tag {
     appearance: none;
@@ -608,6 +603,8 @@ a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); 
         border-top: none;
         page-break-inside: avoid;
     }
+
+    .branding-tags .tags-wrapper { margin-top: 0; }
 
     .skill-tag, .lang-item {
         -webkit-print-color-adjust: exact;
