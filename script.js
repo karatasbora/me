@@ -26,12 +26,15 @@ function updateSEO(lang) {
     } catch (e) { console.warn("JSON-LD update failed", e); }
 }
 
-// --- 2. MAIN RENDER FUNCTION ---
+// --- 2. MAIN RENDER FUNCTION (Improved UX) ---
 function renderResume(lang) {
+    // 1. CAPTURE SCROLL STATE to prevent jumping
+    const scrollPos = window.scrollY;
+
     updateSEO(lang);
     document.documentElement.lang = lang;
 
-    // 1. HEADER (Static IDs)
+    // 2. HEADER UPDATES (Static IDs)
     document.getElementById('p-name').textContent = resumeData.profile.name;
     document.getElementById('p-title').textContent = resumeData.profile.title[lang];
     document.getElementById('p-location').textContent = resumeData.meta.location[lang];
@@ -48,17 +51,17 @@ function renderResume(lang) {
     const printBtn = document.getElementById('ui-print');
     if(printBtn) printBtn.textContent = resumeData.ui.print[lang];
 
-    // 2. MAIN CONTENT (Dynamic Generation)
+    // 3. MAIN CONTENT (Dynamic Generation)
     const mainHTML = resumeUtils.renderLayout(resumeData, lang);
     const mainContent = document.getElementById('main-content');
-    
-    // Check if content actually changed to avoid unnecessary repaints
+
+    // Only update DOM if content actually changed (Performance + State Safety)
     if (mainContent.innerHTML !== mainHTML) {
         mainContent.innerHTML = mainHTML;
-        
-        // 3. AUTOMATED SECTION ANIMATIONS
-        // Only animate if we are near the top or it's a fresh load, 
-        // otherwise it can be jarring to see animations while reading the footer.
+
+        // 4. SMART ANIMATIONS
+        // If user is near the top (fresh load), play the slide-up animation.
+        // If user is scrolled down (reading), skip animation to prevent jarring UI shifts.
         if (scrollPos < 100) {
             const sections = mainContent.querySelectorAll('section');
             sections.forEach((section, index) => {
@@ -66,7 +69,7 @@ function renderResume(lang) {
                 section.style.animation = `slideUp 0.6s ease-out ${(index + 1) * 0.1}s forwards`;
             });
         } else {
-            // If scrolled down, ensure sections are visible immediately
+            // Force visibility immediately if scrolled down
             const sections = mainContent.querySelectorAll('section');
             sections.forEach(section => {
                 section.style.opacity = "1";
@@ -76,13 +79,14 @@ function renderResume(lang) {
         }
     }
 
-    // RESTORE STATE
+    // 5. RESTORE SCROLL STATE
     window.scrollTo(0, scrollPos);
 
-    // 4. STATES & UI ANIMATION
+    // 6. STATES & UI UPDATES
     document.getElementById('btn-tr').setAttribute('aria-pressed', lang === 'tr');
     document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
     
+    // Staggered animation for skill tags
     const skillTags = document.querySelectorAll('.skill-tag');
     skillTags.forEach((tag, index) => { 
         tag.style.animationDelay = `${(index + 1) * 0.05}s`; 
@@ -95,7 +99,6 @@ function renderResume(lang) {
 // --- 3. SKILL NAVIGATION LOGIC ---
 function setupSkillNavigation() {
     // A. Close dropdowns when clicking outside
-    // Note: Since 'B' stops propagation, this only fires for clicks NOT on skill tags
     document.addEventListener('click', (e) => {
         const existingDropdown = document.querySelector('.nav-dropdown');
         if (existingDropdown && !e.target.closest('.skill-tag')) {
