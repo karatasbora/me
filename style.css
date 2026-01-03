@@ -1,11 +1,11 @@
 /* style.css */
 
-/* --- THE MODERN SAGE: COLOR PALETTE --- */
+/* --- THE MODERN SAGE: COLOR PALETTE & LIGHTING --- */
 :root {
     /* Brand Colors */
     --oxford-slate: #2C3E50;       /* Primary */
     --burnished-leather: #C27848;  /* Secondary */
-    --paper-white: #F9F7F2;        /* Background */
+    --paper-white: #F9F7F2;        /* Background Base */
     --ink-black: #333333;          /* Text */
     --neural-violet: #6C5CE7;      /* Accent */
     
@@ -26,8 +26,9 @@
     --radius: 6px;
     --focus-ring: 2px solid var(--neural-violet);
 
-    body::before { opacity: 0.14; }
-    body::after { opacity: 0.018; }
+    /* Enhanced Background System */
+    --ambient-light: radial-gradient(circle at 50% 30%, #FFFFFF 0%, var(--paper-white) 60%);
+    --grid-color: rgba(44, 62, 80, 0.03); /* Subtle Oxford Slate trace */
 }
 
 /* --- DARK MODE --- */
@@ -42,48 +43,72 @@
     --accent-color: #8075FF; 
     --tag-text: #E2E8F0;
     --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+
+    /* Dark Mode Lighting: A subtle glow from the top */
+    --ambient-light: radial-gradient(circle at 50% 0%, #2D3748 0%, #1a202c 80%);
+    --grid-color: rgba(226, 232, 240, 0.03);
 }
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: var(--bg-color);
+    /* REPLACED: background-color: var(--bg-color); with Ambient Light */
+    background: var(--ambient-light);
+    background-color: var(--bg-color); /* Fallback */
     color: var(--primary-text);
     line-height: 1.65;
     max-width: 900px;
     margin: 40px auto;
     padding: 60px;
     box-shadow: none;
+    min-height: 100vh; /* Ensures gradient stretches full height */
 }
 
+/* LAYER 1: The Technical Grid 
+   Adds a very faint "Blueprint" feel, suitable for an Engineer/Designer */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 9999;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.35' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-    opacity: 0.12;
-    mix-blend-mode: multiply;
+    z-index: -1; /* Behind content */
+    
+    /* 40px Grid Pattern */
+    background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    
+    /* Mask it so it fades out at the edges (Vignette) */
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
 }
 
-[data-theme="dark"] body::before { opacity: 0.03; mix-blend-mode: overlay; }
-[data-theme="dark"] body::after { opacity: 0.02; mix-blend-mode: color-dodge; }
-
-/* --- ACCESSIBILITY --- */
-button:focus-visible, a:focus-visible {
-    outline: var(--focus-ring);
-    outline-offset: 2px;
-}
-
+/* LAYER 2: The Texture (Noise) 
+   Refined for a softer, more "Archival Paper" grain */
 body::after {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 9998;
-    background-color: var(--heading-color);
-    opacity: 0.015;
-    mix-blend-mode: multiply;
+    z-index: 9999; /* On top of everything to texturize the text too */
+    
+    /* High-fidelity noise filter */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+    
+    opacity: 0.08; /* Lowered for subtlety */
+    mix-blend-mode: overlay; /* 'overlay' is often cleaner than 'multiply' for grain */
+}
+
+/* Dark Mode Adjustment for Texture */
+[data-theme="dark"] body::after {
+    opacity: 0.06;
+    mix-blend-mode: soft-light; /* Softer blend on dark backgrounds */
+}
+
+/* --- ACCESSIBILITY --- */
+button:focus-visible, a:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
 }
 
 /* --- ANIMATIONS --- */
@@ -475,4 +500,32 @@ a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); 
     .job-block, .lang-item, section, .skill-category { break-inside: avoid; page-break-inside: avoid; display: block; }
     h2, h3 { break-after: avoid; page-break-after: avoid; }
     p, span, li, div { opacity: 1 !important; }
+}
+
+/* --- UNIVERSAL SCROLLBAR --- */
+/* Works for Chrome, Edge, Safari, and newer Firefox */
+
+::-webkit-scrollbar {
+    width: 12px; /* Width of the vertical scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color); /* Matches the page background dynamically */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--border-color); /* Subtle default state */
+    border-radius: 20px;       /* Pill shape */
+    border: 3px solid var(--bg-color); /* Creates a "floating" effect */
+    transition: background-color 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--meta-color); /* Darker/More visible on hover */
+}
+
+/* Firefox Specific (Standard Property) */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) var(--bg-color);
 }
