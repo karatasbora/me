@@ -1,8 +1,4 @@
-Here is a rewritten, more technically detailed `README.md` that better highlights the sophisticated "Hybrid SSG/SPA" architecture and the developer-centric features of your project.
-
----
-
-# 📄 Universal Resume / CV
+# 📄 Universal Resume
 
 > **A "Hybrid" Single Page Application (SPA) built with Vanilla JavaScript.** > Features a custom Static Site Generation (SSG) pipeline, dynamic internationalization (i18n), and zero build-time dependencies.
 
