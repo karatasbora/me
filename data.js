@@ -135,9 +135,8 @@ const resumeData = {
             name: { tr: "PORTEKİZCE", en: "PORTUGUESE" },
             level: { tr: "Temel Kültürel Aşinalık", en: "Basic Cultural Familiarity" }
         }
-    ]
+    ],
 
-    
     // --- 7. MASTER SKILLS LIST (Reverse Logic) ---
     // Defines the skill ONCE, then targets the IDs where it should appear.
     skills: [
