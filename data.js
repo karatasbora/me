@@ -1,16 +1,31 @@
 // data.js
 
 const resumeData = {
-    // --- 1. UI LABELS & SEO (Required by static.js) ---
+    // --- 1. CONFIGURATION: THE LAYOUT ---
+    // This array controls the order and type of sections. 
+    // To add a section, simply add it here and define its data below.
+    structure: [
+        { type: 'text', titleKey: 'about', dataKey: 'profile.about' },
+        { type: 'list', titleKey: 'experience', dataKey: 'experience' },
+        { type: 'list', titleKey: 'education', dataKey: 'education' },
+        
+        // 🟢 TEST: Adding Certifications simply requires this line + the data below
+        { type: 'list', titleKey: 'certifications', dataKey: 'certifications' }, 
+        
+        { type: 'tags', titleKey: 'skills', dataKey: 'skills' },
+        { type: 'grid', titleKey: 'languages', dataKey: 'languages' }
+    ],
+
+    // --- 2. UI LABELS ---
     ui: {
         about: { tr: "Hakkında", en: "About" },
         experience: { tr: "Deneyim", en: "Experience" },
         education: { tr: "Eğitim", en: "Education" },
         skills: { tr: "Teknik Yetkinlikler & Uzmanlıklar", en: "Technical Skills & Specializations" },
         languages: { tr: "Diller", en: "Languages" },
+        certifications: { tr: "Sertifikalar", en: "Certifications" }, // New Label
         print: { tr: "PDF", en: "PDF" },
 
-        // SEO Metadata
         documentTitle: { 
             tr: "Bora Karataş - Özgeçmiş", 
             en: "Bora Karataş - Resume" 
@@ -25,7 +40,7 @@ const resumeData = {
         }
     },
 
-    // --- 2. GLOBAL META ---
+    // --- 3. GLOBAL META ---
     meta: {
         image: "profil.webp",
         email: "borakaratas@anadolu.edu.tr",
@@ -37,11 +52,11 @@ const resumeData = {
         }
     },
 
-    // --- 3. PROFILE ---
+    // --- 4. DATA SECTIONS ---
     profile: {
         name: "Bora Karataş",
         title: {
-            tr: "Eğitim Uzmanı & İçerik Editörü | Yapay Zekâ Destekli Öğretim Tasarımı | ELT · EdTech · Erişilebilir & İnsan Merkezli Eğitim",
+            tr: "Eğitim Uzmanı & İçerik Editörü | Yapay Zekâ Destekli Öğretim Tasarımı | ELT · EdTech · Accessible & Human-Centered Education",
             en: "Education Specialist & Content Editor | AI-Supported Instructional Design | ELT · EdTech · Accessible & Human-Centered Education"
         },
         about: {
@@ -50,7 +65,6 @@ const resumeData = {
         }
     },
 
-    // --- 4. EXPERIENCE (Standard Array Format) ---
     experience: [
         {
             role: { tr: "İçerik Editörü", en: "Content Editor" },
@@ -82,7 +96,6 @@ const resumeData = {
         }
     ],
 
-    // --- 5. EDUCATION ---
     education: [
         {
             degree: { tr: "İngilizce Öğretmenliği", en: "English Language Teaching" },
@@ -116,7 +129,20 @@ const resumeData = {
         }
     ],
 
-    // --- 6. SKILLS ---
+    // 🟢 NEW DATA SECTION
+    certifications: [
+        {
+            role: { tr: "Sertifikalı Scrum Master", en: "Certified Scrum Master" },
+            company: { tr: "Scrum Alliance", en: "Scrum Alliance" },
+            date: { tr: "2023", en: "2023" },
+            location: { tr: "ONLINE", en: "ONLINE" },
+            desc: { 
+                tr: "Çevik proje yönetimi ve takım liderliği konusunda uluslararası geçerliliği olan sertifika.",
+                en: "Internationally recognized certification in Agile project management and team leadership." 
+            }
+        }
+    ],
+
     skills: {
         tr: [
             "Eğitimde Yapay Zekâ", "Eğitsel İçerik için Prompt Mühendisliği", "Öğretim Tasarımı & Öğrenme Deneyimi Tasarımı (LXD)", 
@@ -130,7 +156,6 @@ const resumeData = {
         ]
     },
 
-    // --- 7. LANGUAGES ---
     languages: [
         {
             name: { tr: "TÜRKÇE", en: "TURKISH" },
