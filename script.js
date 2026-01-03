@@ -1,3 +1,5 @@
+// script.js
+
 // --- 1. SEO & METADATA MANAGEMENT ---
 function updateSEO(lang) {
     const title = resumeData.ui.documentTitle[lang];
@@ -74,14 +76,120 @@ function renderResume(lang) {
     document.body.classList.add(`lang-${lang}`);
 }
 
-// --- 3. EVENTS ---
+// --- 3. SKILL NAVIGATION LOGIC (NEW) ---
+function setupSkillNavigation() {
+    // A. Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        const existingDropdown = document.querySelector('.nav-dropdown');
+        if (existingDropdown && !e.target.closest('.skill-tag')) {
+            existingDropdown.remove();
+        }
+    });
+
+    // B. Handle clicks on Skill Tags (Delegation)
+    document.body.addEventListener('click', (e) => {
+        if (e.target.classList.contains('skill-tag')) {
+            e.preventDefault();
+            e.stopPropagation(); // Stop propagation to prevent immediate close
+            
+            // 1. Clean up old dropdowns
+            const existing = document.querySelector('.nav-dropdown');
+            if (existing) existing.remove();
+
+            // 2. Get Targets
+            const btn = e.target;
+            const targetIds = btn.dataset.targets ? btn.dataset.targets.split(',') : [];
+            const originId = btn.dataset.origin;
+
+            // 3. Filter targets: Don't show the section we are currently in
+            const validTargets = targetIds.filter(id => id !== originId);
+
+            // If nowhere to go, do nothing (or you could show a tooltip)
+            if (validTargets.length === 0) return;
+
+            // 4. Create Dropdown HTML
+            const dropdown = document.createElement('div');
+            dropdown.className = 'nav-dropdown';
+            
+            const header = document.createElement('div');
+            header.className = 'nav-dropdown-header';
+            
+            // Localize header text based on current lang
+            const isTr = document.documentElement.lang === 'tr';
+            header.innerText = isTr ? "Kullanıldığı Yerler:" : "Used In:";
+            dropdown.appendChild(header);
+
+            validTargets.forEach(id => {
+                const targetEl = document.getElementById(id);
+                if (targetEl) {
+                    // Extract Titles from the DOM element we are jumping to
+                    // We assume standard .job-title / .company classes exist inside the target
+                    const role = targetEl.querySelector('.job-title')?.innerText || "Unknown Role";
+                    const company = targetEl.querySelector('.company')?.innerText || "";
+
+                    const item = document.createElement('button');
+                    item.className = 'nav-item';
+                    item.innerHTML = `
+                        ${role}
+                        <span class="nav-context">${company}</span>
+                    `;
+                    
+                    // Click handling for the navigation item
+                    item.onclick = () => {
+                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Add a temporary highlight flash
+                        const originalTransition = targetEl.style.transition;
+                        const originalBg = targetEl.style.backgroundColor; // Capture computed style if needed, but here simple reset works
+                        
+                        targetEl.style.transition = "background-color 0.5s ease";
+                        targetEl.style.backgroundColor = "rgba(108, 92, 231, 0.1)"; // Slight violet tint
+                        
+                        setTimeout(() => { 
+                            targetEl.style.backgroundColor = "var(--card-bg)"; // Reset to theme card color
+                            // Restore transition property after animation clears
+                            setTimeout(() => { targetEl.style.transition = originalTransition; }, 500);
+                        }, 800);
+                        
+                        dropdown.remove();
+                    };
+                    
+                    dropdown.appendChild(item);
+                }
+            });
+
+            // 5. Position Dropdown
+            document.body.appendChild(dropdown);
+            const rect = btn.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            
+            // Simple positioning: Below the button, aligned left
+            dropdown.style.top = `${rect.bottom + scrollTop + 6}px`;
+            dropdown.style.left = `${rect.left + scrollLeft}px`;
+            
+            // Edge detection (optional): if it goes off-screen right, align right
+            const dropdownRect = dropdown.getBoundingClientRect();
+            if (dropdownRect.right > window.innerWidth) {
+                dropdown.style.left = 'auto';
+                dropdown.style.right = '20px'; // Safe margin from right edge
+            }
+        }
+    });
+}
+
+// --- 4. EVENTS & INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
     // Detect language from storage or browser settings
     const savedLang = localStorage.getItem('preferredLang');
     const browserLang = (navigator.language || navigator.userLanguage).startsWith('tr') ? 'tr' : 'en';
     let currentLang = savedLang || browserLang;
 
+    // Initial Render
     renderResume(currentLang);
+    
+    // Initialize Navigation Logic
+    setupSkillNavigation();
 
     // Language Toggles
     document.getElementById('btn-tr').addEventListener('click', () => {
@@ -120,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const emailText = resumeData.meta.email;
             const isTr = document.documentElement.lang === 'tr';
+            
             navigator.clipboard.writeText(emailText).then(() => {
                 mailLink.setAttribute('data-copy-text', isTr ? "Kopyalandı!" : "Copied!");
                 mailLink.classList.add('copied');
