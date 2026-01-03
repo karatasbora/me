@@ -13,11 +13,15 @@ const LANG = 'en';
 // --- 1. ROBUST INJECTION HELPER ---
 
 function injectById(html, id, newContent) {
+    // Regex to match: id="my-id" > content </tag>
     const regex = new RegExp(`(id="${id}"[^>]*>\\s*)([\\s\\S]*?)(\\s*<\\/[^>]+>)`, 'i');
+    
+    // Fallback for tags that might not have newlines or complex structure
     if (!html.match(regex)) {
         const simpleRegex = new RegExp(`(id="${id}"[^>]*>)(.*?)(<\/[^>]+>)`, 's');
         return html.replace(simpleRegex, `$1${newContent}$3`);
     }
+    
     return html.replace(regex, `$1${newContent}$3`);
 }
 
@@ -28,6 +32,7 @@ function injectAttrById(html, id, attr, newValue) {
         if (openTag.match(attrRegex)) {
             return openTag.replace(attrRegex, `${attr}="${newValue}"`);
         } else {
+            // Add attribute if missing
             return openTag.replace('>', ` ${attr}="${newValue}">`);
         }
     });
@@ -53,6 +58,7 @@ try {
     indexHtml = indexHtml.replace(/<html lang=".*?">/, `<html lang="${LANG}">`);
 
     // 3. HEADER & PROFILE
+    // These remain manual as they map to specific profile data points, not generic UI labels
     indexHtml = injectById(indexHtml, 'p-name', data.profile.name);
     indexHtml = injectById(indexHtml, 'p-title', data.profile.title[LANG]);
     indexHtml = injectById(indexHtml, 'p-location', data.meta.location[LANG]);
@@ -63,15 +69,15 @@ try {
     indexHtml = injectById(indexHtml, 'link-linkedin', data.meta.linkedinLabel || "LinkedIn");
     indexHtml = injectAttrById(indexHtml, 'link-linkedin', 'href', data.meta.linkedin);
 
-    // 4. UI LABELS
+    // 4. UI LABELS - DYNAMIC INJECTION
+    // Automatically finds keys in data.ui (e.g. 'about', 'print') and injects into id="ui-about", id="ui-print"
     const ui = data.ui; 
-    indexHtml = injectById(indexHtml, 'head-about', ui.about[LANG]);
-    indexHtml = injectById(indexHtml, 'head-experience', ui.experience[LANG]);
-    indexHtml = injectById(indexHtml, 'head-education', ui.education[LANG]);
-    indexHtml = injectById(indexHtml, 'head-skills', ui.skills[LANG]);
-    indexHtml = injectById(indexHtml, 'head-languages', ui.languages[LANG]);
+    Object.keys(ui).forEach(key => {
+        // If the ID (e.g. ui-documentTitle) doesn't exist in HTML, the helper returns HTML unchanged.
+        indexHtml = injectById(indexHtml, `ui-${key}`, ui[key][LANG]);
+    });
 
-    // 5. DYNAMIC CONTENT BLOCKS - NOW USING UTILS
+    // 5. DYNAMIC CONTENT BLOCKS - USING SHARED UTILS
     
     // A. About Text
     indexHtml = injectById(indexHtml, 'p-about', data.profile.about[LANG]);
