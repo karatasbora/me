@@ -290,7 +290,7 @@ h2 {
 }
 p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacity: 0.9; }
 
-/* --- JOB CARDS & LAYOUT --- */
+/* --- JOB CARDS & TIMELINE LAYOUT --- */
 .job-block {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -314,40 +314,62 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
 .company { font-family: 'Inter', sans-serif; font-weight: 600; color: var(--meta-color); font-size: 1rem; }
 .location { font-family: 'Inter', sans-serif; font-size: 0.75rem; color: var(--accent-color); font-weight: 700; text-transform: uppercase; }
 
+/* The Timeline Container */
 .job-content { 
-    position: relative;
-    /* Removed border-left to reduce clutter */
+    position: relative; /* Anchor for absolute button */
+    border-left: 2px solid var(--border-color); 
+    padding-left: 24px; 
+    margin-left: 4px;   
+    min-height: 20px;
 }
 
-/* --- ACCORDION & TOGGLE STYLES --- */
+/* --- TOGGLE NODE (Timeline Button) --- */
 .desc-toggle {
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px dashed var(--border-color);
+    position: absolute;
+    left: -13px; /* Center on 2px border (24/2 + 2/2) */
+    top: -2px;   
+    
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
     color: var(--meta-color);
-    cursor: pointer;
-    padding: 0 0 8px 0;
+    
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.2s;
-    margin-bottom: 10px;
+    padding: 0;
+    
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 2;
 }
 
 .desc-toggle:hover {
     color: var(--accent-color);
-    background-color: transparent;
+    border-color: var(--accent-color);
+    background-color: var(--card-bg);
+    transform: scale(1.1);
 }
 
 .chevron-icon {
-    transition: transform 0.3s ease;
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .desc-toggle[aria-expanded="true"] .chevron-icon {
     transform: rotate(180deg);
 }
 
+.desc-toggle[aria-expanded="true"] {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+/* --- ACCORDION CONTENT --- */
 .job-description {
     display: grid;
     grid-template-rows: 0fr;
@@ -364,13 +386,12 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
 
 .desc-inner p {
     margin: 0; 
-    padding-bottom: 5px;
-    font-size: 0.95rem;
+    line-height: 1.6;
     color: var(--primary-text);
     opacity: 0.9;
 }
 
-/* --- BRANDING TAGS (FOOTER STYLE) --- */
+/* --- BRANDING TAGS (Footer) --- */
 .branding-tags {
     margin-top: 15px;    
     margin-bottom: 0;   
@@ -382,26 +403,22 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
 .tags-wrapper { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
 
 .skill-tag {
-    /* Reset Button Styles */
     appearance: none;
     -webkit-appearance: none;
     border: 1px solid var(--border-color);
     background: transparent;
     cursor: pointer;
     
-    /* Inherit Font Styles */
     font-family: 'Inter', sans-serif;
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     color: var(--tag-text);
     
-    /* Box Model */
     padding: 5px 12px;
     border-radius: 20px;
     transition: all 0.2s ease;
     
-    /* Animation */
     opacity: 0; 
     animation: tagFadeIn 0.5s ease-out forwards;
 }
@@ -427,7 +444,6 @@ p { margin-bottom: 1rem; text-align: justify; color: var(--primary-text); opacit
     padding: 8px 0;
     margin-top: 8px;
     
-    /* Animation */
     opacity: 0;
     transform: translateY(-10px);
     animation: simpleFade 0.2s forwards;
@@ -561,7 +577,10 @@ a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); 
     /* Hide UI elements */
     .controls, .nav-dropdown { display: none !important; }
     
-    /* 1. FORCE EXPAND DESCRIPTIONS */
+    /* 1. HIDE TOGGLE BUTTON */
+    .desc-toggle { display: none !important; }
+
+    /* 2. FORCE EXPAND DESCRIPTIONS */
     .job-description {
         display: block !important;
         grid-template-rows: 1fr !important;
@@ -569,8 +588,11 @@ a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); 
     }
     .desc-inner { overflow: visible !important; }
     
-    /* 2. HIDE TOGGLE BUTTON */
-    .desc-toggle { display: none !important; }
+    /* Adjust Layout since toggle is gone */
+    .job-content { 
+        padding-left: 15px !important; /* Standard padding */
+        border-left: 2px solid #ccc !important;
+    }
 
     /* Frame Adjustments */
     .frame-left, .frame-top-right, .frame-bottom-right {
@@ -593,7 +615,7 @@ a:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); 
         background-color: #f0f0f0 !important;
         color: #000 !important;
         border: 1px solid #ccc !important;
-        pointer-events: none; /* Disable clicking in PDF */
+        pointer-events: none;
     }
 
     /* Categories adjustments */
