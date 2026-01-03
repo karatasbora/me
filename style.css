@@ -482,7 +482,7 @@ h1 {
     margin-top: 2px;
 }
 
-/* --- SKILLS CATEGORIES --- */
+/* --- SKILLS CATEGORIES (Matched to Job Date Style) --- */
 .skills-container {
     display: flex;
     flex-direction: column;
@@ -496,15 +496,18 @@ h1 {
 
 .skill-category-title {
     font-family: 'Inter', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.85rem;      /* Match Job Date */
+    font-weight: 700;        /* Match Job Date */
     text-transform: uppercase;
-    letter-spacing: 0.05em;
     color: var(--meta-color);
+    
     margin: 0 0 10px 0;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 4px;
     display: inline-block;
+    
+    /* Removed border and padding to perfectly match the clean Date style */
+    border-bottom: none;
+    padding-bottom: 0;
+    letter-spacing: normal;
 }
 
 /* --- LANGUAGES --- */
