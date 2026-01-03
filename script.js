@@ -76,12 +76,8 @@ function renderResume(lang) {
         }
     }
 
-    // 3. AUTOMATED SECTION ANIMATIONS
-    const sections = mainContent.querySelectorAll('section');
-    sections.forEach((section, index) => {
-        section.style.opacity = "0"; 
-        section.style.animation = `slideUp 0.6s ease-out ${(index + 1) * 0.1}s forwards`;
-    });
+    // RESTORE STATE
+    window.scrollTo(0, scrollPos);
 
     // 4. STATES & UI ANIMATION
     document.getElementById('btn-tr').setAttribute('aria-pressed', lang === 'tr');
