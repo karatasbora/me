@@ -187,6 +187,74 @@ const resumeData = {
         }
     ],
 
+    skills: [
+        // Category: EdTech & AI
+        {
+            tr: "Eğitsel İçerik için Prompt Mühendisliği", en: "Prompt Engineering for Ed. Content",
+            category: { tr: "Eğitim Teknolojileri & YZ", en: "EdTech & AI" },
+            targets: ["job-editor"]
+        },
+        {
+            tr: "Öğrenme Yönetim Sistemleri (LMS)", en: "Learning Management Systems (LMS)",
+            category: { tr: "Eğitim Teknolojileri & YZ", en: "EdTech & AI" },
+            targets: ["job-editor"]
+        },
+        {
+            tr: "İçerik Yönetim Sistemleri (CMS)", en: "Content Management Systems (CMS)",
+            category: { tr: "Eğitim Teknolojileri & YZ", en: "EdTech & AI" },
+            targets: ["job-editor"]
+        },
+        {
+            tr: "Eğitimde Yapay Zekâ", en: "AI in Education",
+            category: { tr: "Eğitim Teknolojileri & YZ", en: "EdTech & AI" },
+            targets: ["edu-elt", "job-editor"]
+        },
+        {
+            tr: "Eğitim Teknolojileri", en: "Educational Technology",
+            category: { tr: "Eğitim Teknolojileri & YZ", en: "EdTech & AI" },
+            targets: ["edu-elt"]
+        },
+
+        // Category: Pedagogy & Design
+        {
+            tr: "Öğretim Tasarımı & LXD", en: "Instructional Design & LXD",
+            category: { tr: "Pedagoji & Tasarım", en: "Pedagogy & Design" },
+            targets: ["job-teacher", "job-editor"]
+        },
+        {
+            tr: "Sınıf Yönetimi", en: "Classroom Management",
+            category: { tr: "Pedagoji & Tasarım", en: "Pedagogy & Design" },
+            targets: ["job-teacher"]
+        },
+        {
+            tr: "Yabancı Dil olarak İngilizce Öğretimi", en: "TEFL",
+            category: { tr: "Pedagoji & Tasarım", en: "Pedagogy & Design" },
+            targets: ["job-teacher"]
+        },
+
+        // Category: Analysis & Soft Skills
+        {
+            tr: "Dijital Arşivleme & Bilgi Organizasyonu", en: "Digital Archiving & Info Org.",
+            category: { tr: "Analiz & Strateji", en: "Analysis & Strategy" },
+            targets: ["job-editor"]
+        },
+        {
+            tr: "Sistem Düşüncesi", en: "Systems Thinking",
+            category: { tr: "Analiz & Strateji", en: "Analysis & Strategy" },
+            targets: ["edu-econ"]
+        },
+        {
+            tr: "Akademik Araştırma & Analiz", en: "Academic Research & Analysis",
+            category: { tr: "Analiz & Strateji", en: "Analysis & Strategy" },
+            targets: ["edu-econ"]
+        },
+        {
+            tr: "Kültürlerarası İletişim", en: "Intercultural Communication",
+            category: { tr: "Analiz & Strateji", en: "Analysis & Strategy" },
+            targets: ["edu-erasmus"]
+        }
+    ],
+
     languages: [
         {
             name: { tr: "TÜRKÇE", en: "TURKISH" },
