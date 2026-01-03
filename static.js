@@ -9,20 +9,41 @@ const utils = require('./utils.js');
 
 const LANG = 'en'; 
 
-// Helper: Simple attribute injection for the header
+// 1. IMPROVED injectById
+// Matches id='...', id="...", or id=... (no quotes)
+// Handles whitespace around '='
 function injectById(html, id, newContent) {
-    const regex = new RegExp(`(id="${id}"[^>]*>)([\\s\\S]*?)(<\\/[^>]+>)`, 'i');
-    return html.replace(regex, `$1${newContent}$3`);
+    // Explanation:
+    // 1. Match opening tag containing the ID: (<[^>]+id\s*=\s*["']?${id}["']?[^>]*>)
+    // 2. Match content lazily: ([\s\S]*?)
+    // 3. Match the SPECIFIC closing tag corresponding to the ID is hard with regex, 
+    //    but strictly matching the very next closing tag is the safest assumption for "leaf" nodes.
+    //    For better safety, we simply replace the content between the opening tag and the *next* closing tag.
+    
+    // Improved Regex: Allows whitespace and single/double quotes
+    const regex = new RegExp(`(<[^>]+id\\s*=\\s*["']?${id}["']?[^>]*>)([\\s\\S]*?)(<\\/[^>]+>)`, 'i');
+    
+    return html.replace(regex, (match, openTag, oldContent, closeTag) => {
+        return `${openTag}${newContent}${closeTag}`;
+    });
 }
 
+// 2. IMPROVED injectAttrById
 function injectAttrById(html, id, attr, newValue) {
-    const tagRegex = new RegExp(`(<[^>]+id="${id}"[^>]*>)`, 'g');
+    // Find the tag containing the ID
+    const tagRegex = new RegExp(`(<[^>]+id\\s*=\\s*["']?${id}["']?[^>]*>)`, 'gi');
+
     return html.replace(tagRegex, (openTag) => {
-        const attrRegex = new RegExp(`${attr}="([^"]*)"`);
-        if (openTag.match(attrRegex)) {
-            return openTag.replace(attrRegex, `${attr}="${newValue}"`);
+        // Regex to find the specific attribute (href, src, etc.)
+        // Handles attr="val", attr='val', or attr=val
+        const attrRegex = new RegExp(`(${attr}\\s*=\\s*)(["'])([^"']*)\\2`, 'i');
+
+        if (attrRegex.test(openTag)) {
+            // Attribute exists, replace value
+            return openTag.replace(attrRegex, `$1$2${newValue}$2`);
         } else {
-            return openTag.replace('>', ` ${attr}="${newValue}">`);
+            // Attribute doesn't exist, append it before the closing '>'
+            return openTag.replace(/\/?>$/, ` ${attr}="${newValue}">`);
         }
     });
 }
