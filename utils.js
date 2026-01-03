@@ -1,23 +1,36 @@
-// utils.js - Shared rendering logic for Node (SSG) and Browser (CSR)
+// utils.js
 
 (function(root, factory) {
     if (typeof module === 'object' && module.exports) {
-        // Node/CommonJS
         module.exports = factory();
     } else {
-        // Browser Global
         root.resumeUtils = factory();
     }
 }(typeof self !== 'undefined' ? self : this, function() {
 
+    // --- HELPER: GET TAGS FOR A SPECIFIC JOB ID ---
+    // Searches the Master Skills list for any skill targeting this ID
+    function getTagsForId(id, allSkills, lang) {
+        if (!id || !allSkills) return [];
+        
+        // Filter skills that include this ID in their 'targets' array
+        return allSkills
+            .filter(skill => skill.targets && skill.targets.includes(id))
+            .map(skill => skill[lang]); // Return the localized string
+    }
+
     // --- SUB-RENDERERS ---
     
-    function renderBlock(items, lang) {
+    // Now accepts 'allSkills' to perform the lookup
+    function renderBlock(items, lang, allSkills) {
         if (!items) return '';
         return items.map(item => {
-            // Robust check: ensure tags exist before mapping
-            const tagsHTML = (item.tags && item.tags[lang]) 
-                ? `<div class="tags-wrapper">${item.tags[lang].map(t => `<span class="skill-tag">${t}</span>`).join('')}</div>` 
+            
+            // REVERSE LOGIC: We fetch tags from the master list, not the item itself
+            const relevantTags = getTagsForId(item.id, allSkills, lang);
+            
+            const tagsHTML = (relevantTags.length > 0)
+                ? `<div class="tags-wrapper">${relevantTags.map(t => `<span class="skill-tag">${t}</span>`).join('')}</div>`
                 : '';
 
             return `
@@ -38,16 +51,13 @@
         }).join('');
     }
 
-    function renderTags(tags, lang) {
-        if (!tags) return '';
-        // Handle both simple array (data.skills) and object with lang keys if needed
-        const list = Array.isArray(tags) ? tags : tags[lang];
-        if (!list) return '';
-        
+    function renderTags(skills, lang) {
+        if (!skills) return '';
+        // 'skills' is now the Master List of objects, so we map directly
         return `
         <div class="job-block">
             <div class="tags-wrapper" style="padding-left:0; margin-top: 5px;">
-                ${list.map(tag => `<span class="skill-tag">${tag}</span>`).join('')}
+                ${skills.map(skill => `<span class="skill-tag">${skill[lang]}</span>`).join('')}
             </div>
         </div>`;
     }
@@ -68,7 +78,6 @@
     }
 
     // --- MAIN LAYOUT ENGINE ---
-    // Reads data.structure and builds the whole <main> content
     function renderLayout(data, lang) {
         if (!data.structure) return '<p>Error: No structure defined in data.js</p>';
 
@@ -76,7 +85,7 @@
             const title = data.ui[section.titleKey] ? data.ui[section.titleKey][lang] : section.titleKey;
             let contentHTML = '';
 
-            // Resolve Deep Data Key (e.g. "profile.about")
+            // Resolve Data Key
             let contentData = data;
             if (section.dataKey) {
                 const keys = section.dataKey.split('.');
@@ -85,16 +94,19 @@
                 }
             }
             
-            // Resolve Content Type
-            if (!contentData) {
-                contentHTML = '';
-            } else if (section.type === 'text') {
-                contentHTML = `<p>${contentData[lang]}</p>`;
-            } else if (section.type === 'list') {
-                contentHTML = renderBlock(contentData, lang);
-            } else if (section.type === 'tags') {
+            // Render based on type
+            if (section.type === 'text') {
+                contentHTML = contentData ? `<p>${contentData[lang]}</p>` : '';
+            } 
+            else if (section.type === 'list') {
+                // Pass the MASTER SKILLS list to the block renderer
+                contentHTML = renderBlock(contentData, lang, data.skills);
+            } 
+            else if (section.type === 'tags') {
+                // Render the Master Skills list directly
                 contentHTML = renderTags(contentData, lang);
-            } else if (section.type === 'grid') {
+            } 
+            else if (section.type === 'grid') {
                 contentHTML = renderGrid(contentData, lang);
             }
 
@@ -108,9 +120,5 @@
         }).join('');
     }
 
-    // Expose only main render function and specific helpers if needed
-    return { 
-        renderLayout,
-        createTagsHTML: renderTags // Backward compatibility if needed
-    };
+    return { renderLayout };
 }));
