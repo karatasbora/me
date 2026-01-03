@@ -1,4 +1,4 @@
-// utils.js - Shared rendering logic for Node (SSG) and Browser (CSR)
+// utils.js
 
 (function(root, factory) {
     if (typeof module === 'object' && module.exports) {
@@ -8,15 +8,27 @@
     }
 }(typeof self !== 'undefined' ? self : this, function() {
 
-    // --- HELPER: GET SKILL OBJECTS FOR A JOB ID ---
+    // --- HELPER: GET SKILLS FOR A JOB ---
     function getRelevantSkills(id, allSkills, lang) {
         if (!id || !allSkills) return [];
         return allSkills
             .filter(skill => skill.targets && skill.targets.includes(id))
             .map(skill => ({
                 label: skill[lang],
-                targets: skill.targets // Pass the full array of targets
+                targets: skill.targets
             }));
+    }
+
+    // --- HELPER: GROUP SKILLS BY CATEGORY ---
+    function groupSkillsByCategory(skills, lang) {
+        const groups = {};
+        skills.forEach(skill => {
+            // Fallback to "Other" if no category is defined
+            const cat = (skill.category && skill.category[lang]) ? skill.category[lang] : (lang === 'tr' ? 'Diğer' : 'Other');
+            if (!groups[cat]) groups[cat] = [];
+            groups[cat].push(skill);
+        });
+        return groups;
     }
 
     // --- SUB-RENDERERS ---
@@ -24,25 +36,20 @@
     function renderBlock(items, lang, allSkills) {
         if (!items) return '';
         return items.map(item => {
-            
-            // 1. Fetch full skill objects (with target lists)
             const relevantSkills = getRelevantSkills(item.id, allSkills, lang);
             
-            // 2. Render clickable buttons with data attributes
             const tagsHTML = (relevantSkills.length > 0) 
                 ? `<div class="tags-wrapper">
                     ${relevantSkills.map(s => `
                         <button class="skill-tag" 
                                 data-targets="${s.targets.join(',')}" 
-                                data-origin="${item.id}"
-                                aria-label="See where ${s.label} is used">
+                                data-origin="${item.id}">
                             ${s.label}
                         </button>
                     `).join('')}
                   </div>` 
                 : '';
 
-            // 3. Inject ID into the main block wrapper
             return `
             <div class="job-block" id="${item.id}">
                 <div class="job-header">
@@ -61,21 +68,34 @@
         }).join('');
     }
 
+    // UPDATED: Renders skills in CATEGORIES
     function renderTags(skills, lang) {
         if (!skills) return '';
-        // Render the Master List as clickable buttons too
-        return `
-        <div class="job-block">
-            <div class="tags-wrapper" style="padding-left:0; margin-top: 5px;">
-                ${skills.map(skill => `
-                    <button class="skill-tag" 
-                            data-targets="${skill.targets.join(',')}" 
-                            data-origin="summary">
-                        ${skill[lang]}
-                    </button>
-                `).join('')}
-            </div>
-        </div>`;
+        
+        // 1. Group them
+        const groups = groupSkillsByCategory(skills, lang);
+        
+        // 2. Render each group
+        let html = '<div class="job-block skills-container">'; // Single container for all skills
+        
+        for (const [category, categorySkills] of Object.entries(groups)) {
+            html += `
+            <div class="skill-category">
+                <h3 class="skill-category-title">${category}</h3>
+                <div class="tags-wrapper">
+                    ${categorySkills.map(skill => `
+                        <button class="skill-tag" 
+                                data-targets="${skill.targets.join(',')}" 
+                                data-origin="summary">
+                            ${skill[lang]}
+                        </button>
+                    `).join('')}
+                </div>
+            </div>`;
+        }
+        
+        html += '</div>';
+        return html;
     }
 
     function renderGrid(languages, lang) {
@@ -93,7 +113,7 @@
         </div>`;
     }
 
-    // --- MAIN LAYOUT ENGINE ---
+    // --- MAIN RENDERER ---
     function renderLayout(data, lang) {
         if (!data.structure) return '<p>Error: No structure defined in data.js</p>';
 
@@ -112,7 +132,6 @@
             if (section.type === 'text') {
                 contentHTML = contentData ? `<p>${contentData[lang]}</p>` : '';
             } else if (section.type === 'list') {
-                // Pass Master Skills to render tags inside blocks
                 contentHTML = renderBlock(contentData, lang, data.skills);
             } else if (section.type === 'tags') {
                 contentHTML = renderTags(contentData, lang);
