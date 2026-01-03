@@ -105,19 +105,25 @@ body::after {
 
 header { animation: simpleFade 0.8s ease-out forwards; opacity: 0; }
 section {
-    opacity: 0; /* Hidden until JS applies the animation */
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-/* Ensure the keyframes are defined (check if they exist in your file) */
+/* This class will be added by JavaScript */
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Keep your slideUp keyframes if you prefer the animation over transition */
 @keyframes slideUp { 
-    from { 
-        opacity: 0; 
-        transform: translateY(15px); 
-    } 
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
-    } 
+    from { opacity: 0; transform: translateY(15px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+
+.animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
 }
 
 /* --- HEADER --- */
