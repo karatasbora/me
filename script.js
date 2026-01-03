@@ -174,21 +174,16 @@ function setupSkillNavigation() {
                     `;
                     
                     item.onclick = () => {
-                        // 1. Scroll to target (Existing)
                         targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                        // 2. The "Spotlight" Effect (New)
-                        // Add a class to the body that dims ALL job blocks
-                        document.body.classList.add('spotlight-active');
                         
-                        // Add a class to the TARGET to keep it bright
-                        targetEl.classList.add('spotlight-target');
-
-                        // 3. Remove effects after 1.5 seconds
-                        setTimeout(() => {
-                            document.body.classList.remove('spotlight-active');
-                            targetEl.classList.remove('spotlight-target');
-                        }, 1500);
+                        const originalTransition = targetEl.style.transition;
+                        targetEl.style.transition = "background-color 0.5s ease";
+                        targetEl.style.backgroundColor = "rgba(108, 92, 231, 0.1)"; 
+                        
+                        setTimeout(() => { 
+                            targetEl.style.backgroundColor = "var(--card-bg)"; 
+                            setTimeout(() => { targetEl.style.transition = originalTransition; }, 500);
+                        }, 800);
                         
                         dropdown.remove();
                     };
@@ -211,23 +206,6 @@ function setupSkillNavigation() {
                 dropdown.style.left = 'auto';
                 dropdown.style.right = '20px';
             }
-
-            // 6. Keyboard Accessibility (New)
-            const closeOnEsc = (e) => {
-                if (e.key === 'Escape') {
-                    dropdown.remove();
-                    btn.focus(); // Return focus to the trigger button
-                    document.removeEventListener('keydown', closeOnEsc);
-                }
-            };
-            document.addEventListener('keydown', closeOnEsc);
-
-            // Clean up listener if removed via click or outside click
-            const originalRemove = dropdown.remove;
-            dropdown.remove = function() {
-                document.removeEventListener('keydown', closeOnEsc);
-                originalRemove.apply(this, arguments);
-            };
         }
     });
 }
