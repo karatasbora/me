@@ -30,7 +30,6 @@ function renderResume(lang) {
     document.documentElement.lang = lang;
 
     // 1. HEADER (Static IDs)
-    // These remain manual as they map to specific profile data points, not generic sections
     document.getElementById('p-name').textContent = resumeData.profile.name;
     document.getElementById('p-title').textContent = resumeData.profile.title[lang];
     document.getElementById('p-location').textContent = resumeData.meta.location[lang];
@@ -48,28 +47,28 @@ function renderResume(lang) {
     if(printBtn) printBtn.textContent = resumeData.ui.print[lang];
 
     // 2. MAIN CONTENT (Dynamic Generation)
-    // This calls the Engine in utils.js to rebuild the <main> tag
+    // Uses utils.js to rebuild the <main> tag content
     const mainHTML = resumeUtils.renderLayout(resumeData, lang);
-    document.getElementById('main-content').innerHTML = mainHTML;
-
-    const mainHTML = resumeUtils.renderLayout(resumeData, lang);
-    document.getElementById('main-content').innerHTML = mainHTML;
+    const mainContent = document.getElementById('main-content');
+    mainContent.innerHTML = mainHTML;
 
     // 3. AUTOMATED SECTION ANIMATIONS
-    // This finds every section and applies a staggered delay automatically
-    const sections = document.querySelectorAll('main section');
+    // Finds all sections and applies a staggered delay automatically
+    const sections = mainContent.querySelectorAll('section');
     sections.forEach((section, index) => {
-        section.style.opacity = "0"; // Ensure they start hidden
+        section.style.opacity = "0"; // Initial state for animation
         section.style.animation = `slideUp 0.6s ease-out ${(index + 1) * 0.1}s forwards`;
     });
-    
-    // 4. STATES & ANIMATION
+
+    // 4. STATES & UI ANIMATION
     document.getElementById('btn-tr').setAttribute('aria-pressed', lang === 'tr');
     document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
     
-    // Trigger animations for new elements
+    // Staggered animation for skill tags
     const skillTags = document.querySelectorAll('.skill-tag');
-    skillTags.forEach((tag, index) => { tag.style.animationDelay = `${(index + 1) * 0.05}s`; });
+    skillTags.forEach((tag, index) => { 
+        tag.style.animationDelay = `${(index + 1) * 0.05}s`; 
+    });
     
     document.body.classList.remove('lang-tr', 'lang-en');
     document.body.classList.add(`lang-${lang}`);
@@ -77,12 +76,14 @@ function renderResume(lang) {
 
 // --- 3. EVENTS ---
 document.addEventListener('DOMContentLoaded', () => {
+    // Detect language from storage or browser settings
     const savedLang = localStorage.getItem('preferredLang');
     const browserLang = (navigator.language || navigator.userLanguage).startsWith('tr') ? 'tr' : 'en';
     let currentLang = savedLang || browserLang;
 
     renderResume(currentLang);
 
+    // Language Toggles
     document.getElementById('btn-tr').addEventListener('click', () => {
         localStorage.setItem('preferredLang', 'tr');
         renderResume('tr');
@@ -93,9 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
         renderResume('en');
     });
 
+    // Print functionality
     const btnPrint = document.getElementById('btn-print');
     if (btnPrint) btnPrint.addEventListener('click', () => window.print());
 
+    // Theme Toggle (Dark/Light Mode)
     const btnTheme = document.getElementById('btn-theme');
     const htmlElement = document.documentElement;
     if (btnTheme) {
@@ -110,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Email Copy to Clipboard Logic
     const mailLink = document.getElementById('link-email');
     if (mailLink) {
         mailLink.addEventListener('click', (e) => {
