@@ -1,4 +1,4 @@
-// utils.js
+// utils.js - Shared rendering logic for Node (SSG) and Browser (CSR)
 
 (function(root, factory) {
     if (typeof module === 'object' && module.exports) {
@@ -23,7 +23,6 @@
     function groupSkillsByCategory(skills, lang) {
         const groups = {};
         skills.forEach(skill => {
-            // Fallback to "Other" if no category is defined
             const cat = (skill.category && skill.category[lang]) ? skill.category[lang] : (lang === 'tr' ? 'Diğer' : 'Other');
             if (!groups[cat]) groups[cat] = [];
             groups[cat].push(skill);
@@ -38,8 +37,9 @@
         return items.map(item => {
             const relevantSkills = getRelevantSkills(item.id, allSkills, lang);
             
+            // Render Skills (Branding)
             const tagsHTML = (relevantSkills.length > 0) 
-                ? `<div class="tags-wrapper">
+                ? `<div class="tags-wrapper branding-tags">
                     ${relevantSkills.map(s => `
                         <button class="skill-tag" 
                                 data-targets="${s.targets.join(',')}" 
@@ -49,6 +49,8 @@
                     `).join('')}
                   </div>` 
                 : '';
+
+            const toggleText = lang === 'tr' ? 'Detayları Göster' : 'Show Details';
 
             return `
             <div class="job-block" id="${item.id}">
@@ -60,24 +62,31 @@
                     <span class="company">${item.company ? item.company[lang] : item.school[lang]}</span>
                     <span class="location">${item.location[lang]}</span>
                 </div>
+                
                 <div class="job-content">
-                    <p>${item.desc[lang]}</p>
+                    <button class="desc-toggle" aria-expanded="false" aria-label="${toggleText}">
+                        <svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+
+                    <div class="job-description collapsed">
+                        <div class="desc-inner">
+                            <p>${item.desc[lang]}</p>
+                        </div>
+                    </div>
+
                     ${tagsHTML}
                 </div>
             </div>`;
         }).join('');
     }
 
-    // UPDATED: Renders skills in CATEGORIES
-    // Uses .join('\n') to ensure source code separation between groups,
-    // but guarantees the first group has NO preceding whitespace.
+    // --- RENDER TAGS (For the Summary Section) ---
     function renderTags(skills, lang) {
         if (!skills) return '';
-        
-        // 1. Group them
         const groups = groupSkillsByCategory(skills, lang);
         
-        // 2. Generate an Array of HTML strings (one per category)
         const categoryBlocks = Object.entries(groups).map(([category, categorySkills]) => {
             return `<div class="skill-category">` + 
                         `<h3 class="skill-category-title">${category}</h3>` + 
@@ -89,8 +98,6 @@
                     `</div>`;
         });
         
-        // 3. Join with newline and wrap
-        // This puts a newline BETWEEN items (Group 1 \n Group 2) but not before Group 1.
         return `<div class="job-block skills-container">${categoryBlocks.join('\n')}</div>`;
     }
 
