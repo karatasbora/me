@@ -29,11 +29,16 @@ jobs:
         with:
           node-version: '18'
 
-      # 3. Run the generator script
+      # 3. Install Dependencies (JSDOM)
+      # This is required because the runner starts empty every time.
+      - name: Install dependencies
+        run: npm install jsdom
+
+      # 4. Run the generator script
       - name: Run SEO Generator
         run: node static.js
 
-      # 4. Check for changes and commit back to repo
+      # 5. Check for changes and commit back to repo
       - name: Commit and Push changes
         run: |
           # Configure the bot user
