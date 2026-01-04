@@ -196,7 +196,7 @@ const resumeData = {
                     tr: "İçerik Stratejisi", 
                     en: "Content Strategy",
                     targets: ["job-editor"]
-                }
+                },
                 {
                     tr: "Sistem Düşüncesi", 
                     en: "Systems Thinking",
@@ -211,12 +211,12 @@ const resumeData = {
                     tr: "Kültürlerarası İletişim", 
                     en: "Intercultural Communication",
                     targets: ["edu-erasmus"]
-                }
+                },
                 {
                     tr: "Adaptasyon", 
                     en: "Adaptation",
                     targets: ["edu-erasmus"]
-                }
+                },
                 {
                     tr: "Küreselleşme", 
                     en: "Globalization",
