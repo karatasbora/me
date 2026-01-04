@@ -140,11 +140,11 @@ const resumeData = {
     // Defines the skill ONCE, then targets the IDs where it should appear.
     skills: [
         {
-            category: { tr: "Eğitim Teknolojileri & YZ", en: "EdTech & AI" },
+            category: { tr: "Teknoloji", en: "Technology" },
             items: [
                 {
                     tr: "Eğitsel İçerik için Prompt Mühendisliği", 
-                    en: "Prompt Engineering for Educational Content", // Restored full text
+                    en: "Prompt Engineering for Educational Content",
                     targets: ["job-editor"]
                 },
                 {
@@ -159,7 +159,7 @@ const resumeData = {
                 },
                 {
                     tr: "Eğitimde Yapay Zekâ", 
-                    en: "Artificial Intelligence in Education", // Restored full text
+                    en: "Artificial Intelligence in Education",
                     targets: ["edu-elt", "job-editor"]
                 },
                 {
@@ -180,11 +180,11 @@ const resumeData = {
                 {
                     tr: "Sınıf Yönetimi", 
                     en: "Classroom Management",
-                    targets: ["job-teacher"]
+                    targets: ["job-teacher", "edu-elt"]
                 },
                 {
                     tr: "Yabancı Dil olarak İngilizce Öğretimi", 
-                    en: "Teaching English as a Foreign Language", // Restored full text
+                    en: "Teaching English as a Foreign Language",
                     targets: ["job-teacher"]
                 }
             ]
@@ -193,10 +193,10 @@ const resumeData = {
             category: { tr: "Analiz & Strateji", en: "Analysis & Strategy" },
             items: [
                 {
-                    tr: "Dijital Arşivleme & Bilgi Organizasyonu", 
-                    en: "Digital Archiving & Knowledge Organization", // Restored full text
+                    tr: "İçerik Stratejisi", 
+                    en: "Content Strategy",
                     targets: ["job-editor"]
-                },
+                }
                 {
                     tr: "Sistem Düşüncesi", 
                     en: "Systems Thinking",
@@ -205,11 +205,21 @@ const resumeData = {
                 {
                     tr: "Akademik Araştırma & Analiz", 
                     en: "Academic Research & Analysis",
-                    targets: ["edu-econ"]
+                    targets: ["edu-elt", "edu-econ"]
                 },
                 {
                     tr: "Kültürlerarası İletişim", 
                     en: "Intercultural Communication",
+                    targets: ["edu-erasmus"]
+                }
+                {
+                    tr: "Adaptasyon", 
+                    en: "Adaptation",
+                    targets: ["edu-erasmus"]
+                }
+                {
+                    tr: "Küreselleşme", 
+                    en: "Globalization",
                     targets: ["edu-erasmus"]
                 }
             ]
