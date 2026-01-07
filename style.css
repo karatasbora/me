@@ -17,6 +17,12 @@
     --zinc-900: #18181b;
     --zinc-950: #09090b;
 
+    /* Selection */
+    ::selection {
+        background: var(--indigo-500);
+        color: white;
+    }
+
     /* INDIGO (Brand) */
     --indigo-50: #eef2ff;
     --indigo-100: #e0e7ff;
@@ -35,6 +41,8 @@
     --bg-alt: var(--zinc-50);
     --primary-text: var(--zinc-950);
     --secondary-text: var(--zinc-500);
+    --meta-color: var(--zinc-500);
+    /* Legacy alias */
     --border-color: var(--zinc-200);
 
     --accent-color: var(--indigo-500);
@@ -45,22 +53,46 @@
     --card-bg: #ffffff;
     --card-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     /* shadow-sm */
-    --card-shadow-hover: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --card-shadow-hover: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
 
     --radius: 12px;
     --radius-sm: 6px;
 
-    --focus-ring: 0 0 0 2px var(--indigo-100), 0 0 0 4px var(--indigo-500);
+    --focus-ring: 0 0 0 2px var(--indigo-100),
+    0 0 0 4px var(--indigo-500);
+
+    /* Interactive Elements */
+    --hover-bg: var(--zinc-100);
+    --hover-text: var(--zinc-900);
+
+    --btn-primary-bg: var(--zinc-900);
+    --btn-primary-text: #ffffff;
+
+    --link-color: var(--zinc-900);
+    --link-hover: var(--indigo-600);
+
+    --border-hover: var(--zinc-300);
+
+    --tag-hover-bg: #ffffff;
+    --tag-hover-text: var(--indigo-600);
+    --tag-hover-border: var(--indigo-500);
 }
 
 /* --- DARK MODE --- */
 /* --- DARK MODE --- */
+/* --- DARK MODE --- */
 [data-theme="dark"] {
+    color-scheme: dark;
+    /* Updates scrollbars and system UI */
+
     --bg-color: var(--zinc-950);
     --bg-alt: var(--zinc-900);
 
     --primary-text: var(--zinc-50);
     --secondary-text: var(--zinc-400);
+    --meta-color: var(--zinc-400);
+    /* Legacy alias */
 
     --heading-color: #ffffff;
     --border-color: var(--zinc-800);
@@ -71,6 +103,36 @@
     --accent-color: var(--indigo-400);
     --accent-soft: rgba(99, 102, 241, 0.15);
     /* indigo-500 at 15% */
+
+    /* Interactive Overrides */
+    --hover-bg: var(--zinc-800);
+    --hover-text: var(--zinc-50);
+
+    --btn-primary-bg: var(--zinc-100);
+    --btn-primary-text: var(--zinc-950);
+
+    --link-color: var(--zinc-50);
+    --link-hover: var(--indigo-400);
+
+    --border-hover: var(--zinc-600);
+
+    --tag-hover-bg: var(--zinc-800);
+    --tag-hover-text: var(--indigo-300);
+    --tag-hover-border: var(--indigo-400);
+}
+
+/* Transitions for smooth toggle */
+body,
+.job-block,
+.skill-tag,
+.download-btn,
+.btn-icon,
+a,
+header,
+.frame-left,
+.frame-top-right,
+.frame-bottom-right {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
 }
 
 body {
@@ -88,6 +150,12 @@ body {
 body::before,
 body::after {
     display: none;
+}
+
+/* Image Brightness in Dark Mode */
+[data-theme="dark"] img {
+    filter: brightness(0.85);
+    transition: filter 0.3s ease;
 }
 
 /* --- ACCESSIBILITY --- */
@@ -250,13 +318,13 @@ header {
 }
 
 .btn-icon:hover {
-    color: var(--zinc-900);
-    background-color: var(--zinc-100);
+    color: var(--hover-text);
+    background-color: var(--hover-bg);
 }
 
 .btn-icon[aria-pressed="true"] {
-    color: white;
-    background-color: var(--zinc-900);
+    color: var(--btn-primary-text);
+    background-color: var(--btn-primary-bg);
 }
 
 #sun-icon {
@@ -272,8 +340,8 @@ header {
 }
 
 .download-btn {
-    background-color: var(--zinc-900);
-    color: #ffffff;
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
     border: none;
     border-radius: var(--radius-sm);
     padding: 8px 16px;
@@ -292,7 +360,7 @@ header {
 .download-btn:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    background-color: var(--zinc-800);
+    opacity: 0.9;
 }
 
 .download-btn svg {
@@ -314,8 +382,15 @@ h1 {
     letter-spacing: -0.02em;
 }
 
+#p-name {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.04em;
+    /* Tight tracking for brand feel */
+    font-weight: 700;
+}
+
 .headline {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 1.1rem;
     color: var(--accent-color);
     font-weight: 500;
@@ -375,9 +450,8 @@ section {
 h2 {
     font-family: 'Outfit', sans-serif;
     color: var(--heading-color);
-    border-left: none;
-    /* Remove vertical line */
-    padding-left: 0;
+    border-left: 4px solid var(--accent-color);
+    padding-left: 16px;
     margin: 3rem 0 1.5rem 0;
     font-size: 1.5rem;
     font-weight: 600;
@@ -407,7 +481,7 @@ p {
 .job-block:hover {
     transform: translateY(-1px);
     box-shadow: var(--card-shadow-hover);
-    border-color: var(--zinc-300);
+    border-color: var(--border-hover);
 }
 
 .job-header {
@@ -578,9 +652,9 @@ p {
 
 .skill-tag:hover,
 .skill-tag:focus {
-    background-color: white;
-    border-color: var(--indigo-500);
-    color: var(--indigo-600);
+    background-color: var(--tag-hover-bg);
+    border-color: var(--tag-hover-border);
+    color: var(--tag-hover-text);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     transform: translateY(-1px);
     outline: none;
@@ -685,15 +759,19 @@ p {
 
 /* LINKS */
 a {
-    color: var(--zinc-900);
+    color: var(--link-color);
     text-decoration: none;
     border-bottom: 1px solid var(--zinc-300);
     transition: all 0.2s;
 }
 
+[data-theme="dark"] a {
+    border-bottom-color: var(--zinc-700);
+}
+
 a:hover {
-    color: var(--indigo-600);
-    border-bottom-color: var(--indigo-500);
+    color: var(--link-hover);
+    border-bottom-color: var(--link-hover);
 }
 
 /* DROPDOWN */
