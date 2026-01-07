@@ -29,7 +29,7 @@
                 cat.items.forEach(skill => {
                     if (skill.targets && skill.targets.includes(id)) {
                         relevant.push({
-                            label: skill[lang], // We will escape this later
+                            label: skill[lang], 
                             targets: skill.targets
                         });
                     }
@@ -39,7 +39,7 @@
         return relevant;
     }
 
-    // --- SUB-RENDERERS (Now using escapeHtml) ---
+    // --- SUB-RENDERERS ---
     
     function renderBlock(items, lang, skillCategories) {
         if (!items) return '';
@@ -64,10 +64,20 @@
             const role = item.role ? item.role[lang] : item.degree[lang];
             const company = item.company ? item.company[lang] : item.school[lang];
             
-            // --- MODIFIED: URL Handling ---
-            let locationHTML = escapeHtml(item.location[lang]);
-            if (item.url) {
-                locationHTML = `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${locationHTML}</a>`;
+            // --- MODIFIED: Multi-Link Support ---
+            let locationHTML = '';
+            
+            if (item.links) {
+                // If 'links' array exists, render them separated by a dot
+                locationHTML = item.links.map(link => 
+                    `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label[lang])}</a>`
+                ).join(' <span class="sep">·</span> ');
+            } else {
+                // Fallback: Standard location text (with optional single URL)
+                locationHTML = escapeHtml(item.location[lang]);
+                if (item.url) {
+                    locationHTML = `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${locationHTML}</a>`;
+                }
             }
 
             return `
