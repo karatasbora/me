@@ -772,36 +772,87 @@ a:hover {
         --primary-text: #000000 !important;
         --heading-color: #000000 !important;
         --bg-color: #ffffff !important;
-        --card-bg: #ffffff !important;
-        --meta-color: #444444 !important;
-        --tag-bg: #f0f0f0 !important;
+        --card-bg: #eff2f9 !important;
+        /* Very subtle grey for contrast, or just white */
+        --meta-color: #555555 !important;
+        --tag-bg: #ffffff !important;
         --tag-text: #000000 !important;
-        --border-color: #eeeeee !important;
-        --accent-color: #6C5CE7 !important;
-        --shadow: none !important;
+        --border-color: #cccccc !important;
+        --accent-color: #000000 !important;
+        --card-shadow: none !important;
     }
 
-    body::before,
-    body::after {
-        display: none !important;
+    /* Reset Geometry */
+    @page {
+        margin: 1cm;
+        size: auto;
     }
 
     body {
-        background-color: #ffffff !important;
-        color: #000000 !important;
+        background: white !important;
+        color: black !important;
         width: 100%;
-        margin: 0;
-        padding: 0;
-        zoom: 75%;
-        font-weight: 500;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 11pt;
+        line-height: 1.5;
     }
 
+    /* Hide Decorative Elements */
+    body::before,
+    body::after,
     .controls,
     .nav-dropdown,
-    .desc-toggle {
+    .desc-toggle,
+    .favicon-frame,
+    .chevron-icon {
         display: none !important;
     }
 
+    /* Layout Optimizations */
+    header {
+        display: block;
+        /* Break flex for safer print flow */
+        border-bottom: 1px solid #000 !important;
+        padding-bottom: 20px;
+        /* Space after header */
+        margin-bottom: 25px;
+        text-align: left;
+    }
+
+    .profile-container {
+        height: 100px;
+        width: 100px;
+        float: right;
+        /* Move photo to right to save vertical space for text */
+        margin: 0 0 20px 20px;
+        border: none !important;
+    }
+
+    .profile-photo {
+        box-shadow: none !important;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        /* Ensure it stays round if it was */
+    }
+
+    .header-text {
+        width: auto;
+    }
+
+    h1 {
+        font-size: 24pt;
+        margin-bottom: 5px;
+        color: #000 !important;
+    }
+
+    .headline {
+        font-size: 10pt;
+        color: #444 !important;
+        margin-bottom: 10px;
+    }
+
+    /* Content Visibility */
     .job-description {
         display: block !important;
         grid-template-rows: 1fr !important;
@@ -812,80 +863,91 @@ a:hover {
         overflow: visible !important;
     }
 
-    .job-content {
-        padding-left: 15px !important;
-        border-left: 2px solid #ccc !important;
-    }
-
-    .frame-left,
-    .frame-top-right,
-    .frame-bottom-right {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-    }
-
-    .profile-container {
+    /* Card resets */
+    .job-block {
+        box-shadow: none !important;
         border: none !important;
+        border-left: 2px solid #000 !important;
+        border-radius: 0 !important;
+        padding: 0 0 0 15px !important;
+        margin-bottom: 25px !important;
+        background: transparent !important;
+        page-break-inside: avoid;
     }
 
-    .branding-tags {
-        margin-top: 10px;
-        border-top: none;
-        page-break-inside: avoid;
+    .job-block:last-child {
+        margin-bottom: 0 !important;
+    }
+
+    .job-header {
+        margin-bottom: 2px;
+    }
+
+    .job-subheader {
+        margin-bottom: 8px;
+    }
+
+    /* Tags */
+    .skills-container {
+        gap: 0;
+        padding: 0;
+        display: block !important;
+    }
+
+    .tags-wrapper {
+        gap: 6px;
     }
 
     .skill-tag,
     .lang-item {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-        background-color: #f0f0f0 !important;
+        background: transparent !important;
+        border: 1px solid #888 !important;
         color: #000 !important;
-        border: 1px solid #ccc !important;
-        pointer-events: none;
-    }
-
-    .skills-container {
-        gap: 10px;
-        padding-bottom: 0;
+        padding: 1px 6px;
+        font-size: 8pt;
         box-shadow: none !important;
-        border: none !important;
-        padding: 0 !important;
+        display: inline-block;
+        margin-right: 4px;
+        margin-bottom: 4px;
+        opacity: 1 !important;
+        animation: none !important;
     }
 
-    .skill-category-title {
-        color: #000 !important;
-        border-bottom-color: #ccc !important;
-    }
-
-    .contact-link {
-        display: inline !important;
-        color: #000 !important;
-        border-bottom: 2px solid var(--accent-color) !important;
+    /* URL Expansion */
+    a {
         text-decoration: none !important;
+        color: #000 !important;
+        border-bottom: 1px dotted #000 !important;
     }
 
-    .contact-link.copied {
+    a[href^="http"]:not([class*="skill-tag"])::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+        font-weight: normal;
+        color: #444;
+    }
+
+    /* Prevent double URL for explicit links */
+    #link-email::after,
+    #link-linkedin::after {
+        content: none !important;
+    }
+
+    /* Section Headers */
+    h2 {
+        border-left: none !important;
+        border-bottom: 1px solid #000;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        padding-left: 0;
+        font-size: 14pt;
         color: #000 !important;
     }
 
-    .contact-link::after,
-    .contact-link.copied::after {
-        display: none !important;
-    }
-
-    .job-block,
-    .lang-item,
-    section,
-    .skill-category {
-        break-inside: avoid;
-        page-break-inside: avoid;
-        display: block;
-    }
-
-    h2,
-    h3 {
-        break-after: avoid;
-        page-break-after: avoid;
+    section {
+        margin-bottom: 20px;
+        opacity: 1 !important;
+        transform: none !important;
     }
 
     p,
@@ -893,6 +955,19 @@ a:hover {
     li,
     div {
         opacity: 1 !important;
+        color: #000 !important;
+    }
+
+    /* Languages */
+    .lang-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+    }
+
+    .lang-item {
+        border-left: 2px solid #000 !important;
+        padding: 5px 10px;
     }
 }
 
