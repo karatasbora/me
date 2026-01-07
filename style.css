@@ -5,7 +5,7 @@
     /* Brand Colors */
     --oxford-slate: #2C3E50;       /* Primary */
     --burnished-leather: #C27848;  /* Secondary */
-    --paper-white: #F9F7F2;        /* Background Base */
+    --paper-white: #EFEDE6;        /* Background Base (Darkened from #F9F7F2) */
     --ink-black: #333333;          /* Text */
     --neural-violet: #6C5CE7;      /* Accent */
     
@@ -15,7 +15,7 @@
     --subheading-color: var(--burnished-leather);
     --accent-color: var(--neural-violet);
     --bg-color: var(--paper-white);
-    --card-bg: #FFFFFF;
+    --card-bg: #FDFBF7;           /* Soft Ivory instead of Pure White */
     --meta-color: #64748B;
     --tag-bg: transparent;
     --tag-text: var(--oxford-slate);
@@ -27,7 +27,7 @@
     --focus-ring: 2px solid var(--neural-violet);
 
     /* Enhanced Background System */
-    --ambient-light: radial-gradient(circle at 50% 30%, #FFFFFF 0%, var(--paper-white) 60%);
+    --ambient-light: radial-gradient(circle at 50% 30%, #FDFBF7 0%, var(--paper-white) 60%);
     --grid-color: rgba(44, 62, 80, 0.03); /* Subtle Oxford Slate trace */
 }
 
