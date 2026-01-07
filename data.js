@@ -102,7 +102,7 @@ const resumeData = {
             ],
             role: { tr: "arc", en: "arc" },
             company: { tr: "Yapay Zeka Destekli Materyal Tasarımı", en: "AI-Powered Material Design" },
-            date: { tr: "2025", en: "2025" },
+            date: { tr: "2026", en: "2026" },
             location: { tr: "karatasbora.github.io/arc", en: "karatasbora.github.io/arc" },
             desc: {
                 tr: "React 19 ve Google Gemini API kullanarak CEFR uyumlu çalışma kağıtlarını özerk biçimde üreten, yapay zekâ yerel (AI-native) bir eğitim aracı geliştirdim. Proje, deterministik JSON çıktıları güvence altına almak için gelişmiş prompt mühendisliği tekniklerini sergiliyor; böylece ayarlanabilir \"scaffolding\" ve belirli pedagojik odaklar gibi özellikler mümkün hale geliyor. İstemci tarafında çalışan, özel geliştirilmiş bir PDF motoru (jsPDF) sayesinde dinamik içerikler herhangi bir backend bağımlılığı olmadan profesyonel, sınıf kullanımına hazır materyallere dönüştürülüyor. Tüm bunlar, öğretmen verimliliğini ve eğitime erişilebilirliği artırmayı amaçlayan modern \"Zinc temalı\" bir kullanıcı arayüzü içinde sunuluyor.",
