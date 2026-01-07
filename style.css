@@ -772,8 +772,7 @@ a:hover {
         --primary-text: #000000 !important;
         --heading-color: #000000 !important;
         --bg-color: #ffffff !important;
-        --card-bg: #eff2f9 !important;
-        /* Very subtle grey for contrast, or just white */
+        --card-bg: transparent !important;
         --meta-color: #555555 !important;
         --tag-bg: #ffffff !important;
         --tag-text: #000000 !important;
@@ -784,7 +783,7 @@ a:hover {
 
     /* Reset Geometry */
     @page {
-        margin: 1cm;
+        margin: 0.8cm;
         size: auto;
     }
 
@@ -794,8 +793,8 @@ a:hover {
         width: 100%;
         margin: 0 !important;
         padding: 0 !important;
-        font-size: 11pt;
-        line-height: 1.5;
+        font-size: 10.5pt;
+        line-height: 1.4;
     }
 
     /* Hide Decorative Elements */
@@ -812,20 +811,17 @@ a:hover {
     /* Layout Optimizations */
     header {
         display: block;
-        /* Break flex for safer print flow */
         border-bottom: 1px solid #000 !important;
-        padding-bottom: 20px;
-        /* Space after header */
-        margin-bottom: 25px;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
         text-align: left;
     }
 
     .profile-container {
-        height: 100px;
-        width: 100px;
+        height: 90px;
+        width: 90px;
         float: right;
-        /* Move photo to right to save vertical space for text */
-        margin: 0 0 20px 20px;
+        margin: 0 0 15px 15px;
         border: none !important;
     }
 
@@ -833,7 +829,6 @@ a:hover {
         box-shadow: none !important;
         border: 1px solid #ddd;
         border-radius: 50%;
-        /* Ensure it stays round if it was */
     }
 
     .header-text {
@@ -841,15 +836,15 @@ a:hover {
     }
 
     h1 {
-        font-size: 24pt;
-        margin-bottom: 5px;
+        font-size: 22pt;
+        margin-bottom: 4px;
         color: #000 !important;
     }
 
     .headline {
-        font-size: 10pt;
+        font-size: 9.5pt;
         color: #444 !important;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
 
     /* Content Visibility */
@@ -863,16 +858,17 @@ a:hover {
         overflow: visible !important;
     }
 
-    /* Card resets */
+    /* Compact Cards */
     .job-block {
         box-shadow: none !important;
         border: none !important;
         border-left: 2px solid #000 !important;
         border-radius: 0 !important;
-        padding: 0 0 0 15px !important;
-        margin-bottom: 25px !important;
+        padding: 0 0 0 12px !important;
+        margin-bottom: 12px !important;
         background: transparent !important;
-        page-break-inside: avoid;
+        break-inside: avoid;
+        /* Keep individual jobs together */
     }
 
     .job-block:last-child {
@@ -884,7 +880,15 @@ a:hover {
     }
 
     .job-subheader {
-        margin-bottom: 8px;
+        margin-bottom: 4px;
+    }
+
+    /* Allow sections to flow freely without huge gaps */
+    section {
+        margin-bottom: 15px;
+        break-inside: auto;
+        opacity: 1 !important;
+        transform: none !important;
     }
 
     /* Tags */
@@ -895,7 +899,7 @@ a:hover {
     }
 
     .tags-wrapper {
-        gap: 6px;
+        gap: 4px;
     }
 
     .skill-tag,
@@ -903,12 +907,13 @@ a:hover {
         background: transparent !important;
         border: 1px solid #888 !important;
         color: #000 !important;
-        padding: 1px 6px;
+        padding: 0 5px;
+        /* Tighter padding */
         font-size: 8pt;
         box-shadow: none !important;
         display: inline-block;
-        margin-right: 4px;
-        margin-bottom: 4px;
+        margin-right: 3px;
+        margin-bottom: 3px;
         opacity: 1 !important;
         animation: none !important;
     }
@@ -927,7 +932,6 @@ a:hover {
         color: #444;
     }
 
-    /* Prevent double URL for explicit links */
     #link-email::after,
     #link-linkedin::after {
         content: none !important;
@@ -937,17 +941,13 @@ a:hover {
     h2 {
         border-left: none !important;
         border-bottom: 1px solid #000;
-        margin-top: 30px;
-        margin-bottom: 15px;
+        margin-top: 15px;
+        margin-bottom: 10px;
         padding-left: 0;
-        font-size: 14pt;
+        font-size: 13pt;
+        /* Smaller header */
         color: #000 !important;
-    }
-
-    section {
-        margin-bottom: 20px;
-        opacity: 1 !important;
-        transform: none !important;
+        break-after: avoid;
     }
 
     p,
@@ -962,12 +962,12 @@ a:hover {
     .lang-grid {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        gap: 10px;
+        gap: 8px;
     }
 
     .lang-item {
         border-left: 2px solid #000 !important;
-        padding: 5px 10px;
+        padding: 4px 8px;
     }
 }
 
