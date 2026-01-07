@@ -100,8 +100,8 @@ const resumeData = {
                     url: "https://github.com/karatasbora/arc" 
                 }
             ],
-            role: { tr: "arc", en: "arc" },
-            company: { tr: "Yapay Zeka Destekli Materyal Tasarımı", en: "AI-Powered Material Design" },
+            role: { tr: "Yapay Zeka Destekli Materyal Tasarımı", en: "AI-Powered Material Design" },
+            company: { tr: "arc", en: "arc" },
             date: { tr: "2026", en: "2026" },
             location: { tr: "karatasbora.github.io/arc", en: "karatasbora.github.io/arc" },
             desc: {
