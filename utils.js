@@ -63,6 +63,12 @@
             // Determine display fields
             const role = item.role ? item.role[lang] : item.degree[lang];
             const company = item.company ? item.company[lang] : item.school[lang];
+            
+            // --- MODIFIED: URL Handling ---
+            let locationHTML = escapeHtml(item.location[lang]);
+            if (item.url) {
+                locationHTML = `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${locationHTML}</a>`;
+            }
 
             return `
             <div class="job-block" id="${item.id}">
@@ -72,7 +78,7 @@
                 </div>
                 <div class="job-subheader">
                     <span class="company">${escapeHtml(company)}</span>
-                    <span class="location">${escapeHtml(item.location[lang])}</span>
+                    <span class="location">${locationHTML}</span>
                 </div>
                 
                 <div class="job-content">
