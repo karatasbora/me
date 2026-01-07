@@ -1,0 +1,58 @@
+name: Auto-Update SEO Content
+
+# Trigger the workflow only when data.js or the script changes on the main branch
+on:
+  push:
+    branches:
+      - main  # Change this to 'master' if your branch is named master
+    paths:
+      - 'data.js'
+      - 'static.js'
+      - '.github/workflows/update.yml'
+
+jobs:
+  update-static-content:
+    runs-on: ubuntu-latest
+    
+    # Permission needed to push changes back to the repo
+    permissions:
+      contents: write
+
+    steps:
+      # 1. Checkout the repository code
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 2. Install Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # 3. Install Dependencies (JSDOM)
+      # This is required because the runner starts empty every time.
+      - name: Install dependencies
+        run: npm install jsdom
+
+      # 4. Run the generator script
+      - name: Run SEO Generator
+        run: node static.js
+
+      # 5. Check for changes and commit back to repo
+      - name: Commit and Push changes
+        run: |
+          # Configure the bot user
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Stage index.html
+          git add index.html
+          
+          # Check if there are actual changes before committing
+          if git diff --staged --quiet; then
+            echo "No changes in SEO content detected."
+          else
+            git commit -m "chore(seo): auto-update static content in index.html [skip ci]"
+            git push
+            echo "✅ Successfully updated index.html with new data."
+          fi
