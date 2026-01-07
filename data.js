@@ -100,8 +100,8 @@ const resumeData = {
                     url: "https://github.com/karatasbora/arc" 
                 }
             ],
-            role: { tr: "arc – Yapay Zeka Destekli Materyal Tasarımı", en: "arc – AI-Powered Material Design" },
-            company: { tr: "React 19 · Google Gemini API · jsPDF", en: "React 19 · Google Gemini API · jsPDF" },
+            role: { tr: "arc", en: "arc" },
+            company: { tr: "Yapay Zeka Destekli Materyal Tasarımı", en: "AI-Powered Material Design" },
             date: { tr: "2025", en: "2025" },
             location: { tr: "karatasbora.github.io/arc", en: "karatasbora.github.io/arc" },
             desc: {
