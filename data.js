@@ -5,6 +5,7 @@ const resumeData = {
     structure: [
         { type: 'text', titleKey: 'about', dataKey: 'profile.about' },
         { type: 'list', titleKey: 'experience', dataKey: 'experience' },
+        { type: 'list', titleKey: 'projects', dataKey: 'projects' }, 
         { type: 'list', titleKey: 'education', dataKey: 'education' },
         { type: 'grid', titleKey: 'languages', dataKey: 'languages' },
         { type: 'tags', titleKey: 'skills', dataKey: 'skills' }, 
@@ -14,6 +15,7 @@ const resumeData = {
     ui: {
         about: { tr: "Hakkında", en: "About" },
         experience: { tr: "Deneyim", en: "Experience" },
+        projects: { tr: "Projeler", en: "Projects" },
         education: { tr: "Eğitim", en: "Education" },
         skills: { tr: "Yetkinlikler Özeti", en: "Skills Summary" },
         languages: { tr: "Diller", en: "Languages" },
@@ -58,10 +60,10 @@ const resumeData = {
         }
     },
 
-    // --- 5. EXPERIENCE (With IDs, No Tags) ---
+    // --- 5. EXPERIENCE ---
     experience: [
         {
-            id: "job-editor", // Unique ID
+            id: "job-editor", 
             role: { tr: "İçerik Editörü", en: "Content Editor" },
             company: { tr: "Hibrit · Yarı zamanlı | Anadolu Üniversitesi · Öğrenme Teknolojileri Ar-Ge Birimi", en: "Hybrid · Part-time | Anadolu University · Learning Technologies R&D Unit" },
             date: { tr: "ARALIK 2022 - HALEN", en: "DEC 2022 - PRESENT" },
@@ -72,7 +74,7 @@ const resumeData = {
             }
         },
         {
-            id: "job-teacher", // Unique ID
+            id: "job-teacher", 
             role: { tr: "İngilizce Öğretmeni", en: "English Teacher" },
             company: { tr: "Yerinde · Staj | T.C. Millî Eğitim Bakanlığı · Gülay Kanatlı Ortaokulu", en: "On-site · Internship | Ministry of National Education · Gülay Kanatlı Secondary School" },
             date: { tr: "EYLÜL 2025 - ARALIK 2025", en: "SEP 2025 - DEC 2025" },
@@ -84,10 +86,26 @@ const resumeData = {
         }
     ],
 
-    // --- 6. EDUCATION (With IDs, No Tags) ---
+    // --- 6. PROJECTS ---
+    projects: [
+        {
+            id: "proj-arc",
+            url: "https://karatasbora.github.io/arc/", // URL added here
+            role: { tr: "arc – Yapay Zeka Destekli Ders Mimarı", en: "arc – AI-Powered Lesson Architect" },
+            company: { tr: "React 19 · Google Gemini API · jsPDF", en: "React 19 · Google Gemini API · jsPDF" },
+            date: { tr: "2025", en: "2025" },
+            location: { tr: "karatasbora.github.io/arc", en: "karatasbora.github.io/arc" },
+            desc: {
+                tr: "React 19 ve Google Gemini API kullanılarak geliştirilen, CEFR uyumlu çalışma kağıtlarını otonom olarak üreten yapay zeka tabanlı bir eğitim aracı. Proje, ayarlanabilir iskele (scaffolding) ve belirli pedagojik odaklar gibi özellikleri mümkün kılan deterministik JSON çıktıları sağlamak amacıyla ileri düzey prompt mühendisliği tekniklerini sergiler. Arka uç bağımlılığı olmadan dinamik içeriği profesyonel, sınıfta kullanıma hazır çalışma kağıtlarına dönüştüren özel yapım, istemci taraflı bir PDF motoru (jsPDF) içerir; tüm bunlar öğretmen üretkenliğini ve eğitimde erişilebilirliği artırmak için tasarlanmış modern 'Zinc' temalı bir arayüzle sunulur.",
+                en: "Developed an AI-native educational tool using React 19 and the Google Gemini API that autonomously generates CEFR-aligned worksheets. The project demonstrates advanced prompt engineering to secure deterministic JSON outputs, enabling features like adjustable scaffolding and specific pedagogical focuses. It includes a custom-built, client-side PDF engine (jsPDF) that renders dynamic content into professional, classroom-ready handouts without backend dependencies, all wrapped in a modern \"Zinc-themed\" UI designed to enhance teacher productivity and educational accessibility."
+            }
+        }
+    ],
+
+    // --- 7. EDUCATION ---
     education: [
         {
-            id: "edu-elt", // Unique ID
+            id: "edu-elt", 
             degree: { tr: "İngilizce Öğretmenliği", en: "English Language Teaching" },
             school: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
             date: { tr: "Lisans Derecesi", en: "Bachelor's Degree" },
@@ -136,8 +154,7 @@ const resumeData = {
         }
     ],
 
-    // --- 7. MASTER SKILLS LIST (Reverse Logic) ---
-    // Defines the skill ONCE, then targets the IDs where it should appear.
+    // --- 8. MASTER SKILLS LIST ---
     skills: [
         {
             category: { tr: "Teknoloji", en: "Technology" },
@@ -145,7 +162,7 @@ const resumeData = {
                 {
                     tr: "Eğitsel İçerik için Prompt Mühendisliği", 
                     en: "Prompt Engineering for Educational Content",
-                    targets: ["job-editor"]
+                    targets: ["job-editor", "proj-arc"]
                 },
                 {
                     tr: "Öğrenme Yönetim Sistemleri (LMS)", 
@@ -160,12 +177,12 @@ const resumeData = {
                 {
                     tr: "Eğitimde Yapay Zekâ", 
                     en: "Artificial Intelligence in Education",
-                    targets: ["edu-elt", "job-editor"]
+                    targets: ["edu-elt", "job-editor", "proj-arc"]
                 },
                 {
                     tr: "Eğitim Teknolojileri", 
                     en: "Educational Technology",
-                    targets: ["edu-elt"]
+                    targets: ["edu-elt", "proj-arc"]
                 }
             ]
         },
@@ -175,7 +192,7 @@ const resumeData = {
                 {
                     tr: "Öğretim Tasarımı & LXD", 
                     en: "Instructional Design & LXD",
-                    targets: ["job-teacher", "job-editor"]
+                    targets: ["job-teacher", "job-editor", "proj-arc"]
                 },
                 {
                     tr: "Sınıf Yönetimi", 
