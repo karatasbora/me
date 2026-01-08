@@ -26,32 +26,7 @@ function updateSEO(lang) {
     } catch (e) { console.warn("JSON-LD update failed", e); }
 }
 
-// --- 1.5. DYNAMIC FAVICON ---
-function updateFavicon() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 
-    // Light: Zinc-900 (#18181b), Indigo-500 (#6366f1)
-    // Dark:  Zinc-100 (#f4f4f5), Indigo-400 (#818cf8)
-    const mainColor = isDark ? '%23f4f4f5' : '%2318181b';
-    const accentColor = isDark ? '%23818cf8' : '%236366f1';
-
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-        <rect x="0" y="0" width="44" height="100" fill="${mainColor}"/>
-        <rect x="56" y="0" width="44" height="46" fill="${accentColor}"/>
-        <rect x="56" y="54" width="44" height="46" fill="${accentColor}"/>
-    </svg>`;
-
-    const faviconUrl = `data:image/svg+xml,${svg.trim()}`;
-
-    // Update existing link or create new one
-    let link = document.querySelector("link[rel~='icon']");
-    if (!link) {
-        link = document.createElement('link');
-        link.rel = 'icon';
-        document.head.appendChild(link);
-    }
-    link.href = faviconUrl;
-}
 
 // --- 2. MAIN RENDER FUNCTION (Improved UX) ---
 function renderResume(lang) {
@@ -294,11 +269,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 htmlElement.setAttribute('data-theme', 'dark');
                 localStorage.setItem('theme-preference', 'dark');
             }
-            updateFavicon();
+
         });
     }
 
-    updateFavicon();
+
 
     const mailLink = document.getElementById('link-email');
     if (mailLink) {

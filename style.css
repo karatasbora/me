@@ -256,7 +256,7 @@ header {
     top: 0;
     width: 44%;
     height: 100%;
-    background: var(--zinc-900);
+    background: var(--heading-color);
 }
 
 .frame-top-right {
@@ -265,7 +265,7 @@ header {
     right: 0;
     width: 44%;
     height: 46%;
-    background: var(--indigo-500);
+    background: var(--accent-color);
 }
 
 .frame-bottom-right {
@@ -274,7 +274,7 @@ header {
     right: 0;
     width: 44%;
     height: 46%;
-    background: var(--indigo-500);
+    background: var(--accent-color);
 }
 
 .profile-photo {
