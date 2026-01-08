@@ -26,6 +26,33 @@ function updateSEO(lang) {
     } catch (e) { console.warn("JSON-LD update failed", e); }
 }
 
+// --- 1.5. DYNAMIC FAVICON ---
+function updateFavicon() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+    // Light: Zinc-900 (#18181b), Indigo-500 (#6366f1)
+    // Dark:  Zinc-100 (#f4f4f5), Indigo-400 (#818cf8)
+    const mainColor = isDark ? '%23f4f4f5' : '%2318181b';
+    const accentColor = isDark ? '%23818cf8' : '%236366f1';
+
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <rect x="0" y="0" width="44" height="100" fill="${mainColor}"/>
+        <rect x="56" y="0" width="44" height="46" fill="${accentColor}"/>
+        <rect x="56" y="54" width="44" height="46" fill="${accentColor}"/>
+    </svg>`;
+
+    const faviconUrl = `data:image/svg+xml,${svg.trim()}`;
+
+    // Update existing link or create new one
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+    }
+    link.href = faviconUrl;
+}
+
 // --- 2. MAIN RENDER FUNCTION (Improved UX) ---
 function renderResume(lang) {
     // 1. CAPTURE SCROLL STATE to prevent jumping
@@ -38,7 +65,7 @@ function renderResume(lang) {
     document.getElementById('p-name').textContent = resumeData.profile.name;
     document.getElementById('p-title').textContent = resumeData.profile.title[lang];
     document.getElementById('p-location').textContent = resumeData.meta.location[lang];
-    
+
     const mailLink = document.getElementById('link-email');
     mailLink.textContent = resumeData.meta.email;
     mailLink.href = `mailto:${resumeData.meta.email}`;
@@ -46,10 +73,10 @@ function renderResume(lang) {
     const linkedinLink = document.getElementById('link-linkedin');
     linkedinLink.textContent = resumeData.meta.linkedinLabel;
     linkedinLink.href = resumeData.meta.linkedin;
-    
+
     // PDF Button
     const printBtn = document.getElementById('ui-print');
-    if(printBtn) printBtn.textContent = resumeData.ui.print[lang];
+    if (printBtn) printBtn.textContent = resumeData.ui.print[lang];
 
     // 3. MAIN CONTENT (Dynamic Generation)
     const mainHTML = resumeUtils.renderLayout(resumeData, lang);
@@ -65,7 +92,7 @@ function renderResume(lang) {
         if (scrollPos < 100) {
             const sections = mainContent.querySelectorAll('section');
             sections.forEach((section, index) => {
-                section.style.opacity = "0"; 
+                section.style.opacity = "0";
                 section.style.animation = `slideUp 0.6s ease-out ${(index + 1) * 0.1}s forwards`;
             });
         } else {
@@ -85,13 +112,13 @@ function renderResume(lang) {
     // 6. STATES & UI UPDATES
     document.getElementById('btn-tr').setAttribute('aria-pressed', lang === 'tr');
     document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
-    
+
     // Staggered animation for skill tags
     const skillTags = document.querySelectorAll('.skill-tag');
-    skillTags.forEach((tag, index) => { 
-        tag.style.animationDelay = `${(index + 1) * 0.05}s`; 
+    skillTags.forEach((tag, index) => {
+        tag.style.animationDelay = `${(index + 1) * 0.05}s`;
     });
-    
+
     document.body.classList.remove('lang-tr', 'lang-en');
     document.body.classList.add(`lang-${lang}`);
 }
@@ -111,7 +138,7 @@ function setupSkillNavigation() {
         if (e.target.classList.contains('skill-tag')) {
             e.preventDefault();
             e.stopPropagation(); // Stop propagation so 'A' doesn't immediately close it
-            
+
             const btn = e.target;
             const existing = document.querySelector('.nav-dropdown');
 
@@ -120,7 +147,7 @@ function setupSkillNavigation() {
                 // If clicking the SAME button that opened the current dropdown, close it (Toggle Off)
                 if (existing._triggerBtn === btn) {
                     existing.remove();
-                    return; 
+                    return;
                 }
                 // Otherwise, close the old one and proceed to open the new one
                 existing.remove();
@@ -134,7 +161,7 @@ function setupSkillNavigation() {
             let validTargets = targetIds.filter(id => id !== originId);
 
             // Back to Hub Logic
-            const summaryId = 'skills-list'; 
+            const summaryId = 'skills-list';
             if (originId !== 'summary' && originId !== summaryId) {
                 validTargets.push(summaryId);
             }
@@ -145,10 +172,10 @@ function setupSkillNavigation() {
             const dropdown = document.createElement('div');
             dropdown.className = 'nav-dropdown';
             dropdown._triggerBtn = btn; // Store reference to allow toggling later
-            
+
             const header = document.createElement('div');
             header.className = 'nav-dropdown-header';
-            
+
             const isTr = document.documentElement.lang === 'tr';
             header.innerText = isTr ? "Bağlantılar:" : "Connections:";
             dropdown.appendChild(header);
@@ -172,22 +199,22 @@ function setupSkillNavigation() {
                         ${role}
                         <span class="nav-context">${context}</span>
                     `;
-                    
+
                     item.onclick = () => {
                         targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
+
                         const originalTransition = targetEl.style.transition;
                         targetEl.style.transition = "background-color 0.5s ease";
-                        targetEl.style.backgroundColor = "rgba(108, 92, 231, 0.1)"; 
-                        
-                        setTimeout(() => { 
-                            targetEl.style.backgroundColor = "var(--card-bg)"; 
+                        targetEl.style.backgroundColor = "rgba(108, 92, 231, 0.1)";
+
+                        setTimeout(() => {
+                            targetEl.style.backgroundColor = "var(--card-bg)";
                             setTimeout(() => { targetEl.style.transition = originalTransition; }, 500);
                         }, 800);
-                        
+
                         dropdown.remove();
                     };
-                    
+
                     dropdown.appendChild(item);
                 }
             });
@@ -197,10 +224,10 @@ function setupSkillNavigation() {
             const rect = btn.getBoundingClientRect();
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-            
+
             dropdown.style.top = `${rect.bottom + scrollTop + 6}px`;
             dropdown.style.left = `${rect.left + scrollLeft}px`;
-            
+
             const dropdownRect = dropdown.getBoundingClientRect();
             if (dropdownRect.right > window.innerWidth) {
                 dropdown.style.left = 'auto';
@@ -221,7 +248,7 @@ function setupDescriptionToggles() {
 
         if (descriptionDiv) {
             const isExpanded = descriptionDiv.classList.contains('expanded');
-            
+
             if (isExpanded) {
                 descriptionDiv.classList.remove('expanded');
                 toggleBtn.setAttribute('aria-expanded', 'false');
@@ -267,8 +294,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 htmlElement.setAttribute('data-theme', 'dark');
                 localStorage.setItem('theme-preference', 'dark');
             }
+            updateFavicon();
         });
     }
+
+    updateFavicon();
 
     const mailLink = document.getElementById('link-email');
     if (mailLink) {
@@ -276,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const emailText = resumeData.meta.email;
             const isTr = document.documentElement.lang === 'tr';
-            
+
             navigator.clipboard.writeText(emailText).then(() => {
                 mailLink.setAttribute('data-copy-text', isTr ? "Kopyalandı!" : "Copied!");
                 mailLink.classList.add('copied');

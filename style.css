@@ -37,8 +37,9 @@
     --indigo-950: #1e1b4b;
 
     /* Semantic Mapping */
-    --bg-color: #ffffff;
-    --bg-alt: var(--zinc-50);
+    --bg-color: var(--zinc-50);
+    /* Darken bg slightly for card contrast */
+    --bg-alt: #ffffff;
     --primary-text: var(--zinc-950);
     --secondary-text: var(--zinc-500);
     --meta-color: var(--zinc-500);
@@ -305,7 +306,7 @@ header {
     background: none;
     border: 1px solid transparent;
     cursor: pointer;
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--zinc-500);
@@ -350,7 +351,7 @@ header {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
     transition: all 0.2s ease;
@@ -372,7 +373,7 @@ header {
 /* --- TYPOGRAPHY & TITLING --- */
 /* --- TYPOGRAPHY & TITLING --- */
 h1 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 2.75rem;
     color: var(--heading-color);
     margin: 0 0 12px 0;
@@ -400,7 +401,7 @@ h1 {
 }
 
 .contact-info {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 0.9rem;
     color: var(--primary-text);
 }
@@ -448,7 +449,7 @@ section {
 /* SECTION TITLES (The "Old Titling with Vertical Line") */
 /* SECTION TITLES */
 h2 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     color: var(--heading-color);
     border-left: 4px solid var(--accent-color);
     padding-left: 16px;
@@ -492,7 +493,7 @@ p {
 }
 
 .job-title {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--heading-color);
@@ -500,7 +501,7 @@ p {
 }
 
 .job-date {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 0.85rem;
     color: var(--meta-color);
     font-weight: 500;
@@ -516,14 +517,14 @@ p {
 }
 
 .company {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-weight: 500;
     color: var(--secondary-text);
     font-size: 0.95rem;
 }
 
 .location {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 0.75rem;
     color: var(--accent-color);
     font-weight: 600;
@@ -638,7 +639,7 @@ p {
     border: 1px solid var(--border-color);
     color: var(--secondary-text);
 
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 0.8rem;
     font-weight: 500;
 
@@ -701,13 +702,14 @@ p {
 
 .lang-title {
     font-weight: 600;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 0.95rem;
     display: block;
-    color: var(--zinc-900);
+    color: var(--heading-color);
 }
 
 .lang-level {
+    font-family: 'Outfit', sans-serif;
     font-size: 0.8rem;
     color: var(--meta-color);
     display: block;
@@ -798,6 +800,7 @@ a:hover {
     border-bottom: 1px solid var(--border-color);
     font-weight: 700;
     margin-bottom: 4px;
+    font-family: 'Outfit', sans-serif;
 }
 
 .nav-item {
@@ -806,8 +809,9 @@ a:hover {
     text-align: left;
     background: none;
     border: none;
+    font-family: 'Outfit', sans-serif;
     padding: 8px 16px;
-    font-family: 'Inter', sans-serif;
+
     font-size: 0.85rem;
     color: var(--primary-text);
     cursor: pointer;
