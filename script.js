@@ -15,14 +15,66 @@ function updateSEO(lang) {
     document.querySelector('meta[name="twitter:description"]').setAttribute('content', desc);
 
     // Update JSON-LD
+    updateJSONLD(lang);
+}
+
+function updateJSONLD(lang) {
     try {
         const jsonLdScript = document.getElementById('json-ld');
-        if (jsonLdScript) {
-            const schema = JSON.parse(jsonLdScript.textContent);
-            schema.jobTitle = jobTitle;
-            schema.description = desc;
-            jsonLdScript.textContent = JSON.stringify(schema, null, 2);
-        }
+        if (!jsonLdScript) return;
+
+        const isTr = lang === 'tr';
+
+        // Helper to get text based on lang
+        const getText = (obj) => obj[lang] || obj;
+
+        const schema = {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "WebSite",
+                    "name": "Bora Karataş",
+                    "url": "https://karatasbora.github.io/resume/"
+                },
+                {
+                    "@type": "ProfilePage",
+                    "name": resumeData.ui.documentTitle[lang],
+                    "url": "https://karatasbora.github.io/resume/",
+                    "mainEntity": {
+                        "@type": "Person",
+                        "name": resumeData.profile.name,
+                        "jobTitle": resumeData.ui.jobTitleShort[lang],
+                        "description": resumeData.ui.seoDesc[lang],
+                        "image": resumeData.meta.image,
+                        "url": "https://karatasbora.github.io/resume/",
+                        "sameAs": [
+                            resumeData.meta.linkedin,
+                            `mailto:${resumeData.meta.email}`
+                        ],
+                        "address": {
+                            "@type": "PostalAddress",
+                            "addressLocality": resumeData.meta.location[lang]
+                        },
+                        "worksFor": resumeData.experience.map(job => ({
+                            "@type": "Organization",
+                            "name": getText(job.company).split('|')[1]?.trim() || getText(job.company) // Extract Company Name if formatted
+                        })),
+                        "alumniOf": resumeData.education.map(edu => ({
+                            "@type": "EducationalOrganization",
+                            "name": getText(edu.school)
+                        })),
+                        "knowsAbout": resumeData.skills.flatMap(cat => cat.items.map(item => getText(item))).slice(0, 10), // Limit to top 10 for neatness
+                        "knowsLanguage": resumeData.languages.map(l => ({
+                            "@type": "Language",
+                            "name": getText(l.name),
+                            "additionalType": getText(l.level)
+                        }))
+                    }
+                }
+            ]
+        };
+
+        jsonLdScript.textContent = JSON.stringify(schema, null, 2);
     } catch (e) { console.warn("JSON-LD update failed", e); }
 }
 
