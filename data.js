@@ -170,7 +170,7 @@ const resumeData = {
             items: [
                 {
                     tr: "Yaratıcı YZ ve LLM'ler",
-                    en: "Gebnerative AI & LLMs",
+                    en: "Generative AI & LLMs",
                     targets: ["job-editor"]
                 },
                 {

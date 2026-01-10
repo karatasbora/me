@@ -92,6 +92,9 @@ h1 {
 /* --- SECTIONS --- */
 section {
     margin-bottom: 1.5rem;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
 }
 
 h2 {
