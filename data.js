@@ -100,8 +100,8 @@ const resumeData = {
                     url: "https://github.com/karatasbora/arc"
                 }
             ],
-            role: { tr: "arc", en: "arc – AI-Powered Educational Material Generator" },
-            company: { tr: "Yapay Zekâ Destekli Eğitim Materyali Üretici", en: "Full Stack Developer & LXD Lead" },
+            role: { tr: "arc – Yapay Zekâ Destekli Eğitim Materyali Üretici", en: "arc – AI-Powered Educational Material Generator" },
+            company: { tr: "Full Stack Geliştirici", en: "Full Stack Developer" },
             date: { tr: "2026", en: "2026" },
             location: { tr: "karatasbora.github.io/arc", en: "karatasbora.github.io/arc" },
             desc: {
@@ -259,7 +259,7 @@ const resumeData = {
                     targets: ["edu-erasmus"]
                 },
                 {
-                    tr: "İşbirliği",
+                    tr: "İş Birliği",
                     en: "Collaboration",
                     targets: ["job-editor"]
                 },
