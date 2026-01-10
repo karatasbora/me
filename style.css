@@ -1,141 +1,175 @@
 /* style.css */
 
-/* --- THE MODERN SAGE: COLOR PALETTE & LIGHTING --- */
+/* --- THE APPROACHABLE INNOVATOR: DESIGN SYSTEM --- */
 :root {
-    /* --- MODERN AI DESIGN SYSTEM --- */
+    /* --- PALETTE PRIMITIVES (Tailwind CSS) --- */
 
-    /* ZINC (Neutral) */
-    --zinc-50: #fafafa;
-    --zinc-100: #f4f4f5;
-    --zinc-200: #e4e4e7;
-    --zinc-300: #d4d4d8;
-    --zinc-400: #a1a1aa;
-    --zinc-500: #71717a;
-    --zinc-600: #52525b;
-    --zinc-700: #3f3f46;
-    --zinc-800: #27272a;
-    --zinc-900: #18181b;
-    --zinc-950: #09090b;
+    /* SLATE (Neutral) - Replaces Zinc */
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-300: #cbd5e1;
+    --slate-400: #94a3b8;
+    --slate-500: #64748b;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-800: #1e293b;
+    --slate-900: #0f172a;
+    --slate-950: #020617;
 
-    /* Selection */
-    ::selection {
-        background: var(--indigo-500);
-        color: white;
-    }
+    /* CYAN (Tech Accent) */
+    --cyan-50: #ecfeff;
+    --cyan-100: #cffafe;
+    --cyan-400: #22d3ee;
+    --cyan-500: #06b6d4;
+    --cyan-600: #0891b2;
+    --cyan-950: #083344;
 
-    /* INDIGO (Brand) */
-    --indigo-50: #eef2ff;
-    --indigo-100: #e0e7ff;
-    --indigo-200: #c7d2fe;
-    --indigo-300: #a5b4fc;
-    --indigo-400: #818cf8;
-    --indigo-500: #6366f1;
-    --indigo-600: #4f46e5;
-    --indigo-700: #4338ca;
-    --indigo-800: #3730a3;
-    --indigo-900: #312e81;
-    --indigo-950: #1e1b4b;
+    /* AMBER (Human Accent) */
+    --amber-50: #fffbeb;
+    --amber-100: #fef3c7;
+    --amber-400: #fbbf24;
+    --amber-500: #f59e0b;
+    --amber-600: #d97706;
+    --amber-950: #451a03;
 
-    /* Semantic Mapping */
-    --bg-color: var(--zinc-50);
-    /* Darken bg slightly for card contrast */
+    /* --- SEMANTIC MAPPING (Light Mode - "The Classroom") --- */
+    --bg-color: var(--slate-50);
     --bg-alt: #ffffff;
-    --primary-text: var(--zinc-950);
-    --secondary-text: var(--zinc-500);
-    --meta-color: var(--zinc-500);
-    /* Legacy alias */
-    --border-color: var(--zinc-200);
 
-    --accent-color: var(--indigo-500);
-    --accent-soft: var(--indigo-100);
+    --primary-text: var(--slate-900);
+    --secondary-text: var(--slate-500);
+    --meta-color: var(--slate-500);
 
-    --heading-color: var(--zinc-900);
+    --border-color: var(--slate-200);
 
-    --card-bg: #ffffff;
-    --card-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    /* shadow-sm */
-    --card-shadow-hover: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-    0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --accent-primary: var(--cyan-600);
+    /* Tech Links */
+    --accent-secondary: var(--amber-600);
+    /* Theory/Pedagogy */
 
+    /* Generic Accent Aliases for backward compatibility/simplicity */
+    --accent-color: var(--cyan-600);
+    --heading-color: var(--slate-900);
+
+    /* CARDS */
+    --card-bg: rgba(255, 255, 255, 0.7);
+    /* Glass base */
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --card-shadow-hover: 0 10px 15px -3px rgba(8, 145, 178, 0.1), 0 4px 6px -2px rgba(8, 145, 178, 0.05);
+    /* Cyan tint hover */
+
+    /* GLASSMORPHISM */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(226, 232, 240, 0.6);
+    --backdrop-blur: 12px;
+
+    /* RADIUS */
     --radius: 12px;
     --radius-sm: 6px;
 
-    --focus-ring: 0 0 0 2px var(--indigo-100),
-    0 0 0 4px var(--indigo-500);
+    /* INTERACTIVE */
+    --hover-bg: var(--slate-100);
+    --hover-text: var(--slate-900);
 
-    /* Interactive Elements */
-    --hover-bg: var(--zinc-100);
-    --hover-text: var(--zinc-900);
-
-    --btn-primary-bg: var(--zinc-900);
+    --btn-primary-bg: var(--slate-900);
     --btn-primary-text: #ffffff;
 
-    --link-color: var(--zinc-900);
-    --link-hover: var(--indigo-600);
+    --link-color: var(--slate-900);
+    --link-hover: var(--cyan-600);
 
-    --border-hover: var(--zinc-300);
+    --border-hover: var(--slate-300);
 
+    /* FOCUS RINGS */
+    --focus-ring-cyan: 0 0 0 2px var(--slate-50), 0 0 0 4px var(--cyan-400);
+    --focus-ring-amber: 0 0 0 2px var(--slate-50), 0 0 0 4px var(--amber-400);
+    --focus-ring: var(--focus-ring-cyan);
+    /* Default */
+
+    /* SCROLLBAR */
+    --scrollbar-track: var(--slate-50);
+    --scrollbar-thumb: var(--slate-300);
+    --scrollbar-thumb-hover: var(--slate-400);
+
+    /* TAGS */
+    --tag-bg: #ffffff;
     --tag-hover-bg: #ffffff;
-    --tag-hover-text: var(--indigo-600);
-    --tag-hover-border: var(--indigo-500);
+    --tag-hover-text: var(--cyan-600);
+    --tag-hover-border: var(--cyan-500);
+
+    /* SELECTION */
+    ::selection {
+        background: var(--cyan-100);
+        color: var(--cyan-950);
+    }
 }
 
-/* --- DARK MODE --- */
-/* --- DARK MODE --- */
-/* --- DARK MODE --- */
+/* --- DARK MODE ("The IDE") --- */
 [data-theme="dark"] {
     color-scheme: dark;
-    /* Updates scrollbars and system UI */
 
-    --bg-color: var(--zinc-950);
-    --bg-alt: var(--zinc-900);
+    --bg-color: var(--slate-950);
+    --bg-alt: var(--slate-900);
 
-    --primary-text: var(--zinc-50);
-    --secondary-text: var(--zinc-400);
-    --meta-color: var(--zinc-400);
-    /* Legacy alias */
+    --primary-text: var(--slate-100);
+    /* Soft white */
+    --secondary-text: var(--slate-400);
+    --meta-color: var(--slate-400);
 
+    --border-color: var(--slate-800);
+
+    --accent-primary: var(--cyan-400);
+    --accent-secondary: var(--amber-400);
+
+    --accent-color: var(--cyan-400);
     --heading-color: #ffffff;
-    --border-color: var(--zinc-800);
 
-    --card-bg: var(--zinc-900);
+    /* CARDS */
+    --card-bg: rgba(15, 23, 42, 0.6);
+    /* Slate-900 glass */
     --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    /* Cyan Glow on Hover */
+    --card-shadow-hover: 0 10px 30px -5px rgba(34, 211, 238, 0.15);
 
-    --accent-color: var(--indigo-400);
-    --accent-soft: rgba(99, 102, 241, 0.15);
-    /* indigo-500 at 15% */
+    /* GLASS */
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(51, 65, 85, 0.5);
 
-    /* Interactive Overrides */
-    --hover-bg: var(--zinc-800);
-    --hover-text: var(--zinc-50);
+    /* INTERACTIVE */
+    --hover-bg: var(--slate-800);
+    --hover-text: var(--slate-100);
 
-    --btn-primary-bg: var(--zinc-100);
-    --btn-primary-text: var(--zinc-950);
+    --btn-primary-bg: var(--slate-100);
+    --btn-primary-text: var(--slate-950);
 
-    --link-color: var(--zinc-50);
-    --link-hover: var(--indigo-400);
+    --link-color: var(--slate-50);
+    --link-hover: var(--cyan-400);
 
-    --border-hover: var(--zinc-600);
+    --border-hover: var(--slate-600);
 
-    --tag-hover-bg: var(--zinc-800);
-    --tag-hover-text: var(--indigo-300);
-    --tag-hover-border: var(--indigo-400);
+    /* FOCUS */
+    --focus-ring-cyan: 0 0 0 2px var(--slate-950), 0 0 0 4px var(--cyan-400);
+    --focus-ring-amber: 0 0 0 2px var(--slate-950), 0 0 0 4px var(--amber-400);
+    --focus-ring: var(--focus-ring-cyan);
+
+    /* SCROLLBAR */
+    --scrollbar-track: var(--slate-950);
+    --scrollbar-thumb: var(--slate-700);
+    --scrollbar-thumb-hover: var(--slate-500);
+
+    /* TAGS */
+    --tag-bg: var(--slate-900);
+    --tag-hover-bg: var(--slate-800);
+    --tag-hover-text: var(--cyan-400);
+    --tag-hover-border: var(--cyan-400);
+
+    ::selection {
+        background: var(--cyan-950);
+        color: var(--cyan-100);
+    }
 }
 
-/* Transitions for smooth toggle */
-body,
-.job-block,
-.skill-tag,
-.download-btn,
-.btn-icon,
-a,
-header,
-.frame-left,
-.frame-top-right,
-.frame-bottom-right {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
-}
-
+/* --- BASE STYLES --- */
 body {
     font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-color);
@@ -145,79 +179,79 @@ body {
     margin: 40px auto;
     padding: 60px;
     min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    /* "Grid & Glow" Background Texture */
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.05) 0%, transparent 20%),
+        /* Cyan Glow Left */
+        radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.05) 0%, transparent 20%),
+        /* Amber Glow Right */
+        radial-gradient(var(--border-color) 1px, transparent 1px);
+    /* Dot Grid */
+    background-size: 100% 100%, 100% 100%, 24px 24px;
+    /* Grid Size */
+    background-attachment: fixed;
 }
 
-/* Remove Textures */
-body::before,
-body::after {
-    display: none;
+[data-theme="dark"] body {
+    /* Dark mode glows slightly stronger */
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(34, 211, 238, 0.08) 0%, transparent 25%),
+        radial-gradient(circle at 90% 80%, rgba(251, 191, 36, 0.08) 0%, transparent 25%),
+        radial-gradient(var(--slate-800) 1px, transparent 1px);
 }
 
-/* Image Brightness in Dark Mode */
-[data-theme="dark"] img {
-    filter: brightness(0.85);
-    transition: filter 0.3s ease;
+/* GLOBAL TRANSITIONS */
+header,
+.job-block,
+.skill-tag,
+.btn-icon,
+a,
+.download-btn {
+    transition: all 0.3s ease;
 }
 
-/* --- ACCESSIBILITY --- */
-button:focus-visible,
-a:focus-visible {
-    outline: var(--focus-ring);
-    outline-offset: 2px;
+/* --- TYPOGRAPHY --- */
+h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 2.75rem;
+    color: var(--heading-color);
+    margin: 0 0 12px 0;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
 }
 
-/* --- ANIMATIONS --- */
-@keyframes simpleFade {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+h2 {
+    font-family: 'Inter', sans-serif;
+    color: var(--heading-color);
+    border-left: 4px solid var(--accent-primary);
+    /* Cyan by default */
+    padding-left: 16px;
+    margin: 3rem 0 1.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
 }
 
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
+/* Alternating Border Colors for Sections can be added via JS or specific IDs, 
+   but for now defaulting to Tech (Cyan) for clean look, 
+   or we can use Amber for Education/About */
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+#ui-about,
+#ui-education {
+    border-left-color: var(--accent-secondary);
+    /* Amber for Human/Edu sections */
 }
 
-@keyframes tagFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+p {
+    margin-bottom: 1rem;
+    text-align: justify;
+    color: var(--primary-text);
 }
 
-header {
-    animation: simpleFade 0.8s ease-out forwards;
-    opacity: 0;
-}
-
-section {
-    opacity: 0;
-    transform: translateY(15px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* --- HEADER --- */
+/* --- HEADER & PROFILE --- */
 header {
     display: flex;
     align-items: center;
@@ -226,110 +260,88 @@ header {
     padding-bottom: 25px;
     border-bottom: 2px solid var(--border-color);
     position: relative;
-    min-width: 0;
+
+    /* Glass Header Panel */
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(var(--backdrop-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 30px;
+    box-shadow: var(--card-shadow);
 }
 
 .profile-container {
     position: relative;
-    height: 5.2lh;
-    aspect-ratio: 1 / 1;
+    height: 120px;
+    width: 120px;
     flex-shrink: 0;
-    padding: 4px;
-    box-sizing: border-box;
-    transition: transform 0.3s ease;
-}
-
-.profile-container:hover {
-    transform: scale(1.03);
-}
-
-/* FRAME */
-.favicon-frame {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-}
-
-.frame-left {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 62%;
-    height: 100%;
-    background: #2C3E50;
-    border-radius: var(--radius) 0 0 var(--radius);
-}
-
-.frame-top-right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 34%;
-    height: 62%;
-    background: #6C5CE7;
-    border-radius: 0 var(--radius) 0 0;
-}
-
-.frame-bottom-right {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 34%;
-    height: 34%;
-    background: #6C5CE7;
-    border-radius: 0 0 var(--radius) 0;
 }
 
 .profile-photo {
-    position: relative;
-    z-index: 1;
     width: 100%;
     height: 100%;
-    background: #111;
+    border-radius: var(--radius);
     overflow: hidden;
-    box-shadow: 0 14px 36px rgba(0, 0, 0, .65);
-    border-radius: calc(var(--radius) - 4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Removing old Frame elements as they conflict with new clean style */
+.favicon-frame {
+    display: none;
 }
 
 .header-text {
     flex-grow: 1;
-    width: 100%;
+}
+
+.headline {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    color: var(--accent-primary);
+    /* Tech Cyan */
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.contact-info {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+}
+
+.contact-link:hover {
+    color: var(--accent-primary);
+    border-bottom-color: var(--accent-primary);
 }
 
 /* --- CONTROLS --- */
 .controls {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 20px;
+    right: 20px;
     display: flex;
-    align-items: center;
     gap: 8px;
 }
 
 .btn-icon {
-    background: none;
+    background: transparent;
     border: 1px solid transparent;
     cursor: pointer;
     font-family: 'Outfit', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--zinc-500);
-    padding: 6px 8px;
+    color: var(--slate-500);
+    padding: 6px;
     border-radius: var(--radius-sm);
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btn-icon:hover {
-    color: var(--hover-text);
     background-color: var(--hover-bg);
-}
-
-.btn-icon[aria-pressed="true"] {
-    color: var(--btn-primary-text);
-    background-color: var(--btn-primary-bg);
+    color: var(--accent-primary);
 }
 
 #sun-icon {
@@ -350,144 +362,43 @@ header {
     border: none;
     border-radius: var(--radius-sm);
     padding: 8px 16px;
-    margin-left: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 8px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-left: 10px;
 }
 
 .download-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.download-btn svg {
-    width: 16px;
-    height: 16px;
-    fill: currentColor;
-}
-
-/* --- TYPOGRAPHY & TITLING --- */
-/* --- TYPOGRAPHY & TITLING --- */
-h1 {
-    font-family: 'Inter', sans-serif;
-    font-size: 2.75rem;
-    color: var(--heading-color);
-    margin: 0 0 12px 0;
-    font-weight: 700;
-    line-height: 1.1;
-    padding-right: 0;
-    letter-spacing: -0.02em;
-}
-
-#p-name {
-    font-family: 'Inter', sans-serif;
-    letter-spacing: -0.04em;
-    /* Tight tracking for brand feel */
-    font-weight: 700;
-}
-
-.headline {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.1rem;
-    color: var(--accent-color);
-    font-weight: 500;
-    margin-bottom: 24px;
-    letter-spacing: normal;
-    text-transform: none;
-}
-
-.contact-info {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.9rem;
-    color: var(--primary-text);
-}
-
-.contact-link {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.3s ease;
-}
-
-.contact-link:hover {
-    color: var(--accent-color);
-    border-bottom-color: var(--accent-color);
-}
-
-.contact-link.copied {
-    color: transparent !important;
-    border-bottom-color: transparent !important;
-}
-
-.contact-link.copied::after {
-    content: attr(data-copy-text);
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--accent-color) !important;
-    font-weight: bold;
-    white-space: nowrap;
-    background-color: var(--bg-color);
-    padding: 0 5px;
-}
-
-.contact-info .sep {
-    margin: 0 8px;
-    color: var(--border-color);
-}
-
-section {
-    margin-bottom: 3rem;
-}
-
-/* SECTION TITLES (The "Old Titling with Vertical Line") */
-/* SECTION TITLES */
-h2 {
-    font-family: 'Inter', sans-serif;
-    color: var(--heading-color);
-    border-left: 4px solid var(--accent-color);
-    padding-left: 16px;
-    margin: 3rem 0 1.5rem 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-}
-
-p {
-    margin-bottom: 1rem;
-    text-align: justify;
-    color: var(--primary-text);
-    opacity: 0.9;
-}
-
-/* --- JOB CARDS & TIMELINE --- */
+/* --- JOB CARDS (Glassmorphism) --- */
 .job-block {
     background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
+    backdrop-filter: blur(var(--backdrop-blur));
+    border: 1px solid var(--glass-border);
+    /* Delicate border */
     border-radius: var(--radius);
     padding: 24px;
     margin-bottom: 24px;
     box-shadow: var(--card-shadow);
-    page-break-inside: avoid;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    scroll-margin-top: 100px;
+    transition: all 0.3s ease;
 }
 
 .job-block:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     box-shadow: var(--card-shadow-hover);
-    border-color: var(--border-hover);
+    border-color: var(--accent-primary);
+    /* Cyan hint on hover */
 }
+
+/* Accent Color Variations for Cards based on IDs/Context (Optional advanced logic) 
+   But keeping it consistent per design doc first. */
 
 .job-header {
     display: flex;
@@ -501,7 +412,6 @@ p {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--heading-color);
-    letter-spacing: -0.01em;
 }
 
 .job-date {
@@ -510,7 +420,6 @@ p {
     color: var(--meta-color);
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
 }
 
 .job-subheader {
@@ -524,75 +433,64 @@ p {
     font-family: 'Outfit', sans-serif;
     font-weight: 500;
     color: var(--secondary-text);
-    font-size: 0.95rem;
 }
 
 .location {
     font-family: 'Outfit', sans-serif;
     font-size: 0.75rem;
-    color: var(--accent-color);
+    color: var(--accent-primary);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
 
-/* TIMELINE CONTAINER */
+/* TIMELINE & DESCRIPTION */
 .job-content {
     position: relative;
     border-left: 2px solid var(--border-color);
     padding-left: 24px;
     margin-left: 4px;
-    min-height: 20px;
 }
 
-/* TIMELINE NODE (Toggle Button) */
 .desc-toggle {
     position: absolute;
     left: -13px;
-    /* Center on 2px border */
     top: -2px;
-
     width: 24px;
     height: 24px;
     border-radius: 50%;
-
-    background-color: var(--card-bg);
+    background-color: var(--bg-alt);
+    /* Opaque bg needed for line hiding */
     border: 1px solid var(--border-color);
     color: var(--meta-color);
-
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0;
-
     cursor: pointer;
-    transition: all 0.2s ease;
+    padding: 0;
     z-index: 2;
 }
 
 .desc-toggle:hover {
-    color: var(--accent-color);
-    border-color: var(--accent-color);
-    background-color: var(--card-bg);
-    transform: scale(1.1);
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
 }
 
 .desc-toggle[aria-expanded="true"] {
-    border-color: var(--accent-color);
-    color: var(--accent-color);
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
 }
 
 .chevron-icon {
     width: 14px;
     height: 14px;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s ease;
 }
 
 .desc-toggle[aria-expanded="true"] .chevron-icon {
     transform: rotate(180deg);
 }
 
-/* ACCORDION */
 .job-description {
     display: grid;
     grid-template-rows: 0fr;
@@ -607,27 +505,7 @@ p {
     overflow: hidden;
 }
 
-.desc-inner p {
-    margin: 0;
-    line-height: 1.6;
-    color: var(--primary-text);
-    opacity: 0.9;
-}
-
-/* BRANDING TAGS */
-.branding-tags {
-    margin-top: 10px;
-    margin-bottom: 0;
-    padding-top: 0;
-    border-top: none;
-}
-
-.branding-tags .tags-wrapper {
-    margin-top: 0;
-}
-
-/* SKILL TAGS */
-/* SKILL TAGS */
+/* --- TAGS --- */
 .tags-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -636,60 +514,25 @@ p {
 }
 
 .skill-tag {
-    appearance: none;
-    -webkit-appearance: none;
-    background: var(--bg-alt);
-    /* Zinc-50 */
+    background: var(--tag-bg);
     border: 1px solid var(--border-color);
     color: var(--secondary-text);
-
     font-family: 'Outfit', sans-serif;
     font-size: 0.8rem;
     font-weight: 500;
-
     padding: 6px 12px;
     border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: all 0.2s ease;
-    opacity: 0;
-    animation: tagFadeIn 0.5s ease-out forwards;
 }
 
-.skill-tag:hover,
-.skill-tag:focus {
-    background-color: var(--tag-hover-bg);
-    border-color: var(--tag-hover-border);
+.skill-tag:hover {
     color: var(--tag-hover-text);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-color: var(--tag-hover-border);
     transform: translateY(-1px);
-    outline: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* SKILLS CATEGORIES (Matched Titles) */
-.skills-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding-bottom: 30px;
-}
-
-.skill-category {
-    page-break-inside: avoid;
-}
-
-.skill-category-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: var(--meta-color);
-    margin: 0 0 10px 0;
-    display: inline-block;
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-/* LANGUAGES */
+/* --- LANGUAGES & SKILLS --- */
 .lang-grid {
     display: flex;
     gap: 20px;
@@ -700,16 +543,17 @@ p {
     flex: 1;
     background: var(--tag-bg);
     padding: 10px 15px;
-    border-radius: 4px;
-    border-left: 3px solid var(--accent-color);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--accent-primary);
 }
 
 .lang-title {
     font-weight: 600;
     font-family: 'Inter', sans-serif;
     font-size: 0.95rem;
-    display: block;
     color: var(--heading-color);
+    display: block;
 }
 
 .lang-level {
@@ -720,59 +564,24 @@ p {
     margin-top: 4px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 600px) {
-    header {
-        flex-wrap: wrap;
-        text-align: center;
-        justify-content: center;
-    }
-
-    .controls {
-        position: relative;
-        width: 100%;
-        justify-content: center;
-        order: -1;
-        margin-bottom: 15px;
-        top: auto;
-        right: auto;
-    }
-
-    h1 {
-        padding-right: 0;
-    }
-
-    .header-text {
-        width: 100%;
-    }
-
-    .job-header,
-    .job-subheader {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .job-date,
-    .location {
-        margin-top: 5px;
-    }
-
-    .lang-grid {
-        flex-direction: column;
-        gap: 10px;
-    }
+.skill-category-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--meta-color);
+    margin: 0 0 10px 0;
 }
 
-/* LINKS */
+.skills-container {
+    gap: 25px;
+}
+
+/* --- LINKS --- */
 a {
     color: var(--link-color);
     text-decoration: none;
-    border-bottom: 1px solid var(--zinc-300);
-    transition: all 0.2s;
-}
-
-[data-theme="dark"] a {
-    border-bottom-color: var(--zinc-700);
+    border-bottom: 1px solid var(--border-color);
 }
 
 a:hover {
@@ -780,95 +589,60 @@ a:hover {
     border-bottom-color: var(--link-hover);
 }
 
-/* DROPDOWN */
-.nav-dropdown {
-    position: absolute;
-    z-index: 1000;
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    min-width: 220px;
-    padding: 8px 0;
-    margin-top: 8px;
-    opacity: 0;
-    transform: translateY(-10px);
-    animation: simpleFade 0.2s forwards;
+/* --- ACCESSIBILITY --- */
+button:focus-visible,
+a:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
 }
 
-.nav-dropdown-header {
-    padding: 4px 16px 8px;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    color: var(--meta-color);
-    border-bottom: 1px solid var(--border-color);
-    font-weight: 700;
-    margin-bottom: 4px;
-    font-family: 'Outfit', sans-serif;
-}
-
-.nav-item {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: none;
-    border: none;
-    font-family: 'Outfit', sans-serif;
-    padding: 8px 16px;
-
-    font-size: 0.85rem;
-    color: var(--primary-text);
-    cursor: pointer;
-    transition: background 0.1s;
-    text-decoration: none !important;
-    border-bottom: none !important;
-}
-
-.nav-item:hover {
-    background-color: var(--bg-color);
-    color: var(--accent-color);
-}
-
-.nav-item .nav-context {
-    display: block;
-    font-size: 0.7rem;
-    color: var(--meta-color);
-    margin-top: 2px;
-}
-
-/* PRINT SETTINGS */
-
-
-/* --- UNIVERSAL SCROLLBAR --- */
-/* Works for Chrome, Edge, Safari, and newer Firefox */
-
+/* --- SCROLLBAR --- */
 ::-webkit-scrollbar {
-    width: 12px;
-    /* Width of the vertical scrollbar */
+    width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--bg-color);
-    /* Matches the page background dynamically */
+    background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--border-color);
-    /* Subtle default state */
+    background-color: var(--scrollbar-thumb);
     border-radius: 20px;
-    /* Pill shape */
-    border: 3px solid var(--bg-color);
-    /* Creates a "floating" effect */
-    transition: background-color 0.3s ease;
+    border: 3px solid var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--meta-color);
-    /* Darker/More visible on hover */
+    background-color: var(--scrollbar-thumb-hover);
 }
 
-/* Firefox Specific (Standard Property) */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--border-color) var(--bg-color);
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+    body {
+        padding: 20px;
+    }
+
+    header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .controls {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    .job-header,
+    .job-subheader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .lang-grid {
+        flex-direction: column;
+    }
 }
