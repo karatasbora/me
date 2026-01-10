@@ -1,25 +1,25 @@
 /* print.css */
 
-/* --- MODERN PRINT RESUME --- */
+/* --- MODERN PRINT RESUME - MINIMALIST --- */
 
 @page {
-    margin: 1.25cm;
+    margin: 0.75cm;
     size: auto;
 }
 
 :root {
     --print-black: #000000;
-    --print-dark: #1f2937;
-    --print-gray: #4b5563;
-    --print-light: #9ca3af;
+    --print-dark: #111827;
+    --print-gray: #374151;
+    --print-light: #6b7280;
     --print-border: #e5e7eb;
 }
 
 /* Reset & Base */
 body {
     font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 10pt;
-    line-height: 1.5;
+    font-size: 9.5pt;
+    line-height: 1.4;
     color: var(--print-dark);
     background: white;
     margin: 0;
@@ -48,8 +48,8 @@ header {
     justify-content: space-between;
     align-items: flex-start;
     border-bottom: 2px solid var(--print-black);
-    padding-bottom: 1.5rem;
-    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
 }
 
 .header-text {
@@ -58,29 +58,29 @@ header {
 
 h1 {
     font-family: 'Inter', sans-serif;
-    font-size: 24pt;
+    font-size: 20pt;
     font-weight: 800;
     color: var(--print-black);
-    margin: 0 0 0.25rem 0;
-    line-height: 1.1;
+    margin: 0 0 0.1rem 0;
+    line-height: 1;
     letter-spacing: -0.02em;
 }
 
 .headline {
     font-family: 'Outfit', sans-serif;
-    font-size: 11pt;
+    font-size: 10pt;
     font-weight: 500;
     color: var(--print-gray);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
 .contact-info {
     font-family: 'Outfit', sans-serif;
-    font-size: 9pt;
+    font-size: 8.5pt;
     color: var(--print-dark);
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 .contact-info a {
@@ -91,7 +91,7 @@ h1 {
 
 /* --- SECTIONS --- */
 section {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
@@ -99,14 +99,14 @@ section {
 
 h2 {
     font-family: 'Inter', sans-serif;
-    font-size: 14pt;
+    font-size: 12pt;
     font-weight: 700;
     color: var(--print-black);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     border-bottom: 1px solid var(--print-border);
-    padding-bottom: 0.25rem;
-    margin: 0 0 1rem 0;
+    padding-bottom: 0.15rem;
+    margin: 0 0 0.75rem 0;
 }
 
 #about-list p {
@@ -117,7 +117,10 @@ h2 {
 
 /* --- JOBS --- */
 .job-block {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.75rem;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
     page-break-inside: avoid;
 }
 
@@ -125,19 +128,19 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.1rem;
 }
 
 .job-title {
     font-family: 'Inter', sans-serif;
-    font-size: 11pt;
+    font-size: 10.5pt;
     font-weight: 700;
     color: var(--print-black);
 }
 
 .job-date {
     font-family: 'Outfit', sans-serif;
-    font-size: 9pt;
+    font-size: 8.5pt;
     font-weight: 600;
     color: var(--print-black);
 }
@@ -145,9 +148,9 @@ h2 {
 .job-subheader {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     font-family: 'Outfit', sans-serif;
-    font-size: 9pt;
+    font-size: 8.5pt;
 }
 
 .company {
@@ -158,79 +161,102 @@ h2 {
 .location {
     color: var(--print-light);
     font-weight: 500;
-    font-size: 8pt;
+    font-size: 7.5pt;
 }
 
 .job-content {
-    border-left: 2px solid var(--print-border);
-    padding-left: 1rem;
-    margin-left: 2px;
+    border-left: none;
+    /* Removed border */
+    padding-left: 0;
+    /* Removed padding */
+    margin-left: 0;
 }
 
 .job-description {
     display: block !important;
-    /* Force expand */
     grid-template-rows: 1fr !important;
 }
 
 .desc-inner p {
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.25rem 0;
     color: var(--print-dark);
-    font-size: 9.5pt;
+    font-size: 9pt;
 }
 
 /* --- TAGS & SKILLS --- */
 .tags-wrapper {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 0.25rem;
+    gap: 3px;
+    /* Tighter gap */
+    margin-top: 0.1rem;
 }
 
 .skill-tag {
     font-family: 'Outfit', sans-serif;
-    font-size: 8pt;
+    font-size: 7.5pt;
     font-weight: 500;
-    color: var(--print-dark);
+    color: var(--print-gray);
     background: transparent;
-    border: 1px solid var(--print-border);
-    padding: 2px 6px;
-    border-radius: 4px;
+    border: none;
+    /* No border for minimalism */
+    padding: 0;
+    /* No padding, just text list look */
+    margin-right: 0.5rem;
+    /* Space between text items */
+    border-radius: 0;
     opacity: 1;
+}
+
+.skill-tag::after {
+    content: "·";
+    margin-left: 0.5rem;
+    color: var(--print-light);
+}
+
+.skill-tag:last-child::after {
+    content: "";
+    /* Remove dot on last item */
 }
 
 /* --- SKILLS SECTION GRID --- */
 .skills-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
+}
+
+.skill-category {
+    margin-bottom: 0;
 }
 
 .skill-category-title {
     font-family: 'Inter', sans-serif;
-    font-size: 10pt;
+    font-size: 9pt;
     font-weight: 700;
     color: var(--print-black);
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.25rem 0;
 }
 
 /* --- LANGUAGES --- */
 .lang-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    border-top: 1px solid var(--print-border);
-    padding-top: 1rem;
+    gap: 0.75rem;
+    border-top: none;
+    /* Cleaner look */
+    padding-top: 0.5rem;
 }
 
 .lang-item {
-    border-left: 3px solid var(--print-gray);
-    padding-left: 0.75rem;
+    border-left: 2px solid var(--print-border);
+    /* Thinner border */
+    padding-left: 0.5rem;
 }
 
 .lang-title {
     font-family: 'Inter', sans-serif;
-    font-size: 9pt;
+    font-size: 8.5pt;
     font-weight: 700;
     display: block;
     color: var(--print-black);
@@ -238,7 +264,7 @@ h2 {
 
 .lang-level {
     font-family: 'Outfit', sans-serif;
-    font-size: 8pt;
+    font-size: 7.5pt;
     color: var(--print-gray);
     display: block;
 }
@@ -252,5 +278,4 @@ a {
 /* Clean URL display for print */
 a[href^="http"]::after {
     content: none;
-    /* Modern choice: don't clutter. Most PDFs are digital anyway. */
 }
