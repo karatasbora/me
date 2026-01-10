@@ -26,12 +26,12 @@ const resumeData = {
             en: "Bora Karataş - Resume"
         },
         seoDesc: {
-            tr: "Eğitim Uzmanı & İçerik Editörü | Yapay Zekâ Destekli Öğretim Tasarımı | ELT · EdTech · Erişilebilir & İnsan Merkezli Eğitim",
+            tr: "Yenilikçi Eğitim Uzmanı & Öğretim Teknoloğu | YZ Destekli Öğretim Tasarımı | ELT · EdTech · Erişilebilir & İnsan Merkezli Eğitim",
             en: "Innovative Education Specialist & Instructional Technologist | AI-Supported Instructional Design | ELT · EdTech · Accessible & Human-Centered Education"
         },
         jobTitleShort: {
-            tr: "Eğitim Uzmanı & İçerik Editörü",
-            en: "Innovative Education Specialist and Instructional Technologist"
+            tr: "Yenilikçi Eğitim Uzmanı & Öğretim Teknoloğu",
+            en: "Innovative Education Specialist & Instructional Technologist"
         }
     },
 
@@ -51,12 +51,12 @@ const resumeData = {
     profile: {
         name: "Bora Karataş",
         title: {
-            tr: "Eğitim Uzmanı & İçerik Editörü | Yapay Zekâ Destekli Öğretim Tasarımı | ELT · EdTech · Erişilebilir & İnsan Merkezli Eğitim",
+            tr: "Yenilikçi Eğitim Uzmanı & Öğretim Teknoloğu | YZ Destekli Öğretim Tasarımı | ELT · EdTech · Erişilebilir & İnsan Merkezli Eğitim",
             en: "Innovative Education Specialist & Instructional Technologist | AI-Supported Instructional Design | ELT · EdTech · Accessible & Human-Centered Education"
         },
         about: {
-            tr: "Yapay zekâ ve eğitim teknolojileriyle desteklenen, erişilebilir ve insan odaklı öğrenme deneyimlerinin tasarımı konusunda uzmanlaşmış bir eğitim profesyoneliyim. Yükseköğretim ve kamu eğitimi bağlamlarında içerik stratejisi, öğretim tasarımı ve dijital dönüşüm alanlarında deneyime sahibim. Küresel sürdürülebilirlik ve eşitlik hedefleriyle uyumlu, kapsayıcı, etik ve öğrenen merkezli eğitimi ilerletmeye kararlıyım. Teknolojiyi, kendi başına bir amaç olarak değil; keşif, eleştirel düşünme ve yaşam boyu öğrenmeyi mümkün kılan bir araç olarak ele alırım.",
-            en: "Forward-thinking educator bridging the gap between pedagogy and artificial intelligence. Expert in developing inclusive, AI-supported learning experiences and accessible digital content. Proven track record in full-stack educational tool development (React, Gemini API) and prompt engineering. Committed to human-centered design that leverages technology to foster critical thinking and global citizenship."
+            tr: "Pedagoji ile yapay zekâ arasındaki bağı güçlendirmeyi amaçlayan ileri görüşlü bir eğitimciyim. Yapay zekâ destekli öğrenme deneyimleri ve erişilebilir dijital içerikler geliştirme konusunda uzmanlaşmış, insan odaklı tasarım anlayışını temel alan bir yaklaşım benimsiyorum. React ve Gemini API ile tam kapsamlı eğitim araçları geliştirme, prompt engineering ve öğrenme teknolojilerini pedagojik prensiplerle bütünleştirme alanlarında güçlü bir deneyime sahibim. Teknolojiyi, eleştirel düşünmeyi teşvik eden, kapsayıcı ve küresel vatandaşlığı destekleyen öğrenme ortamları oluşturmak için stratejik ve bilinçli bir biçimde kullanmayı hedefliyorum.",
+            en: "I am a forward-thinking educator dedicated to strengthening the relationship between pedagogy and artificial intelligence. I specialize in developing AI-supported learning experiences and accessible digital content, guided by a human-centered design philosophy. With strong experience in full-stack educational tool development using React and the Gemini API, as well as prompt engineering and the integration of learning technologies with pedagogical principles, I work to create inclusive learning environments that foster critical thinking and global citizenship. My goal is to leverage technology thoughtfully and strategically to empower learners and enhance educational impact."
         }
     },
 
@@ -69,8 +69,8 @@ const resumeData = {
             date: { tr: "ARALIK 2022 - HALEN", en: "DEC 2022 - PRESENT" },
             location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
             desc: {
-                tr: "Kurumsal dijital dönüşüm girişimlerine katkı sağlayarak durağan öğretim materyallerinin etkileşimli ve kapsayıcı dijital öğrenme deneyimlerine dönüştürülmesi üzerinde çalışıyorum. Evrensel tasarım ve erişilebilirlik ilkelerine bağlı kalarak, editoryal verimliliği, tutarlılığı ve ölçeklenebilirliği artırmak için içerik geliştirme iş akışlarına Üretken Yapay Zekâ (LLM) araçlarını entegre ediyorum. Çok disiplinli ekiplerle iş birliği içinde çalışarak dijital platformlarda öğrenen etkileşimini artırıyor ve farklı öğrenme ihtiyaçlarını destekliyorum.",
-                en: "Develop and edit interactive digital learning materials, transforming static instructional content into accessible formats for university platforms. Integrate Generative AI (LLM) tools into daily editorial workflows to improve the efficiency and consistency of content production. Collaborate with multidisciplinary teams to ensure all digital content meets accessibility standards and supports diverse learner needs."
+                tr: "Üniversite platformlarında kullanılan öğretim materyallerini erişilebilir ve etkileşimli dijital içeriklere dönüştürüyorum. Üretken yapay zekâ araçlarını editoryal süreçlere entegre ederek içerik üretiminde verimlilik, tutarlılık ve kaliteyi artırmaya odaklanıyorum. Disiplinlerarası ekiplerle birlikte çalışarak hem erişilebilirlik standartlarına uygun hem de farklı öğrenen profillerine hitap eden materyaller geliştirilmesine katkı sağlıyorum.",
+                en: "I transform instructional materials into accessible and interactive digital learning resources used across university platforms. I integrate generative AI tools into editorial workflows to enhance efficiency, consistency, and quality in content production. Working collaboratively with interdisciplinary teams, I contribute to the creation of materials that meet accessibility standards and support diverse learner needs."
             }
         },
         {
@@ -80,8 +80,8 @@ const resumeData = {
             date: { tr: "EYLÜL 2025 - ARALIK 2025", en: "SEP 2025 - DEC 2025" },
             location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
             desc: {
-                tr: "Ezbere dayalı dilbilgisi öğretimi yerine iletişim, eleştirel düşünme ve gerçek yaşamda dil kullanımını merkeze alan öğrenen odaklı bir İngilizce öğretim programı uyguladım. Dersleri 21. yüzyıl yetkinlikleriyle (iletişim, iş birliği, yaratıcılık ve eleştirel düşünme) uyumlu şekilde tasarladım. Öğrenci motivasyonunu, katılımını ve kapsayıcılığı artırmak amacıyla sınıf yönetiminde oyunlaştırma stratejileri kullandım.",
-                en: "Designed and delivered a learner-centered curriculum focused on 21st-century competencies (communication, collaboration, critical thinking) rather than rote memorization. Implemented gamified classroom management techniques that increased student motivation and participation rates in a diverse classroom setting. Adapted lesson plans to ensure inclusivity, fostering a safe environment for real-world language application.",
+                tr: "Ezbere dayalı öğretim yerine iletişim, iş birliği ve eleştirel düşünme gibi 21. yüzyıl becerilerine odaklanan öğrenen merkezli bir müfredat uyguladım. Sınıf içi motivasyonu artıran oyunlaştırma temelli yöntemler kullanarak öğrencilerin derse katılımını güçlendirdim ve farklı öğrenci ihtiyaçlarına duyarlı, kapsayıcı bir öğrenme ortamı oluşturdum.",
+                en: "I implemented a learner-centered curriculum that emphasized 21st-century skills such as communication, collaboration, and critical thinking rather than rote memorization. By applying gamified classroom management strategies, I significantly increased student engagement and motivation while fostering an inclusive learning environment that supported diverse learners and encouraged real-world language use.",
             }
         },
     ],
@@ -101,12 +101,12 @@ const resumeData = {
                 }
             ],
             role: { tr: "arc", en: "arc – AI-Powered Educational Material Generator" },
-            company: { tr: "Yapay Zeka Destekli Materyal Tasarımı", en: "Full Stack Developer & LXD Lead" },
+            company: { tr: "Yapay Zekâ Destekli Eğitim Materyali Üretici", en: "Full Stack Developer & LXD Lead" },
             date: { tr: "2026", en: "2026" },
             location: { tr: "karatasbora.github.io/arc", en: "karatasbora.github.io/arc" },
             desc: {
-                tr: "React 19 ve Google Gemini API kullanarak CEFR uyumlu çalışma kağıtlarını özerk biçimde üreten, yapay zekâ yerel (AI-native) bir eğitim aracı geliştirdim. Proje, deterministik JSON çıktıları güvence altına almak için gelişmiş prompt mühendisliği tekniklerini sergiliyor; böylece ayarlanabilir \"scaffolding\" ve belirli pedagojik odaklar gibi özellikler mümkün hale geliyor. İstemci tarafında çalışan, özel geliştirilmiş bir PDF motoru (jsPDF) sayesinde dinamik içerikler herhangi bir backend bağımlılığı olmadan profesyonel, sınıf kullanımına hazır materyallere dönüştürülüyor. Tüm bunlar, öğretmen verimliliğini ve eğitime erişilebilirliği artırmayı amaçlayan modern \"Zinc temalı\" bir kullanıcı arayüzü içinde sunuluyor.",
-                en: "Engineered an AI-native educational tool using React 19 and the Google Gemini API to autonomously generate CEFR-aligned worksheets. Mastered advanced prompt engineering to secure deterministic JSON outputs, enabling dynamic scaffolding and specific pedagogical focus adjustments. Built a custom client-side PDF engine (jsPDF) to render professional, classroom-ready handouts instantly, eliminating backend dependencies and enhancing teacher productivity. Delivered a modern UI focused on reducing educator workload and increasing resource accessibility.",
+                tr: "Bu proje, CEFR uyumlu çalışma kâğıtlarını özerk biçimde üretebilen, React 19 ve Google Gemini API üzerine inşa edilmiş yenilikçi bir eğitim aracıdır. Bu projede deterministik JSON çıktıları güvence altına almak için ileri düzey prompt engineering tekniklerini kullandım ve öğretmenlerin pedagojik odağı dinamik biçimde düzenleyebilmelerine imkân tanıyan bir yapı geliştirdim. jsPDF tabanlı özel bir istemci tarafı PDF motoru tasarlayarak arka uç bağımlılığını ortadan kaldırdım, öğretmen iş yükünü azalttım ve sınıfa hazır materyallerin hızlı üretimini mümkün kıldım. Projenin kullanıcı arayüzünü de öğretmen verimliliğini artıracak şekilde modern ve erişilebilir bir tasarım anlayışıyla geliştirdim.",
+                en: "This project is an innovative educational tool built with React 19 and the Google Gemini API, designed to autonomously produce CEFR-aligned worksheets. In this project, I employed advanced prompt engineering techniques to ensure deterministic JSON outputs, enabling dynamic scaffolding and flexible pedagogical adjustments. I developed a custom client-side PDF engine using jsPDF, eliminating backend dependencies and allowing teachers to instantly generate professional, classroom-ready materials. The user interface was designed with a focus on usability, accessibility, and reducing teacher workload, ultimately improving productivity and resource accessibility.",
             }
         },
     ],
@@ -120,8 +120,8 @@ const resumeData = {
             date: { tr: "Lisans Derecesi", en: "Bachelor's Degree" },
             location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
             desc: {
-                tr: "Pedagoji, öğretim teknolojileri ve öğrenen merkezli öğretim yaklaşımlarına akademik olarak odaklandım. Geleneksel eğitim yöntemlerini çağdaş EdTech araçlarıyla bütünleştiren projeler geliştirdim.",
-                en: "Focused academically on pedagogy, instructional technologies, and learner-centered teaching methodologies. Developed projects integrating traditional educational approaches with contemporary EdTech tools."
+                tr: "Pedagojik yaklaşımlar, öğretim teknolojileri ve öğrenen merkezli öğretim yöntemleri üzerine yoğunlaştım. Bu süreçte geleneksel eğitim anlayışını güncel eğitim teknolojileriyle birleştiren projeler geliştirdim.",
+                en: "I focused academically on pedagogy, instructional technologies, and learner-centered teaching methodologies, developing projects that blended traditional education with contemporary EdTech tools."
             }
         },
         {
@@ -131,8 +131,8 @@ const resumeData = {
             date: { tr: "ERASMUS+", en: "ERASMUS+" },
             location: { tr: "COIMBRA, PORTEKİZ", en: "COIMBRA, PORTUGAL" },
             desc: {
-                tr: "Kültürlerarası iletişim ve küresel vatandaşlık yetkinlikleri geliştirdim. Akademik hareketlilik yoluyla uluslararası eğitim sistemlerine karşılaştırmalı bir bakış kazandım.",
-                en: "Developed intercultural communication and global citizenship competencies. Gained comparative insight into international education systems through academic mobility."
+                tr: "Bu program, kültürlerarası iletişim becerilerimi geliştirmeme, küresel vatandaşlık perspektifi kazanmama ve uluslararası eğitim sistemlerine dair karşılaştırmalı bir bakış açısı edinmeme olanak sağladı.",
+                en: "This program strengthened my intercultural communication skills, broadened my global citizenship perspective, and provided comparative insight into international education systems"
             }
         },
         {
@@ -142,8 +142,8 @@ const resumeData = {
             date: { tr: "Lisans Derecesi", en: "Bachelor's Degree" },
             location: { tr: "UZAKTAN EĞİTİM", en: "REMOTE LEARNING" },
             desc: {
-                tr: "Eğitim politikası ve kalkınma bağlamlarıyla ilişkili sistem düşüncesi, veri okuryazarlığı ve analitik karar verme süreçlerine odaklanan devam eden çalışmalar.",
-                en: "Ongoing studies with emphasis on systems thinking, data literacy, and analytical decision-making processes relevant to education policy and development contexts."
+                tr: "Devam eden eğitimim ise sistem düşüncesi, veri okuryazarlığı ve eğitim politikalarına ilişkin analitik bakış geliştirmeyi destekleyen teorik ve pratik bir temel oluşturuyor.",
+                en: "My ongoing studies further support my academic profile through systems thinking, data literacy, and analytical approaches relevant to education policy and development."
             }
         }
     ],
@@ -224,7 +224,7 @@ const resumeData = {
                     targets: ["job-teacher", "edu-elt"]
                 },
                 {
-                    tr: "Oyunifikasyon",
+                    tr: "Oyunlaştırma",
                     en: "Gamification",
                     targets: ["job-teacher"]
                 },
@@ -251,7 +251,7 @@ const resumeData = {
             ],
         },
         {
-            category: { tr: "Çeviklik & İletişim", en: "Agility & Communication" },
+            category: { tr: "Uyum & İletişim", en: "Agility & Communication" },
             items: [
                 {
                     tr: "Kültürlerarası İletişim",

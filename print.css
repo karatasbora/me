@@ -1,17 +1,17 @@
 /* print.css */
 
-/* --- MODERN PRINT RESUME - MINIMALIST --- */
+/* --- MODERN PRINT RESUME - MINIMALIST & REFINED --- */
 
 @page {
-    margin: 0.75cm;
+    margin: 1cm;
     size: auto;
 }
 
 :root {
     --print-black: #000000;
-    --print-dark: #111827;
-    --print-gray: #374151;
-    --print-light: #6b7280;
+    --print-dark: #1f2937;
+    --print-gray: #4b5563;
+    --print-light: #9ca3af;
     --print-border: #e5e7eb;
 }
 
@@ -19,7 +19,7 @@
 body {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 9.5pt;
-    line-height: 1.4;
+    line-height: 1.5;
     color: var(--print-dark);
     background: white;
     margin: 0;
@@ -48,8 +48,8 @@ header {
     justify-content: space-between;
     align-items: flex-start;
     border-bottom: 2px solid var(--print-black);
-    padding-bottom: 0.75rem;
-    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .header-text {
@@ -58,12 +58,12 @@ header {
 
 h1 {
     font-family: 'Inter', sans-serif;
-    font-size: 20pt;
+    font-size: 24pt;
     font-weight: 800;
     color: var(--print-black);
-    margin: 0 0 0.1rem 0;
+    margin: 0 0 0.25rem 0;
     line-height: 1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
 }
 
 .headline {
@@ -71,7 +71,8 @@ h1 {
     font-size: 10pt;
     font-weight: 500;
     color: var(--print-gray);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
 }
 
 .contact-info {
@@ -81,6 +82,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
+    align-items: center;
 }
 
 .contact-info a {
@@ -89,9 +91,40 @@ h1 {
     font-weight: 500;
 }
 
+/* Separator using CSS pseudo-elements for cleaner print HTML */
+.contact-info span.sep {
+    display: none !important;
+}
+
+/* Add dots between items naturally if possible, but the HTML structure uses span.sep. 
+   We will hide span.sep and use ::after on anchors/spans if they are NOT last child.
+   However, the HTML is: span, sep, a, sep, a.
+   So hiding .sep breaks the spacing logic unless we add it back.
+   Let's just style the .sep if it's there, OR hide it and use a better method.
+   The HTML <span>|</span> is hardcoded. 
+   Let's use the .sep class but change its content.
+*/
+.sep {
+    color: var(--print-light);
+    font-weight: 300;
+    display: inline-block !important;
+    /* Force show it but styled differently */
+    visibility: visible !important;
+    content: '•';
+    /* Can't change content of span easily without replacing text, but we can hide text and show pseudo */
+    font-size: 0;
+    /* Hide pipe */
+}
+
+.sep::after {
+    content: "•";
+    font-size: 8.5pt;
+    margin: 0 0.2rem;
+}
+
 /* --- SECTIONS --- */
 section {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
@@ -99,14 +132,14 @@ section {
 
 h2 {
     font-family: 'Inter', sans-serif;
-    font-size: 12pt;
+    font-size: 11pt;
     font-weight: 700;
     color: var(--print-black);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid var(--print-border);
-    padding-bottom: 0.15rem;
-    margin: 0 0 0.75rem 0;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--print-black);
+    padding-bottom: 0.25rem;
+    margin: 0 0 1rem 0;
 }
 
 #about-list p {
@@ -117,7 +150,7 @@ h2 {
 
 /* --- JOBS --- */
 .job-block {
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
     padding: 0 !important;
     border: none !important;
     box-shadow: none !important;
@@ -128,7 +161,7 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 0.1rem;
+    margin-bottom: 0.15rem;
 }
 
 .job-title {
@@ -148,7 +181,7 @@ h2 {
 .job-subheader {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
     font-family: 'Outfit', sans-serif;
     font-size: 8.5pt;
 }
@@ -166,9 +199,7 @@ h2 {
 
 .job-content {
     border-left: none;
-    /* Removed border */
     padding-left: 0;
-    /* Removed padding */
     margin-left: 0;
 }
 
@@ -178,32 +209,29 @@ h2 {
 }
 
 .desc-inner p {
-    margin: 0 0 0.25rem 0;
+    margin: 0 0 0.35rem 0;
     color: var(--print-dark);
-    font-size: 9pt;
+    font-size: 9.5pt;
+    text-align: justify;
 }
 
 /* --- TAGS & SKILLS --- */
 .tags-wrapper {
     display: flex;
     flex-wrap: wrap;
-    gap: 3px;
-    /* Tighter gap */
-    margin-top: 0.1rem;
+    gap: 0;
+    margin-top: 0.35rem;
 }
 
 .skill-tag {
     font-family: 'Outfit', sans-serif;
-    font-size: 7.5pt;
+    font-size: 8pt;
     font-weight: 500;
     color: var(--print-gray);
     background: transparent;
     border: none;
-    /* No border for minimalism */
     padding: 0;
-    /* No padding, just text list look */
     margin-right: 0.5rem;
-    /* Space between text items */
     border-radius: 0;
     opacity: 1;
 }
@@ -212,6 +240,7 @@ h2 {
     content: "·";
     margin-left: 0.5rem;
     color: var(--print-light);
+    font-weight: 400;
 }
 
 .skill-tag:last-child::after {
@@ -223,7 +252,7 @@ h2 {
 .skills-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 .skill-category {
@@ -235,23 +264,23 @@ h2 {
     font-size: 9pt;
     font-weight: 700;
     color: var(--print-black);
-    margin: 0 0 0.25rem 0;
+    margin: 0 0 0.35rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 /* --- LANGUAGES --- */
 .lang-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
+    gap: 1.5rem;
     border-top: none;
-    /* Cleaner look */
     padding-top: 0.5rem;
 }
 
 .lang-item {
     border-left: 2px solid var(--print-border);
-    /* Thinner border */
-    padding-left: 0.5rem;
+    padding-left: 0.75rem;
 }
 
 .lang-title {
@@ -260,11 +289,12 @@ h2 {
     font-weight: 700;
     display: block;
     color: var(--print-black);
+    margin-bottom: 0.1rem;
 }
 
 .lang-level {
     font-family: 'Outfit', sans-serif;
-    font-size: 7.5pt;
+    font-size: 8pt;
     color: var(--print-gray);
     display: block;
 }
@@ -275,7 +305,6 @@ a {
     color: inherit;
 }
 
-/* Clean URL display for print */
 a[href^="http"]::after {
     content: none;
 }
