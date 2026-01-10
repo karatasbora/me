@@ -162,11 +162,11 @@ function setupSkillNavigation() {
 
     // B. Handle clicks on Skill Tags
     document.body.addEventListener('click', (e) => {
-        if (e.target.classList.contains('skill-tag')) {
+        const btn = e.target.closest('.skill-tag');
+        if (btn) {
             e.preventDefault();
-            e.stopPropagation(); // Stop propagation so 'A' doesn't immediately close it
+            e.stopPropagation();
 
-            const btn = e.target;
             const existing = document.querySelector('.nav-dropdown');
 
             // 1. CHECK FOR TOGGLE / CLEANUP

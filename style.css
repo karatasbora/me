@@ -43,13 +43,13 @@
 
     --border-color: var(--slate-200);
 
-    --accent-primary: var(--cyan-600);
+    --accent-primary: var(--amber-600);
     /* Tech Links */
-    --accent-secondary: var(--amber-600);
+    --accent-secondary: var(--cyan-600);
     /* Theory/Pedagogy */
 
     /* Generic Accent Aliases for backward compatibility/simplicity */
-    --accent-color: var(--cyan-600);
+    --accent-color: var(--amber-600);
     --heading-color: var(--slate-900);
 
     /* CARDS */
@@ -84,7 +84,7 @@
     /* FOCUS RINGS */
     --focus-ring-cyan: 0 0 0 2px var(--slate-50), 0 0 0 4px var(--cyan-400);
     --focus-ring-amber: 0 0 0 2px var(--slate-50), 0 0 0 4px var(--amber-400);
-    --focus-ring: var(--focus-ring-cyan);
+    --focus-ring: var(--focus-ring-amber);
     /* Default */
 
     /* SCROLLBAR */
@@ -218,12 +218,13 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 
     /* "Grid & Glow" Background Texture */
+    /* "Grid & Glow" Background Texture */
     background-image:
-        radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 20%),
         /* Cyan Glow Left */
-        radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.15) 0%, transparent 20%),
         /* Amber Glow Right */
-        radial-gradient(var(--border-color) 1px, transparent 1px);
+        radial-gradient(rgba(148, 163, 184, 0.4) 1px, transparent 1px);
     /* Dot Grid */
     background-size: 100% 100%, 100% 100%, 24px 24px;
     /* Grid Size */
@@ -611,6 +612,62 @@ header {
 
 .skills-container {
     gap: 25px;
+}
+
+/* --- DROPDOWN NAVIGATION --- */
+.nav-dropdown {
+    position: absolute;
+    z-index: 1000;
+    background-color: var(--card-bg);
+    backdrop-filter: blur(var(--backdrop-blur));
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--card-shadow-hover);
+    min-width: 220px;
+    padding: 8px 0;
+    margin-top: 8px;
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: simpleFade 0.2s forwards;
+}
+
+.nav-dropdown-header {
+    padding: 4px 16px 8px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--meta-color);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.nav-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    font-family: 'Outfit', sans-serif;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    color: var(--primary-text);
+    cursor: pointer;
+    transition: background 0.1s;
+    text-decoration: none !important;
+    border-bottom: none !important;
+}
+
+.nav-item:hover {
+    background-color: var(--hover-bg);
+    color: var(--accent-primary);
+}
+
+.nav-item .nav-context {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--meta-color);
+    margin-top: 2px;
 }
 
 /* --- LINKS --- */
