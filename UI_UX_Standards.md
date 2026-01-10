@@ -1,90 +1,85 @@
 # UI/UX Standards Report
 
-## 1. Design System Philosophy
-**Name:** The Approachable Innovator
-**Core Principle:** "Structured Fluidity"
-The design language balances the precision of code ("The IDE") with the warmth of teaching ("The Classroom"). It bridges the gap between the rigid structure of backend logic and the fluid, accessible nature of human-centered pedagogy.
+## Design Philosophy
+**Current Theme:** "The Approachable Innovator"
+- **Concept:** Blends the clarity of technical documentation with the warmth of human connection.
+- **Visual Metaphor:**
+  - **Light Mode:** "The Classroom" - Clean, academic, warm accents.
+  - **Dark Mode:** "The IDE" - Sharp code-editor aesthetic, glowing accents, high contrast.
 
-## 2. Color System
-The project replaces the generic Zinc/Indigo palette with a custom **Slate (Structure)**, **Cyan (Tech)**, and **Amber (Human)** system.
+## 1. Color System
 
-### Palette Primitives (Tailwind CSS)
-* **Slate (Neutral):** #f8fafc (50) to #020617 (950) — *Cooler, professional grey.*
-* **Cyan (Tech Accent):** #ecfeff (50) to #083344 (950) — *Represents React/AI.*
-* **Amber (Human Accent):** #fffbeb (50) to #451a03 (950) — *Represents Pedagogy/Warmth.*
+### Palette Primitives (Tailwind-based)
+- **Slate (Neutral):** range from `50` (#f8fafc) to `950` (#020617).
+- **Cyan (Tech Accent):** `400` (#22d3ee) to `600` (#0891b2).
+- **Amber (Human Accent):** `400` (#fbbf24) to `600` (#d97706).
 
-### Semantic Mapping (Light/Dark Support)
-The system uses semantic tokens to ensure accessible contrast in both modes.
+### Theme Mapping
 
-| Token | Role | Light Mode Value ("The Classroom") | Dark Mode Value ("The IDE") | Logic |
-| :--- | :--- | :--- | :--- | :--- |
-| `--bg-color` | Page Background | **Slate-50** `#f8fafc` | **Slate-950** `#020617` | "Paper" vs "Terminal" base. |
-| `--bg-alt` | Card Surface | **White** `#ffffff` | **Slate-900** `#0f172a` | Clean layers for depth. |
-| `--primary-text` | Body Copy | **Slate-900** `#0f172a` | **Slate-100** `#f1f5f9` | High contrast for reading. |
-| `--secondary-text` | Metadata / Subtitles | **Slate-500** `#64748b` | **Slate-400** `#94a3b8` | De-emphasized info. |
-| `--border-color` | Dividers / Borders | **Slate-200** `#e2e8f0` | **Slate-800** `#1e293b` | Subtle structure. |
-| `--accent-primary` | Key Tech Links | **Cyan-600** `#0891b2` | **Cyan-400** `#22d3ee` | Darker in light mode for readability. |
-| `--accent-secondary`| Pedagogical Highlights | **Amber-600** `#d97706` | **Amber-400** `#fbbf24` | Warmth without neon glare. |
-| `--glass-bg` | Glassmorphism Panels | `rgba(255, 255, 255, 0.7)` | `rgba(15, 23, 42, 0.6)` | Translucent overlay base. |
-| `--glass-border` | Glass Edges | `rgba(226, 232, 240, 0.6)` | `rgba(51, 65, 85, 0.5)` | Frosted edge definition. |
+| Token | Light Mode Value | Dark Mode Value | Usage |
+|-------|------------------|-----------------|-------|
+| `--bg-color` | Slate-50 (#f8fafc) | Slate-950 (#0f172a) | Main Page Background |
+| `--primary-text` | Slate-900 (#0f172a) | Slate-100 (#f1f5f9) | Body text |
+| `--secondary-text` | Slate-500 (#64748b) | Slate-400 (#94a3b8) | Meta info, subtitles |
+| `--accent-primary` | **Amber-600** (Warmth) | **Cyan-400** (Glow) | Key highlights, active states |
+| `--accent-secondary`| **Cyan-600** (Tech) | **Amber-400** (Highlight)| Secondary interactions |
+| `--border-color` | Slate-200 | Slate-800 | Dividers, card borders |
 
-### The "Classroom" Scale (Light Mode Specifics)
-* **Philosophy:** "Clean Paper." It avoids stark `#000000` black, opting for `Deep Slate` text to maintain softness while ensuring high readability.
-* **Texture:** The background pattern (dot grid) switches from white-opacity to slate-900-opacity (5%) to remain visible on the light background.
-* **Shadows:** Shadows become softer and more diffuse (`shadow-slate-200`) to avoid harsh "dirty" looks common in light mode glassmorphism.
+## 2. Typography
 
-### The "IDE" Scale (Dark Mode Specifics)
-* **Philosophy:** "Deep Focus." It uses `Slate-950` (not pure black) to reduce eye strain.
-* **Glow Effects:** The Cyan and Amber accents are used as "light sources" (e.g., `shadow-cyan-500/20`) rather than just flat colors, creating the illusion of a backlit screen or code editor.
+| Role | Font Family | Size | Weight | Line Height |
+|------|-------------|------|--------|-------------|
+| **Headings** | `Inter`, sans-serif | 2.75rem (H1), 1.5rem (H2) | 700 / 600 | 1.1 |
+| **Body** | `IBM Plex Sans`, serif-ish | 1rem (base) | 400 | 1.6 |
+| **UI / Meta** | `Outfit`, sans-serif | 0.8rem - 1.1rem | 500 | - |
 
-## 3. Texture & Style Strategy
-The visual style, **"Glassmorphism"**, metaphorically represents transparency in AI and the layering of technology over education.
+- **H2 Styling:** Left border (4px), 16px padding, specific tracking (-0.02em).
+- **Body Text:** Justified alignment for clean blocks.
 
-### A. The Style: Glassmorphism (The Modern Bridge)
-* **Visual Effect:** Floating panels that blur the background, resembling high-end SaaS interfaces.
-* **Implementation (Tailwind Logic):**
-    ```css
-    .glass-panel {
-        background-color: var(--glass-bg);
-        backdrop-filter: blur(12px);
-        border: 1px solid var(--glass-border);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        border-radius: 0.75rem;
-    }
-    ```
+## 3. Component Standards
 
-### B. The Texture: "The Grid & The Glow"
-* **Background Pattern (The Logic):** A subtle, barely-visible dot grid or hexagonal mesh on the background. Represents systems thinking and structure.
-* **Lighting (The Focus):** Radial gradients used to create "glow spots" behind key text areas.
-    * **Tech Side (Left):** Cool Cyan glow (`bg-cyan-500/20 blur-3xl`).
-    * **Human Side (Right):** Warm Amber glow (`bg-amber-500/20 blur-3xl`).
+### Cards & Surfaces
+- **Glassmorphism:**
+  - **Start:** `rgba(255, 255, 255, 0.7)` (Light) / `rgba(15, 23, 42, 0.6)` (Dark).
+  - **Blur:** `backdrop-filter: blur(12px)`.
+  - **Radius:** `12px` (standard), `6px` (small controls).
+  - **Shadows:** Multi-layered soft shadows; stronger glow on hover.
 
-## 4. Visual Concept & Layout
-* **Header Transition:** A smooth visual split.
-    * **Left (Code):** Darker background with faint monospace code snippets (e.g., `{ json: deterministic }`) in `text-slate-700`.
-    * **Center:** A "Glassmorphism" panel acting as a lens/bridge containing the profile image or key title.
-    * **Right (Human):** Lighter background area with soft amber ambient light.
-* **Container:** Max 900px, horizontally centered.
-* **Padding:** 60px global padding.
+### Interactive Elements
+- **Buttons:**
+  - Font: `Outfit`, SemiBold.
+  - Hover: `translateY(-1px)`, opacity `0.9`.
+- **Links:**
+  - Style: Border-bottom 1px solid.
+  - Hover: Color shift to `--link-hover` (Cyan in Light/Dark).
+- **Focus States:**
+  - Double ring system: 2px gap (bg color) + 4px ring (Accent color).
 
-## 5. Typography
-Distinct typefaces are used to create hierarchy and character.
+### Visual Effects
+- **Background Texture:** "Grid & Glow"
+  - Interactive radial gradients (Cyan top-left, Amber bottom-right).
+  - Subtle dot grid overlay (`24px` spacing).
+- **Animations:**
+  - `simpleFade` (Opacity 0->1).
+  - `slideUp` (TranslateY 15px->0).
+  - `tagFadeIn` (Staggered entry).
 
-| Role | Font Family | Features |
-| :--- | :--- | :--- |
-| **Headings** | `Inter` (600, 700) | Tight tracking (`-0.02em`) for a modern brand feel. |
-| **Body Copy** | `IBM Plex Sans` (400) | High legibility for long-form text, reminiscent of technical documentation. |
-| **UI Elements** | `Outfit` (500, 600) | Friendly, geometric for buttons, tags, and metadata. |
-| **Texture** | Monospace (e.g., `Fira Code`) | Used strictly for background texture code snippets to reinforce the "Full Stack" identity. |
+## 4. Print Standards
+**Philosophy:** "Minimalist & Refined" - Optimized for ink saving and readability.
 
-## 6. Interactive Elements
-* **Focus States:** Double-ring focus indicator (`ring-2`) using **Cyan** (Tech) or **Amber** (Human) depending on the context, replacing the generic Indigo.
-* **Hover States:**
-    * **Cards:** Lift effect (`translateY(-1px)`) + intensified colored shadow (Cyan/Amber glow).
-    * **Links:** Color shift to the respective accent color + underline.
-* **Transitions:** Global `0.3s` ease for backgrounds, colors, and transforms to ensure fluidity.
+### Layout Adjustments
+- **Margins:** `1cm` uniform.
+- **Hidden Elements:** Controls, Nav, Icons, Avatars, Shadows, Glass effects.
+- **Typography:**
+  - **H1:** `24pt`, Inter Bold.
+  - **Body:** `9.5pt`, IBM Plex Sans.
+- **Structure:**
+  - Job Cards: Borders removed, padding removed (`page-break-inside: avoid`).
+  - Descriptions: Always expanded (`grid-template-rows: 1fr`).
+  - Skills: formatted as a cleaner inline list or grid.
+  - Colors: Converted to High-Contrast Grayscale / Dark Gray (`#1f2937`).
 
-## 7. Accessibility (a11y)
-* **Contrast:** `Slate-900` on `Slate-50` (Light) and `Slate-100` on `Slate-950` (Dark) ensures excellent readability (AAA standard).
-* **Semantic HTML:** Continued use of `<header>`, `<main>`, `<section>`, `<h1>`–`<h3>`.
-* **Reduced Motion:** Respect `prefers-reduced-motion` by disabling the "slide up" and glow pulse animations.
+## 5. Accessibility
+- **Contrast:** High contrast text tokens used broadly.
+- **Focus:** Visible dual-ring focus indicators (`:focus-visible`).
+- **Reduced Motion:** Global transitions set to `0.3s ease`, safe for most, but should respect system pref (future improvement).

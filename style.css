@@ -272,15 +272,7 @@ h2 {
     letter-spacing: -0.02em;
 }
 
-/* Alternating Border Colors for Sections can be added via JS or specific IDs, 
-   but for now defaulting to Tech (Cyan) for clean look, 
-   or we can use Amber for Education/About */
 
-#ui-about,
-#ui-education {
-    border-left-color: var(--accent-secondary);
-    /* Amber for Human/Edu sections */
-}
 
 p {
     margin-bottom: 1rem;
