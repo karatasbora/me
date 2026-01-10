@@ -60,8 +60,9 @@
     /* Cyan tint hover */
 
     /* GLASSMORPHISM */
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(226, 232, 240, 0.6);
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(203, 213, 225, 0.8);
+    /* Stronger border for light mode */
     --backdrop-blur: 12px;
 
     /* RADIUS */
@@ -101,6 +102,41 @@
     ::selection {
         background: var(--cyan-100);
         color: var(--cyan-950);
+    }
+}
+
+/* --- ANIMATIONS --- */
+@keyframes simpleFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes tagFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
