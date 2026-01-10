@@ -77,7 +77,7 @@
     --btn-primary-text: #ffffff;
 
     --link-color: var(--slate-900);
-    --link-hover: var(--cyan-600);
+    --link-hover: var(--accent-primary);
 
     --border-hover: var(--slate-300);
 
@@ -94,9 +94,11 @@
 
     /* TAGS */
     --tag-bg: #ffffff;
+    --tag-border: var(--slate-300);
+    /* Increased contrast */
     --tag-hover-bg: #ffffff;
-    --tag-hover-text: var(--cyan-600);
-    --tag-hover-border: var(--cyan-500);
+    --tag-hover-text: var(--accent-primary);
+    --tag-hover-border: var(--accent-primary);
 
     /* SELECTION */
     ::selection {
@@ -195,6 +197,7 @@
 
     /* TAGS */
     --tag-bg: var(--slate-900);
+    --tag-border: var(--slate-800);
     --tag-hover-bg: var(--slate-800);
     --tag-hover-text: var(--cyan-400);
     --tag-hover-border: var(--cyan-400);
@@ -344,10 +347,49 @@ header {
     color: var(--secondary-text);
 }
 
+.contact-link {
+    position: relative;
+}
+
 .contact-link:hover {
     color: var(--accent-primary);
     border-bottom-color: var(--accent-primary);
 }
+
+.contact-link.copied::after {
+    content: attr(data-copy-text);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background-color: var(--accent-primary);
+    color: var(--bg-color);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    pointer-events: none;
+    opacity: 0;
+    animation: simpleFade 0.2s forwards;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+
+.contact-link.copied::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--accent-primary) transparent transparent transparent;
+    opacity: 0;
+    animation: simpleFade 0.2s forwards;
+    z-index: 10;
+}
+
 
 /* --- CONTROLS --- */
 .controls {
@@ -544,7 +586,7 @@ header {
 
 .skill-tag {
     background: var(--tag-bg);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--tag-border);
     color: var(--secondary-text);
     font-family: 'Outfit', sans-serif;
     font-size: 0.8rem;
@@ -603,7 +645,9 @@ header {
 }
 
 .skills-container {
-    gap: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
 /* --- DROPDOWN NAVIGATION --- */
