@@ -34,19 +34,19 @@ function updateJSONLD(lang) {
                 {
                     "@type": "WebSite",
                     "name": "Bora Karataş",
-                    "url": "https://karatasbora.github.io/resume/"
+                    "url": "https://karatasbora.github.io/me/"
                 },
                 {
                     "@type": "ProfilePage",
                     "name": resumeData.ui.documentTitle[lang],
-                    "url": "https://karatasbora.github.io/resume/",
+                    "url": "https://karatasbora.github.io/me/",
                     "mainEntity": {
                         "@type": "Person",
                         "name": resumeData.profile.name,
                         "jobTitle": resumeData.ui.jobTitleShort[lang],
                         "description": resumeData.ui.seoDesc[lang],
                         "image": resumeData.meta.image,
-                        "url": "https://karatasbora.github.io/resume/",
+                        "url": "https://karatasbora.github.io/me/",
                         "sameAs": [
                             resumeData.meta.linkedin,
                             `mailto:${resumeData.meta.email}`
