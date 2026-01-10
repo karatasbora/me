@@ -1,0 +1,274 @@
+/* print.css */
+
+/* --- MODERN PRINT RESUME --- */
+
+@page {
+    margin: 1.25cm;
+    size: auto;
+}
+
+:root {
+    --print-black: #000000;
+    --print-dark: #1f2937;
+    --print-gray: #4b5563;
+    --print-light: #9ca3af;
+    --print-border: #e5e7eb;
+}
+
+/* Reset & Base */
+body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: var(--print-dark);
+    background: white;
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+/* Hide Screen Elements */
+.controls,
+.nav-dropdown,
+.desc-toggle,
+.favicon-frame,
+.chevron-icon,
+.btn-icon,
+.download-btn,
+.sep {
+    display: none !important;
+}
+
+/* --- HEADER --- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid var(--print-black);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.header-text {
+    flex: 1;
+}
+
+h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 24pt;
+    font-weight: 800;
+    color: var(--print-black);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.headline {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11pt;
+    font-weight: 500;
+    color: var(--print-gray);
+    margin-bottom: 0.75rem;
+}
+
+.contact-info {
+    font-family: 'Outfit', sans-serif;
+    font-size: 9pt;
+    color: var(--print-dark);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.contact-info a {
+    color: var(--print-dark);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Profile Photo - Optional for Print, but keeping it if it looks good */
+.profile-container {
+    width: 3.5cm;
+    height: 3.5cm;
+    margin-left: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--print-border);
+}
+
+.profile-photo {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    /* Elegant B&W for print */
+}
+
+/* --- SECTIONS --- */
+section {
+    margin-bottom: 1.5rem;
+}
+
+h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+    color: var(--print-black);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--print-border);
+    padding-bottom: 0.25rem;
+    margin: 0 0 1rem 0;
+}
+
+#about-list p {
+    margin: 0;
+    text-align: justify;
+    color: var(--print-dark);
+}
+
+/* --- JOBS --- */
+.job-block {
+    margin-bottom: 1.25rem;
+    page-break-inside: avoid;
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.2rem;
+}
+
+.job-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    color: var(--print-black);
+}
+
+.job-date {
+    font-family: 'Outfit', sans-serif;
+    font-size: 9pt;
+    font-weight: 600;
+    color: var(--print-black);
+}
+
+.job-subheader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 9pt;
+}
+
+.company {
+    color: var(--print-gray);
+    font-weight: 500;
+}
+
+.location {
+    color: var(--print-light);
+    font-weight: 500;
+    font-size: 8pt;
+}
+
+.job-content {
+    border-left: 2px solid var(--print-border);
+    padding-left: 1rem;
+    margin-left: 2px;
+}
+
+.job-description {
+    display: block !important;
+    /* Force expand */
+    grid-template-rows: 1fr !important;
+}
+
+.desc-inner p {
+    margin: 0 0 0.5rem 0;
+    color: var(--print-dark);
+    font-size: 9.5pt;
+}
+
+/* --- TAGS & SKILLS --- */
+.tags-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 0.25rem;
+}
+
+.skill-tag {
+    font-family: 'Outfit', sans-serif;
+    font-size: 8pt;
+    font-weight: 500;
+    color: var(--print-dark);
+    background: transparent;
+    border: 1px solid var(--print-border);
+    padding: 2px 6px;
+    border-radius: 4px;
+    opacity: 1;
+}
+
+/* --- SKILLS SECTION GRID --- */
+.skills-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.skill-category-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 10pt;
+    font-weight: 700;
+    color: var(--print-black);
+    margin: 0 0 0.5rem 0;
+}
+
+/* --- LANGUAGES --- */
+.lang-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    border-top: 1px solid var(--print-border);
+    padding-top: 1rem;
+}
+
+.lang-item {
+    border-left: 3px solid var(--print-gray);
+    padding-left: 0.75rem;
+}
+
+.lang-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    display: block;
+    color: var(--print-black);
+}
+
+.lang-level {
+    font-family: 'Outfit', sans-serif;
+    font-size: 8pt;
+    color: var(--print-gray);
+    display: block;
+}
+
+/* --- LINKS --- */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Clean URL display for print */
+a[href^="http"]::after {
+    content: none;
+    /* Modern choice: don't clutter. Most PDFs are digital anyway. */
+}
