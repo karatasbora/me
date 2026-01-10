@@ -169,8 +169,8 @@ const resumeData = {
             category: { tr: "Teknoloji & YZ Yetkinlikleri", en: "Technology & AI Capabilities" },
             items: [
                 {
-                    tr: "Yaratıcı YZ ve LLM'ler",
-                    en: "Generative AI & LLMs",
+                    tr: "Öğrenme ve Gelişim için Yaratıcı Yapay Zeka",
+                    en: "Generative AI for Learning and Development",
                     targets: ["job-editor"]
                 },
                 {
@@ -179,13 +179,18 @@ const resumeData = {
                     targets: ["proj-arc"]
                 },
                 {
-                    tr: "Web Geliştirme (React/API)",
-                    en: "Web Development (React/API)",
+                    tr: "Web Geliştirme",
+                    en: "Web Development",
                     targets: ["proj-arc"]
                 },
                 {
-                    tr: "LMS & CMS Yönetimi",
-                    en: "LMS & CMS Management",
+                    tr: "Öğrenme Yönetim Sistemleri",
+                    en: "Learning Management Systems",
+                    targets: ["job-editor"]
+                },
+                {
+                    tr: "İçerik Yönetim Sistemleri",
+                    en: "Content Management Systems",
                     targets: ["job-editor"]
                 },
                 {
@@ -199,8 +204,8 @@ const resumeData = {
             category: { tr: "Pedagoji & Tasarımı", en: "Pedagogy & Design" },
             items: [
                 {
-                    tr: "Öğretim Tasarımı & LXD",
-                    en: "Instructional Design & LXD",
+                    tr: "Öğretim Tasarımı",
+                    en: "Instructional Design",
                     targets: ["job-teacher", "job-editor", "edu-elt"]
                 },
                 {
@@ -209,8 +214,18 @@ const resumeData = {
                     targets: ["edu-elt"]
                 },
                 {
-                    tr: "Evrensel Tasarım / Erişilebilirlik",
-                    en: "Universal Design / Accessibility",
+                    tr: "Yabancı Dil olarak İngilizce Öğretimi",
+                    en: "Teaching English as a Foreign Language",
+                    targets: ["job-editor", "proj-arc"]
+                },
+                {
+                    tr: "Evrensel Tasarım",
+                    en: "Universal Design",
+                    targets: ["job-editor", "proj-arc"]
+                },
+                {
+                    tr: "Erişilebilirlik",
+                    en: "Accessibility",
                     targets: ["job-editor", "proj-arc"]
                 },
                 {
@@ -251,7 +266,7 @@ const resumeData = {
             ],
         },
         {
-            category: { tr: "Uyum & İletişim", en: "Agility & Communication" },
+            category: { tr: "Kişilerarası Beceriler", en: "Interpersonal Skills" },
             items: [
                 {
                     tr: "Kültürlerarası İletişim",
@@ -259,13 +274,18 @@ const resumeData = {
                     targets: ["edu-erasmus"]
                 },
                 {
-                    tr: "İş Birliği",
-                    en: "Collaboration",
+                    tr: "Takım Çalışması",
+                    en: "Teamwork",
                     targets: ["job-editor"]
                 },
                 {
-                    tr: "Adaptasyon & Küreselleşme",
-                    en: "Adaptation & Globalization",
+                    tr: "Uyumlu",
+                    en: "Adaptable",
+                    targets: ["edu-erasmus"]
+                },
+                {
+                    tr: "Küreselleşme",
+                    en: "Globalization",
                     targets: ["edu-erasmus"]
                 },
             ]
