@@ -216,7 +216,7 @@ const resumeData = {
                 {
                     tr: "Yabancı Dil olarak İngilizce Öğretimi",
                     en: "Teaching English as a Foreign Language",
-                    targets: ["job-editor", "proj-arc"]
+                    targets: ["job-teacher", "proj-arc"]
                 },
                 {
                     tr: "Evrensel Tasarım",

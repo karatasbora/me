@@ -1,12 +1,12 @@
 // utils.js
 
-(function(root, factory) {
+(function (root, factory) {
     if (typeof module === 'object' && module.exports) {
         module.exports = factory();
     } else {
         root.resumeUtils = factory();
     }
-}(typeof self !== 'undefined' ? self : this, function() {
+}(typeof self !== 'undefined' ? self : this, function () {
 
     // --- NEW: XSS PROTECTION ---
     function escapeHtml(unsafe) {
@@ -29,7 +29,7 @@
                 cat.items.forEach(skill => {
                     if (skill.targets && skill.targets.includes(id)) {
                         relevant.push({
-                            label: skill[lang], 
+                            label: skill[lang],
                             targets: skill.targets
                         });
                     }
@@ -40,13 +40,13 @@
     }
 
     // --- SUB-RENDERERS ---
-    
+
     function renderBlock(items, lang, skillCategories) {
         if (!items) return '';
         return items.map(item => {
             const relevantSkills = getRelevantSkills(item.id, skillCategories, lang);
-            
-            const tagsHTML = (relevantSkills.length > 0) 
+
+            const tagsHTML = (relevantSkills.length > 0)
                 ? `<div class="tags-wrapper branding-tags">
                     ${relevantSkills.map(s => `
                         <button class="skill-tag" 
@@ -55,7 +55,7 @@
                             ${escapeHtml(s.label)}
                         </button>
                     `).join('')}
-                  </div>` 
+                  </div>`
                 : '';
 
             const toggleText = lang === 'tr' ? 'Detayları Göster' : 'Show Details';
@@ -63,13 +63,13 @@
             // Determine display fields
             const role = item.role ? item.role[lang] : item.degree[lang];
             const company = item.company ? item.company[lang] : item.school[lang];
-            
+
             // --- MODIFIED: Multi-Link Support ---
             let locationHTML = '';
-            
+
             if (item.links) {
                 // If 'links' array exists, render them separated by a dot
-                locationHTML = item.links.map(link => 
+                locationHTML = item.links.map(link =>
                     `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label[lang])}</a>`
                 ).join(' <span class="sep">·</span> ');
             } else {
@@ -112,29 +112,29 @@
 
     function renderTags(skillCategories, lang) {
         if (!skillCategories) return '';
-        
+
         const categoryBlocks = skillCategories.map(cat => {
             const categoryTitle = escapeHtml(cat.category[lang]);
-            
-            const skillsHTML = cat.items.map(skill => 
+
+            const skillsHTML = cat.items.map(skill =>
                 `<button class="skill-tag" data-targets="${skill.targets.join(',')}" data-origin="summary">${escapeHtml(skill[lang])}</button>`
             ).join('');
 
-            return `<div class="skill-category">` + 
-                        `<h3 class="skill-category-title">${categoryTitle}</h3>` + 
-                        `<div class="tags-wrapper">` + 
-                            skillsHTML + 
-                        `</div>` + 
-                    `</div>`;
+            return `<div class="skill-category">` +
+                `<h3 class="skill-category-title">${categoryTitle}</h3>` +
+                `<div class="tags-wrapper">` +
+                skillsHTML +
+                `</div>` +
+                `</div>`;
         });
-        
+
         return `<div class="job-block skills-container">${categoryBlocks.join('\n')}</div>`;
     }
 
     function renderGrid(languages, lang) {
         if (!languages) return '';
         return `
-        <div class="job-block" style="margin-top: 30px; border:none;">
+        <div class="job-block">
             <div class="lang-grid">
                 ${languages.map(l => `
                     <div class="lang-item">
@@ -159,7 +159,7 @@
                 const keys = section.dataKey.split('.');
                 for (let k of keys) contentData = (contentData && contentData[k]) ? contentData[k] : null;
             }
-            
+
             if (section.type === 'text') {
                 contentHTML = contentData ? `<p>${escapeHtml(contentData[lang])}</p>` : '';
             } else if (section.type === 'list') {
