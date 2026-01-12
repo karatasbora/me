@@ -138,6 +138,7 @@
 
     to {
         opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -603,8 +604,7 @@ header {
 }
 
 .skill-tag {
-    animation: tagFadeIn 0.5s ease-out forwards;
-    opacity: 0;
+    animation: tagFadeIn 0.5s ease-out backwards;
 }
 
 /* --- LANGUAGES & SKILLS --- */
