@@ -603,6 +603,11 @@ header {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
+.skill-tag {
+    animation: tagFadeIn 0.5s ease-out forwards;
+    opacity: 0;
+}
+
 /* --- LANGUAGES & SKILLS --- */
 .lang-grid {
     display: flex;
