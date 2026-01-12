@@ -130,17 +130,7 @@
     }
 }
 
-@keyframes tagFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
 /* --- DARK MODE ("The IDE") --- */
 [data-theme="dark"] {
@@ -584,29 +574,42 @@ header {
     margin-top: 15px;
 }
 
+@keyframes tagFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        /* Removing explicit transform match to prevent locking */
+    }
+}
+
 .skill-tag {
+    appearance: none;
+    -webkit-appearance: none;
     background: var(--tag-bg);
     border: 1px solid var(--tag-border);
     color: var(--secondary-text);
+    cursor: pointer;
     font-family: 'Outfit', sans-serif;
     font-size: 0.8rem;
     font-weight: 500;
     padding: 6px 12px;
     border-radius: var(--radius-sm);
-    cursor: pointer;
+
+    /* Animation Logic */
+    transition: all 0.2s ease;
+    opacity: 0;
+    animation: tagFadeIn 0.5s ease-out forwards;
 }
 
 .skill-tag:hover {
     color: var(--tag-hover-text);
     border-color: var(--tag-hover-border);
-    transform: translateY(-1px) !important;
+    transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.skill-tag {
-    /* Reverting to older reliable animation style as requested */
-    animation: tagFadeIn 0.5s ease-out forwards;
-    opacity: 0;
 }
 
 /* --- LANGUAGES & SKILLS --- */
