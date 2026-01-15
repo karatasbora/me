@@ -1,9 +1,3 @@
-/* 
- * static.js
- * Generates the static index.html by injecting data into the template.
- * Usage: node static.js
- */
-
 const fs = require('fs');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
@@ -38,14 +32,16 @@ try {
         throw new Error(`Critical: Element '#${CONFIG.selectors.mainContent}' not found in template.`);
     }
 
-    // 3. SEO & Metadata (Centralized)
+    // 3. UNIVERSAL SCRAPE
     const LANG = CONFIG.defaultLang;
+    const localizedData = utils.scrapeData(data, LANG);
+
+    // 4. METADATA & SEO
     document.documentElement.lang = LANG;
 
-    // Calls the shared utility to handle Title, Meta Tags, and JSON-LD
-    utils.updateMetadata(document, data, LANG);
+    utils.updateMetadata(document, localizedData);
 
-    // 4. Content Injection
+    // 5. STATIC CONTENT INJECTION
     const setText = (id, text) => {
         const el = document.getElementById(id);
         if (el) el.textContent = text;
@@ -55,27 +51,27 @@ try {
         if (el) el.href = url;
     };
 
-    setText('p-name', data.profile.name);
-    setText('p-title', data.profile.title[LANG]);
-    setText('p-location', data.meta.location[LANG]);
-    setText('ui-print', data.ui.print[LANG]);
+    setText('p-name', localizedData.person.name);
+    setText('p-title', localizedData.person.jobTitle);
+    setText('p-location', localizedData.meta.location);
+    setText('ui-print', localizedData.ui.print);
 
-    setText('link-email', data.meta.email);
-    setHref('link-email', `mailto:${data.meta.email}`);
+    setText('link-email', localizedData.meta.email);
+    setHref('link-email', `mailto:${localizedData.meta.email}`);
 
-    setText('link-linkedin', data.meta.linkedinLabel);
-    setHref('link-linkedin', data.meta.linkedin);
+    setText('link-linkedin', localizedData.meta.linkedinLabel);
+    setHref('link-linkedin', localizedData.meta.linkedin);
 
-    // Main Layout Render
-    mainContent.innerHTML = utils.renderLayout(data, LANG);
+    // 6. MAIN LAYOUT RENDER
+    mainContent.innerHTML = utils.renderLayout(localizedData, LANG);
 
-    // 5. Write Output
+    // 7. WRITE OUTPUT
     fs.writeFileSync(CONFIG.outputFile, dom.serialize());
 
     console.log(`✅ Success: '${CONFIG.outputFile}' generated.`);
-    console.log(`   - SEO updated`);
+    console.log(`   - Language resolved to: ${LANG}`);
     console.log(`   - JSON-LD injected`);
-    console.log(`   - Content rendered`);
+    console.log(`   - Layout rendered`);
 
 } catch (err) {
     console.error("\n❌ Error generating static site:");

@@ -1,9 +1,6 @@
-// script.js
-
 (function () {
     "use strict";
 
-    // Dependencies
     const data = window.resumeData;
     const utils = window.resumeUtils;
 
@@ -12,7 +9,6 @@
         return;
     }
 
-    // --- DOM CACHE ---
     const DOM = {
         docTitle: document.title,
         html: document.documentElement,
@@ -40,7 +36,6 @@
         }
     };
 
-    // --- STATE ---
     const State = {
         lang: localStorage.getItem('preferredLang') || (navigator.language.startsWith('tr') ? 'tr' : 'en'),
     };
@@ -49,44 +44,48 @@
     function renderResume(lang) {
         const scrollPos = window.scrollY;
 
-        // Centralized Metadata Update
-        utils.updateMetadata(document, data, lang);
+        // A. UNIVERSAL SCRAPE
 
+        const localizedData = utils.scrapeData(data, lang);
+
+        // B. UPDATE METADATA (Title, Meta Tags, JSON-LD)
+        utils.updateMetadata(document, localizedData);
+
+        // C. SET LANGUAGE ATTRIBUTE
         DOM.html.lang = lang;
 
-        // Header Updates
-        if (DOM.header.name) DOM.header.name.textContent = data.profile.name;
-        if (DOM.header.title) DOM.header.title.textContent = data.profile.title[lang];
-        if (DOM.header.location) DOM.header.location.textContent = data.meta.location[lang];
+        // D. UPDATE HEADER (Using clean localizedData)
+        if (DOM.header.name) DOM.header.name.textContent = localizedData.person.name;
+        if (DOM.header.title) DOM.header.title.textContent = localizedData.person.jobTitle;
+        if (DOM.header.location) DOM.header.location.textContent = localizedData.meta.location;
+        if (DOM.header.printBtn) DOM.header.printBtn.textContent = localizedData.ui.print;
 
         if (DOM.header.email) {
-            DOM.header.email.textContent = data.meta.email;
-            DOM.header.email.href = `mailto:${data.meta.email}`;
+            DOM.header.email.textContent = localizedData.meta.email;
+            DOM.header.email.href = `mailto:${localizedData.meta.email}`;
         }
 
         if (DOM.header.linkedin) {
-            DOM.header.linkedin.textContent = data.meta.linkedinLabel;
-            DOM.header.linkedin.href = data.meta.linkedin;
+            DOM.header.linkedin.textContent = localizedData.meta.linkedinLabel;
+            DOM.header.linkedin.href = localizedData.meta.linkedin;
         }
 
-        if (DOM.header.printBtn) DOM.header.printBtn.textContent = data.ui.print[lang];
+        // E. RENDER CONTENT LAYOUT
+        const mainHTML = utils.renderLayout(localizedData, lang);
 
-        // Content Rendering
-        const mainHTML = utils.renderLayout(data, lang);
-
-        // Update DOM only if changed
+        // Update DOM only if changed to prevent unnecessary repaints
         if (DOM.mainContent.innerHTML !== mainHTML) {
             DOM.mainContent.innerHTML = mainHTML;
             handleContentAnimations(scrollPos);
         }
 
-        // Restore State
+        // F. RESTORE STATE & STYLE
         window.scrollTo(0, scrollPos);
 
         if (DOM.btns.tr) DOM.btns.tr.setAttribute('aria-pressed', lang === 'tr');
         if (DOM.btns.en) DOM.btns.en.setAttribute('aria-pressed', lang === 'en');
 
-        // Skill Tag Staggering
+        // Skill Tag Staggering Animation
         document.querySelectorAll('.skill-tag').forEach((tag, index) => {
             tag.style.animationDelay = `${(index + 1) * 0.05}s`;
         });
@@ -97,15 +96,12 @@
 
     function handleContentAnimations(scrollPos) {
         const sections = DOM.mainContent.querySelectorAll('section');
-
         if (scrollPos < 100) {
-            // Fresh load animation
             sections.forEach((section, index) => {
                 section.style.opacity = "0";
                 section.style.animation = `slideUp 0.6s ease-out ${(index + 1) * 0.1}s forwards`;
             });
         } else {
-            // Instant visibility
             sections.forEach(section => {
                 section.style.opacity = "1";
                 section.style.animation = "none";
@@ -115,21 +111,17 @@
     }
 
     // --- 2. INTERACTIVITY ---
-
-    // Skill Popover Logic
     function createPopover(btn, targets, summaryId) {
         const isTr = DOM.html.lang === 'tr';
         const dropdown = document.createElement('div');
         dropdown.className = 'nav-dropdown';
         dropdown._triggerBtn = btn;
 
-        // Header
         const header = document.createElement('div');
         header.className = 'nav-dropdown-header';
         header.innerText = isTr ? "Bağlantılar:" : "Connections:";
         dropdown.appendChild(header);
 
-        // Items
         targets.forEach(id => {
             const targetEl = document.getElementById(id);
             if (!targetEl) return;
@@ -139,6 +131,8 @@
                 role = isTr ? "Yetkinlik Özeti" : "Skills Summary";
                 context = isTr ? "Kategoriyi Görüntüle" : "View Category";
             } else {
+                // Scrape text directly from the rendered DOM
+                // This works because the DOM is already localized
                 role = targetEl.querySelector('.job-title')?.innerText || "Unknown Role";
                 context = targetEl.querySelector('.company')?.innerText || "";
             }
@@ -194,7 +188,7 @@
         const existing = document.querySelector('.nav-dropdown');
         if (existing) {
             if (existing._triggerBtn === btn) {
-                existing.remove(); // Toggle off
+                existing.remove();
                 return;
             }
             existing.remove();
@@ -204,7 +198,6 @@
         const originId = btn.dataset.origin;
         const validTargets = targetIds.filter(id => id !== originId);
 
-        // Add "Back to hub" link if not already on it
         const summaryId = 'skills-list';
         if (originId !== 'summary' && originId !== summaryId) {
             validTargets.push(summaryId);
@@ -228,7 +221,6 @@
         }
     }
 
-    // Popover Close Listener
     function handleOutsideClick(e) {
         const existingDropdown = document.querySelector('.nav-dropdown');
         if (existingDropdown && !e.target.closest('.skill-tag')) {
@@ -240,14 +232,12 @@
     function init() {
         renderResume(State.lang);
 
-        // Event Delegation
         DOM.body.addEventListener('click', (e) => {
             handleSkillClick(e);
             handleDescriptionToggle(e);
         });
         document.addEventListener('click', handleOutsideClick);
 
-        // Language Switch
         const setLang = (lang) => {
             localStorage.setItem('preferredLang', lang);
             State.lang = lang;
@@ -256,10 +246,9 @@
         if (DOM.btns.tr) DOM.btns.tr.addEventListener('click', () => setLang('tr'));
         if (DOM.btns.en) DOM.btns.en.addEventListener('click', () => setLang('en'));
 
-        // Print
+
         if (DOM.btns.print) DOM.btns.print.addEventListener('click', () => window.print());
 
-        // Theme Toggle
         if (DOM.btns.theme) {
             DOM.btns.theme.addEventListener('click', () => {
                 const isDark = DOM.html.getAttribute('data-theme') === 'dark';
@@ -273,7 +262,6 @@
             });
         }
 
-        // Copy Email
         if (DOM.header.email) {
             DOM.header.email.addEventListener('click', (e) => {
                 e.preventDefault();
