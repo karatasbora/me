@@ -51,7 +51,7 @@
 
     // --- 1. MAIN RENDER ---
     function renderResume(lang) {
-        const scrollPos = window.scrollY;
+        // const scrollPos = window.scrollY; // Granular updates conserve scroll naturally
 
         // A. UNIVERSAL SCRAPE
 
@@ -79,25 +79,25 @@
             DOM.header.linkedin.href = localizedData.meta.linkedin;
         }
 
-        // E. RENDER CONTENT LAYOUT
-        const mainHTML = utils.renderLayout(localizedData, lang);
+        // E. UPDATE CONTENT (Granular DOM Updates)
+        utils.updatePageContent(document, localizedData, lang);
 
-        // Update DOM only if changed to prevent unnecessary repaints
-        if (DOM.mainContent.innerHTML !== mainHTML) {
-            DOM.mainContent.innerHTML = mainHTML;
-            handleContentAnimations(scrollPos);
-        }
-
-        // F. RESTORE STATE & STYLE
-        window.scrollTo(0, scrollPos);
+        // F. ANIMATIONS & AESTHETICS
+        // Since we are not trashing the DOM, animations might not re-trigger automatically.
+        // If we want re-entrance animations on language switch, we can manually trigger them.
+        handleContentAnimations();
 
         Object.values(DOM.langBtns).forEach(btn => {
             btn.setAttribute('aria-pressed', btn.dataset.lang === lang);
         });
 
-        // Skill Tag Staggering Animation
+        // Skill Tag Staggering Animation (Re-apply indices)
         document.querySelectorAll('.skill-tag').forEach((tag, index) => {
             tag.style.animationDelay = `${(index + 1) * 0.05}s`;
+            // Force reflow to restart animation if needed, or simple add/remove class
+            tag.classList.remove('animate');
+            void tag.offsetWidth; // trigger reflow
+            tag.classList.add('animate');
         });
 
         DOM.body.classList.forEach(cls => {
@@ -106,20 +106,15 @@
         DOM.body.classList.add(`lang-${lang}`);
     }
 
-    function handleContentAnimations(scrollPos) {
+    function handleContentAnimations() {
         const sections = DOM.mainContent.querySelectorAll('section');
-        if (scrollPos < 100) {
-            sections.forEach((section, index) => {
-                section.style.opacity = "0";
-                section.style.animation = `slideUp 0.6s ease-out ${(index + 1) * 0.1}s forwards`;
-            });
-        } else {
-            sections.forEach(section => {
-                section.style.opacity = "1";
-                section.style.animation = "none";
-                section.style.transform = "translateY(0)";
-            });
-        }
+        // Simple re-entry animation for all sections
+        sections.forEach((section, index) => {
+            section.classList.remove('animate-in');
+            void section.offsetWidth; // trigger reflow
+            section.style.animationDelay = `${(index + 1) * 0.1}s`;
+            section.classList.add('animate-in');
+        });
     }
 
     // --- 2. INTERACTIVITY ---

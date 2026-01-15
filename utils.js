@@ -6,19 +6,8 @@
     }
 }(typeof self !== 'undefined' ? self : this, function () {
 
-    // --- 1. XSS PROTECTION ---
-    function escapeHtml(unsafe) {
-        if (typeof unsafe !== 'string') return unsafe;
-        return unsafe
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
+    // --- 1. DATA HELPERS ---
 
-    // --- 2. UNIVERSAL SCRAPER ---
-    // --- 2. UNIVERSAL SCRAPER ---
     function getAvailableLanguages(node, collected = new Set()) {
         if (node === null || typeof node !== 'object') return Array.from(collected);
 
@@ -58,7 +47,6 @@
         return localized;
     }
 
-    // --- 3. SUB-RENDERERS (Dumb & Clean) ---
     function getRelevantSkills(id, skillCategories) {
         const relevant = [];
         if (!id || !skillCategories) return relevant;
@@ -76,156 +64,277 @@
         return relevant;
     }
 
-    function renderBlock(items, skillCategories, lang, toggleText) {
-        if (!items) return '';
+    // --- 2. DOM BUILDERS (Safe & Granular) ---
 
-        return items.map(item => {
-            let title = item.jobTitle || item.name || item.award;
+    // Helper to clear an element
+    function clearElement(el) {
+        while (el.firstChild) {
+            el.removeChild(el.firstChild);
+        }
+    }
 
-            let sub = "";
-            if (item.worksFor) {
-                sub = item.worksFor.name ? item.worksFor.name : item.worksFor;
-            } else if (item.creator) {
-                sub = item.creator.jobTitle ? item.creator.jobTitle : item.creator;
-            } else if (item['@type'] === 'EducationalOrganization') {
-                // For Education: Title = Degree (Award), Sub = School (Name)
-                title = item.award;
-                sub = item.name;
-            }
+    function createIcon(iconSVG) {
+        const div = document.createElement('div');
+        div.innerHTML = iconSVG;
+        return div.firstElementChild;
+    }
 
-            const date = item.startDate || item.dateCreated;
-            const desc = item.description;
+    // SVG Constant
+    const CHEVRON_SVG = '<svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
 
-            let locationHTML = '';
-            if (item.links) {
-                locationHTML = item.links.map(link =>
-                    `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>`
-                ).join(' <span class="sep">·</span> ');
-            } else {
-                let loc = item.location;
-                if (item.url) {
-                    locationHTML = `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(loc)}</a>`;
-                } else if (loc && loc.includes('.') && !loc.includes(' ')) {
-                    locationHTML = `<a href="https://${escapeHtml(loc)}" target="_blank" rel="noopener noreferrer">${escapeHtml(loc)}</a>`;
-                } else {
-                    locationHTML = escapeHtml(loc);
+    function createSkillTag(label, targets, origin) {
+        const btn = document.createElement('button');
+        btn.className = 'skill-tag';
+        if (targets) btn.dataset.targets = Array.isArray(targets) ? targets.join(',') : targets;
+        if (origin) btn.dataset.origin = origin;
+        btn.textContent = label;
+        return btn;
+    }
+
+    function createBlockItem(item, skillCategories, lang, toggleText) {
+        let title = item.jobTitle || item.name || item.award;
+
+        let sub = "";
+        if (item.worksFor) {
+            sub = item.worksFor.name ? item.worksFor.name : item.worksFor;
+        } else if (item.creator) {
+            sub = item.creator.jobTitle ? item.creator.jobTitle : item.creator;
+        } else if (item['@type'] === 'EducationalOrganization') {
+            // For Education: Title = Degree (Award), Sub = School (Name)
+            title = item.award;
+            sub = item.name;
+        }
+
+        const date = item.startDate || item.dateCreated;
+        const desc = item.description;
+
+        // Container
+        const block = document.createElement('div');
+        block.className = 'job-block';
+        if (item.id) block.id = item.id;
+
+        // Header
+        const header = document.createElement('div');
+        header.className = 'job-header';
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'job-title';
+        titleSpan.textContent = title;
+
+        const dateSpan = document.createElement('span');
+        dateSpan.className = 'job-date';
+        dateSpan.textContent = date;
+
+        header.appendChild(titleSpan);
+        header.appendChild(dateSpan);
+        block.appendChild(header);
+
+        // Subheader
+        const subheader = document.createElement('div');
+        subheader.className = 'job-subheader';
+
+        const companySpan = document.createElement('span');
+        companySpan.className = 'company';
+        companySpan.textContent = sub;
+
+        const locationSpan = document.createElement('span');
+        locationSpan.className = 'location';
+
+        // Location Logic
+        if (item.links) {
+            item.links.forEach((link, idx) => {
+                if (idx > 0) {
+                    const sep = document.createElement('span');
+                    sep.className = 'sep';
+                    sep.textContent = ' · ';
+                    locationSpan.appendChild(sep);
                 }
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.textContent = link.label;
+                locationSpan.appendChild(a);
+            });
+        } else {
+            let loc = item.location;
+            if (item.url) {
+                const a = document.createElement('a');
+                a.href = item.url;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.textContent = loc;
+                locationSpan.appendChild(a);
+            } else if (loc && loc.includes('.') && !loc.includes(' ')) {
+                const a = document.createElement('a');
+                a.href = 'https://' + loc;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.textContent = loc;
+                locationSpan.appendChild(a);
+            } else {
+                locationSpan.textContent = loc;
             }
+        }
 
-            const relevantSkills = getRelevantSkills(item.id, skillCategories);
-            const tagsHTML = relevantSkills.length > 0 ?
-                `<div class="tags-wrapper branding-tags">
-                    ${relevantSkills.map(s =>
-                    `<button class="skill-tag" 
-                                data-targets="${s.targets.join(',')}" 
-                                data-origin="${item.id}">
-                            ${escapeHtml(s.label)}
-                        </button>`
-                ).join('')}
-                </div>` : '';
+        subheader.appendChild(companySpan);
+        subheader.appendChild(locationSpan);
+        block.appendChild(subheader);
 
-            // Used passed toggleText or default if missing (though it shouldn't be)
-            const btnText = toggleText || (lang === 'tr' ? 'Detayları Göster' : 'Show Details');
+        // Content
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'job-content';
 
-            return `
-            <div class="job-block" id="${item.id}">
-                <div class="job-header">
-                    <span class="job-title">${escapeHtml(title)}</span>
-                    <span class="job-date">${escapeHtml(date)}</span>
-                </div>
-                <div class="job-subheader">
-                    <span class="company">${escapeHtml(sub)}</span>
-                    <span class="location">${locationHTML}</span>
-                </div>
-                <div class="job-content">
-                    <button class="desc-toggle" aria-expanded="false" aria-label="${btnText}">
-                        <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </button>
-                    <div class="job-description collapsed">
-                        <div class="desc-inner"><p>${escapeHtml(desc)}</p></div>
-                    </div>
-                    ${tagsHTML}
-                </div>
-            </div>`;
-        }).join('');
+        const btnText = toggleText || (lang === 'tr' ? 'Detayları Göster' : 'Show Details');
+
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'desc-toggle';
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        toggleBtn.setAttribute('aria-label', btnText);
+        toggleBtn.appendChild(createIcon(CHEVRON_SVG));
+        contentDiv.appendChild(toggleBtn);
+
+        const descDiv = document.createElement('div');
+        descDiv.className = 'job-description collapsed';
+
+        const descInner = document.createElement('div');
+        descInner.className = 'desc-inner';
+        const p = document.createElement('p');
+        p.textContent = desc;
+        descInner.appendChild(p);
+        descDiv.appendChild(descInner);
+        contentDiv.appendChild(descDiv);
+
+        // Tags
+        const relevantSkills = getRelevantSkills(item.id, skillCategories);
+        if (relevantSkills.length > 0) {
+            const tagsWrapper = document.createElement('div');
+            tagsWrapper.className = 'tags-wrapper branding-tags';
+            relevantSkills.forEach(s => {
+                tagsWrapper.appendChild(createSkillTag(s.label, s.targets, item.id));
+            });
+            contentDiv.appendChild(tagsWrapper);
+        }
+
+        block.appendChild(contentDiv);
+        return block;
     }
 
-    function renderTags(skillCategories) {
-        if (!skillCategories) return '';
-        return `<div class="job-block skills-container">
-            ${skillCategories.map(cat => `
-                <div class="skill-category">
-                    <h3 class="skill-category-title">${escapeHtml(cat.category)}</h3>
-                    <div class="tags-wrapper">
-                        ${cat.items.map(skill =>
-            `<button class="skill-tag" 
-                                     data-targets="${skill.targets ? skill.targets.join(',') : ''}" 
-                                     data-origin="summary">
-                                ${escapeHtml(skill.name)}
-                            </button>`
-        ).join('')}
-                    </div>
-                </div>`
-        ).join('')}
-        </div>`;
+    function renderBlockList(container, items, skillCategories, lang, toggleText) {
+        clearElement(container);
+        if (!items) return;
+
+        const fragment = document.createDocumentFragment();
+        items.forEach(item => {
+            fragment.appendChild(createBlockItem(item, skillCategories, lang, toggleText));
+        });
+        container.appendChild(fragment);
     }
 
-    function renderGrid(languages) {
-        if (!languages) return '';
-        return `
-        <div class="job-block">
-            <div class="lang-grid">
-                ${languages.map(l => `
-                    <div class="lang-item">
-                        <span class="lang-title">${escapeHtml(l.name)}</span>
-                        <span class="lang-level">${escapeHtml(l.proficiencyLevel)}</span>
-                    </div>`
-        ).join('')}
-            </div>
-        </div>`;
+    function renderTags(container, skillCategories) {
+        clearElement(container);
+        if (!skillCategories) return;
+
+        const block = document.createElement('div');
+        block.className = 'job-block skills-container';
+
+        skillCategories.forEach(cat => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'skill-category';
+
+            const h3 = document.createElement('h3');
+            h3.className = 'skill-category-title';
+            h3.textContent = cat.category;
+            wrapper.appendChild(h3);
+
+            const tagsDiv = document.createElement('div');
+            tagsDiv.className = 'tags-wrapper';
+
+            cat.items.forEach(skill => {
+                tagsDiv.appendChild(createSkillTag(skill.name, skill.targets, 'summary'));
+            });
+            wrapper.appendChild(tagsDiv);
+            block.appendChild(wrapper);
+        });
+
+        container.appendChild(block);
     }
 
-    // --- 4. MAIN LAYOUT RENDERER ---
-    function renderLayout(cleanData, lang) {
-        if (!cleanData.structure) return '<p>Error: Structure missing</p>';
+    function renderGrid(container, languages) {
+        clearElement(container);
+        if (!languages) return;
+
+        const block = document.createElement('div');
+        block.className = 'job-block';
+
+        const grid = document.createElement('div');
+        grid.className = 'lang-grid';
+
+        languages.forEach(l => {
+            const item = document.createElement('div');
+            item.className = 'lang-item';
+
+            const title = document.createElement('span');
+            title.className = 'lang-title';
+            title.textContent = l.name;
+
+            const level = document.createElement('span');
+            level.className = 'lang-level';
+            level.textContent = l.proficiencyLevel;
+
+            item.appendChild(title);
+            item.appendChild(level);
+            grid.appendChild(item);
+        });
+
+        block.appendChild(grid);
+        container.appendChild(block);
+    }
+
+    // --- 3. PAGE UPDATER ---
+
+    function updatePageContent(doc, cleanData, lang) {
+        if (!cleanData.structure) return;
 
         const skillData = cleanData.person.knowsAbout;
 
-        return cleanData.structure.map(section => {
-            const title = cleanData.ui[section.titleKey];
-
-            // Navigate data path (e.g., "person.hasOccupation")
-            let contentData = cleanData;
-            if (section.dataKey) {
-                section.dataKey.split('.').forEach(k => {
-                    contentData = (contentData && contentData[k]) ? contentData[k] : null;
-                });
+        cleanData.structure.forEach(section => {
+            // 1. Update Section Title
+            const titleEl = doc.getElementById(`ui-${section.titleKey}`);
+            if (titleEl) {
+                titleEl.textContent = cleanData.ui[section.titleKey];
             }
 
-            let contentHTML = '';
-            if (section.type === 'text') {
-                contentHTML = contentData ? `<p>${escapeHtml(contentData)}</p>` : '';
-            } else if (section.type === 'list') {
-                contentHTML = renderBlock(contentData, skillData, lang, cleanData.ui.showDetails);
-            } else if (section.type === 'tags') {
-                contentHTML = renderTags(contentData);
-            } else if (section.type === 'grid') {
-                contentHTML = renderGrid(contentData);
-            }
+            // 2. Update Section Content
+            const listContainer = doc.getElementById(`${section.titleKey}-list`);
+            if (listContainer) {
+                // Navigate data path
+                let contentData = cleanData;
+                if (section.dataKey) {
+                    section.dataKey.split('.').forEach(k => {
+                        contentData = (contentData && contentData[k]) ? contentData[k] : null;
+                    });
+                }
 
-            return `
-            <section>
-                <h2 id="ui-${section.titleKey}">${escapeHtml(title)}</h2>
-                <div id="${section.titleKey}-list">
-                    ${contentHTML}
-                </div>
-            </section>`;
-        }).join('');
+                if (section.type === 'text') {
+                    clearElement(listContainer);
+                    if (contentData) {
+                        const p = document.createElement('p');
+                        p.textContent = contentData;
+                        listContainer.appendChild(p);
+                    }
+                } else if (section.type === 'list') {
+                    renderBlockList(listContainer, contentData, skillData, lang, cleanData.ui.showDetails);
+                } else if (section.type === 'tags') {
+                    renderTags(listContainer, contentData);
+                } else if (section.type === 'grid') {
+                    renderGrid(listContainer, contentData);
+                }
+            }
+        });
     }
 
-    // --- 5. METADATA & JSON-LD INJECTOR ---
+    // --- 4. METADATA & JSON-LD INJECTOR ---
     function updateMetadata(doc, cleanData) {
         if (!doc || !cleanData) return;
 
@@ -271,5 +380,5 @@
         }
     }
 
-    return { renderLayout, updateMetadata, scrapeData, getAvailableLanguages };
+    return { updatePageContent, updateMetadata, scrapeData, getAvailableLanguages };
 }));
