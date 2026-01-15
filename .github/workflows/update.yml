@@ -1,10 +1,9 @@
-name: Auto-Update SEO Content
+name: Auto-Update Content
 
-# Trigger the workflow only when data.js or the script changes on the main branch
 on:
   push:
     branches:
-      - main  # Change this to 'master' if your branch is named master
+      - main
     paths:
       - 'data.js'
       - 'static.js'
@@ -14,7 +13,6 @@ jobs:
   update-static-content:
     runs-on: ubuntu-latest
     
-    # Permission needed to push changes back to the repo
     permissions:
       contents: write
 
@@ -30,12 +28,11 @@ jobs:
           node-version: '18'
 
       # 3. Install Dependencies (JSDOM)
-      # This is required because the runner starts empty every time.
       - name: Install dependencies
         run: npm install jsdom
 
       # 4. Run the generator script
-      - name: Run SEO Generator
+      - name: Run Generator
         run: node static.js
 
       # 5. Check for changes and commit back to repo

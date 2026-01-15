@@ -1,5 +1,3 @@
-// data.js
-
 const resumeData = {
     // --- 1. CONFIGURATION: THE LAYOUT ---
     structure: [
@@ -37,6 +35,7 @@ const resumeData = {
 
     // --- 3. GLOBAL META ---
     meta: {
+        baseUrl: "https://karatasbora.github.io/me",
         image: "profil.webp",
         email: "borakaratas@anadolu.edu.tr",
         linkedin: "https://www.linkedin.com/in/borakaratas",
@@ -44,6 +43,10 @@ const resumeData = {
         location: {
             tr: "Eskişehir, Türkiye",
             en: "Eskisehir, Turkey"
+        },
+        keywords: {
+            tr: "Bora Karataş, Eğitim Teknoloğu, Öğretim Tasarımı, ELT, Yapay Zeka, Eğitimde YZ",
+            en: "Bora Karataş, Instructional Technologist, Instructional Design, ELT, AI in Education, EdTech"
         }
     },
 
