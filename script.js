@@ -6,6 +6,13 @@
 
     if (!data || !utils) {
         console.error("Critical Dependency Missing: resumeData or resumeUtils not found.");
+        const main = document.getElementById('main-content') || document.body;
+        main.innerHTML = `
+            <div style="text-align: center; padding: 50px; font-family: sans-serif; color: var(--text-primary, #333);">
+                <h2>Unable to Load Resume</h2>
+                <p>There was a problem loading the necessary files. Please check your connection or try again later.</p>
+            </div>
+        `;
         return;
     }
 
@@ -27,17 +34,19 @@
         },
 
         // Controls
+        controls: document.querySelector('.controls'),
+        separator: document.querySelector('.controls .separator'),
         btns: {
-            tr: document.getElementById('btn-tr'),
-            en: document.getElementById('btn-en'),
             print: document.getElementById('btn-print'),
             theme: document.getElementById('btn-theme'),
             jsonLd: document.getElementById('json-ld')
-        }
+        },
+        langBtns: {} // Will be populated dynamically
     };
 
     const State = {
         lang: localStorage.getItem('preferredLang') || (navigator.language.startsWith('tr') ? 'tr' : 'en'),
+        availableLangs: []
     };
 
     // --- 1. MAIN RENDER ---
@@ -82,15 +91,18 @@
         // F. RESTORE STATE & STYLE
         window.scrollTo(0, scrollPos);
 
-        if (DOM.btns.tr) DOM.btns.tr.setAttribute('aria-pressed', lang === 'tr');
-        if (DOM.btns.en) DOM.btns.en.setAttribute('aria-pressed', lang === 'en');
+        Object.values(DOM.langBtns).forEach(btn => {
+            btn.setAttribute('aria-pressed', btn.dataset.lang === lang);
+        });
 
         // Skill Tag Staggering Animation
         document.querySelectorAll('.skill-tag').forEach((tag, index) => {
             tag.style.animationDelay = `${(index + 1) * 0.05}s`;
         });
 
-        DOM.body.classList.remove('lang-tr', 'lang-en');
+        DOM.body.classList.forEach(cls => {
+            if (cls.startsWith('lang-')) DOM.body.classList.remove(cls);
+        });
         DOM.body.classList.add(`lang-${lang}`);
     }
 
@@ -230,6 +242,44 @@
 
     // --- 3. INIT ---
     function init() {
+        State.availableLangs = utils.getAvailableLanguages(data);
+
+        // Dynamic Language Buttons
+        if (DOM.controls && State.availableLangs.length > 0) {
+            // Remove existing static buttons if any
+            const staticTr = document.getElementById('btn-tr');
+            const staticEn = document.getElementById('btn-en');
+            if (staticTr) staticTr.remove();
+            if (staticEn) staticEn.remove();
+
+            // Create new buttons
+            const fragment = document.createDocumentFragment();
+            State.availableLangs.forEach(lang => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-icon';
+                btn.id = `btn-${lang}`;
+                btn.textContent = lang.toUpperCase();
+                btn.setAttribute('aria-label', `Switch to ${lang.toUpperCase()}`);
+                btn.dataset.lang = lang;
+
+                btn.addEventListener('click', () => {
+                    localStorage.setItem('preferredLang', lang);
+                    State.lang = lang;
+                    renderResume(lang);
+                });
+
+                DOM.langBtns[lang] = btn;
+                fragment.appendChild(btn);
+            });
+
+            // Insert after separator, or at end if no separator
+            if (DOM.separator) {
+                DOM.separator.after(fragment);
+            } else {
+                DOM.controls.appendChild(fragment);
+            }
+        }
+
         renderResume(State.lang);
 
         DOM.body.addEventListener('click', (e) => {
@@ -237,14 +287,6 @@
             handleDescriptionToggle(e);
         });
         document.addEventListener('click', handleOutsideClick);
-
-        const setLang = (lang) => {
-            localStorage.setItem('preferredLang', lang);
-            State.lang = lang;
-            renderResume(lang);
-        };
-        if (DOM.btns.tr) DOM.btns.tr.addEventListener('click', () => setLang('tr'));
-        if (DOM.btns.en) DOM.btns.en.addEventListener('click', () => setLang('en'));
 
 
         if (DOM.btns.print) DOM.btns.print.addEventListener('click', () => window.print());

@@ -18,14 +18,39 @@
     }
 
     // --- 2. UNIVERSAL SCRAPER ---
+    // --- 2. UNIVERSAL SCRAPER ---
+    function getAvailableLanguages(node, collected = new Set()) {
+        if (node === null || typeof node !== 'object') return Array.from(collected);
+
+        // Check if this is a translation node (heuristic: contains 'en' or 'tr')
+        if (node.en || node.tr) {
+            Object.keys(node).forEach(key => collected.add(key));
+            return Array.from(collected);
+        }
+
+        if (Array.isArray(node)) {
+            node.forEach(item => getAvailableLanguages(item, collected));
+        } else {
+            Object.values(node).forEach(val => getAvailableLanguages(val, collected));
+        }
+
+        return Array.from(collected);
+    }
+
     function scrapeData(node, lang) {
         if (node === null || typeof node !== 'object') return node;
+
+        // Heuristic: It's a translation node if it has 'en' or 'tr'
+        if (node.en || node.tr) {
+            if (node[lang]) return node[lang];
+            if (node['en']) return node['en']; // Fallback to English
+            return Object.values(node)[0];      // Fallback to first available
+        }
+
         if (Array.isArray(node)) {
             return node.map(item => scrapeData(item, lang));
         }
-        if (node.tr && node.en) {
-            return node[lang];
-        }
+
         const localized = {};
         for (const key in node) {
             localized[key] = scrapeData(node[key], lang);
@@ -231,5 +256,5 @@
         }
     }
 
-    return { renderLayout, updateMetadata, scrapeData };
+    return { renderLayout, updateMetadata, scrapeData, getAvailableLanguages };
 }));
