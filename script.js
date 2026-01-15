@@ -328,38 +328,31 @@
 
         // Dynamic Language Buttons
         if (DOM.controls && State.availableLangs.length > 0) {
-            // Remove existing static buttons if any
-            const staticTr = document.getElementById('btn-tr');
-            const staticEn = document.getElementById('btn-en');
-            if (staticTr) staticTr.remove();
-            if (staticEn) staticEn.remove();
-
-            // Create new buttons
-            const fragment = document.createDocumentFragment();
             State.availableLangs.forEach(lang => {
-                const btn = document.createElement('button');
-                btn.className = 'btn-icon';
-                btn.id = `btn-${lang}`;
-                btn.textContent = lang.toUpperCase();
-                btn.setAttribute('aria-label', `Switch to ${lang.toUpperCase()}`);
-                btn.dataset.lang = lang;
+                let btn = document.getElementById(`btn-${lang}`);
+                if (!btn) {
+                    btn = document.createElement('button');
+                    btn.className = 'btn-icon';
+                    btn.id = `btn-${lang}`;
+                    btn.textContent = lang.toUpperCase();
+                    btn.setAttribute('aria-label', `Switch to ${lang.toUpperCase()}`);
 
-                btn.addEventListener('click', () => {
+                    if (DOM.separator) {
+                        DOM.separator.parentElement.appendChild(btn);
+                    } else {
+                        DOM.controls.appendChild(btn);
+                    }
+                }
+
+                btn.dataset.lang = lang;
+                btn.onclick = () => {
                     localStorage.setItem('preferredLang', lang);
                     State.lang = lang;
                     renderResume(lang);
-                });
+                };
 
                 DOM.langBtns[lang] = btn;
-                fragment.appendChild(btn);
             });
-
-            // Insert after separator, or at end if no separator
-            if (DOM.separator) {
-                DOM.separator.after(fragment);
-            } else {
-                DOM.controls.appendChild(fragment);
-            }
         }
 
         renderResume(State.lang);
