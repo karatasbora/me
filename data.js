@@ -1,4 +1,10 @@
 // --- 1. SINGLE SOURCE OF TRUTH (Local Definitions) ---
+/**
+ * @typedef {Object} LocalizedString
+ * @property {string} tr
+ * @property {string} en
+ */
+/** @type {{ baseUrl: string, image: string, email: string, linkedin: string, linkedinLabel: string, location: LocalizedString, keywords: LocalizedString, verificationCodes: { google: string } }} */
 const meta = {
     baseUrl: "https://karatasbora.github.io/me",
     image: "profil.webp",
@@ -6,12 +12,16 @@ const meta = {
     linkedin: "https://www.linkedin.com/in/borakaratas",
     linkedinLabel: "linkedin.com/in/borakaratas",
     location: { tr: "Eskişehir, Türkiye", en: "Eskisehir, Turkey" },
+    verificationCodes: {
+        google: "QzyLRgFCHH93peNx08rdCue9fZDR-5OYVc818U5goIU"
+    },
     keywords: {
         tr: "Bora Karataş, Eğitim Teknoloğu, Öğretim Tasarımı, ELT, Yapay Zeka, Eğitimde YZ",
         en: "Bora Karataş, Instructional Technologist, Instructional Design, ELT, AI in Education, EdTech"
     }
 };
 
+/** @type {{ "@type": string, name: string, jobTitle: LocalizedString, description: LocalizedString, hasOccupation: Array<any>, hasCredential: Array<any>, alumniOf: Array<any>, knowsLanguage: Array<any>, knowsAbout: Array<any> }} */
 const person = {
     "@type": "Person",
     name: "Bora Karataş",

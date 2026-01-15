@@ -250,6 +250,20 @@
         setMeta('meta[name="twitter:description"]', 'content', desc);
         setMeta('meta[name="twitter:image"]', 'content', absImgUrl);
 
+        // 1b. Verification Codes
+        if (cleanData.meta && cleanData.meta.verificationCodes) {
+            const { google } = cleanData.meta.verificationCodes;
+            if (google) {
+                let gVerify = doc.querySelector('meta[name="google-site-verification"]');
+                if (!gVerify) {
+                    gVerify = doc.createElement('meta');
+                    gVerify.setAttribute('name', 'google-site-verification');
+                    doc.head.appendChild(gVerify);
+                }
+                gVerify.setAttribute('content', google);
+            }
+        }
+
         // 2. JSON-LD Injection
         const jsonLdScript = doc.getElementById('json-ld');
         if (jsonLdScript && cleanData.jsonLd) {

@@ -34,6 +34,22 @@ try {
 
     // 3. UNIVERSAL SCRAPE
     const LANG = CONFIG.defaultLang;
+
+    // 3b. SCHEMA VALIDATION
+    const requiredFields = [
+        'person.name',
+        'person.jobTitle',
+        'meta.email',
+        'meta.baseUrl'
+    ];
+
+    const getNestedValue = (obj, path) => path.split('.').reduce((acc, part) => acc && acc[part], obj);
+
+    const missingFields = requiredFields.filter(field => !getNestedValue(data, field));
+    if (missingFields.length > 0) {
+        throw new Error(`Schema Validation Failed: Missing required fields: ${missingFields.join(', ')}`);
+    }
+
     const localizedData = utils.scrapeData(data, LANG);
 
     // 4. METADATA & SEO
@@ -67,6 +83,16 @@ try {
 
     // 7. WRITE OUTPUT
     fs.writeFileSync(CONFIG.outputFile, dom.serialize());
+
+    // 8. SITEMAP GENERATION
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+      <loc>${data.meta.baseUrl}/</loc>
+      <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+   </url>
+</urlset>`;
+    fs.writeFileSync('sitemap.xml', sitemap);
 
     console.log(`✅ Success: '${CONFIG.outputFile}' generated.`);
     console.log(`   - Language resolved to: ${LANG}`);

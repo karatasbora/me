@@ -303,6 +303,7 @@ h2 {
 a {
     text-decoration: none;
     color: inherit;
+    border: none;
 }
 
 a[href^="http"]::after {

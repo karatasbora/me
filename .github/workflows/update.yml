@@ -43,13 +43,14 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
           # Stage index.html
-          git add index.html
+          # Stage index.html and sitemap.xml
+          git add index.html sitemap.xml
           
           # Check if there are actual changes before committing
           if git diff --staged --quiet; then
             echo "No changes in SEO content detected."
           else
-            git commit -m "chore(seo): auto-update static content in index.html [skip ci]"
+            git commit -m "chore(seo): auto-update static content (index.html, sitemap.xml) [skip ci]"
             git push
             echo "✅ Successfully updated index.html with new data."
           fi

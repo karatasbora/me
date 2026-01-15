@@ -164,6 +164,18 @@
     }
 }
 
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
 /* --- BASE STYLES --- */
 body {
     font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
@@ -673,7 +685,7 @@ header {
 a {
     color: var(--link-color);
     text-decoration: none;
-    border-bottom: 1px solid var(--border-color);
+    /* border-bottom: 1px solid var(--border-color); Removed as per cleanup */
 }
 
 a:hover {

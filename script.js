@@ -155,7 +155,8 @@
             item.onclick = () => {
                 targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 highlightElement(targetEl);
-                dropdown.remove();
+                highlightElement(targetEl);
+                removePopover(dropdown, btn);
             };
             dropdown.appendChild(item);
         });
@@ -177,6 +178,29 @@
             dropdown.style.left = 'auto';
             dropdown.style.right = '20px';
         }
+
+        // Accessibility: Focus Management
+        // 1. Set focus to the first item (or the dropdown itself)
+        const firstItem = dropdown.querySelector('.nav-item');
+        if (firstItem) {
+            firstItem.focus();
+        } else {
+            dropdown.setAttribute('tabindex', '-1');
+            dropdown.focus();
+        }
+
+        // 2. Add Keydown Listener for Escape and Tab trapping (simple version)
+        const handleKeydown = (e) => {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                removePopover(dropdown, btn);
+                document.removeEventListener('keydown', handleKeydown);
+            }
+        };
+        document.addEventListener('keydown', handleKeydown);
+
+        // Store the cleanup function on the dropdown so we can call it from outside
+        dropdown._cleanup = () => document.removeEventListener('keydown', handleKeydown);
     }
 
     function highlightElement(el) {
@@ -199,11 +223,13 @@
 
         const existing = document.querySelector('.nav-dropdown');
         if (existing) {
+            // If clicking the SAME button that opened it, close it.
             if (existing._triggerBtn === btn) {
-                existing.remove();
+                removePopover(existing, btn);
                 return;
             }
-            existing.remove();
+            // If clicking a DIFFERENT button, close the old one first.
+            removePopover(existing); // Don't return focus to old trigger, as user clicked a new one
         }
 
         const targetIds = btn.dataset.targets ? btn.dataset.targets.split(',') : [];
@@ -233,10 +259,23 @@
         }
     }
 
+    function removePopover(dropdown, returnFocusToBtn = null) {
+        if (!dropdown) return;
+
+        if (dropdown._cleanup) dropdown._cleanup();
+        dropdown.remove();
+
+        // Return focus to the trigger button if requested
+        if (returnFocusToBtn) {
+            returnFocusToBtn.focus();
+        }
+    }
+
     function handleOutsideClick(e) {
         const existingDropdown = document.querySelector('.nav-dropdown');
-        if (existingDropdown && !e.target.closest('.skill-tag')) {
-            existingDropdown.remove();
+        // Close if click is outside the dropdown AND outside any skill-tag
+        if (existingDropdown && !existingDropdown.contains(e.target) && !e.target.closest('.skill-tag')) {
+            removePopover(existingDropdown, existingDropdown._triggerBtn);
         }
     }
 
