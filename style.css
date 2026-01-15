@@ -2,8 +2,7 @@
 
 /* --- THE APPROACHABLE INNOVATOR: DESIGN SYSTEM --- */
 :root {
-    /* --- PALETTE PRIMITIVES (Tailwind CSS) --- */
-    /* SLATE (Neutral) */
+    /* --- PALETTE PRIMITIVES --- */
     --slate-50: #f8fafc;
     --slate-100: #f1f5f9;
     --slate-200: #e2e8f0;
@@ -16,7 +15,6 @@
     --slate-900: #0f172a;
     --slate-950: #020617;
 
-    /* CYAN (Tech Accent) */
     --cyan-50: #ecfeff;
     --cyan-100: #cffafe;
     --cyan-400: #22d3ee;
@@ -24,7 +22,6 @@
     --cyan-600: #0891b2;
     --cyan-950: #083344;
 
-    /* AMBER (Human Accent) */
     --amber-50: #fffbeb;
     --amber-100: #fef3c7;
     --amber-400: #fbbf24;
@@ -32,16 +29,13 @@
     --amber-600: #d97706;
     --amber-950: #451a03;
 
-    /* --- SEMANTIC MAPPING (Light Mode) --- */
+    /* --- SEMANTIC MAPPING --- */
     --bg-color: var(--slate-50);
     --bg-alt: #ffffff;
-
     --primary-text: var(--slate-900);
     --secondary-text: var(--slate-500);
     --meta-color: var(--slate-500);
-
     --border-color: var(--slate-200);
-
     --accent-primary: var(--amber-600);
     --accent-secondary: var(--cyan-600);
 
@@ -58,8 +52,6 @@
     --glass-bg: rgba(255, 255, 255, 0.75);
     --glass-border: rgba(203, 213, 225, 0.8);
     --backdrop-blur: 12px;
-
-    /* RADIUS */
     --radius: 12px;
     --radius-sm: 6px;
 
@@ -71,14 +63,7 @@
     --link-color: var(--slate-900);
     --link-hover: var(--accent-primary);
     --border-hover: var(--slate-300);
-
-    /* FOCUS */
     --focus-ring: 0 0 0 2px var(--slate-50), 0 0 0 4px var(--amber-400);
-
-    /* SCROLLBAR */
-    --scrollbar-track: var(--slate-50);
-    --scrollbar-thumb: var(--slate-300);
-    --scrollbar-thumb-hover: var(--slate-400);
 
     /* TAGS */
     --tag-bg: #ffffff;
@@ -87,7 +72,11 @@
     --tag-hover-text: var(--accent-primary);
     --tag-hover-border: var(--accent-primary);
 
-    /* SELECTION */
+    /* SCROLLBAR */
+    --scrollbar-track: var(--slate-50);
+    --scrollbar-thumb: var(--slate-300);
+    --scrollbar-thumb-hover: var(--slate-400);
+
     ::selection {
         background: var(--cyan-100);
         color: var(--cyan-950);
@@ -108,16 +97,12 @@
     --accent-color: var(--cyan-400);
     --heading-color: #ffffff;
 
-    /* CARDS */
     --card-bg: rgba(15, 23, 42, 0.6);
     --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
     --card-shadow-hover: 0 10px 30px -5px rgba(34, 211, 238, 0.15);
-
-    /* GLASS */
     --glass-bg: rgba(15, 23, 42, 0.6);
     --glass-border: rgba(51, 65, 85, 0.5);
 
-    /* INTERACTIVE */
     --hover-bg: var(--slate-800);
     --hover-text: var(--slate-100);
     --btn-primary-bg: var(--slate-100);
@@ -126,20 +111,17 @@
     --link-hover: var(--cyan-400);
     --border-hover: var(--slate-600);
 
-    /* FOCUS */
     --focus-ring: 0 0 0 2px var(--slate-950), 0 0 0 4px var(--cyan-400);
 
-    /* SCROLLBAR */
-    --scrollbar-track: var(--slate-950);
-    --scrollbar-thumb: var(--slate-700);
-    --scrollbar-thumb-hover: var(--slate-500);
-
-    /* TAGS */
     --tag-bg: var(--slate-900);
     --tag-border: var(--slate-800);
     --tag-hover-bg: var(--slate-800);
     --tag-hover-text: var(--cyan-400);
     --tag-hover-border: var(--cyan-400);
+
+    --scrollbar-track: var(--slate-950);
+    --scrollbar-thumb: var(--slate-700);
+    --scrollbar-thumb-hover: var(--slate-500);
 
     ::selection {
         background: var(--cyan-950);
@@ -147,7 +129,7 @@
     }
 }
 
-/* --- ANIMATIONS (Restored & Fixed) --- */
+/* --- ANIMATIONS (Top Level Definition) --- */
 @keyframes simpleFade {
     from {
         opacity: 0;
@@ -194,7 +176,7 @@ body {
     min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease;
 
-    /* "Grid & Glow" Background */
+    /* Background Pattern */
     background-image:
         radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 20%),
         radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.15) 0%, transparent 20%),
@@ -211,8 +193,8 @@ body {
 }
 
 /* GLOBAL TRANSITIONS */
+/* Removed 'transition: all' which causes chunkiness */
 header,
-.job-block,
 .skill-tag,
 .btn-icon,
 a,
@@ -250,8 +232,8 @@ p {
 
 /* --- HEADER & PROFILE --- */
 header {
-    /* ANIMATION: Fades in on load */
-    animation: simpleFade 0.8s ease-out backwards;
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
 
     display: flex;
     align-items: center;
@@ -411,7 +393,7 @@ header {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* --- JOB CARDS (With Fixed Animation) --- */
+/* --- JOB CARDS --- */
 .job-block {
     background-color: var(--card-bg);
     backdrop-filter: blur(var(--backdrop-blur));
@@ -420,12 +402,15 @@ header {
     padding: 24px;
     margin-bottom: 24px;
     box-shadow: var(--card-shadow);
-    transition: all 0.3s ease;
 
-    /* ANIMATION LOGIC */
-    /* "Backwards" fill-mode ensures it is invisible BEFORE animation starts */
-    /* Standard 0.6s ease-out duration */
-    animation: slideUp 0.6s ease-out backwards;
+    /* CRITICAL FIX: Specific transitions only. */
+    /* If we used 'all', the opacity animation would stutter. */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
+    /* ANIMATION */
+    /* Using opacity only for entrance so it doesn't lock the transform (hover) */
+    opacity: 0;
+    animation: simpleFade 0.8s ease-out forwards;
 }
 
 .job-block:hover {
@@ -502,6 +487,7 @@ header {
     cursor: pointer;
     padding: 0;
     z-index: 2;
+    transition: all 0.2s ease;
 }
 
 .desc-toggle:hover {
@@ -559,9 +545,8 @@ header {
     padding: 6px 12px;
     border-radius: var(--radius-sm);
 
-    /* ANIMATION */
-    animation: tagFadeIn 0.5s ease-out backwards;
-    /* Optional stagger can be done in JS, or basic CSS delay here */
+    opacity: 0;
+    animation: tagFadeIn 0.5s ease-out forwards;
 }
 
 .skill-tag:hover {
@@ -618,7 +603,7 @@ header {
     gap: 30px;
 }
 
-/* --- DROPDOWN NAVIGATION --- */
+/* --- DROPDOWN --- */
 .nav-dropdown {
     position: absolute;
     z-index: 1000;
@@ -674,7 +659,7 @@ header {
     margin-top: 2px;
 }
 
-/* --- LINKS --- */
+/* --- LINKS & ACCESSIBILITY --- */
 a {
     color: var(--link-color);
     text-decoration: none;
@@ -686,23 +671,10 @@ a:hover {
     border-bottom-color: var(--link-hover);
 }
 
-/* --- ACCESSIBILITY --- */
 button:focus-visible,
 a:focus-visible {
     outline: var(--focus-ring);
     outline-offset: 2px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
 }
 
 /* --- RESPONSIVE --- */
