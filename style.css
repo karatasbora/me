@@ -136,6 +136,16 @@
     }
 }
 
+
+/* --- LOADING STATE --- */
+html.js-loading * {
+    transition: none !important;
+}
+
+html.js-loading section {
+    opacity: 0;
+}
+
 /* --- ANIMATIONS (Top Level Definition) --- */
 @keyframes simpleFade {
     from {
@@ -160,7 +170,7 @@
 }
 
 section.animate-in {
-    animation: slideUp 0.6s ease-out forwards;
+    animation: slideUp 0.6s ease-out both;
 }
 
 @keyframes tagFadeIn {

@@ -393,6 +393,9 @@
                 }).catch(err => console.error('Failed to copy', err));
             });
         }
+
+        // Remove loading class to allow animations to play
+        document.documentElement.classList.remove('js-loading');
     }
 
     document.addEventListener('DOMContentLoaded', init);

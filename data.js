@@ -159,7 +159,7 @@ const person = {
             ]
         },
         {
-            category: { tr: "Pedagoji & Tasarımı", en: "Pedagogy & Design" },
+            category: { tr: "Pedagoji & Tasarım", en: "Pedagogy & Design" },
             items: [
                 { name: { tr: "Öğretim Tasarımı", en: "Instructional Design" }, targets: ["job-teacher", "job-editor", "edu-elt"] },
                 { name: { tr: "Pedagoji", en: "Pedagogy" }, targets: ["edu-elt"] },
