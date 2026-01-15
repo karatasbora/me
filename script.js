@@ -124,14 +124,14 @@
 
     // --- 2. INTERACTIVITY ---
     function createPopover(btn, targets, summaryId) {
-        const isTr = DOM.html.lang === 'tr';
+        const lang = State.lang;
         const dropdown = document.createElement('div');
         dropdown.className = 'nav-dropdown';
         dropdown._triggerBtn = btn;
 
         const header = document.createElement('div');
         header.className = 'nav-dropdown-header';
-        header.innerText = isTr ? "Bağlantılar:" : "Connections:";
+        header.innerText = utils.scrapeData(data.ui.connections, lang);
         dropdown.appendChild(header);
 
         targets.forEach(id => {
@@ -140,12 +140,12 @@
 
             let role, context;
             if (id === summaryId) {
-                role = isTr ? "Yetkinlik Özeti" : "Skills Summary";
-                context = isTr ? "Kategoriyi Görüntüle" : "View Category";
+                role = utils.scrapeData(data.ui.skills, lang);
+                context = utils.scrapeData(data.ui.viewCategory, lang);
             } else {
                 // Scrape text directly from the rendered DOM
                 // This works because the DOM is already localized
-                role = targetEl.querySelector('.job-title')?.innerText || "Unknown Role";
+                role = targetEl.querySelector('.job-title')?.innerText || utils.scrapeData(data.ui.unknownRole, lang);
                 context = targetEl.querySelector('.company')?.innerText || "";
             }
 
@@ -308,10 +308,11 @@
             DOM.header.email.addEventListener('click', (e) => {
                 e.preventDefault();
                 const emailText = data.meta.email;
-                const isTr = DOM.html.lang === 'tr';
+                const lang = State.lang;
 
                 navigator.clipboard.writeText(emailText).then(() => {
-                    DOM.header.email.setAttribute('data-copy-text', isTr ? "Kopyalandı!" : "Copied!");
+                    const copiedText = utils.scrapeData(data.ui.copied, lang);
+                    DOM.header.email.setAttribute('data-copy-text', copiedText);
                     DOM.header.email.classList.add('copied');
                     setTimeout(() => DOM.header.email.classList.remove('copied'), 2000);
                 }).catch(err => console.error('Failed to copy', err));

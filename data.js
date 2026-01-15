@@ -200,6 +200,11 @@ const resumeData = {
         skills: { tr: "Yetkinlikler Özeti", en: "Skills Summary" },
         languages: { tr: "Diller", en: "Languages" },
         print: { tr: "PDF", en: "PDF" },
+        connections: { tr: "Bağlantılar:", en: "Connections:" },
+        viewCategory: { tr: "Kategoriyi Görüntüle", en: "View Category" },
+        unknownRole: { tr: "Bilinmeyen Rol", en: "Unknown Role" },
+        copied: { tr: "Kopyalandı!", en: "Copied!" },
+        showDetails: { tr: "Detayları Göster", en: "Show Details" },
 
         documentTitle: {
             tr: "Bora Karataş - Özgeçmiş",

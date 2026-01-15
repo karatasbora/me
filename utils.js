@@ -76,7 +76,7 @@
         return relevant;
     }
 
-    function renderBlock(items, skillCategories, lang) {
+    function renderBlock(items, skillCategories, lang, toggleText) {
         if (!items) return '';
 
         return items.map(item => {
@@ -124,7 +124,8 @@
                 ).join('')}
                 </div>` : '';
 
-            const toggleText = lang === 'tr' ? 'Detayları Göster' : 'Show Details';
+            // Used passed toggleText or default if missing (though it shouldn't be)
+            const btnText = toggleText || (lang === 'tr' ? 'Detayları Göster' : 'Show Details');
 
             return `
             <div class="job-block" id="${item.id}">
@@ -137,7 +138,7 @@
                     <span class="location">${locationHTML}</span>
                 </div>
                 <div class="job-content">
-                    <button class="desc-toggle" aria-expanded="false" aria-label="${toggleText}">
+                    <button class="desc-toggle" aria-expanded="false" aria-label="${btnText}">
                         <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
@@ -207,7 +208,7 @@
             if (section.type === 'text') {
                 contentHTML = contentData ? `<p>${escapeHtml(contentData)}</p>` : '';
             } else if (section.type === 'list') {
-                contentHTML = renderBlock(contentData, skillData, lang);
+                contentHTML = renderBlock(contentData, skillData, lang, cleanData.ui.showDetails);
             } else if (section.type === 'tags') {
                 contentHTML = renderTags(contentData);
             } else if (section.type === 'grid') {
