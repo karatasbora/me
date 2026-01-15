@@ -78,8 +78,8 @@
     --scrollbar-thumb-hover: var(--slate-400);
 
     ::selection {
-        background: var(--cyan-100);
-        color: var(--cyan-950);
+        background: var(--amber-100);
+        color: var(--amber-950);
     }
 }
 
@@ -245,7 +245,7 @@ p {
 /* --- HEADER & PROFILE --- */
 header {
     opacity: 0;
-    animation: slideUp 0.8s ease-out forwards;
+    animation: simpleFade 0.8s ease-out forwards;
 
     display: flex;
     align-items: center;

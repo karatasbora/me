@@ -298,4 +298,6 @@ const resumeData = {
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = resumeData;
+} else if (typeof window !== 'undefined') {
+    window.resumeData = resumeData;
 }
