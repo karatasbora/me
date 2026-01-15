@@ -11,9 +11,19 @@
     function getAvailableLanguages(node, collected = new Set()) {
         if (node === null || typeof node !== 'object') return Array.from(collected);
 
-        // Check if this is a translation node (heuristic: contains 'en' or 'tr')
-        if (node.en || node.tr) {
-            Object.keys(node).forEach(key => collected.add(key));
+        // Check if this is a translation node (heuristic: keys are language codes len=2)
+        // We assume any 2-letter key is a language code if it contains 'en' or 'tr' as a baseline check
+        // or effectively we just check keys. But user said "Pass the lang key dynamically".
+        // Actually the user critique was: "If you ever add a third language... you have to hardcode".
+        // So we should detect languages.
+        // Heuristic: If object has keys like 'en', 'tr', 'pt'...
+        // Let's assume any key with length 2 is a language code for this specific heuristic, 
+        // to avoid grabbing unrelated keys.
+        const keys = Object.keys(node);
+        const langKeys = keys.filter(k => k.length === 2 && k !== 'id' && k !== 'ui');
+
+        if (langKeys.length > 0 && (langKeys.includes('en') || langKeys.includes('tr'))) {
+            langKeys.forEach(k => collected.add(k));
             return Array.from(collected);
         }
 
@@ -29,9 +39,19 @@
     function scrapeData(node, lang) {
         if (node === null || typeof node !== 'object') return node;
 
-        // Heuristic: It's a translation node if it has 'en' or 'tr'
-        if (node.en || node.tr) {
-            if (node[lang]) return node[lang];
+        // Dynamic Heuristic: Check if the specific requested language exists as a key
+        if (node[lang]) {
+            // It is likely a translation node if it also has other 2-letter keys or if we treat it as such.
+            // But valid data might have a key 'en' that isn't a translation (unlikely in this schema).
+            // Let's stick to the user's suggestion: "if (node[lang])"
+            // But we need fallbacks.
+            return node[lang];
+        }
+
+        // Fallback checks
+        const keys = Object.keys(node);
+        // If it looks like a translation node (has 'en' or 'tr') but missed the target lang
+        if (keys.includes('en') || keys.includes('tr')) {
             if (node['en']) return node['en']; // Fallback to English
             return Object.values(node)[0];      // Fallback to first available
         }
@@ -73,14 +93,31 @@
         }
     }
 
-    function createIcon(iconSVG) {
-        const div = document.createElement('div');
-        div.innerHTML = iconSVG;
-        return div.firstElementChild;
+    // Replaced string injection with safer DOM creation
+    function createIcon(type) {
+        if (type === 'chevron') {
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("class", "chevron-icon");
+            svg.setAttribute("width", "24");
+            svg.setAttribute("height", "24");
+            svg.setAttribute("viewBox", "0 0 24 24");
+            svg.setAttribute("fill", "none");
+            svg.setAttribute("stroke", "currentColor");
+            svg.setAttribute("stroke-width", "2");
+            svg.setAttribute("stroke-linecap", "round");
+            svg.setAttribute("stroke-linejoin", "round");
+
+            const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+            polyline.setAttribute("points", "6 9 12 15 18 9");
+
+            svg.appendChild(polyline);
+            return svg;
+        }
+        return document.createElement('span'); // Fallback
     }
 
-    // SVG Constant
-    const CHEVRON_SVG = '<svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+    // SVG Constant removed in favor of createIcon factory
+    // const CHEVRON_SVG = '...';
 
     function createSkillTag(label, targets, origin) {
         const btn = document.createElement('button');
@@ -191,7 +228,7 @@
         toggleBtn.className = 'desc-toggle';
         toggleBtn.setAttribute('aria-expanded', 'false');
         toggleBtn.setAttribute('aria-label', btnText);
-        toggleBtn.appendChild(createIcon(CHEVRON_SVG));
+        toggleBtn.appendChild(createIcon('chevron'));
         contentDiv.appendChild(toggleBtn);
 
         const descDiv = document.createElement('div');
@@ -380,5 +417,55 @@
         }
     }
 
-    return { updatePageContent, updateMetadata, scrapeData, getAvailableLanguages };
+    // --- 5. LAYOUT RENDERER (New) ---
+    function renderLayout(cleanData, lang, docOverride) {
+        const doc = docOverride || document;
+        const fragment = doc.createDocumentFragment();
+
+        if (!cleanData.structure) return fragment;
+        const skillData = cleanData.person.knowsAbout;
+
+        cleanData.structure.forEach(section => {
+            const sectionEl = doc.createElement('section');
+            // Assuming section.titleKey is unique enough for ID, or use a specific format
+            // script.js animations rely on sections.
+
+            const h2 = doc.createElement('h2');
+            h2.id = `ui-${section.titleKey}`;
+            h2.textContent = cleanData.ui[section.titleKey];
+            sectionEl.appendChild(h2);
+
+            const div = doc.createElement('div');
+            div.id = `${section.titleKey}-list`;
+
+            // Populate content
+            let contentData = cleanData;
+            if (section.dataKey) {
+                section.dataKey.split('.').forEach(k => {
+                    contentData = (contentData && contentData[k]) ? contentData[k] : null;
+                });
+            }
+
+            if (section.type === 'text') {
+                if (contentData) {
+                    const p = doc.createElement('p');
+                    p.textContent = contentData;
+                    div.appendChild(p);
+                }
+            } else if (section.type === 'list') {
+                renderBlockList(div, contentData, skillData, lang, cleanData.ui.showDetails);
+            } else if (section.type === 'tags') {
+                renderTags(div, contentData);
+            } else if (section.type === 'grid') {
+                renderGrid(div, contentData);
+            }
+
+            sectionEl.appendChild(div);
+            fragment.appendChild(sectionEl);
+        });
+
+        return fragment;
+    }
+
+    return { updatePageContent, updateMetadata, scrapeData, getAvailableLanguages, renderLayout };
 }));

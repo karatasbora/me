@@ -26,7 +26,8 @@
     --amber-100: #fef3c7;
     --amber-400: #fbbf24;
     --amber-500: #f59e0b;
-    --amber-600: #d97706;
+    --amber-600: #b45309;
+    /* Darkened for accessibility (was #d97706) */
     --amber-950: #451a03;
 
     /* --- SEMANTIC MAPPING --- */

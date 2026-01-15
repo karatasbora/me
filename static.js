@@ -32,6 +32,9 @@ try {
         throw new Error(`Critical: Element '#${CONFIG.selectors.mainContent}' not found in template.`);
     }
 
+    // Set global document for utils compatibility
+    global.document = document;
+
     // 3. UNIVERSAL SCRAPE
     const LANG = CONFIG.defaultLang;
 
@@ -79,7 +82,8 @@ try {
     setHref('link-linkedin', localizedData.meta.linkedin);
 
     // 6. MAIN LAYOUT RENDER
-    mainContent.innerHTML = utils.renderLayout(localizedData, LANG);
+    mainContent.innerHTML = ''; // Clear existing content
+    mainContent.appendChild(utils.renderLayout(localizedData, LANG));
 
     // 7. WRITE OUTPUT
     fs.writeFileSync(CONFIG.outputFile, dom.serialize());

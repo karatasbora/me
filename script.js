@@ -51,7 +51,34 @@
 
     // --- 1. MAIN RENDER ---
     function renderResume(lang) {
-        // const scrollPos = window.scrollY; // Granular updates conserve scroll naturally
+        // FOCUS MANAGEMENT START
+        let focusPath = null;
+        const activeEl = document.activeElement;
+
+        // Strategy: If active element is inside main content, record its path relative to a stable parent ID
+        if (activeEl && DOM.mainContent.contains(activeEl)) {
+            const parentBlock = activeEl.closest('[id]');
+            if (parentBlock) {
+                // Determine selector path
+                const parentId = parentBlock.id;
+                // Simple case: The element itself has the ID
+                if (activeEl.id === parentId) {
+                    focusPath = `#${parentId}`;
+                } else {
+                    // It's a child. Find unique selector if possible.
+                    if (activeEl.classList.contains('desc-toggle')) {
+                        focusPath = `#${parentId} .desc-toggle`;
+                    } else if (activeEl.classList.contains('skill-tag')) {
+                        const tags = parentBlock.querySelectorAll('.skill-tag');
+                        const index = Array.from(tags).indexOf(activeEl);
+                        if (index !== -1) {
+                            focusPath = { selector: `#${parentId} .skill-tag`, index: index };
+                        }
+                    }
+                }
+            }
+        }
+        // FOCUS MANAGEMENT END
 
         // A. UNIVERSAL SCRAPE
 
@@ -104,6 +131,27 @@
             if (cls.startsWith('lang-')) DOM.body.classList.remove(cls);
         });
         DOM.body.classList.add(`lang-${lang}`);
+
+        // FOCUS RESTORATION
+        if (focusPath) {
+            try {
+                let target = null;
+                if (typeof focusPath === 'string') {
+                    target = document.querySelector(focusPath);
+                } else if (focusPath.selector && focusPath.index !== undefined) {
+                    const candidates = document.querySelectorAll(focusPath.selector);
+                    if (candidates[focusPath.index]) {
+                        target = candidates[focusPath.index];
+                    }
+                }
+
+                if (target) {
+                    target.focus();
+                }
+            } catch (e) {
+                console.warn("Focus restoration failed", e);
+            }
+        }
     }
 
     function handleContentAnimations() {
