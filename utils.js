@@ -180,5 +180,106 @@
         }).join('');
     }
 
-    return { renderLayout };
+    // --- CENTRALIZED METADATA LOGIC ---
+    function generateSchema(data, lang) {
+        if (!data) return {};
+
+        // Helper to get text based on lang
+        const getText = (obj) => (obj && obj[lang]) ? obj[lang] : obj;
+        const absImgUrl = `${data.meta.baseUrl}/${data.meta.image}`;
+
+        return {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "WebSite",
+                    "name": data.profile.name,
+                    "url": data.meta.baseUrl + "/"
+                },
+                {
+                    "@type": "ProfilePage",
+                    "name": data.ui.documentTitle[lang],
+                    "url": data.meta.baseUrl + "/",
+                    "mainEntity": {
+                        "@type": "Person",
+                        "name": data.profile.name,
+                        "jobTitle": data.ui.jobTitleShort[lang],
+                        "description": data.ui.seoDesc[lang],
+                        "image": absImgUrl,
+                        "url": data.meta.baseUrl + "/",
+                        "sameAs": [
+                            data.meta.linkedin,
+                            `mailto:${data.meta.email}`
+                        ],
+                        "address": {
+                            "@type": "PostalAddress",
+                            "addressLocality": data.meta.location[lang]
+                        },
+                        "worksFor": data.experience.map(job => ({
+                            "@type": "Organization",
+                            "name": getText(job.company).split('|')[1]?.trim() || getText(job.company)
+                        })),
+                        "alumniOf": data.education.map(edu => ({
+                            "@type": "EducationalOrganization",
+                            "name": getText(edu.school)
+                        })),
+                        // Limit skills to top 10 for neatness
+                        "knowsAbout": data.skills ? data.skills.flatMap(cat => cat.items.map(item => getText(item))).slice(0, 10) : [],
+                        "knowsLanguage": data.languages ? data.languages.map(l => ({
+                            "@type": "Language",
+                            "name": getText(l.name),
+                            "additionalType": getText(l.level)
+                        })) : []
+                    }
+                }
+            ]
+        };
+    }
+
+    function updateMetadata(doc, data, lang) {
+        if (!doc || !data) return;
+
+        const { documentTitle, seoDesc } = data.ui;
+        const title = documentTitle[lang];
+        const desc = seoDesc[lang];
+        const absImgUrl = `${data.meta.baseUrl}/${data.meta.image}`;
+
+        // 1. Update Title
+        doc.title = title;
+
+        // 2. Helper for meta tags
+        const setMeta = (selector, attr, val) => {
+            const el = doc.querySelector(selector);
+            if (el) el.setAttribute(attr, val);
+        };
+
+        // 3. Standard Meta
+        setMeta('meta[name="description"]', 'content', desc);
+        setMeta('meta[name="keywords"]', 'content', data.meta.keywords[lang]);
+        setMeta('link[rel="canonical"]', 'href', data.meta.baseUrl + '/');
+
+        // 4. Open Graph
+        setMeta('meta[property="og:title"]', 'content', title);
+        setMeta('meta[property="og:description"]', 'content', desc);
+        setMeta('meta[property="og:image"]', 'content', absImgUrl);
+        setMeta('meta[property="og:url"]', 'content', data.meta.baseUrl + '/');
+
+        // 5. Twitter
+        setMeta('meta[name="twitter:title"]', 'content', title);
+        setMeta('meta[name="twitter:description"]', 'content', desc);
+        setMeta('meta[name="twitter:image"]', 'content', absImgUrl);
+
+        // 6. JSON-LD
+        const jsonLdScript = doc.getElementById('json-ld');
+        if (jsonLdScript) {
+            try {
+                const schema = generateSchema(data, lang);
+                jsonLdScript.textContent = JSON.stringify(schema, null, 2);
+            } catch (e) {
+                console.warn("JSON-LD update failed in utils:", e);
+            }
+        }
+    }
+
+    return { renderLayout, updateMetadata, generateSchema };
 }));
