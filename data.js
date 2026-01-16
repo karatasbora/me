@@ -78,7 +78,7 @@ const person = {
                 { label: { en: "GitHub" }, url: "https://github.com/karatasbora/arc" }
             ],
             name: { tr: "arc – Yapay Zekâ Destekli Eğitim Materyali Üretici", en: "arc – AI-Powered Educational Material Generator" },
-            dateCreated: { tr: "Aralık 2025 - Halen", en: "December 2025 - Present" },
+            dateCreated: { tr: "Aralık 2025 - Halen", en: "Dec 2025 - Present" },
             location: { tr: "karatasbora.github.io/arc", en: "karatasbora.github.io/arc" },
             description: {
                 tr: "Bu proje, CEFR uyumlu çalışma kâğıtlarını özerk biçimde üretebilen, React 19 ve Google Gemini API üzerine inşa edilmiş yenilikçi bir eğitim aracıdır. Bu projede deterministik JSON çıktıları güvence altına almak için ileri düzey prompt engineering tekniklerini kullandım ve öğretmenlerin pedagojik odağı dinamik biçimde düzenleyebilmelerine imkân tanıyan bir yapı geliştirdim. jsPDF tabanlı özel bir istemci tarafı PDF motoru tasarlayarak arka uç bağımlılığını ortadan kaldırdım, öğretmen iş yükünü azalttım ve sınıfa hazır materyallerin hızlı üretimini mümkün kıldım. Projenin kullanıcı arayüzünü de öğretmen verimliliğini artıracak şekilde modern ve erişilebilir bir tasarım anlayışıyla geliştirdim.",
