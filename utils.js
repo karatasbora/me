@@ -7,18 +7,9 @@
 }(typeof self !== 'undefined' ? self : this, function () {
 
     // --- 1. DATA HELPERS ---
-
     function getAvailableLanguages(node, collected = new Set()) {
         if (node === null || typeof node !== 'object') return Array.from(collected);
 
-        // Check if this is a translation node (heuristic: keys are language codes len=2)
-        // We assume any 2-letter key is a language code if it contains 'en' or 'tr' as a baseline check
-        // or effectively we just check keys. But user said "Pass the lang key dynamically".
-        // Actually the user critique was: "If you ever add a third language... you have to hardcode".
-        // So we should detect languages.
-        // Heuristic: If object has keys like 'en', 'tr', 'pt'...
-        // Let's assume any key with length 2 is a language code for this specific heuristic, 
-        // to avoid grabbing unrelated keys.
         const keys = Object.keys(node);
         const langKeys = keys.filter(k => k.length === 2 && k !== 'id' && k !== 'ui');
 
@@ -39,21 +30,14 @@
     function scrapeData(node, lang) {
         if (node === null || typeof node !== 'object') return node;
 
-        // Dynamic Heuristic: Check if the specific requested language exists as a key
         if (node[lang]) {
-            // It is likely a translation node if it also has other 2-letter keys or if we treat it as such.
-            // But valid data might have a key 'en' that isn't a translation (unlikely in this schema).
-            // Let's stick to the user's suggestion: "if (node[lang])"
-            // But we need fallbacks.
             return node[lang];
         }
 
-        // Fallback checks
         const keys = Object.keys(node);
-        // If it looks like a translation node (has 'en' or 'tr') but missed the target lang
         if (keys.includes('en') || keys.includes('tr')) {
-            if (node['en']) return node['en']; // Fallback to English
-            return Object.values(node)[0];      // Fallback to first available
+            if (node['en']) return node['en'];
+            return Object.values(node)[0];
         }
 
         if (Array.isArray(node)) {
@@ -74,7 +58,6 @@
         skillCategories.forEach(cat => {
             if (cat.items) {
                 cat.items.forEach(skill => {
-                    // Data is already localized: skill.name is a string
                     if (skill.targets && skill.targets.includes(id)) {
                         relevant.push({ label: skill.name, targets: skill.targets });
                     }
@@ -85,15 +68,12 @@
     }
 
     // --- 2. DOM BUILDERS (Safe & Granular) ---
-
-    // Helper to clear an element
     function clearElement(el) {
         while (el.firstChild) {
             el.removeChild(el.firstChild);
         }
     }
 
-    // Replaced string injection with safer DOM creation
     function createIcon(type) {
         if (type === 'chevron') {
             const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -113,11 +93,8 @@
             svg.appendChild(polyline);
             return svg;
         }
-        return document.createElement('span'); // Fallback
+        return document.createElement('span');
     }
-
-    // SVG Constant removed in favor of createIcon factory
-    // const CHEVRON_SVG = '...';
 
     function createSkillTag(label, targets, origin) {
         const btn = document.createElement('button');
@@ -137,7 +114,6 @@
         } else if (item.creator) {
             sub = item.creator.jobTitle ? item.creator.jobTitle : item.creator;
         } else if (item['@type'] === 'EducationalOrganization') {
-            // For Education: Title = Degree (Award), Sub = School (Name)
             title = item.award;
             sub = item.name;
         }
@@ -145,7 +121,6 @@
         const date = item.startDate || item.dateCreated;
         const desc = item.description;
 
-        // Container
         const block = document.createElement('div');
         block.className = 'job-block';
         if (item.id) block.id = item.id;
@@ -218,7 +193,6 @@
         subheader.appendChild(locationSpan);
         block.appendChild(subheader);
 
-        // Content
         const contentDiv = document.createElement('div');
         contentDiv.className = 'job-content';
 
@@ -242,7 +216,6 @@
         descDiv.appendChild(descInner);
         contentDiv.appendChild(descDiv);
 
-        // Tags
         const relevantSkills = getRelevantSkills(item.id, skillCategories);
         if (relevantSkills.length > 0) {
             const tagsWrapper = document.createElement('div');
@@ -252,7 +225,6 @@
             });
             contentDiv.appendChild(tagsWrapper);
         }
-
         block.appendChild(contentDiv);
         return block;
     }
@@ -293,7 +265,6 @@
             wrapper.appendChild(tagsDiv);
             block.appendChild(wrapper);
         });
-
         container.appendChild(block);
     }
 
@@ -329,7 +300,6 @@
     }
 
     // --- 3. PAGE UPDATER ---
-
     function updatePageContent(doc, cleanData, lang) {
         if (!cleanData.structure) return;
 
@@ -396,7 +366,6 @@
         setMeta('meta[name="twitter:description"]', 'content', desc);
         setMeta('meta[name="twitter:image"]', 'content', absImgUrl);
 
-        // 1b. Verification Codes
         if (cleanData.meta && cleanData.meta.verificationCodes) {
             const { google } = cleanData.meta.verificationCodes;
             if (google) {
@@ -417,50 +386,28 @@
         }
     }
 
-    // --- 5. LAYOUT RENDERER (New) ---
-    function renderLayout(cleanData, lang, docOverride) {
+    // --- 5. LAYOUT BUILDER (Skeleton Only) ---
+    function renderLayout(cleanData, docOverride) {
         const doc = docOverride || document;
         const fragment = doc.createDocumentFragment();
 
         if (!cleanData.structure) return fragment;
-        const skillData = cleanData.person.knowsAbout;
 
         cleanData.structure.forEach(section => {
             const sectionEl = doc.createElement('section');
-            // Assuming section.titleKey is unique enough for ID, or use a specific format
-            // script.js animations rely on sections.
 
             const h2 = doc.createElement('h2');
             h2.id = `ui-${section.titleKey}`;
-            h2.textContent = cleanData.ui[section.titleKey];
+            // Pre-fill title if available
+            if (cleanData.ui && cleanData.ui[section.titleKey]) {
+                h2.textContent = cleanData.ui[section.titleKey];
+            }
             sectionEl.appendChild(h2);
 
             const div = doc.createElement('div');
             div.id = `${section.titleKey}-list`;
-
-            // Populate content
-            let contentData = cleanData;
-            if (section.dataKey) {
-                section.dataKey.split('.').forEach(k => {
-                    contentData = (contentData && contentData[k]) ? contentData[k] : null;
-                });
-            }
-
-            if (section.type === 'text') {
-                if (contentData) {
-                    const p = doc.createElement('p');
-                    p.textContent = contentData;
-                    div.appendChild(p);
-                }
-            } else if (section.type === 'list') {
-                renderBlockList(div, contentData, skillData, lang, cleanData.ui.showDetails);
-            } else if (section.type === 'tags') {
-                renderTags(div, contentData);
-            } else if (section.type === 'grid') {
-                renderGrid(div, contentData);
-            }
-
             sectionEl.appendChild(div);
+
             fragment.appendChild(sectionEl);
         });
 

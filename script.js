@@ -55,17 +55,13 @@
         let focusPath = null;
         const activeEl = document.activeElement;
 
-        // Strategy: If active element is inside main content, record its path relative to a stable parent ID
         if (activeEl && DOM.mainContent.contains(activeEl)) {
             const parentBlock = activeEl.closest('[id]');
             if (parentBlock) {
-                // Determine selector path
                 const parentId = parentBlock.id;
-                // Simple case: The element itself has the ID
                 if (activeEl.id === parentId) {
                     focusPath = `#${parentId}`;
                 } else {
-                    // It's a child. Find unique selector if possible.
                     if (activeEl.classList.contains('desc-toggle')) {
                         focusPath = `#${parentId} .desc-toggle`;
                     } else if (activeEl.classList.contains('skill-tag')) {
@@ -78,19 +74,11 @@
                 }
             }
         }
-        // FOCUS MANAGEMENT END
-
-        // A. UNIVERSAL SCRAPE
 
         const localizedData = utils.scrapeData(data, lang);
-
-        // B. UPDATE METADATA (Title, Meta Tags, JSON-LD)
         utils.updateMetadata(document, localizedData);
-
-        // C. SET LANGUAGE ATTRIBUTE
         DOM.html.lang = lang;
 
-        // D. UPDATE HEADER (Using clean localizedData)
         if (DOM.header.name) DOM.header.name.textContent = localizedData.person.name;
         if (DOM.header.title) DOM.header.title.textContent = localizedData.person.jobTitle;
         if (DOM.header.location) DOM.header.location.textContent = localizedData.meta.location;
@@ -106,24 +94,17 @@
             DOM.header.linkedin.href = localizedData.meta.linkedin;
         }
 
-        // E. UPDATE CONTENT (Granular DOM Updates)
         utils.updatePageContent(document, localizedData, lang);
-
-        // F. ANIMATIONS & AESTHETICS
-        // Since we are not trashing the DOM, animations might not re-trigger automatically.
-        // If we want re-entrance animations on language switch, we can manually trigger them.
         handleContentAnimations();
 
         Object.values(DOM.langBtns).forEach(btn => {
             btn.setAttribute('aria-pressed', btn.dataset.lang === lang);
         });
 
-        // Skill Tag Staggering Animation (Re-apply indices)
         document.querySelectorAll('.skill-tag').forEach((tag, index) => {
             tag.style.animationDelay = `${(index + 1) * 0.05}s`;
-            // Force reflow to restart animation if needed, or simple add/remove class
             tag.classList.remove('animate');
-            void tag.offsetWidth; // trigger reflow
+            void tag.offsetWidth;
             tag.classList.add('animate');
         });
 
@@ -132,7 +113,6 @@
         });
         DOM.body.classList.add(`lang-${lang}`);
 
-        // FOCUS RESTORATION
         if (focusPath) {
             try {
                 let target = null;
@@ -156,10 +136,9 @@
 
     function handleContentAnimations() {
         const sections = DOM.mainContent.querySelectorAll('section');
-        // Simple re-entry animation for all sections
         sections.forEach((section, index) => {
             section.classList.remove('animate-in');
-            void section.offsetWidth; // trigger reflow
+            void section.offsetWidth;
             section.style.animationDelay = `${(index + 1) * 0.1}s`;
             section.classList.add('animate-in');
         });
@@ -186,8 +165,6 @@
                 role = utils.scrapeData(data.ui.skills, lang);
                 context = utils.scrapeData(data.ui.viewCategory, lang);
             } else {
-                // Scrape text directly from the rendered DOM
-                // This works because the DOM is already localized
                 role = targetEl.querySelector('.job-title')?.innerText || utils.scrapeData(data.ui.unknownRole, lang);
                 context = targetEl.querySelector('.company')?.innerText || "";
             }
@@ -222,8 +199,6 @@
             dropdown.style.right = '20px';
         }
 
-        // Accessibility: Focus Management
-        // 1. Set focus to the first item (or the dropdown itself)
         const firstItem = dropdown.querySelector('.nav-item');
         if (firstItem) {
             firstItem.focus();
@@ -232,7 +207,6 @@
             dropdown.focus();
         }
 
-        // 2. Add Keydown Listener for Escape and Tab trapping (simple version)
         const handleKeydown = (e) => {
             if (e.key === 'Escape') {
                 e.preventDefault();
@@ -241,8 +215,6 @@
             }
         };
         document.addEventListener('keydown', handleKeydown);
-
-        // Store the cleanup function on the dropdown so we can call it from outside
         dropdown._cleanup = () => document.removeEventListener('keydown', handleKeydown);
     }
 
@@ -266,13 +238,11 @@
 
         const existing = document.querySelector('.nav-dropdown');
         if (existing) {
-            // If clicking the SAME button that opened it, close it.
             if (existing._triggerBtn === btn) {
                 removePopover(existing, btn);
                 return;
             }
-            // If clicking a DIFFERENT button, close the old one first.
-            removePopover(existing); // Don't return focus to old trigger, as user clicked a new one
+            removePopover(existing);
         }
 
         const targetIds = btn.dataset.targets ? btn.dataset.targets.split(',') : [];
@@ -308,7 +278,6 @@
         if (dropdown._cleanup) dropdown._cleanup();
         dropdown.remove();
 
-        // Return focus to the trigger button if requested
         if (returnFocusToBtn) {
             returnFocusToBtn.focus();
         }
@@ -316,7 +285,6 @@
 
     function handleOutsideClick(e) {
         const existingDropdown = document.querySelector('.nav-dropdown');
-        // Close if click is outside the dropdown AND outside any skill-tag
         if (existingDropdown && !existingDropdown.contains(e.target) && !e.target.closest('.skill-tag')) {
             removePopover(existingDropdown, existingDropdown._triggerBtn);
         }
@@ -326,7 +294,11 @@
     function init() {
         State.availableLangs = utils.getAvailableLanguages(data);
 
-        // Dynamic Language Buttons
+        if (DOM.mainContent && !DOM.mainContent.firstElementChild) {
+            const initialData = utils.scrapeData(data, State.lang);
+            DOM.mainContent.appendChild(utils.renderLayout(initialData));
+        }
+
         if (DOM.controls && State.availableLangs.length > 0) {
             State.availableLangs.forEach(lang => {
                 let btn = document.getElementById(`btn-${lang}`);
@@ -393,11 +365,7 @@
                 }).catch(err => console.error('Failed to copy', err));
             });
         }
-
-        // Remove loading class to allow animations to play
         document.documentElement.classList.remove('js-loading');
     }
-
     document.addEventListener('DOMContentLoaded', init);
-
 })();

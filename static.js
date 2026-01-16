@@ -18,7 +18,6 @@ console.log(`\n⚙️  Starting Static Site Generation...`);
 console.log(`info Using Language: [${CONFIG.defaultLang.toUpperCase()}]`);
 
 try {
-    // 1. Read Template
     if (!fs.existsSync(CONFIG.inputFile)) {
         throw new Error(`Input file '${CONFIG.inputFile}' not found.`);
     }
@@ -26,19 +25,13 @@ try {
     const dom = new JSDOM(htmlContent);
     const document = dom.window.document;
 
-    // 2. Validate Template
     const mainContent = document.getElementById(CONFIG.selectors.mainContent);
     if (!mainContent) {
         throw new Error(`Critical: Element '#${CONFIG.selectors.mainContent}' not found in template.`);
     }
 
-    // Set global document for utils compatibility
     global.document = document;
-
-    // 3. UNIVERSAL SCRAPE
     const LANG = CONFIG.defaultLang;
-
-    // 3b. SCHEMA VALIDATION
     const requiredFields = [
         'person.name',
         'person.jobTitle',
@@ -83,7 +76,10 @@ try {
 
     // 6. MAIN LAYOUT RENDER
     mainContent.innerHTML = ''; // Clear existing content
-    mainContent.appendChild(utils.renderLayout(localizedData, LANG));
+    mainContent.appendChild(utils.renderLayout(localizedData, document));
+
+    // Fill content into the skeleton
+    utils.updatePageContent(document, localizedData, LANG);
 
     // 7. WRITE OUTPUT
     fs.writeFileSync(CONFIG.outputFile, dom.serialize());
