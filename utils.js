@@ -6,6 +6,8 @@
     }
 }(typeof self !== 'undefined' ? self : this, function () {
 
+    const SVG_NS = "http://www.w3.org/2000/svg";
+
     // --- 1. DATA HELPERS ---
     function getAvailableLanguages(node, collected = new Set()) {
         if (node === null || typeof node !== 'object') return Array.from(collected);
@@ -51,20 +53,28 @@
         return localized;
     }
 
-    function getRelevantSkills(id, skillCategories) {
-        const relevant = [];
-        if (!id || !skillCategories) return relevant;
+    function buildSkillsMap(skillCategories) {
+        const map = new Map();
+        if (!skillCategories) return map;
 
         skillCategories.forEach(cat => {
             if (cat.items) {
                 cat.items.forEach(skill => {
-                    if (skill.targets && skill.targets.includes(id)) {
-                        relevant.push({ label: skill.name, targets: skill.targets });
+                    if (skill.targets) {
+                        skill.targets.forEach(targetId => {
+                            if (!map.has(targetId)) map.set(targetId, []);
+                            map.get(targetId).push({ label: skill.name, targets: skill.targets });
+                        });
                     }
                 });
             }
         });
-        return relevant;
+        return map;
+    }
+
+    function getRelevantSkills(id, skillsMap) {
+        if (!id || !skillsMap) return [];
+        return skillsMap.get(id) || [];
     }
 
     // --- 2. DOM BUILDERS (Safe & Granular) ---
@@ -74,20 +84,28 @@
         }
     }
 
+    function setAttributes(el, attrs) {
+        for (const key in attrs) {
+            el.setAttribute(key, attrs[key]);
+        }
+    }
+
     function createIcon(type) {
         if (type === 'chevron') {
-            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-            svg.setAttribute("class", "chevron-icon");
-            svg.setAttribute("width", "24");
-            svg.setAttribute("height", "24");
-            svg.setAttribute("viewBox", "0 0 24 24");
-            svg.setAttribute("fill", "none");
-            svg.setAttribute("stroke", "currentColor");
-            svg.setAttribute("stroke-width", "2");
-            svg.setAttribute("stroke-linecap", "round");
-            svg.setAttribute("stroke-linejoin", "round");
+            const svg = document.createElementNS(SVG_NS, "svg");
+            setAttributes(svg, {
+                "class": "chevron-icon",
+                "width": "24",
+                "height": "24",
+                "viewBox": "0 0 24 24",
+                "fill": "none",
+                "stroke": "currentColor",
+                "stroke-width": "2",
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round"
+            });
 
-            const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+            const polyline = document.createElementNS(SVG_NS, "polyline");
             polyline.setAttribute("points", "6 9 12 15 18 9");
 
             svg.appendChild(polyline);
@@ -105,7 +123,7 @@
         return btn;
     }
 
-    function createBlockItem(item, skillCategories, lang, toggleText) {
+    function createBlockItem(item, skillsMap, lang, toggleText) {
         let title = item.jobTitle || item.name || item.award;
 
         let sub = "";
@@ -216,7 +234,7 @@
         descDiv.appendChild(descInner);
         contentDiv.appendChild(descDiv);
 
-        const relevantSkills = getRelevantSkills(item.id, skillCategories);
+        const relevantSkills = getRelevantSkills(item.id, skillsMap);
         if (relevantSkills.length > 0) {
             const tagsWrapper = document.createElement('div');
             tagsWrapper.className = 'tags-wrapper branding-tags';
@@ -233,9 +251,12 @@
         clearElement(container);
         if (!items) return;
 
+        // Optimized: Build map once, pass to all items
+        const skillsMap = buildSkillsMap(skillCategories);
+
         const fragment = document.createDocumentFragment();
         items.forEach(item => {
-            fragment.appendChild(createBlockItem(item, skillCategories, lang, toggleText));
+            fragment.appendChild(createBlockItem(item, skillsMap, lang, toggleText));
         });
         container.appendChild(fragment);
     }

@@ -30,8 +30,8 @@ const person = {
         en: "Innovative Education Specialist & Instructional Technologist | AI-Supported Instructional Design | ELT · EdTech · Accessible & Human-Centered Education"
     },
     description: {
-        tr: "Pedagoji ile yapay zekâ arasındaki bağı güçlendirmeyi amaçlayan ileri görüşlü bir eğitimciyim. Yapay zekâ destekli öğrenme deneyimleri ve erişilebilir dijital içerikler geliştirme konusunda uzmanlaşmış, insan odaklı tasarım anlayışını temel alan bir yaklaşım benimsiyorum. React ve Gemini API ile tam kapsamlı eğitim araçları geliştirme, prompt engineering ve öğrenme teknolojilerini pedagojik prensiplerle bütünleştirme alanlarında güçlü bir deneyime sahibim. Teknolojiyi, eleştirel düşünmeyi teşvik eden, kapsayıcı ve küresel vatandaşlığı destekleyen öğrenme ortamları oluşturmak için stratejik ve bilinçli bir biçimde kullanmayı hedefliyorum.",
-        en: "I am a forward-thinking educator dedicated to strengthening the relationship between pedagogy and artificial intelligence. I specialize in developing AI-supported learning experiences and accessible digital content, guided by a human-centered design philosophy. With strong experience in full-stack educational tool development using React and the Gemini API, as well as prompt engineering and the integration of learning technologies with pedagogical principles, I work to create inclusive learning environments that foster critical thinking and global citizenship. My goal is to leverage technology thoughtfully and strategically to empower learners and enhance educational impact."
+        tr: "İleri görüşlü bir eğitimci olarak, yapay zekayı pedagojik ilkelerle bütünleştirmeye kendimi adadım. İnsan merkezli tasarım felsefesiyle yönlendirilen, eleştirel düşünmeyi teşvik eden erişilebilir dijital içerik ve özelleştirilmiş eğitim araçları geliştirme konusunda uzmanım.",
+        en: "Forward-thinking educator dedicated to integrating artificial intelligence with pedagogical principles. I specialize in building accessible digital content and custom educational tools that foster critical thinking, guided by a human-centered design philosophy."
     },
 
     hasOccupation: [
@@ -39,30 +39,32 @@ const person = {
             "@type": "EmployeeRole",
             id: "job-editor",
             jobTitle: { tr: "İçerik Editörü", en: "Content Editor" },
-            startDate: { tr: "ARALIK 2022 - HALEN", en: "DEC 2022 - PRESENT" },
-            location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
+            startDate: { tr: "Aralık 2022 - Halen", en: "Dec 2022 - Present" },
+            location: {
+                tr: "Hibrit · Yarı zamanlı", en: "Hybrid · Part-time"
+            },
             description: {
                 tr: "Üniversite platformlarında kullanılan öğretim materyallerini erişilebilir ve etkileşimli dijital içeriklere dönüştürüyorum. Üretken yapay zekâ araçlarını editoryal süreçlere entegre ederek içerik üretiminde verimlilik, tutarlılık ve kaliteyi artırmaya odaklanıyorum. Disiplinlerarası ekiplerle birlikte çalışarak hem erişilebilirlik standartlarına uygun hem de farklı öğrenen profillerine hitap eden materyaller geliştirilmesine katkı sağlıyorum.",
                 en: "I transform instructional materials into accessible and interactive digital learning resources used across university platforms. I integrate generative AI tools into editorial workflows to enhance efficiency, consistency, and quality in content production. Working collaboratively with interdisciplinary teams, I contribute to the creation of materials that meet accessibility standards and support diverse learner needs."
             },
             worksFor: {
                 "@type": "Organization",
-                name: { tr: "Hibrit · Yarı zamanlı | Anadolu Üniversitesi · Öğrenme Teknolojileri Ar-Ge Birimi", en: "Hybrid · Part-time | Anadolu University · Learning Technologies R&D Unit" }
+                name: { tr: "Anadolu Üniversitesi · Öğrenme Teknolojileri Ar-Ge Birimi | Eskişehir, Türkiye", en: "Anadolu University · Learning Technologies R&D Unit | Eskisehir, Turkey" }
             }
         },
         {
             "@type": "EmployeeRole",
             id: "job-teacher",
             jobTitle: { tr: "İngilizce Öğretmeni", en: "English Teacher" },
-            startDate: { tr: "EYLÜL 2025 - ARALIK 2025", en: "SEP 2025 - DEC 2025" },
-            location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
+            startDate: { tr: "Eylül 2025 - Aralık 2025", en: "Sep 2025 - Dec 2025" },
+            location: { tr: "Yerinde · Staj", en: "On-site · Internship" },
             description: {
                 tr: "Ezbere dayalı öğretim yerine iletişim, iş birliği ve eleştirel düşünme gibi 21. yüzyıl becerilerine odaklanan öğrenen merkezli bir müfredat uyguladım. Sınıf içi motivasyonu artıran oyunlaştırma temelli yöntemler kullanarak öğrencilerin derse katılımını güçlendirdim ve farklı öğrenci ihtiyaçlarına duyarlı, kapsayıcı bir öğrenme ortamı oluşturdum.",
                 en: "I implemented a learner-centered curriculum that emphasized 21st-century skills such as communication, collaboration, and critical thinking rather than rote memorization. By applying gamified classroom management strategies, I significantly increased student engagement and motivation while fostering an inclusive learning environment that supported diverse learners and encouraged real-world language use."
             },
             worksFor: {
                 "@type": "Organization",
-                name: { tr: "Yerinde · Staj | T.C. Millî Eğitim Bakanlığı · Gülay Kanatlı Ortaokulu", en: "On-site · Internship | Ministry of National Education · Gülay Kanatlı Secondary School" }
+                name: { tr: "T.C. Millî Eğitim Bakanlığı · Gülay Kanatlı Ortaokulu | Eskişehir, Türkiye", en: "Ministry of National Education · Gülay Kanatlı Secondary School | Eskisehir, Turkey" }
             }
         }
     ],
@@ -72,11 +74,11 @@ const person = {
             "@type": "CreativeWork",
             id: "proj-arc",
             links: [
-                { label: { tr: "Web Sitesi", en: "Website" }, url: "https://karatasbora.github.io/arc/" },
-                { label: { tr: "Kaynak Kod", en: "Source Code" }, url: "https://github.com/karatasbora/arc" }
+                { label: { tr: "Proje Demosu", en: "Project Demo" }, url: "https://karatasbora.github.io/arc/" },
+                { label: { en: "GitHub" }, url: "https://github.com/karatasbora/arc" }
             ],
             name: { tr: "arc – Yapay Zekâ Destekli Eğitim Materyali Üretici", en: "arc – AI-Powered Educational Material Generator" },
-            dateCreated: { tr: "2026", en: "2026" },
+            dateCreated: { tr: "Aralık 2025 - Halen", en: "December 2025 - Present" },
             location: { tr: "karatasbora.github.io/arc", en: "karatasbora.github.io/arc" },
             description: {
                 tr: "Bu proje, CEFR uyumlu çalışma kâğıtlarını özerk biçimde üretebilen, React 19 ve Google Gemini API üzerine inşa edilmiş yenilikçi bir eğitim aracıdır. Bu projede deterministik JSON çıktıları güvence altına almak için ileri düzey prompt engineering tekniklerini kullandım ve öğretmenlerin pedagojik odağı dinamik biçimde düzenleyebilmelerine imkân tanıyan bir yapı geliştirdim. jsPDF tabanlı özel bir istemci tarafı PDF motoru tasarlayarak arka uç bağımlılığını ortadan kaldırdım, öğretmen iş yükünü azalttım ve sınıfa hazır materyallerin hızlı üretimini mümkün kıldım. Projenin kullanıcı arayüzünü de öğretmen verimliliğini artıracak şekilde modern ve erişilebilir bir tasarım anlayışıyla geliştirdim.",
@@ -93,38 +95,38 @@ const person = {
         {
             "@type": "EducationalOrganization",
             id: "edu-elt",
-            name: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
-            location: { tr: "ESKİŞEHİR, TÜRKİYE", en: "ESKISEHIR, TURKEY" },
+            name: { tr: "Anadolu Üniversitesi | Eskişehir, Türkiye", en: "Anadolu University | Eskişehir, Turkey" },
+            location: { tr: "Örgün Eğitim", en: "Formal Education" },
             description: {
                 tr: "Pedagojik yaklaşımlar, öğretim teknolojileri ve öğrenen merkezli öğretim yöntemleri üzerine yoğunlaştım. Bu süreçte geleneksel eğitim anlayışını güncel eğitim teknolojileriyle birleştiren projeler geliştirdim.",
                 en: "I focused academically on pedagogy, instructional technologies, and learner-centered teaching methodologies, developing projects that blended traditional education with contemporary EdTech tools."
             },
-            award: { tr: "İngilizce Öğretmenliği", en: "English Language Teaching" },
-            startDate: { tr: "Lisans Derecesi", en: "Bachelor's Degree" }
+            award: { tr: "İngilizce Öğretmenliği Lisans Derecesi", en: "B.A. in English Language Teaching" },
+            startDate: { tr: "Eylül 2022 - Haziran 2026", en: "Sep 2022 - Jun 2026" }
         },
         {
             "@type": "EducationalOrganization",
             id: "edu-erasmus",
-            name: { tr: "Universidade de Coimbra", en: "Universidade de Coimbra" },
-            location: { tr: "COIMBRA, PORTEKİZ", en: "COIMBRA, PORTUGAL" },
+            name: { tr: "Coimbra Üniversitesi | Coimbra, Portekiz", en: "University of Coimbra | Coimbra, Portugal" },
+            location: { en: "Erasmus+" },
             description: {
                 tr: "Bu program, kültürlerarası iletişim becerilerimi geliştirmeme, küresel vatandaşlık perspektifi kazanmama ve uluslararası eğitim sistemlerine dair karşılaştırmalı bir bakış açısı edinmeme olanak sağladı.",
                 en: "This program strengthened my intercultural communication skills, broadened my global citizenship perspective, and provided comparative insight into international education systems"
             },
             award: { tr: "Anglo-Amerikan Çalışmaları", en: "Anglo-American Studies" },
-            startDate: { tr: "ERASMUS+", en: "ERASMUS+" }
+            startDate: { tr: "Eylül 2024 - Şubat 2025", en: "Sep 2024 - Feb 2025" }
         },
         {
             "@type": "EducationalOrganization",
             id: "edu-econ",
-            name: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
-            location: { tr: "UZAKTAN EĞİTİM", en: "REMOTE LEARNING" },
+            name: { tr: "Anadolu Üniversitesi", en: "Anadolu University | Eskişehir, Turkey" },
+            location: { tr: "Uzaktan Eğitim", en: "Remote Learning" },
             description: {
                 tr: "Devam eden eğitimim ise sistem düşüncesi, veri okuryazarlığı ve eğitim politikalarına ilişkin analitik bakış geliştirmeyi destekleyen teorik ve pratik bir temel oluşturuyor.",
                 en: "My ongoing studies further support my academic profile through systems thinking, data literacy, and analytical approaches relevant to education policy and development."
             },
-            award: { tr: "İktisat (İngilizce)", en: "Economics (English)" },
-            startDate: { tr: "Lisans Derecesi", en: "Bachelor's Degree" }
+            award: { tr: "İktisat (İngilizce) Lisans Derecesi", en: "B.S. in Economics (English)" },
+            startDate: { tr: "Eylül 2022 - Halen", en: "Sep 2022 - Present" }
         }
     ],
 
