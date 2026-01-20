@@ -126,14 +126,35 @@
     function createBlockItem(item, skillsMap, lang, toggleText) {
         let title = item.jobTitle || item.name || item.award;
 
+        // Helper to format Organization string
+        const formatOrg = (org, isSelf = false) => {
+            const src = isSelf ? org : (org.worksFor || org);
+            if (!src) return "";
+            if (typeof src === 'string') return src;
+
+            const parts = [];
+            if (src.name) parts.push(src.name);
+            if (src.department) parts.push(src.department);
+
+            let res = parts.join(' · ');
+            if (src.address) res += ' | ' + src.address;
+
+            // Fallback for strict string legacy if keys missing but name is full
+            if (!src.department && !src.address && src.name && src.name.includes('|')) {
+                return src.name;
+            }
+            return res;
+        };
+
         let sub = "";
+
         if (item.worksFor) {
-            sub = item.worksFor.name ? item.worksFor.name : item.worksFor;
+            sub = formatOrg(item);
         } else if (item.creator) {
             sub = item.creator.jobTitle ? item.creator.jobTitle : item.creator;
         } else if (item['@type'] === 'EducationalOrganization') {
             title = item.award;
-            sub = item.name;
+            sub = formatOrg(item, true);
         }
 
         const date = item.startDate || item.dateCreated;
@@ -170,7 +191,7 @@
         const locationSpan = document.createElement('span');
         locationSpan.className = 'location';
 
-        // Location Logic
+        // Right-Side Metadata Logic (semantic keys)
         if (item.links) {
             item.links.forEach((link, idx) => {
                 if (idx > 0) {
@@ -187,23 +208,43 @@
                 locationSpan.appendChild(a);
             });
         } else {
-            let loc = item.location;
-            if (item.url) {
+            // Determine text and URL
+            // Priority: studyMode, workMode, demoUrl, location
+            let text = item.studyMode || item.workMode || item.demoUrl || item.location;
+            let url = item.demoUrl || item.url;
+
+            // If text is localized object, get value? 
+            // The scrapeData/getAvailableLanguages usually handles this before?
+            // unique case: 'desc-inner' uses textContent directly.
+            // renderBlockList calls createBlockItem. 'items' passed are likely localized?
+            // scrapeData is called by 'updatePageContent' -> NO.
+            // 'updatePageContent' calls 'renderBlockList(..., contentData)'.
+            // contentData IS localized (it's the scraped data).
+            // Wait, 'updatePageContent' does NOT call scrapeData?
+            // 'updatePageContent' uses 'cleanData' passed to it.
+            // Who calls 'updatePageContent'? script.js usually.
+            // script.js likely calls 'scrapeData' before passing to 'updatePageContent'.
+            // So these values are STRINGS (localized).
+
+            if (url) {
                 const a = document.createElement('a');
-                a.href = item.url;
+                a.href = url.startsWith('http') ? url : 'https://' + url;
                 a.target = '_blank';
                 a.rel = 'noopener noreferrer';
-                a.textContent = loc;
+                a.textContent = text;
                 locationSpan.appendChild(a);
-            } else if (loc && loc.includes('.') && !loc.includes(' ')) {
-                const a = document.createElement('a');
-                a.href = 'https://' + loc;
-                a.target = '_blank';
-                a.rel = 'noopener noreferrer';
-                a.textContent = loc;
-                locationSpan.appendChild(a);
-            } else {
-                locationSpan.textContent = loc;
+            } else if (text) {
+                // Heuristic for inline URLs in legacy data
+                if (typeof text === 'string' && text.includes('.') && !text.includes(' ') && !text.includes(',')) {
+                    const a = document.createElement('a');
+                    a.href = 'https://' + text;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                    a.textContent = text;
+                    locationSpan.appendChild(a);
+                } else {
+                    locationSpan.textContent = text;
+                }
             }
         }
 

@@ -494,13 +494,13 @@ header {
 .company {
     font-family: 'Outfit', sans-serif;
     font-weight: 500;
-    color: var(--secondary-text);
+    color: var(--accent-primary);
 }
 
 .location {
     font-family: 'Outfit', sans-serif;
     font-size: 0.75rem;
-    color: var(--accent-primary);
+    color: var(--meta-color);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;

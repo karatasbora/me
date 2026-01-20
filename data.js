@@ -30,7 +30,7 @@ const person = {
         en: "Innovative Education Specialist & Instructional Technologist | AI-Supported Instructional Design | ELT · EdTech · Accessible & Human-Centered Education"
     },
     description: {
-        tr: "İleri görüşlü bir eğitimci olarak, yapay zekayı pedagojik ilkelerle bütünleştirmeye kendimi adadım. İnsan merkezli tasarım felsefesiyle yönlendirilen, eleştirel düşünmeyi teşvik eden erişilebilir dijital içerik ve özelleştirilmiş eğitim araçları geliştirme konusunda uzmanım.",
+        tr: "Pedagojik ilkelerle yapay zekâyı bütünleştirmeye kendini adamış, ileri görüşlü bir eğitimciyim. İnsan merkezli tasarım felsefesiyle hareket ederek eleştirel düşünmeyi destekleyen erişilebilir dijital içerikler ve özelleştirilmiş eğitim araçları geliştirme konusunda uzmanım.",
         en: "Forward-thinking educator dedicated to integrating artificial intelligence with pedagogical principles. I specialize in building accessible digital content and custom educational tools that foster critical thinking, guided by a human-centered design philosophy."
     },
 
@@ -40,16 +40,18 @@ const person = {
             id: "job-editor",
             jobTitle: { tr: "İçerik Editörü", en: "Content Editor" },
             startDate: { tr: "Aralık 2022 - Halen", en: "Dec 2022 - Present" },
-            location: {
+            workMode: {
                 tr: "Hibrit · Yarı zamanlı", en: "Hybrid · Part-time"
             },
             description: {
-                tr: "Üniversite platformlarında kullanılan öğretim materyallerini erişilebilir ve etkileşimli dijital içeriklere dönüştürüyorum. Üretken yapay zekâ araçlarını editoryal süreçlere entegre ederek içerik üretiminde verimlilik, tutarlılık ve kaliteyi artırmaya odaklanıyorum. Disiplinlerarası ekiplerle birlikte çalışarak hem erişilebilirlik standartlarına uygun hem de farklı öğrenen profillerine hitap eden materyaller geliştirilmesine katkı sağlıyorum.",
-                en: "I transform instructional materials into accessible and interactive digital learning resources used across university platforms. I integrate generative AI tools into editorial workflows to enhance efficiency, consistency, and quality in content production. Working collaboratively with interdisciplinary teams, I contribute to the creation of materials that meet accessibility standards and support diverse learner needs."
+                tr: "Üretken yapay zekâ protokollerini süreçlere entegre ederek editoryal iş akışlarını dönüştürdüm; üniversite platformlarında sıkı editoryal tutarlılığı korurken üretim süresini önemli ölçüde azalttım. Statik öğretim materyallerini, farklı öğrenen ihtiyaçları ve evrensel tasarım standartlarıyla uyumlu, dinamik ve erişilebilir dijital varlıklara dönüştürdüm. Disiplinlerarası ekiplerle iş birliği yaparak geniş bir öğrenci kitlesine hizmet eden yüksek kaliteli ve kapsayıcı öğrenme kaynaklarının sunulmasına katkı sağladım.",
+                en: "Revolutionized editorial workflows by embedding generative AI protocols, significantly reducing production time while ensuring strict editorial consistency across university platforms. Transformed static instructional materials into dynamic, accessible digital assets, ensuring compliance with diverse learner needs and universal design standards. Partnered with interdisciplinary teams to deliver high-quality, inclusive learning resources that serve a massive student body."
             },
             worksFor: {
                 "@type": "Organization",
-                name: { tr: "Anadolu Üniversitesi · Öğrenme Teknolojileri Ar-Ge Birimi | Eskişehir, Türkiye", en: "Anadolu University · Learning Technologies R&D Unit | Eskisehir, Turkey" }
+                name: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
+                department: { tr: "Öğrenme Teknolojileri Ar-Ge Birimi", en: "Learning Technologies R&D Unit" },
+                address: { tr: "Eskişehir, Türkiye", en: "Eskisehir, Turkey" }
             }
         },
         {
@@ -57,14 +59,16 @@ const person = {
             id: "job-teacher",
             jobTitle: { tr: "İngilizce Öğretmeni", en: "English Teacher" },
             startDate: { tr: "Eylül 2025 - Aralık 2025", en: "Sep 2025 - Dec 2025" },
-            location: { tr: "Yerinde · Staj", en: "On-site · Internship" },
+            workMode: { tr: "Yerinde · Staj", en: "On-site · Internship" },
             description: {
-                tr: "Ezbere dayalı öğretim yerine iletişim, iş birliği ve eleştirel düşünme gibi 21. yüzyıl becerilerine odaklanan öğrenen merkezli bir müfredat uyguladım. Sınıf içi motivasyonu artıran oyunlaştırma temelli yöntemler kullanarak öğrencilerin derse katılımını güçlendirdim ve farklı öğrenci ihtiyaçlarına duyarlı, kapsayıcı bir öğrenme ortamı oluşturdum.",
-                en: "I implemented a learner-centered curriculum that emphasized 21st-century skills such as communication, collaboration, and critical thinking rather than rote memorization. By applying gamified classroom management strategies, I significantly increased student engagement and motivation while fostering an inclusive learning environment that supported diverse learners and encouraged real-world language use."
+                tr: "Ezbere dayalı öğrenmeyi oyunlaştırılmış ve öğrenen merkezli stratejilerle değiştirerek sınıf dinamiklerini canlandırdım; bunun sonucunda katılım ve motivasyonda ölçülebilir bir artış sağlandı. Müfredat odağını 21. yüzyıl yetkinliklerine kaydırarak öğrencilerin eleştirel düşünme ve iş birliği becerilerini gerçek zamanlı senaryolarda aktif biçimde uyguladıkları bir öğrenme ortamı oluşturdum.",
+                en: "Revitalized classroom dynamics by replacing rote memorization with gamified, learner-centered strategies, resulting in measurably higher participation and motivation. Shifted the curriculum focus to 21st-century competencies, fostering an environment where students actively applied critical thinking and collaboration skills in real-time scenarios."
             },
             worksFor: {
                 "@type": "Organization",
-                name: { tr: "T.C. Millî Eğitim Bakanlığı · Gülay Kanatlı Ortaokulu | Eskişehir, Türkiye", en: "Ministry of National Education · Gülay Kanatlı Secondary School | Eskisehir, Turkey" }
+                name: { tr: "T.C. Millî Eğitim Bakanlığı", en: "Ministry of National Education" },
+                department: { tr: "Gülay Kanatlı Ortaokulu", en: "Gülay Kanatlı Secondary School" },
+                address: { tr: "Eskişehir, Türkiye", en: "Eskisehir, Turkey" }
             }
         }
     ],
@@ -78,11 +82,11 @@ const person = {
                 { label: { en: "GitHub" }, url: "https://github.com/karatasbora/arc" }
             ],
             name: { tr: "arc – Yapay Zekâ Destekli Eğitim Materyali Üretici", en: "arc – AI-Powered Educational Material Generator" },
-            dateCreated: { tr: "Aralık 2025 - Halen", en: "December 2025 - Present" },
-            location: { tr: "karatasbora.github.io/arc", en: "karatasbora.github.io/arc" },
+            dateCreated: { tr: "Aralık 2025 - Halen", en: "Dec 2025 - Present" },
+            demoUrl: { tr: "karatasbora.github.io/arc", en: "karatasbora.github.io/arc" },
             description: {
-                tr: "Bu proje, CEFR uyumlu çalışma kâğıtlarını özerk biçimde üretebilen, React 19 ve Google Gemini API üzerine inşa edilmiş yenilikçi bir eğitim aracıdır. Bu projede deterministik JSON çıktıları güvence altına almak için ileri düzey prompt engineering tekniklerini kullandım ve öğretmenlerin pedagojik odağı dinamik biçimde düzenleyebilmelerine imkân tanıyan bir yapı geliştirdim. jsPDF tabanlı özel bir istemci tarafı PDF motoru tasarlayarak arka uç bağımlılığını ortadan kaldırdım, öğretmen iş yükünü azalttım ve sınıfa hazır materyallerin hızlı üretimini mümkün kıldım. Projenin kullanıcı arayüzünü de öğretmen verimliliğini artıracak şekilde modern ve erişilebilir bir tasarım anlayışıyla geliştirdim.",
-                en: "This project is an innovative educational tool built with React 19 and the Google Gemini API, designed to autonomously produce CEFR-aligned worksheets. In this project, I employed advanced prompt engineering techniques to ensure deterministic JSON outputs, enabling dynamic scaffolding and flexible pedagogical adjustments. I developed a custom client-side PDF engine using jsPDF, eliminating backend dependencies and allowing teachers to instantly generate professional, classroom-ready materials. The user interface was designed with a focus on usability, accessibility, and reducing teacher workload, ultimately improving productivity and resource accessibility."
+                tr: "Öğretmenlerin hazırlık için harcadığı saatleri saniyelere indiren; CEFR uyumlu çalışma kâğıtlarını özerk biçimde üreten akıllı bir ders planlama asistanı tasarlayıp geliştirdim. jsPDF kullanarak tamamen istemci tarafında çalışan bir belge motoru kurguladım; böylece arka uç bağımlılıklarını ortadan kaldırarak öğretmenlerin güvenli ve sınıfa hazır PDF’leri anında üretip indirmesini mümkün kıldım. Pedagojik açıdan sağlam ve yapılandırılmış JSON çıktıları garanti etmek için deterministik prompt mühendisliği uyguladım; böylece YZ üretiminin rastlantısal sonuçlar yerine eğitim çerçevelerine sıkı biçimde bağlı kalmasını sağladım. Eğitimcilerin bilişsel yükünü azaltmak üzere arayüzü özellikle bu hedefe göre tasarladım; verimliliği ve kaynaklara erişilebilirliği doğrudan artırdım.",
+                en: "Engineered an intelligent lesson planning assistant that reduces hours of teacher prep time into seconds, autonomously generating CEFR-aligned worksheets. Architected a fully client-side document engine (using jsPDF) that eliminates backend dependencies, empowering teachers to instantly generate and download secure, classroom-ready PDFs. Implemented deterministic prompt engineering to guarantee pedagogically sound, structured JSON outputs, ensuring AI generation adheres strictly to educational frameworks rather than random chance. Designed the UI specifically to reduce cognitive load for educators, directly improving productivity and resource accessibility"
             },
             creator: {
                 "@type": "Person",
@@ -95,11 +99,12 @@ const person = {
         {
             "@type": "EducationalOrganization",
             id: "edu-elt",
-            name: { tr: "Anadolu Üniversitesi | Eskişehir, Türkiye", en: "Anadolu University | Eskişehir, Turkey" },
-            location: { tr: "Örgün Eğitim", en: "Formal Education" },
+            name: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
+            address: { tr: "Eskişehir, Türkiye", en: "Eskişehir, Turkey" },
+            studyMode: { tr: "Örgün Eğitim", en: "Formal Education" },
             description: {
-                tr: "Pedagojik yaklaşımlar, öğretim teknolojileri ve öğrenen merkezli öğretim yöntemleri üzerine yoğunlaştım. Bu süreçte geleneksel eğitim anlayışını güncel eğitim teknolojileriyle birleştiren projeler geliştirdim.",
-                en: "I focused academically on pedagogy, instructional technologies, and learner-centered teaching methodologies, developing projects that blended traditional education with contemporary EdTech tools."
+                tr: "Modern pedagojik stratejiler geliştirmek için geleneksel öğrenen merkezli yöntemleri çağdaş eğitim teknolojileri araçlarıyla harmanladım.",
+                en: "Blended traditional learner-centered methodologies with contemporary EdTech tools to develop modern pedagogical strategies."
             },
             award: { tr: "İngilizce Öğretmenliği Lisans Derecesi", en: "B.A. in English Language Teaching" },
             startDate: { tr: "Eylül 2022 - Haziran 2026", en: "Sep 2022 - Jun 2026" }
@@ -107,11 +112,12 @@ const person = {
         {
             "@type": "EducationalOrganization",
             id: "edu-erasmus",
-            name: { tr: "Coimbra Üniversitesi | Coimbra, Portekiz", en: "University of Coimbra | Coimbra, Portugal" },
-            location: { en: "Erasmus+" },
+            name: { tr: "Coimbra Üniversitesi", en: "University of Coimbra" },
+            address: { tr: "Coimbra, Portekiz", en: "Coimbra, Portugal" },
+            studyMode: { en: "Erasmus+" },
             description: {
-                tr: "Bu program, kültürlerarası iletişim becerilerimi geliştirmeme, küresel vatandaşlık perspektifi kazanmama ve uluslararası eğitim sistemlerine dair karşılaştırmalı bir bakış açısı edinmeme olanak sağladı.",
-                en: "This program strengthened my intercultural communication skills, broadened my global citizenship perspective, and provided comparative insight into international education systems"
+                tr: "Uluslararası eğitim sistemlerine karşılaştırmalı bir bakış geliştirdim ve ileri düzey kültürlerarası iletişim becerileri edindim.",
+                en: "Gained comparative insight into international education systems and developed advanced intercultural communication skills."
             },
             award: { tr: "Anglo-Amerikan Çalışmaları", en: "Anglo-American Studies" },
             startDate: { tr: "Eylül 2024 - Şubat 2025", en: "Sep 2024 - Feb 2025" }
@@ -119,11 +125,11 @@ const person = {
         {
             "@type": "EducationalOrganization",
             id: "edu-econ",
-            name: { tr: "Anadolu Üniversitesi", en: "Anadolu University | Eskişehir, Turkey" },
-            location: { tr: "Uzaktan Eğitim", en: "Remote Learning" },
+            name: { tr: "Anadolu Üniversitesi", en: "Anadolu University" },
+            studyMode: { tr: "Uzaktan Eğitim", en: "Remote Learning" },
             description: {
-                tr: "Devam eden eğitimim ise sistem düşüncesi, veri okuryazarlığı ve eğitim politikalarına ilişkin analitik bakış geliştirmeyi destekleyen teorik ve pratik bir temel oluşturuyor.",
-                en: "My ongoing studies further support my academic profile through systems thinking, data literacy, and analytical approaches relevant to education policy and development."
+                tr: "Eğitim politikalarını ve gelişimini analiz etmek için sistem düşüncesi ve veri okuryazarlığından yararlanıyorum.",
+                en: "Leveraging systems thinking and data literacy to analyze education policy and development."
             },
             award: { tr: "İktisat (İngilizce) Lisans Derecesi", en: "B.S. in Economics (English)" },
             startDate: { tr: "Eylül 2022 - Halen", en: "Sep 2022 - Present" }
@@ -150,9 +156,9 @@ const person = {
 
     knowsAbout: [
         {
-            category: { tr: "Teknoloji & YZ Yetkinlikleri", en: "Technology & AI Capabilities" },
+            category: { tr: "Teknoloji", en: "Technology" },
             items: [
-                { name: { tr: "Öğrenme ve Gelişim için Yaratıcı Yapay Zeka", en: "Generative AI for Learning and Development" }, targets: ["job-editor"] },
+                { name: { tr: "Öğrenme ve Gelişim için Üretken YZ", en: "Generative AI for Learning and Development" }, targets: ["job-editor"] },
                 { name: { tr: "Prompt Mühendisliği", en: "Prompt Engineering" }, targets: ["proj-arc"] },
                 { name: { tr: "Web Geliştirme", en: "Web Development" }, targets: ["proj-arc"] },
                 { name: { tr: "Öğrenme Yönetim Sistemleri", en: "Learning Management Systems" }, targets: ["job-editor"] },
@@ -186,7 +192,7 @@ const person = {
             items: [
                 { name: { tr: "Kültürlerarası İletişim", en: "Intercultural Communication" }, targets: ["edu-erasmus"] },
                 { name: { tr: "Takım Çalışması", en: "Teamwork" }, targets: ["job-editor"] },
-                { name: { tr: "Uyumlu", en: "Adaptable" }, targets: ["edu-erasmus"] },
+                { name: { tr: "Uyumluluk", en: "Adaptability" }, targets: ["edu-erasmus"] },
                 { name: { tr: "Küreselleşme", en: "Globalization" }, targets: ["edu-erasmus"] },
             ]
         }
@@ -245,18 +251,54 @@ const resumeData = {
             },
             {
                 "@type": "ProfilePage",
-                "name": { tr: "Bora Karataş - Özgeçmiş", en: "Bora Karataş - Resume" },
+                "name": "Bora Karataş - Resume", // Strict string (EN)
                 "mainEntity": {
-                    // Spread the person object (Name, JobTitle, Description, etc.)
-                    ...person,
+                    "@type": "Person",
+                    "name": person.name,
+                    "jobTitle": person.jobTitle.en, // Pick EN for strict valid Text
+                    "description": person.description.en, // Pick EN
                     "image": `${meta.baseUrl}/${meta.image}`,
                     "url": meta.baseUrl + "/",
                     "sameAs": [
                         meta.linkedin,
                         `mailto:${meta.email}`
                     ],
-                    // Manual Skill Flattening for Schema Compliance
-                    "knowsAbout": person.knowsAbout.flatMap(cat => cat.items.map(i => i.name))
+
+                    // --- SKILLS (ItemList) ---
+                    "knowsAbout": person.knowsAbout.map(cat => ({
+                        "@type": "ItemList",
+                        "name": cat.category.en, // Pick EN
+                        "itemListElement": cat.items.map(i => i.name.en || i.name) // Pick EN
+                    })),
+
+                    // --- EXPERIENCE (Strict) ---
+                    // Using 'worksFor' to list organizations.
+                    "worksFor": person.hasOccupation.map(job => {
+                        return {
+                            "@type": "Organization",
+                            "name": job.worksFor.name.en || job.worksFor.name
+                        };
+                    }),
+
+                    // --- EDUCATION ---
+                    "alumniOf": person.alumniOf.map(edu => {
+                        return {
+                            "@type": "EducationalOrganization",
+                            "name": edu.name.en || edu.name
+                        };
+                    }),
+
+                    // --- PROJECTS (CreativeWork) ---
+                    "hasPart": person.hasCredential.map(proj => ({
+                        "@type": "CreativeWork",
+                        "name": proj.name.en || proj.name, // CAUTION: Verify if project name is localized
+                        "description": proj.description ? (proj.description.en || proj.description) : undefined,
+                        "url": proj.links ? proj.links[0].url : proj.demoUrl,
+                        "creator": {
+                            "@type": "Person",
+                            "name": person.name
+                        }
+                    }))
                 }
             }
         ]
