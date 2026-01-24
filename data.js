@@ -9,8 +9,8 @@ const meta = {
     baseUrl: "https://karatasbora.github.io/me",
     image: "profil.webp",
     email: "borakaratas@anadolu.edu.tr",
-    linkedin: "https://www.linkedin.com/in/borakaratas",
-    linkedinLabel: "linkedin.com/in/borakaratas",
+    linkedin: "https://www.linkedin.com/in/karatasbora",
+    linkedinLabel: "linkedin.com/in/karatasbora",
     location: { tr: "Eskişehir, Türkiye", en: "Eskisehir, Turkey" },
     verificationCodes: {
         google: "QzyLRgFCHH93peNx08rdCue9fZDR-5OYVc818U5goIU"
